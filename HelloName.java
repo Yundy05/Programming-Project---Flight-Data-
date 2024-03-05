@@ -6,7 +6,13 @@ public class HelloName {
 		System.out.print("What is your name? Again? Test Test Anothertest");
 		Scanner input = new Scanner( System.in );
 		String name = input.next();
-		System.out.println("Hello " + name);
+		for(int i =0; i<=999999999; i++)
+		{
+			String pattern = " ";
+			for(int j = 0 ; j<i%10;j++)
+			pattern += " ";
+			System.out.println("Hello" +pattern+ name);
+		}
 	}
 
 }

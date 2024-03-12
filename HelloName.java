@@ -4,6 +4,7 @@ public class HelloName {
 
 	public static void main(String[] args) {
 		System.out.print("What is your name? Again? Test Test Anothertest .....");
+		System.out.println("SBSBSBSBSBSBSBSBSB");
 		Scanner input = new Scanner( System.in );
 		String name = input.next();
 		for(int i =0; i<=999999999; i++)

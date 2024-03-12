@@ -45,7 +45,11 @@ class DataPoint
   this. cancelled=cancelled; //– Cancelled Flight indicator (1=yes). 
   this. diverted= diverted; //– Diverted Flight indicator (1=yes).
   this.distance= distance;
-  System.out.println(year+" "+ month+" "+  day+" "+ code+" "+  flightNumber+" "+  origin+" "+ originCity+" "
+  
+  }
+  void printData()
+  {
+    System.out.println(year+" "+ month+" "+  day+" "+ code+" "+  flightNumber+" "+  origin+" "+ originCity+" "
   +  originState+" "+ originWac+" "+ dest+" "+  destCity+" "+  destState+" "+ destWac+" "+  CRSDepTime+" "
   +  depTime+" "+ CRSArrTime+" "+ arrTime+" "+  cancelled+" "+  diverted+" "+  distance);
   }

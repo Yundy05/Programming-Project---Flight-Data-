@@ -30,10 +30,22 @@ boolean isInteger(String s)
    return false;
   }
 }
+boolean isDouble(String s)
+{
+  try 
+  {
+  Double.parseDouble(s);
+  return true;
+  } 
+  catch (Exception e) 
+  {
+   return false;
+  }
+}
 void read_in_the_file()
 {
   ArrayList <DataPoint> dataPoints = new ArrayList <DataPoint> ();
-  reader = createReader("flights2k(1).csv");    //change the file here
+  reader = createReader("flights_full.csv");    //change the file here
   hashMap = new HashMap<>();
   try {
     line = reader.readLine();
@@ -90,12 +102,8 @@ void read_in_the_file()
     String destCity=parts[9]+","+parts[10];
     String destState=parts[11];
     //String destWac=parts[12];
-    boolean cancelled= true;
-    if(isInteger(parts[17]))
-    cancelled=(Integer.parseInt(parts[17])==1)?true:false;
-    boolean diverted= true;
-    if(isInteger(parts[18]))
-    diverted= (Integer.parseInt(parts[18])==1)?true:false;
+    
+    
     if (isInteger(parts[2]))
       flightNumber=Integer.parseInt(parts[2]);
     if (isInteger(parts[7]))
@@ -110,8 +118,14 @@ void read_in_the_file()
       CRSArrTime=Integer.parseInt(parts[15]);
     if (isInteger(parts[16]))
       arrTime=Integer.parseInt(parts[16]);
-    if (isInteger(parts[19]))
-      distance=Integer.parseInt(parts[19]);
+    boolean cancelled= true;
+    if(isDouble(parts[17]))  
+    cancelled=(Double.parseDouble(parts[17])==1)?true:false;
+    boolean diverted= true;
+    if(isDouble(parts[18]))
+    diverted= (Double.parseDouble(parts[18])==1)?true:false;
+    if (isDouble(parts[19]))
+      distance=(int)Double.parseDouble(parts[19]);
 
     DataPoint point = new DataPoint(year, month, day, code, flightNumber,origin,
       originCity,  originState,  originWac,  dest, destCity,  destState,

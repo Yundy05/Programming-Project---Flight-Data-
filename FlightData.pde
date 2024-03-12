@@ -18,18 +18,18 @@ void draw() {
 
   
 } 
-boolean isInteger(String s)
-{
-  try 
-  {
-  Integer.parseInt(s);
-  return true;
-  } 
-  catch (Exception e) 
-  {
-   return false;
-  }
-}
+//boolean isInteger(String s)
+//{
+//  try 
+//  {
+//  Integer.parseInt(s);
+//  return true;
+//  } 
+//  catch (Exception e) 
+//  {
+//   return false;
+//  }
+//}
 boolean isDouble(String s)
 {
   try 
@@ -45,7 +45,7 @@ boolean isDouble(String s)
 void read_in_the_file()
 {
   ArrayList <DataPoint> dataPoints = new ArrayList <DataPoint> ();
-  reader = createReader("flights_full.csv");    //change the file here
+  reader = createReader("flights2k.csv");    //change the file here
   hashMap = new HashMap<>();
   try {
     line = reader.readLine();
@@ -78,11 +78,11 @@ void read_in_the_file()
     int year=-1;
     String[] dayMonthYearTime= split(date, ' ');
     String[] dayMonthYear= split(dayMonthYearTime[0], '/');
-    if (isInteger(dayMonthYear[0]))
+//    if (isInteger(dayMonthYear[0]))
         day=Integer.parseInt(dayMonthYear[0]);
-    if (isInteger(dayMonthYear[1]))
+//    if (isInteger(dayMonthYear[1]))
         month=Integer.parseInt(dayMonthYear[1]);
-    if (isInteger(dayMonthYear[2]))     
+//    if (isInteger(dayMonthYear[2]))     
         year=Integer.parseInt(dayMonthYear[2]);
     int flightNumber=-1;//default and if flight doesn't exist flightNumber is -1
     int originWac=-1;
@@ -103,28 +103,33 @@ void read_in_the_file()
     String destState=parts[11];
     //String destWac=parts[12];
     
-    
-    if (isInteger(parts[2]))
+  
+//    if (isInteger(parts[2]))
       flightNumber=Integer.parseInt(parts[2]);
-    if (isInteger(parts[7]))
+//    if (isInteger(parts[7]))
       originWac = Integer.parseInt(parts[7]);
-    if (isInteger(parts[12]))
+//    if (isInteger(parts[12]))
       destWac = Integer.parseInt(parts[12]);
-    if (isInteger(parts[13]))
+//    if (isInteger(parts[13]))
       CRSDepTime=Integer.parseInt(parts[13]);
-    if (isInteger(parts[14]))
-      depTime=Integer.parseInt(parts[14]);
-    if (isInteger(parts[15]))
+//    if (isInteger(parts[15]))
       CRSArrTime=Integer.parseInt(parts[15]);
-    if (isInteger(parts[16]))
+      boolean cancelled = false;
+    if (parts[14].length()!=0)
+      depTime=Integer.parseInt(parts[14]);
+      else
+      cancelled = true;
+    if (parts[16].length()!=0)
       arrTime=Integer.parseInt(parts[16]);
-    boolean cancelled= true;
-    if(isDouble(parts[17]))  
-    cancelled=(Double.parseDouble(parts[17])==1)?true:false;
+      else
+      cancelled = true;
+//    boolean cancelled= true;
+//   if(isDouble(parts[17]))  
+//    cancelled=(Double.parseDouble(parts[17])==1)?true:false;
     boolean diverted= true;
     if(isDouble(parts[18]))
     diverted= (Double.parseDouble(parts[18])==1)?true:false;
-    if (isDouble(parts[19]))
+//    if (isDouble(parts[19]))
       distance=(int)Double.parseDouble(parts[19]);
 
     DataPoint point = new DataPoint(year, month, day, code, flightNumber,origin,

@@ -114,18 +114,18 @@ void read_in_the_file()
       CRSDepTime=Integer.parseInt(parts[13]);
 //    if (isInteger(parts[15]))
       CRSArrTime=Integer.parseInt(parts[15]);
-      boolean cancelled = false;
+//      boolean cancelled = false;
     if (parts[14].length()!=0)
       depTime=Integer.parseInt(parts[14]);
-      else
-      cancelled = true;
+//      else
+//      cancelled = true;
     if (parts[16].length()!=0)
       arrTime=Integer.parseInt(parts[16]);
-      else
-      cancelled = true;
-//    boolean cancelled= true;
-//   if(isDouble(parts[17]))  
-//    cancelled=(Double.parseDouble(parts[17])==1)?true:false;
+//      else
+//      cancelled = true;
+      boolean cancelled= true;
+     if(isDouble(parts[17]))  
+     cancelled=(Double.parseDouble(parts[17])==1)?true:false;
     boolean diverted= true;
     if(isDouble(parts[18]))
     diverted= (Double.parseDouble(parts[18])==1)?true:false;

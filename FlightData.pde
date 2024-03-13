@@ -1,22 +1,40 @@
 import java.util.Scanner;
 import java.io.*;
 import java.util.HashMap;
-ArrayList <DataPoint> dataPoints[];
+
+ScreenScrolling myScrollbar;
+int contentHeight = 1000;
+int viewHeight = 400;
+int scrollbarHeight = 0;
+ArrayList <DataPoint> dataPoints;
 BufferedReader reader;
 String line;
 HashMap<String, String> hashMap;
+PFont font;
+
 void setup() {
+  size(600,800);
   read_in_the_file();
+  font = loadFont("BodoniMTCondensed-Bold-48.vlw");
+  textFont(font);
   
-    
-  
-    
-  
+  myScrollbar = new ScreenScrolling(20,100);
+  scrollbarHeight = height * height / contentHeight;
 }
  
 void draw() {
-
+    background(0);
+    translate(0, -myScrollbar.scrollPos);
+    for (int i = 0; i < contentHeight / 10; i++) {
+    stroke(0);
+    text("word",48,240); //remember to remove 
+    line(0, i * 10, width, i * 10);
+  }
+  translate(0, myScrollbar.scrollPos);
   
+  myScrollbar.display();
+  myScrollbar.update();
+
 } 
 //boolean isInteger(String s)
 //{
@@ -42,9 +60,26 @@ boolean isDouble(String s)
    return false;
   }
 }
+
+
+
+void mousePressed() {
+  myScrollbar.mousePressed(); // Delegate mousePressed event to the scrollbar.
+}
+
+void mouseReleased() {
+  myScrollbar.mouseReleased(); // Delegate mouseReleased event to the scrollbar.
+}
+
+
+
+
+
+
+
 void read_in_the_file()
 {
-  ArrayList <DataPoint> dataPoints = new ArrayList <DataPoint> ();
+  dataPoints = new ArrayList <DataPoint> ();
   reader = createReader("flights2k.csv");    //change the file here
   hashMap = new HashMap<>();
   try {

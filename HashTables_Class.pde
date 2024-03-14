@@ -13,7 +13,7 @@ public class HashTable {
         }    
     }
           
-   public int hashFuncForDate(int x)      // Currently this is only for month   Chuan:)
+   public int hashFuncForDate(int x)      // Currently this is only for date   Chuan:)
    {
      int key = x;
      return key;

@@ -230,7 +230,7 @@ void createHashMaps()            //!!! Use this function to create ALL the HashM
 
     for (int i=0; i<dataPoints.size(); i++)
   {
-     tableOfDates.putDates(dataPoints.get(i).month, dataPoints.get(i));
+     tableOfDates.putDates(dataPoints.get(i).day, dataPoints.get(i));
   }
 }
 
@@ -272,9 +272,9 @@ void read_in_the_file()
     String[] dayMonthYearTime= split(date, ' ');
     String[] dayMonthYear= split(dayMonthYearTime[0], '/');
     //    if (isInteger(dayMonthYear[0]))
-    day=Integer.parseInt(dayMonthYear[0]);
+    month=Integer.parseInt(dayMonthYear[0]);
     //    if (isInteger(dayMonthYear[1]))
-    month=Integer.parseInt(dayMonthYear[1]);
+    day=Integer.parseInt(dayMonthYear[1]);
     //    if (isInteger(dayMonthYear[2]))
     year=Integer.parseInt(dayMonthYear[2]);
     int flightNumber=-1;//default and if flight doesn't exist flightNumber is -1

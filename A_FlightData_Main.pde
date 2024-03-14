@@ -9,10 +9,10 @@ final int OUTLINE_WIDTH = 5;
 final int EVENT_BUTTON_HOME = 0;
 final int EVENT_BUTTON_FLIGHT = 1;
 final int EVENT_BUTTON_NULL = -1;
-
 final int SCREEN_HOME = 0;  //Screen sequences
 final int SCREEN_FLIGHT = 1;
 
+float adapter;
 int currentScreen;
 
 //screnn and UI ends//
@@ -97,31 +97,50 @@ void printFlightData()
     //  text(dataPoints.get(i).getData(), 50, y);
     //  y += lineHeight;
     //}
-    float adapter = 2000;  // used to adapt length with slider!! Try until finding an ideal value that makes perfect length!! Need a function to automatically calculate this!!
-    float totalLength = adapter + dataPoints.size()*20;
+    
+    //    for (int j = 0; j < 800 / 10; j++) 
+//    {
+//       line(0, j * 10, width, j * 10);
+//    }
+
+
+
+//      for (int i = 0; i < dataPoints.size() && y-translateY<=height+20; i++) 
+//    {
+//      if(y>=-20) //need better performance: one suggestion is figure out a way to directly start the loop that matters i.e. change i as scrolling down.
+//      {
+//       textAlign(LEFT);
+//       textSize(20);
+//       text(dataPoints.get(i).getData(), 50, y);
+//      }
+//      y += lineHeight;
+//     }
+
+    float length = (adapter);
+    float totalLength = 2000 + dataPoints.size()*20; //adapter + dataPoints.size()*20;
     float translateY = ((myScrollbar.scrollPos+myScrollbar.barHeight)/height)*totalLength;   // translating coordinate
     float y =20+(myScrollbar.barHeight/float(height))*totalLength;  // correct start y coordinate;
     
-  translate(0, -translateY);
-//    for (int j = 0; j < 800 / 10; j++) 
-//    {
-//       line(0, j * 10, width, j * 10);
-      for (int i = 0; i < dataPoints.size() && y-translateY<=height+20; i++) 
+    
+    //jhy implimented a better working printing text that
+    //only prints the values within the screen and not all from very top to the scrollbar
+    
+    float firstVisibleText = max(0, translateY / lineHeight); //checks the current first visible text correct position
+    translate(0, -translateY);
+    for(int i = int(firstVisibleText); i < dataPoints.size() && y-translateY <= height+20; i ++)
     {
-      if(y>=-20)                                //need better performance: one suggestion is figure out a way to directly start the loop that matters i.e. change i as scrolling down.
+      if(y>=-20)
       {
-       textAlign(LEFT);
-       textSize(20);
-      text(dataPoints.get(i).getData(), 50, y);
+        textAlign(LEFT);
+        textSize(20);
+        text(dataPoints.get(i).getData(), 50, y);
+        print(dataPoints.get(i).getData());
       }
       y += lineHeight;
-     }
- //   }
-  translate(0, translateY);
-
-
-  myScrollbar.display();
-  myScrollbar.update();
+    } //<>//
+    translate(0, translateY);
+    myScrollbar.display();
+    myScrollbar.update();
 
 }
 

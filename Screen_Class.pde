@@ -26,7 +26,7 @@ void addButton(Button button)
 
 void drawBackground()
 {
-  rect(0,1, SCREENX, SCREENY, 1); // (x, y, width, height, outline thickness)
+  rect(0,1, displayWidth/2, displayHeight - 100, 1); // (x, y, width, height, outline thickness)
   fill(screenBackground);
 }
 
@@ -34,7 +34,7 @@ void drawBackgroundOutline()
 {
   stroke(0); // Set the stroke color back to black
   strokeWeight(OUTLINE_WIDTH);
-  rect(0,0, SCREENX, SCREENY, 1); noFill();
+  rect(0,0, displayWidth/2, displayHeight - 100, 1); noFill();
 }
 int returnEvent()
 {

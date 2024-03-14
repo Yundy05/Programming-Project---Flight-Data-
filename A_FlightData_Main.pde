@@ -60,6 +60,7 @@ void draw() {
   if(currentScreen == SCREEN_HOME)
  {
    homeScreen.draw();
+   drawDropdown();
    currentEvent = homeScreen.returnEvent();
    if(currentEvent == EVENT_BUTTON_FLIGHT)
    currentScreen = SCREEN_FLIGHT;

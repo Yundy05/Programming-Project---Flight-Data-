@@ -11,7 +11,7 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   originBtn = new Button(MARGIN, MARGIN, SCREENX/4 - 2*MARGIN, SCREENY/20, "Origin", #8080ff, #b3b3ff, EVENT_BUTTON_NULL);
   destinationBtn = new Button(SCREENX - SCREENX/3, MARGIN+ 2*SCREENY/10 , SCREENX/3 - 50, SCREENY/20, "Destination", #8080ff, #b3b3ff, EVENT_BUTTON_NULL);
   dateBtn = new Button(MARGIN , MARGIN+ 2*SCREENY/10, SCREENX/4 - 2*MARGIN, SCREENY/20, "Date", #8080ff, #b3b3ff, EVENT_BUTTON_NULL);
-  flightDataBtn = new Button(SCREENX - SCREENX/3, SCREENY - 100, SCREENX/3 - 50, SCREENY/20, "Flight Data",#8080ff, #b3b3ff, EVENT_BUTTON_FLIGHT);
+  flightDataBtn = new Button(SCREENX - SCREENX/3, SCREENY - 500, SCREENX/3 - 50, SCREENY/20, "Flight Data",#8080ff, #b3b3ff, EVENT_BUTTON_FLIGHT);
   homePageBtn = new Button(SCREENX-SCREENX/3, SCREENY - 100, SCREENX/3 - 50, SCREENY/20, "Home",#8080ff, #b3b3ff, EVENT_BUTTON_HOME);
   
   btnMain.add(destinationBtn); btnMain.add(originBtn);

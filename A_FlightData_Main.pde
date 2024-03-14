@@ -36,9 +36,8 @@ void settings()
 {
     size(SCREENX,SCREENY);
 }
-void setup() {
- 
-
+void setup() 
+{
   setupScreen();
   setupBtn();
   
@@ -50,6 +49,8 @@ void setup() {
   dataPoints = new ArrayList<DataPoint>(); // 初始化全局的dataPoints列表
   read_in_the_file();
 //data setup ends//
+
+  setupDropDown();
 }
 
 
@@ -71,6 +72,7 @@ void draw() {
    currentScreen = SCREEN_HOME;
    
    printFlightData();  
+
  }
 }
 
@@ -131,6 +133,8 @@ void printFlightData()
 
 void mousePressed() {
   myScrollbar.mousePressed(); // Delegate mousePressed event to the scrollbar.
+  //dropdown menu:
+  mousePressedDropdown();
 }
 void mouseWheel(MouseEvent event){
    myScrollbar.mouseWheel(event);

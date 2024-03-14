@@ -62,6 +62,7 @@ void drawBtn()
     //{
     //  currentScreen = SCREEN_FLIGHT;
     //}
+    drawDropdown();
    }
 }
 

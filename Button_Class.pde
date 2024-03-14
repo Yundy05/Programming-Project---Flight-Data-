@@ -17,7 +17,8 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   btnMain.add(destinationBtn); btnMain.add(originBtn);
   btnMain.add(dateBtn); btnMain.add(flightDataBtn); btnMain.add(homePageBtn);
   
-  homeScreen.addButton(originBtn);  homeScreen.addButton(destinationBtn); 
+  homeScreen.addButton(originBtn);  
+  homeScreen.addButton(destinationBtn); 
   homeScreen.addButton(dateBtn); homeScreen.addButton(flightDataBtn);
   flightScreen.addButton(homePageBtn);
 }

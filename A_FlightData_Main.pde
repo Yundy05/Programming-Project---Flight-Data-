@@ -27,6 +27,7 @@ ArrayList <DataPoint> dataPoints;
 BufferedReader reader;
 String line;
 HashMap<String, String> hashMap;
+HashTable tableOfDates;
 //int listSize = dataPoints[0].size();
 
 
@@ -51,6 +52,8 @@ void setup()
 //data setup ends//
 
   setupDropDown();
+  
+  createHashMaps();
 }
 
 
@@ -73,7 +76,7 @@ void draw() {
    currentScreen = SCREEN_HOME;
    
    printFlightData();  
-
+    tableOfDates.printHash();
  }
 }
 
@@ -188,6 +191,17 @@ boolean isDouble(String s)
   }
 }
 
+void createHashMaps()
+{
+    for (int i=0; i<dataPoints.size(); i++)
+  {
+     tableOfDates = new HashTable(dataPoints.size());
+    tableOfDates.putDates(dataPoints.get(i).year, dataPoints.get(i));
+    
+  }
+}
+
+
 void read_in_the_file()
 {
   dataPoints = new ArrayList <DataPoint> ();
@@ -285,10 +299,10 @@ void read_in_the_file()
     dataPoints.add(point);
   }
 
-  for (int index=0; index<dataPoints.size(); index++)
-  {
-    dataPoints.get(index).printData();
-    //dataPoints.get(index).displayData(5, 100);
-  }
+  //for (int index=0; index<dataPoints.size(); index++)
+  //{
+  //  dataPoints.get(index).printData();
+  //  //dataPoints.get(index).displayData(5, 100);
+  //}
 
 }

@@ -61,5 +61,9 @@ class DataPoint
       +  originState+" "+ originWac+" "+ dest+" "+  destCity+" "+  destState+" "+ destWac+" "+  CRSDepTime+" "
       +  depTime+" "+ CRSArrTime+" "+ arrTime+" "+  cancelled+" "+  diverted+" "+  distance;
   }
+    String getShortData()
+  {
+    return month+ originCity+" "  +  originState+" "+  distance;
+  }
 
 }

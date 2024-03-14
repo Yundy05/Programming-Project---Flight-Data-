@@ -27,7 +27,8 @@ ArrayList <DataPoint> dataPoints;
 BufferedReader reader;
 String line;
 HashMap<String, String> hashMap;
-HashTable tableOfDates;
+HashTable tableOfDates = new HashTable(20);
+//HashTable tableOfDates;
 //int listSize = dataPoints[0].size();
 
 
@@ -75,8 +76,8 @@ void draw() {
    if(currentEvent == EVENT_BUTTON_HOME)
    currentScreen = SCREEN_HOME;
    
-   printFlightData();  
-    tableOfDates.printHash();
+//   printFlightData();  
+   printSortedFlightData();
  }
 }
 
@@ -105,7 +106,7 @@ void printFlightData()
     float translateY = ((myScrollbar.scrollPos+myScrollbar.barHeight)/height)*totalLength;   // translating coordinate
     float y =20+(myScrollbar.barHeight/float(height))*totalLength;  // correct start y coordinate;
     
-  translate(0, -translateY);
+     translate(0, -translateY);
 //    for (int j = 0; j < 800 / 10; j++) 
 //    {
 //       line(0, j * 10, width, j * 10);
@@ -127,7 +128,44 @@ void printFlightData()
   myScrollbar.update();
 
 }
+void printSortedFlightData()       //using HashMap to sort (not Completely) the data    as a test run for Hash Map    Chuan:)
+{
+      //for (int i = 0; i < dataPoints.size(); i++) 
+    //{
+    //  text(dataPoints.get(i).getData(), 50, y);
+    //  y += lineHeight;
+    //}
+   float adapter = (2000 / 5) * 4;  // used to adapt length with slider!! Try until finding an ideal value that makes perfect length!! Need a function to automatically calculate this!!
+    float totalLength = adapter + dataPoints.size()*20;
+    float translateY = ((myScrollbar.scrollPos+myScrollbar.barHeight)/height)*totalLength;   // translating coordinate
+    float y =20+(myScrollbar.barHeight/float(height))*totalLength;  // correct start y coordinate;
+    
+     translate(0, -translateY);
+//    for (int j = 0; j < 800 / 10; j++) 
+//    {
+//       line(0, j * 10, width, j * 10);
+      for (int i = 1; i < tableOfDates.size; i++) 
+    {
+      LinkedList<DataPoint> temp = tableOfDates.getDataByIndex(i);
+      for(int j=1 ; j<temp.size();j++)
+      {
+        if(y>=-20)                                //need better performance: one suggestion is figure out a way to directly start the loop that matters i.e. change i as scrolling down.
+        {
+         textAlign(LEFT);
+         textSize(20);
+         text(temp.get(j).getData(), 50, y);
+        }
+        y += lineHeight;
+      }
+     }
+ //   }
+  translate(0, translateY);
 
+
+  myScrollbar.display();
+  myScrollbar.update();
+
+}
 
 //void mouseWheel(MouseEvent event) {
 //  scrollY += event.getCount() * lineHeight;
@@ -172,13 +210,12 @@ boolean isDouble(String s)
   }
 }
 
-void createHashMaps()
+void createHashMaps()            //!!! Use this function to create ALL the HashMaps we need for furthur data support!!!       By Chuan:)
 {
+
     for (int i=0; i<dataPoints.size(); i++)
   {
-     tableOfDates = new HashTable(dataPoints.size());
-    tableOfDates.putDates(dataPoints.get(i).year, dataPoints.get(i));
-    
+     tableOfDates.putDates(dataPoints.get(i).month, dataPoints.get(i));
   }
 }
 

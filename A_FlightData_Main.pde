@@ -169,6 +169,15 @@ boolean isDouble(String s)
   }
 }
 
+void createHashMaps()
+{
+    for (int index=0; index<dataPoints.size(); index++)
+  {
+    dataPoints.get(index).printData();
+  }
+}
+
+
 void read_in_the_file()
 {
   dataPoints = new ArrayList <DataPoint> ();

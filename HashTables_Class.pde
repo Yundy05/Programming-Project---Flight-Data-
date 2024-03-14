@@ -63,7 +63,7 @@ public class HashTable {
      return 0;
    }
         
-   public void put(int key, Object aDataPoint){
+   public void putDates(int key, Object aDataPoint){
         int index = hashFuncForDate(key);
             //cur 1 is the node before cur2
             Node cur1 = table[index].next;

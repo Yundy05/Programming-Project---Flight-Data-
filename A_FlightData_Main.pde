@@ -27,6 +27,7 @@ ArrayList <DataPoint> dataPoints;
 BufferedReader reader;
 String line;
 HashMap<String, String> hashMap;
+HashTable tableOfDates;
 //int listSize = dataPoints[0].size();
 
 
@@ -51,6 +52,8 @@ void setup()
 //data setup ends//
 
   setupDropDown();
+  
+  createHashMaps();
 }
 
 
@@ -73,7 +76,7 @@ void draw() {
    currentScreen = SCREEN_HOME;
    
    printFlightData();  
-
+    tableOfDates.printHash();
  }
 }
 
@@ -97,7 +100,7 @@ void printFlightData()
     //  text(dataPoints.get(i).getData(), 50, y);
     //  y += lineHeight;
     //}
-    float adapter = 2000;  // used to adapt length with slider!! Try until finding an ideal value that makes perfect length!! Need a function to automatically calculate this!!
+   float adapter = (2000 / 5) * 4;  // used to adapt length with slider!! Try until finding an ideal value that makes perfect length!! Need a function to automatically calculate this!!
     float totalLength = adapter + dataPoints.size()*20;
     float translateY = ((myScrollbar.scrollPos+myScrollbar.barHeight)/height)*totalLength;   // translating coordinate
     float y =20+(myScrollbar.barHeight/float(height))*totalLength;  // correct start y coordinate;
@@ -171,9 +174,11 @@ boolean isDouble(String s)
 
 void createHashMaps()
 {
-    for (int index=0; index<dataPoints.size(); index++)
+    for (int i=0; i<dataPoints.size(); i++)
   {
-    dataPoints.get(index).printData();
+     tableOfDates = new HashTable(dataPoints.size());
+    tableOfDates.putDates(dataPoints.get(i).year, dataPoints.get(i));
+    
   }
 }
 
@@ -275,10 +280,10 @@ void read_in_the_file()
     dataPoints.add(point);
   }
 
-  for (int index=0; index<dataPoints.size(); index++)
-  {
-    dataPoints.get(index).printData();
-    //dataPoints.get(index).displayData(5, 100);
-  }
+  //for (int index=0; index<dataPoints.size(); index++)
+  //{
+  //  dataPoints.get(index).printData();
+  //  //dataPoints.get(index).displayData(5, 100);
+  //}
 
 }

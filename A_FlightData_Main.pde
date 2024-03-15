@@ -2,10 +2,8 @@ import java.util.Scanner;
 import java.io.*;
 import java.util.HashMap;
 //screen and UI settings::
-final int SCREENX =   1200;
-final int SCREENY = 1400;
 final int MARGIN = 10;
-final int OUTLINE_WIDTH = 5;
+final int OUTLINE_WIDTH = 7;
 final int EVENT_BUTTON_HOME = 0;
 final int EVENT_BUTTON_FLIGHT = 1;
 final int EVENT_BUTTON_NULL = -1;
@@ -31,19 +29,18 @@ HashTable tableOfDates = new HashTable(20);
 //HashTable tableOfDates;
 //int listSize = dataPoints[0].size();
 
-
 int lineHeight = 20;
 
-void settings()
+void settings() //REPLACED SCREENX WITH (displayWidth/2) & SCREENY WITH (displayHeight - 100)
 {
-    size(SCREENX,SCREENY);
+    size(displayWidth/2,displayHeight - 100);
 }
 void setup() 
 {
   setupScreen();
   setupBtn();
   
-  myScrollbar = new ScreenScrolling(20,100,SCREENX-25,1);
+  myScrollbar = new ScreenScrolling(20,100,(displayWidth/2)-25,1);
 //  scrollbarHeight = height * height / contentHeight;
 
 

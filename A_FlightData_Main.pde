@@ -43,8 +43,6 @@ void setup()
   setupBtn();
   
   myScrollbar = new ScreenScrolling(20,100,SCREENX-25,1);
-//  scrollbarHeight = height * height / contentHeight;
-
 
 //data setup::
   dataPoints = new ArrayList<DataPoint>(); // 初始化全局的dataPoints列表
@@ -76,7 +74,7 @@ void draw() {
    currentScreen = SCREEN_HOME;
    
    printFlightData();  
-    tableOfDates.printHash();
+    //tableOfDates.printHash();
  }
 }
 
@@ -119,17 +117,20 @@ void printFlightData()
 //      y += lineHeight;
 //     }
 
-    float length = (adapter);
-    float totalLength = 2000 + dataPoints.size()*20; //adapter + dataPoints.size()*20;
-    float translateY = ((myScrollbar.scrollPos+myScrollbar.barHeight)/height)*totalLength;   // translating coordinate
-    float y =20+(myScrollbar.barHeight/float(height))*totalLength;  // correct start y coordinate;
-    
-    
+
+
+    float temperaryChangeScrollSpeed = 2.19; //for 10k its 2.12 need to find a better way to fix this problem
+    float adapter = 2000;  // used to adapt length with slider!! Try until finding an ideal value that makes perfect length!! Need a function to automatically calculate this!!
+    float totalLength = adapter + dataPoints.size()*20;
+    float translateY = ((myScrollbar.scrollPos / temperaryChangeScrollSpeed +myScrollbar.barHeight)/height)*totalLength + 20;   // translating coordinate
+    float y =20+(myScrollbar.barHeight/float(height))*totalLength;
+  
     //jhy implimented a better working printing text that
     //only prints the values within the screen and not all from very top to the scrollbar
-    
     float firstVisibleText = max(0, translateY / lineHeight); //checks the current first visible text correct position
+    float lastVisibleText = min(dataPoints.size(), firstVisibleText + (height / lineHeight));
     translate(0, -translateY);
+    println(firstVisibleText, lastVisibleText);
     for(int i = int(firstVisibleText); i < dataPoints.size() && y-translateY <= height+20; i ++)
     {
       if(y>=-20)
@@ -137,14 +138,12 @@ void printFlightData()
         textAlign(LEFT);
         textSize(20);
         text(dataPoints.get(i).getData(), 50, y);
-        print(dataPoints.get(i).getData());
       }
       y += lineHeight;
     } //<>//
     translate(0, translateY);
     myScrollbar.display();
     myScrollbar.update();
-
 }
 
 

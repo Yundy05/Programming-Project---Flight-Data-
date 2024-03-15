@@ -25,7 +25,7 @@ class ScreenScrolling
   void update() 
   {
     if (isDragging) {
-      scrollPos = mouseY - barY - barHeight / 2;
+      scrollPos = mouseY - barY - barHeight /2 ;
       scrollPos = constrain(scrollPos, 0, height - barHeight);
     }
   }

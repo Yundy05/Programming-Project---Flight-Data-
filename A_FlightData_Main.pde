@@ -27,8 +27,7 @@ ArrayList <DataPoint> dataPoints;
 BufferedReader reader;
 String line;
 HashMap<String, String> hashMap;
-HashTable tableOfDates = new HashTable(20);
-//HashTable tableOfDates;
+HashTable tableOfDates;
 //int listSize = dataPoints[0].size();
 
 
@@ -74,13 +73,8 @@ void draw() {
    if(currentEvent == EVENT_BUTTON_HOME)
    currentScreen = SCREEN_HOME;
    
-<<<<<<< HEAD
    printFlightData();  
     //tableOfDates.printHash();
-=======
-//   printFlightData();  
-   printSortedFlightData();
->>>>>>> 8666183931be20f55276f0bfe6e89b4592377913
  }
 }
 
@@ -151,39 +145,6 @@ void printFlightData()
     myScrollbar.display();
     myScrollbar.update();
 }
-void printSortedFlightData()
-{
-    float length = (adapter);
-    float totalLength = 2000 + dataPoints.size()*20; //adapter + dataPoints.size()*20;
-    float translateY = ((myScrollbar.scrollPos+myScrollbar.barHeight)/height)*totalLength;   // translating coordinate
-    float y =20+(myScrollbar.barHeight/float(height))*totalLength;  // correct start y coordinate;
-    
-    
-    //jhy implimented a better working printing text that
-    //only prints the values within the screen and not all from very top to the scrollbar
-    
-    float firstVisibleText = max(0, translateY / lineHeight); //checks the current first visible text correct position
-    translate(0, -translateY);
-     for (int i = 0; i < tableOfDates.size; i++) 
-    {
-      LinkedList<DataPoint> temp = tableOfDates.getDataByIndex(i);
-      for(int j= 0 ; j<temp.size();j++)
-      {
-        if(y>=-20)                                //need better performance: one suggestion is figure out a way to directly start the loop that matters i.e. change i as scrolling down.
-        {
-         textAlign(LEFT);
-         textSize(20);
-         text(temp.get(j).getData(), 50, y);
-        }
-        y += lineHeight;
-      }
-     }
-    translate(0, translateY);
-    myScrollbar.display();
-    myScrollbar.update();
-
-}
-
 
 
 //void mouseWheel(MouseEvent event) {
@@ -229,12 +190,13 @@ boolean isDouble(String s)
   }
 }
 
-void createHashMaps()            //!!! Use this function to create ALL the HashMaps we need for furthur data support!!!       By Chuan:)
+void createHashMaps()
 {
-
     for (int i=0; i<dataPoints.size(); i++)
   {
-     tableOfDates.putDates(dataPoints.get(i).day, dataPoints.get(i));
+     tableOfDates = new HashTable(dataPoints.size());
+    tableOfDates.putDates(dataPoints.get(i).year, dataPoints.get(i));
+    
   }
 }
 
@@ -276,9 +238,9 @@ void read_in_the_file()
     String[] dayMonthYearTime= split(date, ' ');
     String[] dayMonthYear= split(dayMonthYearTime[0], '/');
     //    if (isInteger(dayMonthYear[0]))
-    month=Integer.parseInt(dayMonthYear[0]);
+    day=Integer.parseInt(dayMonthYear[0]);
     //    if (isInteger(dayMonthYear[1]))
-    day=Integer.parseInt(dayMonthYear[1]);
+    month=Integer.parseInt(dayMonthYear[1]);
     //    if (isInteger(dayMonthYear[2]))
     year=Integer.parseInt(dayMonthYear[2]);
     int flightNumber=-1;//default and if flight doesn't exist flightNumber is -1

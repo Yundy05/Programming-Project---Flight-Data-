@@ -13,16 +13,10 @@ public class HashTable {
         }    
     }
           
-   public int hashFuncForDate(int x)      // Currently this is only for date   Chuan:)
-   {
-     int key = x;
-     return key;
-   }
+
     
-   public int hashFuncForAirport()       // currently blank   Chuan:)
-   {
-     return 0;
-   }
+
+   
    
    public LinkedList<DataPoint> getDataByIndex(int i)      //get the arrayList from a certain index   Chuan:)
    {
@@ -30,6 +24,11 @@ public class HashTable {
        return table[i];
    }
    
+      public int hashFuncForDate(int x)      // Currently this is only for date   Chuan:)
+   {
+     int key = x;
+     return key;
+   }
         
    public void putDates(int key, DataPoint aDataPoint)     //used for creating date-keyed hashtable      Chuan:)
    {
@@ -37,6 +36,17 @@ public class HashTable {
        LinkedList<DataPoint> bucket = table[index];
         bucket.add(aDataPoint);
     }
+    
+   public int hashFuncForAirport(int x)       // currently blank   Chuan:)
+   {
+     return 0; 
+   }
+   public void putAirports(int key , DataPoint aDataPoint)
+   {
+     int index = hashFuncForAirport(key);
+       LinkedList<DataPoint> bucket = table[index];
+        bucket.add(aDataPoint);
+   }
 
 }
 

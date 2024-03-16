@@ -21,6 +21,9 @@ final int EVENT_PRINT_DATA_FLIGHTSCREEN = 1;   // keep listing according to SCRE
 
 //events ends//
 ScreenScrolling myScrollbar;
+ShowingData showingData;
+int count;
+
 ArrayList <DataPoint> dataPoints;
 BufferedReader reader;
 String line;
@@ -33,14 +36,14 @@ int lineHeight = 20;
 
 void settings() //REPLACED SCREENX WITH (displayWidth/2) & SCREENY WITH (displayHeight - 100)
 {
-    size(displayWidth/2,displayHeight - 100);
+    size(displayWidth/2,displayHeight - 100, P2D);
 }
 void setup() 
 {
   setupScreen();
   setupBtn();
-  
   myScrollbar = new ScreenScrolling(20,100,(displayWidth/2)-25,1);
+  showingData = new ShowingData(20, 20, displayWidth/2, displayHeight - 100, myScrollbar);  
 //  scrollbarHeight = height * height / contentHeight;
 
 
@@ -72,9 +75,8 @@ void draw() {
    currentEvent = flightScreen.returnEvent();
    if(currentEvent == EVENT_BUTTON_HOME)
    currentScreen = SCREEN_HOME;
-   
-//   printFlightData();  
-   printSortedFlightData();
+ //  printFlightData();  
+  printSortedFlightData();
  }
 }
 
@@ -92,93 +94,52 @@ void draw() {
 
 
 
-void printFlightData()
-{
-      //for (int i = 0; i < dataPoints.size(); i++) 
-    //{
-    //  text(dataPoints.get(i).getData(), 50, y);
-    //  y += lineHeight;
-    //}
-    
-    //    for (int j = 0; j < 800 / 10; j++) 
-//    {
-//       line(0, j * 10, width, j * 10);
-//    }
-
-
-
-//      for (int i = 0; i < dataPoints.size() && y-translateY<=height+20; i++) 
-//    {
-//      if(y>=-20) //need better performance: one suggestion is figure out a way to directly start the loop that matters i.e. change i as scrolling down.
-//      {
-//       textAlign(LEFT);
-//       textSize(20);
-//       text(dataPoints.get(i).getData(), 50, y);
-//      }
-//      y += lineHeight;
-//     }
-
-    float temperaryChangeScrollSpeed = 2.19; //for 10k its 2.12 need to find a better way to fix this problem
-    float adapter = 2000;  // used to adapt length with slider!! Try until finding an ideal value that makes perfect length!! Need a function to automatically calculate this!!
-    float totalLength = adapter + dataPoints.size()*20;
-    float translateY = ((myScrollbar.scrollPos / temperaryChangeScrollSpeed +myScrollbar.barHeight)/height)*totalLength + 20;   // translating coordinate
-    float y =20+(myScrollbar.barHeight/float(height))*totalLength;
-  
-    //jhy implimented a better working printing text that
-    //only prints the values within the screen and not all from very top to the scrollbar
-
-    float firstVisibleText = max(0, translateY / lineHeight); //checks the current first visible text correct position
-    float lastVisibleText = min(dataPoints.size(), firstVisibleText + (height / lineHeight));
-    translate(0, -translateY);
-    println(firstVisibleText, lastVisibleText);
-    for(int i = int(firstVisibleText); i < dataPoints.size() && y-translateY <= height+20; i ++)
-    {
-      if(y>=-20)
-      {
-        textAlign(LEFT);
-        textSize(20);
-        text(dataPoints.get(i).getData(), 50, y);
-        print(dataPoints.get(i).getData());
-      }
-      y += lineHeight;
-    } //<>//
-    translate(0, translateY);
-    myScrollbar.display();
-    myScrollbar.update();
-}
+//void printFlightData()
+//{
+//showingData.display(); 
+// if(count!=dataPoints.size())
+// {
+ //for(int i = 0; i < dataPoints.size(); i++)
+ //{
+ //   showingData.addFlight(dataPoints.get(i).getData());
+//    count++;
+//  }
+//} //<>//
+//}
 
 void printSortedFlightData()
 {
-    float length = (adapter);
-    float totalLength = 2000 + dataPoints.size()*20; //adapter + dataPoints.size()*20;
-    float translateY = ((myScrollbar.scrollPos+myScrollbar.barHeight)/height)*totalLength;   // translating coordinate
-    float y =20+(myScrollbar.barHeight/float(height))*totalLength;  // correct start y coordinate;
-    
+//    float length = (adapter);
+//    float totalLength = 2000 + dataPoints.size()*20; //adapter + dataPoints.size()*20;
+//    float translateY = ((myScrollbar.scrollPos+myScrollbar.barHeight)/height)*totalLength;   // translating coordinate
+//    float y =20+(myScrollbar.barHeight/float(height))*totalLength;  // correct start y coordinate;
+//    float firstVisibleText = max(0, translateY / lineHeight); //checks the current first visible text correct position
+//    translate(0, -translateY);
     
     //jhy implimented a better working printing text that
     //only prints the values within the screen and not all from very top to the scrollbar
     
-    float firstVisibleText = max(0, translateY / lineHeight); //checks the current first visible text correct position
-    translate(0, -translateY);
+    showingData.display(); 
+    if(count!=dataPoints.size())
+    {
      for (int i = 0; i < tableOfDates.size; i++) 
     {
       LinkedList<DataPoint> temp = tableOfDates.getDataByIndex(i);
       for(int j= 0 ; j<temp.size();j++)
       {
-        if(y>=-20)                                //need better performance: one suggestion is figure out a way to directly start the loop that matters i.e. change i as scrolling down.
-        {
-         textAlign(LEFT);
-         textSize(20);
-         text(temp.get(j).getData(), 50, y);
-        }
-        y += lineHeight;
+         showingData.addFlight(temp.get(j).getData());
+         count++;
       }
-     }
-    translate(0, translateY);
-    myScrollbar.display();
-    myScrollbar.update();
-
+      }
+    }
 }
+     
+     
+     
+//    translate(0, translateY);
+//    myScrollbar.display();
+//    myScrollbar.update();
+
 
 //void mouseWheel(MouseEvent event) {
 //  scrollY += event.getCount() * lineHeight;
@@ -192,11 +153,15 @@ void mousePressed() {
   mousePressedDropdown();
 }
 void mouseWheel(MouseEvent event){
-   myScrollbar.mouseWheel(event);
+  // myScrollbar.mouseWheel(event);
+  if (showingData != null) {
+    showingData.mouseWheel(event);
+  }
 }
 void mouseReleased() {
   myScrollbar.mouseReleased(); // Delegate mouseReleased event to the scrollbar.
 }
+
 //boolean isInteger(String s)
 //{
 //  try

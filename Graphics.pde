@@ -5,8 +5,10 @@ class Histogram
   int[] frequency;
   int max;
   int numOfBins, binWidth;
+  int gap;
+  int range;
 
-  Histogram(int x, int y,int gphH,int gphW, int[] data, int numOfBins )
+  Histogram(int x, int y,int gphH,int gphW, int[] data, int numOfBins, int gap , int range)
   {
     this.x = x;
     this.y = y;
@@ -14,39 +16,26 @@ class Histogram
     this.gphW = gphW;
     this.max = max(data);
     this.numOfBins = numOfBins;
-    binWidth = this.gphW/ this.numOfBins;
-    int[] frequency = data;
+    this.binWidth = this.gphW/ this.numOfBins;
+    this.frequency = data;
+    this.gap = gap;
+    this.range = range;
   }
 
-  int getMax(int[] data)
-  {
-    int maximum = 0;
-    for(int i = 0; i < data.length; i++)
-    {
-      maximum = data[i];
-      for(int t = i; t < data.length; t++)
-      {
-        if(data[i] < data[t])
-        {
-          maximum = data[t];
-          i = t;
-          t = t +1;
-        }
-      }
-    }
-    return maximum;
-  }
-
-  void draw()
+  void drawHistogram()
   {
     fill(0);
-    rect(x,y, gphW, gphH);
+    line(x,y, x, y+gphH); // x axis
+    line(x,y+ gphH, x + gphW, y+gphH); // y axis
     fill(100);
     for(int i=0; i<frequency.length; i++)
     {
-      //int binHeight = map(frequency[i], 0, max, 0, gphH);
-      int binHeight =frequency[i]/max * gphH;
-      rect(x+ i*2*binWidth, y+gphH, binWidth, binHeight);
+      int binHeight = (int)map(frequency[i],0, max, 0, gphH);
+      stroke(3);
+      rect(x+ gap +binWidth *i, y+gphH -binHeight, binWidth, binHeight);
+      textAlign(CENTER);
+      textSize(20);
+      text((range/numOfBins) *i +"~" + (range/numOfBins) *(i+1), x+ gap +binWidth *i +binWidth/2,y+gphH +20);
     }
   }
 

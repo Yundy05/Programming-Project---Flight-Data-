@@ -7,8 +7,11 @@ final int OUTLINE_WIDTH = 7;
 final int EVENT_BUTTON_HOME = 0;
 final int EVENT_BUTTON_FLIGHT = 1;
 final int EVENT_BUTTON_NULL = -1;
+final int EVENT_BUTTON_TOGRAPH = 2;
+
 final int SCREEN_HOME = 0;  //Screen sequences
 final int SCREEN_FLIGHT = 1;
+final int SCREEN_GRAPH = 2;
 
 float adapter;
 int currentScreen;
@@ -27,8 +30,9 @@ int count;
 ArrayList <DataPoint> dataPoints;
 BufferedReader reader;
 String line;
-HashMap<String, String> hashMap;
-HashTable tableOfDates = new HashTable(20);
+//HashMap<String, String> hashMap;
+HashTable tableOfDates = new HashTable(6);
+PieChart chartOfDates;
 //HashTable tableOfDates;
 //int listSize = dataPoints[0].size();
 
@@ -55,29 +59,48 @@ void setup()
   setupDropDown();
   
   createHashMaps();
+  createCharts();
 }
 
 
 void draw() {
   background(#DB6868);
 //  currentEvent = getCurrentEvent();
-  if(currentScreen == SCREEN_HOME)
+switch(currentScreen)
+{
+    case SCREEN_HOME :
  {
    homeScreen.draw();
    drawDropdown();
    currentEvent = homeScreen.returnEvent();
    if(currentEvent == EVENT_BUTTON_FLIGHT)
    currentScreen = SCREEN_FLIGHT;
- }
- else if(currentScreen == SCREEN_FLIGHT)
+   else if(currentEvent == EVENT_BUTTON_TOGRAPH)
+   currentScreen = SCREEN_GRAPH;
+ }   break;
+ 
+ case SCREEN_FLIGHT :
  {
    flightScreen.draw();
    currentEvent = flightScreen.returnEvent();
    if(currentEvent == EVENT_BUTTON_HOME)
    currentScreen = SCREEN_HOME;
+
  //  printFlightData();  
   printSortedFlightData();
- }
+ } break;
+ 
+ case SCREEN_GRAPH :
+   graphScreen.draw();
+   currentEvent = graphScreen.returnEvent();
+   chartOfDates.drawPieChart();
+   if(currentEvent == EVENT_BUTTON_HOME)
+   currentScreen = SCREEN_HOME;
+   break;
+   
+   default:
+   break;
+}
 }
 
 
@@ -196,13 +219,24 @@ void createHashMaps()            //!!! Use this function to create ALL the HashM
      tableOfDates.putDates(dataPoints.get(i).day, dataPoints.get(i));
   }
 }
+void createCharts()              //!!! Use this to create ALL the charts we need!!!               By chuan:)
+{
+  int[] numberOfFlightsByDay = new int[tableOfDates.size];
+  String[] lables = new String[tableOfDates.size];
+  for(int i=0 ; i<tableOfDates.size; i++)
+  {
+      numberOfFlightsByDay[i]=tableOfDates.getDataByIndex(i).size();
+      lables[i] = "January "+(i+1);
+  }
+  chartOfDates = new PieChart(displayWidth/7,displayHeight/2, displayWidth/10,numberOfFlightsByDay,lables);
+}
 
 
 void read_in_the_file()
 {
   dataPoints = new ArrayList <DataPoint> ();
   reader = createReader("flights2k.csv");    //change the file here
-  hashMap = new HashMap<>();
+ // hashMap = new HashMap<>();
   try {
     line = reader.readLine();
   }
@@ -227,7 +261,7 @@ void read_in_the_file()
     }
     if (line==null) break;
     String[] parts = split(line, ',');
-    hashMap.put(parts[1], parts[0]);
+//    hashMap.put(parts[1], parts[0]);
     String date = parts[0];
     int day=-1;
     int month=-1;

@@ -26,7 +26,7 @@ public class HashTable {
    
       public int hashFuncForDate(int x)      // Currently this is only for date   Chuan:)
    {
-     int key = x;
+     int key = x-1;
      return key;
    }
         

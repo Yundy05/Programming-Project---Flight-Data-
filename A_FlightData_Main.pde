@@ -2,18 +2,26 @@ import java.util.Scanner;
 import java.io.*;
 import java.util.HashMap;
 //screen and UI settings::
-final int SCREENX =   1200;
-final int SCREENY = 1400;
 final int MARGIN = 10;
-final int OUTLINE_WIDTH = 5;
+final int OUTLINE_WIDTH = 7;
 final int EVENT_BUTTON_HOME = 0;
 final int EVENT_BUTTON_FLIGHT = 1;
 final int EVENT_BUTTON_NULL = -1;
+final int EVENT_BUTTON_TOGRAPH = 2;
+
+final int EVENT_BUTTON_SHOWPIECHART = 11;
+final int EVENT_BUTTON_SHOWHISTOGRAM = 12;
 
 final int SCREEN_HOME = 0;  //Screen sequences
 final int SCREEN_FLIGHT = 1;
+final int SCREEN_GRAPH = 2;
 
+float adapter;
 int currentScreen;
+
+boolean fly;
+boolean prepare;
+PImage pinImg, planeImg;
 
 //screnn and UI ends//
 
@@ -23,56 +31,112 @@ final int EVENT_PRINT_DATA_FLIGHTSCREEN = 1;   // keep listing according to SCRE
 
 //events ends//
 ScreenScrolling myScrollbar;
+ShowingData showingData;
+int count;
+
 ArrayList <DataPoint> dataPoints;
+ArrayList <DataPoint> nonCancelledFlights;
+ArrayList <DataPoint> nonDivertedFlights;
 BufferedReader reader;
 String line;
-HashMap<String, String> hashMap;
+//HashMap<String, String> hashMap;
+HashTable tableOfDates = new HashTable();
+PieChart pieChartOfDates; Histogram histogramOfDates;
+//HashTable tableOfDates;
 //int listSize = dataPoints[0].size();
-
-
+int graphOption = -1;
 int lineHeight = 20;
 
-void settings()
+void settings() //REPLACED SCREENX WITH (displayWidth/2) & SCREENY WITH (displayHeight - 100)
 {
-    size(SCREENX,SCREENY);
+    size(displayWidth/2,displayHeight - 100, P2D);
 }
 void setup() 
 {
+  pinImg = loadImage("pin.png");
+  planeImg = loadImage("plane.png");
+  setupPins();
   setupScreen();
   setupBtn();
-  
-  myScrollbar = new ScreenScrolling(20,100,SCREENX-25,1);
+  myScrollbar = new ScreenScrolling(20,100,(displayWidth/2)-25,1);
+  showingData = new ShowingData(20, 20, displayWidth/2, displayHeight - 100, myScrollbar);  
 //  scrollbarHeight = height * height / contentHeight;
 
 
 //data setup::
   dataPoints = new ArrayList<DataPoint>(); // 初始化全局的dataPoints列表
   read_in_the_file();
+  createHashMaps();
+  createCharts();
 //data setup ends//
 
+  setupDropDown();
 }
 
 
 void draw() {
   background(#DB6868);
 //  currentEvent = getCurrentEvent();
-  if(currentScreen == SCREEN_HOME)
+
+switch(currentScreen)
+{
+    case SCREEN_HOME :
  {
    homeScreen.draw();
+   drawDropdown();
    currentEvent = homeScreen.returnEvent();
    if(currentEvent == EVENT_BUTTON_FLIGHT)
    currentScreen = SCREEN_FLIGHT;
- }
- else if(currentScreen == SCREEN_FLIGHT)
+   else if(currentEvent == EVENT_BUTTON_TOGRAPH)
+   currentScreen = SCREEN_GRAPH;
+      
+   if(prepare) //Andy Yu
+  {
+    pinOrigin.draw();
+  }
+  if(fly)
+  {
+    pinOrigin.draw();
+    pinArrival.draw();
+    airChina.fly();
+  }
+  
+  
+ }   break;
+ 
+ case SCREEN_FLIGHT :
  {
    flightScreen.draw();
    currentEvent = flightScreen.returnEvent();
    if(currentEvent == EVENT_BUTTON_HOME)
    currentScreen = SCREEN_HOME;
+ 
+ //  printFlightData();  
+  printSortedFlightData();
+ } break;
+ 
+ case SCREEN_GRAPH :
+   graphScreen.draw();
+   currentEvent = graphScreen.returnEvent();
+   if(currentEvent == EVENT_BUTTON_HOME)
+   currentScreen = SCREEN_HOME;
+   else if(currentEvent == EVENT_BUTTON_SHOWPIECHART)
+   {
+    graphOption = 1 ;
+   }
+   else if(currentEvent == EVENT_BUTTON_SHOWHISTOGRAM)
+     graphOption = 2;
+     
+  if(graphOption == 1)
+     pieChartOfDates.drawPieChart();
+     else if(graphOption == 2)
+     histogramOfDates.drawHistogram();
+   break;
    
-   printFlightData();  
+   default:
+   break;
 
- }
+}
 }
 
 
@@ -88,40 +152,52 @@ void draw() {
 //}
 
 
-void printFlightData()
+
+//void printFlightData()
+//{
+//showingData.display(); 
+// if(count!=dataPoints.size())
+// {
+ //for(int i = 0; i < dataPoints.size(); i++)
+ //{
+ //   showingData.addFlight(dataPoints.get(i).getData());
+//    count++;
+//  }
+//} //<>//
+//}
+
+void printSortedFlightData()
 {
-      //for (int i = 0; i < dataPoints.size(); i++) 
-    //{
-    //  text(dataPoints.get(i).getData(), 50, y);
-    //  y += lineHeight;
-    //}
-    float adapter = 2000;  // used to adapt length with slider!! Try until finding an ideal value that makes perfect length!! Need a function to automatically calculate this!!
-    float totalLength = adapter + dataPoints.size()*20;
-    float translateY = ((myScrollbar.scrollPos+myScrollbar.barHeight)/height)*totalLength;   // translating coordinate
-    float y =20+(myScrollbar.barHeight/float(height))*totalLength;  // correct start y coordinate;
+//    float length = (adapter);
+//    float totalLength = 2000 + dataPoints.size()*20; //adapter + dataPoints.size()*20;
+//    float translateY = ((myScrollbar.scrollPos+myScrollbar.barHeight)/height)*totalLength;   // translating coordinate
+//    float y =20+(myScrollbar.barHeight/float(height))*totalLength;  // correct start y coordinate;
+//    float firstVisibleText = max(0, translateY / lineHeight); //checks the current first visible text correct position
+//    translate(0, -translateY);
     
-  translate(0, -translateY);
-//    for (int j = 0; j < 800 / 10; j++) 
-//    {
-//       line(0, j * 10, width, j * 10);
-      for (int i = 0; i < dataPoints.size() && y-translateY<=height+20; i++) 
+    //jhy implimented a better working printing text that
+    //only prints the values within the screen and not all from very top to the scrollbar
+    
+    showingData.display(); 
+    if(count!=dataPoints.size())
     {
-      if(y>=-20)                                //need better performance: one suggestion is figure out a way to directly start the loop that matters i.e. change i as scrolling down.
+     for (int i = 0; i < tableOfDates.size; i++) 
+    {
+      LinkedList<DataPoint> temp = tableOfDates.getDataByIndex(i);
+      for(int j= 0 ; j<temp.size();j++)
       {
-       textAlign(LEFT);
-       textSize(20);
-      text(dataPoints.get(i).getData(), 50, y);
+         showingData.addFlight(temp.get(j).getData());
+         count++;
       }
-      y += lineHeight;
-     }
- //   }
-  translate(0, translateY);
-
-
-  myScrollbar.display();
-  myScrollbar.update();
-
+      }
+    }
 }
+     
+     
+     
+//    translate(0, translateY);
+//    myScrollbar.display();
+//    myScrollbar.update();
 
 
 //void mouseWheel(MouseEvent event) {
@@ -132,13 +208,43 @@ void printFlightData()
 
 void mousePressed() {
   myScrollbar.mousePressed(); // Delegate mousePressed event to the scrollbar.
+  //dropdown menu:
+  mousePressedDropdown();
 }
 void mouseWheel(MouseEvent event){
-   myScrollbar.mouseWheel(event);
+  // myScrollbar.mouseWheel(event);
+  if (showingData != null) {
+    showingData.mouseWheel(event);
+  }
 }
 void mouseReleased() {
   myScrollbar.mouseReleased(); // Delegate mouseReleased event to the scrollbar.
 }
+
+void mouseClicked() //Flight For Plane AND Pins
+{
+  if(pinOrigin.isDropped() && pinArrival.isDropped())
+    {
+      pinOrigin.pickPin(); pinArrival.pickPin();
+      pinOrigin = new PlanePin(-1,-1,pinImg);
+      pinArrival = new PlanePin(-1,-1,pinImg);
+      fly = false;
+    }
+  if(pinOrigin.isDropped()&&!pinArrival.isDropped())
+    {
+      pinArrival.change(mouseX,mouseY);
+      pinArrival.dropPin();
+      airChina = new PlaneAnimate(pinOrigin.getX(),pinOrigin.getY(),pinArrival.getX(),pinArrival.getY(),planeImg);
+      fly = true;
+    }
+    if(!pinOrigin.isDropped())
+    {
+    pinOrigin.change(mouseX,mouseY);
+    pinOrigin.dropPin();
+    prepare = true;
+    }
+}
+
 //boolean isInteger(String s)
 //{
 //  try
@@ -165,11 +271,55 @@ boolean isDouble(String s)
   }
 }
 
+void createHashMaps()            //!!! Use this function to create ALL the HashMaps we need for furthur data support!!!       By Chuan:)
+{
+
+    for (int i=0; i<dataPoints.size(); i++)
+  {
+     tableOfDates.putDates(dataPoints.get(i).day, dataPoints.get(i));
+  }
+}
+void createCharts()              //!!! Use this to create ALL the charts we need!!!               By chuan:)
+{
+  int[] numberOfFlightsByDay = new int[tableOfDates.size];
+  String[] lables = new String[tableOfDates.size];
+  for(int i=0 ; i<tableOfDates.size; i++)
+  {
+      numberOfFlightsByDay[i]=tableOfDates.getDataByIndex(i).size();
+      lables[i] = "January "+(i+1);
+  }
+  pieChartOfDates = new PieChart(displayWidth/7,displayHeight/2, displayWidth/10,numberOfFlightsByDay,lables);
+  histogramOfDates = new Histogram(displayWidth/7, displayHeight/2 , displayHeight/10 , displayWidth/8, numberOfFlightsByDay, tableOfDates.size, 10, 10);
+}
+
+ArrayList <DataPoint> getNonCancelledFlights (ArrayList <DataPoint> data)
+{
+   ArrayList<DataPoint> filteredDataPoints = data.stream().filter(DataPoint -> DataPoint.cancelled ==false).collect(Collectors.toCollection(ArrayList::new));
+   return filteredDataPoints;
+}
+
+ArrayList <DataPoint> getNonDivertedFlights (ArrayList <DataPoint> data)
+{
+   ArrayList<DataPoint> filteredDataPoints = data.stream().filter(DataPoint ->(  DataPoint.diverted ==false)).collect(Collectors.toCollection(ArrayList::new));
+   return filteredDataPoints;
+}
+
+void sortDataByArrDelay (ArrayList <DataPoint> data)
+{
+    Collections.sort(data, new ArrDelayComparator());
+}
+
+void sortDataByDepDelay (ArrayList <DataPoint> data)
+{
+    Collections.sort(data, new DepDelayComparator());
+}  
+
+
 void read_in_the_file()
 {
   dataPoints = new ArrayList <DataPoint> ();
   reader = createReader("flights2k.csv");    //change the file here
-  hashMap = new HashMap<>();
+ // hashMap = new HashMap<>();
   try {
     line = reader.readLine();
   }
@@ -194,7 +344,7 @@ void read_in_the_file()
     }
     if (line==null) break;
     String[] parts = split(line, ',');
-    hashMap.put(parts[1], parts[0]);
+//    hashMap.put(parts[1], parts[0]);
     String date = parts[0];
     int day=-1;
     int month=-1;
@@ -202,9 +352,9 @@ void read_in_the_file()
     String[] dayMonthYearTime= split(date, ' ');
     String[] dayMonthYear= split(dayMonthYearTime[0], '/');
     //    if (isInteger(dayMonthYear[0]))
-    day=Integer.parseInt(dayMonthYear[0]);
+    month=Integer.parseInt(dayMonthYear[0]);
     //    if (isInteger(dayMonthYear[1]))
-    month=Integer.parseInt(dayMonthYear[1]);
+    day=Integer.parseInt(dayMonthYear[1]);
     //    if (isInteger(dayMonthYear[2]))
     year=Integer.parseInt(dayMonthYear[2]);
     int flightNumber=-1;//default and if flight doesn't exist flightNumber is -1
@@ -262,10 +412,55 @@ void read_in_the_file()
     dataPoints.add(point);
   }
 
-  for (int index=0; index<dataPoints.size(); index++)
-  {
-    dataPoints.get(index).printData();
-    //dataPoints.get(index).displayData(5, 100);
-  }
+  //for (int index=0; index<dataPoints.size(); index++)
+  //{
+  //  dataPoints.get(index).printData();
+  //  //dataPoints.get(index).displayData(5, 100);
+  //}
 
+}
+void printDataByDepDelay(ArrayList data,boolean reversedOrder)
+{
+  nonCancelledFlights=getNonCancelledFlights(data);
+  if(nonCancelledFlights!=null)
+  {
+    sortDataByDepDelay(nonCancelledFlights);
+    if(!reversedOrder)
+    {
+      for (int index=0; index<nonCancelledFlights.size(); index++)
+      {
+        nonCancelledFlights.get(index).printData();
+      }
+    }
+    else
+    {
+      for (int index=nonCancelledFlights.size()-1; index>=0; index--)
+      {
+        nonCancelledFlights.get(index).printData();
+      }     
+    }
+  }
+}
+
+void printDataByArrDelay(ArrayList data,boolean reversedOrder)
+{
+  nonDivertedFlights=getNonDivertedFlights(data);
+  if(nonDivertedFlights!=null)
+  {
+    sortDataByArrDelay(nonDivertedFlights);
+    if(!reversedOrder)
+    {
+      for (int index=0; index<nonDivertedFlights.size(); index++)
+      {
+        nonDivertedFlights.get(index).printData();
+      }
+    }
+    else
+    {
+      for (int index=nonDivertedFlights.size()-1; index>=0; index--)
+      {
+        nonDivertedFlights.get(index).printData();
+      }           
+    }
+  }
 }

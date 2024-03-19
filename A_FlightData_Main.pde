@@ -70,7 +70,7 @@ void setup()
   createCharts();
 //data setup ends//
 
-  setupDropDown();
+//  setupDropDown();
 }
 
 
@@ -83,7 +83,7 @@ switch(currentScreen)
     case SCREEN_HOME :
  {
    homeScreen.draw();
-   drawDropdown();
+//   drawDropdown();
    currentEvent = homeScreen.returnEvent();
    if(currentEvent == EVENT_BUTTON_FLIGHT)
    currentScreen = SCREEN_FLIGHT;
@@ -209,7 +209,7 @@ void printSortedFlightData()
 void mousePressed() {
   myScrollbar.mousePressed(); // Delegate mousePressed event to the scrollbar.
   //dropdown menu:
-  mousePressedDropdown();
+//  mousePressedDropdown();
 }
 void mouseWheel(MouseEvent event){
   // myScrollbar.mouseWheel(event);

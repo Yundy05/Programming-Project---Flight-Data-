@@ -14,7 +14,7 @@ class PlanePin
   boolean drop;
   PlanePin(int x, int y, PImage pin)
   {
-    this.x = x; this.y = y; this.pin = pin;
+    this.x = x ; this.y = y ; this.pin = pin;
     pin.resize(50,50);
   }
   
@@ -52,7 +52,7 @@ void draw()
 {
   if (drop)
   {
-    image(pin, x, y);
+    image(pin, x - pin.width/2, y - pin.width/2);
   }
 }
 

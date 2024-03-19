@@ -50,7 +50,6 @@ void setup()
   read_in_the_file();
 //data setup ends//
 
-  setupDropDown();
 }
 
 
@@ -60,7 +59,6 @@ void draw() {
   if(currentScreen == SCREEN_HOME)
  {
    homeScreen.draw();
-   drawDropdown();
    currentEvent = homeScreen.returnEvent();
    if(currentEvent == EVENT_BUTTON_FLIGHT)
    currentScreen = SCREEN_FLIGHT;
@@ -134,8 +132,6 @@ void printFlightData()
 
 void mousePressed() {
   myScrollbar.mousePressed(); // Delegate mousePressed event to the scrollbar.
-  //dropdown menu:
-  mousePressedDropdown();
 }
 void mouseWheel(MouseEvent event){
    myScrollbar.mouseWheel(event);

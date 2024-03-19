@@ -31,6 +31,8 @@ ShowingData showingData;
 int count;
 
 ArrayList <DataPoint> dataPoints;
+ArrayList <DataPoint> nonCancelledFlights;
+ArrayList <DataPoint> nonDivertedFlights;
 BufferedReader reader;
 String line;
 //HashMap<String, String> hashMap;
@@ -245,6 +247,28 @@ void createCharts()              //!!! Use this to create ALL the charts we need
   histogramOfDates = new Histogram(displayWidth/7, displayHeight/2 , displayHeight/10 , displayWidth/8, numberOfFlightsByDay, tableOfDates.size, 10, 10);
 }
 
+ArrayList <DataPoint> getNonCancelledFlights (ArrayList <DataPoint> data)
+{
+   ArrayList<DataPoint> filteredDataPoints = data.stream().filter(DataPoint -> DataPoint.cancelled ==false).collect(Collectors.toCollection(ArrayList::new));
+   return filteredDataPoints;
+}
+
+ArrayList <DataPoint> getNonDivertedFlights (ArrayList <DataPoint> data)
+{
+   ArrayList<DataPoint> filteredDataPoints = data.stream().filter(DataPoint ->(  DataPoint.diverted ==false)).collect(Collectors.toCollection(ArrayList::new));
+   return filteredDataPoints;
+}
+
+void sortDataByArrDelay (ArrayList <DataPoint> data)
+{
+    Collections.sort(data, new ArrDelayComparator());
+}
+
+void sortDataByDepDelay (ArrayList <DataPoint> data)
+{
+    Collections.sort(data, new DepDelayComparator());
+}  
+
 
 void read_in_the_file()
 {
@@ -349,4 +373,49 @@ void read_in_the_file()
   //  //dataPoints.get(index).displayData(5, 100);
   //}
 
+}
+void printDataByDepDelay(ArrayList data,boolean reversedOrder)
+{
+  nonCancelledFlights=getNonCancelledFlights(data);
+  if(nonCancelledFlights!=null)
+  {
+    sortDataByDepDelay(nonCancelledFlights);
+    if(!reversedOrder)
+    {
+      for (int index=0; index<nonCancelledFlights.size(); index++)
+      {
+        nonCancelledFlights.get(index).printData();
+      }
+    }
+    else
+    {
+      for (int index=nonCancelledFlights.size()-1; index>=0; index--)
+      {
+        nonCancelledFlights.get(index).printData();
+      }     
+    }
+  }
+}
+
+void printDataByArrDelay(ArrayList data,boolean reversedOrder)
+{
+  nonDivertedFlights=getNonDivertedFlights(data);
+  if(nonDivertedFlights!=null)
+  {
+    sortDataByArrDelay(nonDivertedFlights);
+    if(!reversedOrder)
+    {
+      for (int index=0; index<nonDivertedFlights.size(); index++)
+      {
+        nonDivertedFlights.get(index).printData();
+      }
+    }
+    else
+    {
+      for (int index=nonDivertedFlights.size()-1; index>=0; index--)
+      {
+        nonDivertedFlights.get(index).printData();
+      }           
+    }
+  }
 }

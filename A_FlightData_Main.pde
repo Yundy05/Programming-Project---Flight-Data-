@@ -19,6 +19,10 @@ final int SCREEN_GRAPH = 2;
 float adapter;
 int currentScreen;
 
+boolean fly;
+boolean prepare;
+PImage pinImg, planeImg;
+
 //screnn and UI ends//
 
 //events related settings//
@@ -49,6 +53,9 @@ void settings() //REPLACED SCREENX WITH (displayWidth/2) & SCREENY WITH (display
 }
 void setup() 
 {
+  pinImg = loadImage("pin.png");
+  planeImg = loadImage("plane.png");
+  setupPins();
   setupScreen();
   setupBtn();
   myScrollbar = new ScreenScrolling(20,100,(displayWidth/2)-25,1);
@@ -82,6 +89,19 @@ switch(currentScreen)
    currentScreen = SCREEN_FLIGHT;
    else if(currentEvent == EVENT_BUTTON_TOGRAPH)
    currentScreen = SCREEN_GRAPH;
+      
+   if(prepare) //Andy Yu
+  {
+    pinOrigin.draw();
+  }
+  if(fly)
+  {
+    pinOrigin.draw();
+    pinArrival.draw();
+    airChina.fly();
+  }
+  
+  
  }   break;
  
  case SCREEN_FLIGHT :
@@ -115,6 +135,7 @@ switch(currentScreen)
    
    default:
    break;
+
 }
 }
 
@@ -198,6 +219,30 @@ void mouseWheel(MouseEvent event){
 }
 void mouseReleased() {
   myScrollbar.mouseReleased(); // Delegate mouseReleased event to the scrollbar.
+}
+
+void mouseClicked() //Flight For Plane AND Pins
+{
+  if(pinOrigin.isDropped() && pinArrival.isDropped())
+    {
+      pinOrigin.pickPin(); pinArrival.pickPin();
+      pinOrigin = new PlanePin(-1,-1,pinImg);
+      pinArrival = new PlanePin(-1,-1,pinImg);
+      fly = false;
+    }
+  if(pinOrigin.isDropped()&&!pinArrival.isDropped())
+    {
+      pinArrival.change(mouseX,mouseY);
+      pinArrival.dropPin();
+      airChina = new PlaneAnimate(pinOrigin.getX(),pinOrigin.getY(),pinArrival.getX(),pinArrival.getY(),planeImg);
+      fly = true;
+    }
+    if(!pinOrigin.isDropped())
+    {
+    pinOrigin.change(mouseX,mouseY);
+    pinOrigin.dropPin();
+    prepare = true;
+    }
 }
 
 //boolean isInteger(String s)

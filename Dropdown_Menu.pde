@@ -1,104 +1,67 @@
-DropdownMenu ddMenu;
-void setupDropDown()
-{
-  ddMenu = new DropdownMenu(100, 100, 200, 30);
-  ddMenu.addItem(" fish airport");
-  
-}
-void drawDropdown()
-{
-  //background(#DB6868);
-  ddMenu.display();
-}
-
-void mousePressedDropdown()
-{
-  ddMenu.handleMousePressed();
-}
-
+import controlP5.*;
 class DropdownMenu
 {
-  int x, y, width, height;
-  int cornerRadius = 10;
-  String selected;
-  ArrayList<String> items;
-  boolean expanded;
-  color boxClr = #D0C2D1;
-  color textClr =#E3DC8E;
+  ControlP5 cp5;
+  DropdownList ddl;
+  String[] item;
+  boolean isDdlOpen = false;
+  //boolean isDdlOpen = false;
+  //MyControlListener myListener;
   
-  DropdownMenu(int x, int y, int width, int height)
+  DropdownMenu(String name, int x, int y, String[] item)
   {
-    this.x = x;
-    this.y = y;
-    this.width  = width;
-    this.height = height;
-    this.items = new ArrayList<String>();
-    this.selected = "";
-    this.expanded = false;
-  }
-  
-  void addItem(String item)
-  {
-    items.add(item);
-  }
-  
-  void display()
-  {
-    fill(boxClr);
-    stroke(2);
-    if(expanded)
-    {
-      rect(x, y, width, height,cornerRadius);
-      fill(textClr);
-      text(selected, x+5, y + height -5);
-      for(int i = 0; i < items.size(); i++)
+    ddl = cp5.addDropdownList(name)
+            .setPosition(x, y)
+            ;
+    this.item = item;
+    customize();
+    ddl.addListener(new ControlListener() 
       {
-        int itemY = y+ height *(i+1);
-        fill(boxClr);
-        rect(x, itemY, width, height);
-        fill(textClr);
-        text(items.get(i), x+5, itemY + height -5);
-      }
-    }
-    else
-    {
-      rect(x, y, width, height);
-      //rect(MARGIN, MARGIN, SCREENX/4 - 2*MARGIN, SCREENY/20,20);
-      fill(0);
-      text(selected.equals("")?"Airport":selected, x+55, y + height -15);
-      //text(selected.equals("")?"Origin":selected, MARGIN + 100, MARGIN +40);
-    }
-  }
-  
-  void toggle()
-  {
-    expanded = !expanded;
-  }
-  
-  void select(String item)
-  {
-    selected = item;
-    toggle();
-  }
-  
-  void handleMousePressed()
-  {
-    if(mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height)
-    {
-      toggle();
-    }
-    else if (expanded)
-    {
-      for(int i =0; i < items.size(); i++)
-      {
-        int itemY = y + height *(i+1);
-        if(mouseX >= x && mouseX <= x + width && mouseY <= itemY + height)
+        public void controlEvent(ControlEvent event) 
         {
-          select(items.get(i));
-          return;
+          if (event.isController() && !isDdlOpen) {
+          ddl.open(); // open the dropdown list if it's not open
+          isDdlOpen = true;
+        } 
+        else if (event.isController() && isDdlOpen) 
+        {
+          ddl.close(); // close the dropdown list if it's open
+          isDdlOpen = false;
         }
       }
-    }
+    });
   }
   
+
+  void customize()
+  {
+    ddl.setBackgroundColor(color(190));
+    ddl.setItemHeight(30);
+    ddl.setBarHeight(20);
+    for(int i = 0; i< item.length; i ++)
+    {
+      ddl.addItem(item[i], i);
+    }
+
+  }
+  
+  /*void customize(DropdownList ddl) {
+  // a convenience function to customize a DropdownList
+  ddl.setBackgroundColor(color(190));
+  ddl.setItemHeight(20);
+  ddl.setBarHeight(15);
+  //ddl.captionLabel().set("dropdown");
+  //ddl.captionLabel().style().marginTop = 3;
+  //ddl.captionLabel().style().marginLeft = 3;
+  //ddl.valueLabel().style().marginTop = 3;
+  for (int i=0;i<40;i++) {
+    ddl.addItem("item "+i, i);
+  }
+  //ddl.scroll(0);
+  ddl.setColorBackground(color(60));
+  ddl.setColorActive(color(255, 128));
+  ddl.setColorBackground(color(60));
+  ddl.setColorActive(color(150));
+}*/
+
 }

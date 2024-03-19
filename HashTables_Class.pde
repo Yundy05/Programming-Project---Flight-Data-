@@ -15,7 +15,7 @@ public class HashTable {
     }
     
     public HashTable()
-    {
+    { 
       this.size = 1;
       table = new LinkedList[1];
       table[0] = new LinkedList<>();

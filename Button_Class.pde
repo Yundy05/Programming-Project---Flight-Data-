@@ -2,7 +2,7 @@ ArrayList<Button>btnMain;
 ArrayList<Button>btnControlPanel;
 PFont buttonFont;
 
-Button originBtn, destinationBtn, dateBtn, flightDataBtn, homePageBtn, graphBtn;
+Button originBtn, destinationBtn, dateBtn, flightDataBtn, homePageBtn, graphBtn , showPieChartBtn , showHistogramBtn;
 
 void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour, HoverColour, ButtonEvent)
 {
@@ -18,7 +18,8 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   homePageBtn = new Button((displayWidth/2)-(displayWidth/2)/3, (displayHeight - 100) - 100, (displayWidth/2)/3 - 50, (displayHeight - 100)/20, "Home",#8080ff, #b3b3ff, EVENT_BUTTON_HOME);
   
   //GRAPH PAGE
-  
+  showPieChartBtn = new Button((displayWidth/2) - (displayWidth/2)/3, MARGIN+ 2*(displayHeight - 100)/10 , (displayWidth/2)/3 - 50, (displayHeight - 100)/20, "PieChart", #8080ff, #b3b3ff, EVENT_BUTTON_SHOWPIECHART);
+  showHistogramBtn = new Button(MARGIN , MARGIN+ 2*(displayHeight - 100)/10, (displayWidth/2)/4 - 2*MARGIN, (displayHeight - 100)/20, "Histogram", #8080ff, #b3b3ff, EVENT_BUTTON_SHOWHISTOGRAM);
   
   btnMain.add(destinationBtn); btnMain.add(originBtn);
   btnMain.add(dateBtn); btnMain.add(flightDataBtn); btnMain.add(homePageBtn);
@@ -31,6 +32,8 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   flightScreen.addButton(homePageBtn);
   
   graphScreen.addButton(homePageBtn);
+  graphScreen.addButton(showPieChartBtn);
+  graphScreen.addButton(showHistogramBtn);
 }
 
 
@@ -96,7 +99,7 @@ class Button
     if(over && !mousePressed && wasPressed)
     {
        wasPressed = false;
-       print(event);
+ //      print(graphOption);
        return true;
      }
     else

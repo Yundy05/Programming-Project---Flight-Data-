@@ -9,6 +9,9 @@ final int EVENT_BUTTON_FLIGHT = 1;
 final int EVENT_BUTTON_NULL = -1;
 final int EVENT_BUTTON_TOGRAPH = 2;
 
+final int EVENT_BUTTON_SHOWPIECHART = 11;
+final int EVENT_BUTTON_SHOWHISTOGRAM = 12;
+
 final int SCREEN_HOME = 0;  //Screen sequences
 final int SCREEN_FLIGHT = 1;
 final int SCREEN_GRAPH = 2;
@@ -32,10 +35,10 @@ BufferedReader reader;
 String line;
 //HashMap<String, String> hashMap;
 HashTable tableOfDates = new HashTable(6);
-PieChart chartOfDates;
+PieChart pieChartOfDates; Histogram histogramOfDates;
 //HashTable tableOfDates;
 //int listSize = dataPoints[0].size();
-
+int graphOption = -1;
 int lineHeight = 20;
 
 void settings() //REPLACED SCREENX WITH (displayWidth/2) & SCREENY WITH (displayHeight - 100)
@@ -54,18 +57,20 @@ void setup()
 //data setup::
   dataPoints = new ArrayList<DataPoint>(); // 初始化全局的dataPoints列表
   read_in_the_file();
+  createHashMaps();
+  createCharts();
 //data setup ends//
 
   setupDropDown();
-  
-  createHashMaps();
-  createCharts();
+
+
 }
 
 
 void draw() {
   background(#DB6868);
 //  currentEvent = getCurrentEvent();
+
 switch(currentScreen)
 {
     case SCREEN_HOME :
@@ -93,9 +98,19 @@ switch(currentScreen)
  case SCREEN_GRAPH :
    graphScreen.draw();
    currentEvent = graphScreen.returnEvent();
-   chartOfDates.drawPieChart();
    if(currentEvent == EVENT_BUTTON_HOME)
    currentScreen = SCREEN_HOME;
+   else if(currentEvent == EVENT_BUTTON_SHOWPIECHART)
+   {
+    graphOption = 1 ;
+   }
+   else if(currentEvent == EVENT_BUTTON_SHOWHISTOGRAM)
+     graphOption = 2;
+     
+  if(graphOption == 1)
+     pieChartOfDates.drawPieChart();
+     else if(graphOption == 2)
+     histogramOfDates.drawHistogram();
    break;
    
    default:
@@ -228,7 +243,8 @@ void createCharts()              //!!! Use this to create ALL the charts we need
       numberOfFlightsByDay[i]=tableOfDates.getDataByIndex(i).size();
       lables[i] = "January "+(i+1);
   }
-  chartOfDates = new PieChart(displayWidth/7,displayHeight/2, displayWidth/10,numberOfFlightsByDay,lables);
+  pieChartOfDates = new PieChart(displayWidth/7,displayHeight/2, displayWidth/10,numberOfFlightsByDay,lables);
+  histogramOfDates = new Histogram(displayWidth/7, displayHeight/2 , displayHeight/10 , displayWidth/8, numberOfFlightsByDay, tableOfDates.size, 10, 10);
 }
 
 

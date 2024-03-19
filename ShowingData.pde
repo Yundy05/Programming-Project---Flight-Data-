@@ -27,13 +27,16 @@ void display() {
   screen.fill(0);
   screen.textAlign(LEFT, TOP);
   screen.textLeading(textLeading);
-  
-  
+//  calculateStartLine();
   //the loading of flights onto screen
   for (int i = 0; i < flights.size(); i++) {
     float y = screenY + (i - startLine) * textLeading + scroll;
-    if (y > screen.height) break; // Stop drawing if the text is beyond the visible area
+    if (y > screen.height) // Stop drawing if the text is beyond the visible area
+    {
+      break;
+    }
     screen.text(flights.get(i), screenX, y);
+    println(flights.get(i));
   }
   screen.endDraw();
   image(screen, screenPos.x, screenPos.y);
@@ -47,6 +50,12 @@ void mouseWheel(MouseEvent event)
     scroll -= event.getCount() * 20; //the speed that u can scroll at that can be changed with 20
     scroll = constrain(scroll, -(flights.size() * textLeading - screen.height), 0); //constrains the scroll to not go over limits e.g off screen
 }
+
+void calculateStartLine() {
+  startLine = max(0, (int) (-scroll / textLeading));
+  
+}
+
 
 
   void addFlight(String message) {

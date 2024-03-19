@@ -9,7 +9,7 @@ class Histogram
   int range;
 
   Histogram(int x, int y,int gphH,int gphW, int[] data, int numOfBins, int gap , int range)
-  {
+  {   
     this.x = x;
     this.y = y;
     this.gphH = gphH;

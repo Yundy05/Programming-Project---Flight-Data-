@@ -34,7 +34,7 @@ ArrayList <DataPoint> dataPoints;
 BufferedReader reader;
 String line;
 //HashMap<String, String> hashMap;
-HashTable tableOfDates = new HashTable(6);
+HashTable tableOfDates = new HashTable();
 PieChart pieChartOfDates; Histogram histogramOfDates;
 //HashTable tableOfDates;
 //int listSize = dataPoints[0].size();
@@ -62,8 +62,6 @@ void setup()
 //data setup ends//
 
   setupDropDown();
-
-
 }
 
 
@@ -90,7 +88,7 @@ switch(currentScreen)
    currentEvent = flightScreen.returnEvent();
    if(currentEvent == EVENT_BUTTON_HOME)
    currentScreen = SCREEN_HOME;
-
+ 
  //  printFlightData();  
   printSortedFlightData();
  } break;

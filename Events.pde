@@ -22,7 +22,7 @@ void printIndividualData(DataPoint aPoint)
       textSize(40);
       text(theDepartDate , LM ,y1+displayWidth/20);      
       
-      fill(0);
+      fill(255);
       textSize(50);
       text(convertTo24HourFormat(aPoint.CRSDepTime) +"     "+aPoint.origin , LM , y1+displayWidth/12);
       fill(#2F67DE);
@@ -34,7 +34,7 @@ void printIndividualData(DataPoint aPoint)
       textSize(40);
       text(theArriveDate, displayWidth/2 - LM , y1+displayWidth/20);
       
-      fill(0);
+      fill(255);
       textSize(50);
       text(convertTo24HourFormat(aPoint.CRSArrTime) +"     "+aPoint.dest , displayWidth/2 - LM, y1+displayWidth/12);
       fill(#2F67DE);

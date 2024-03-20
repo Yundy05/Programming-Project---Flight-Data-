@@ -76,11 +76,12 @@ void setup()
   dataPoints = new ArrayList<DataPoint>(); // 初始化全局的dataPoints列表
   read_in_the_file();
   createHashMaps();
+  GraphicsSetUp();
   createCharts();
 //data setup ends//
 
 //  setupDropDown();
-  GraphicsSetUp();
+  
 }
 
 
@@ -333,6 +334,8 @@ void createCharts()              //!!! Use this to create ALL the charts we need
   }
   //pieChartOfDates = new PieChart(displayWidth/7,displayHeight/2, displayWidth/10,numberOfFlightsByDay,lables);
  // histogramOfDates = new Histogram(displayWidth/7, displayHeight/2 , displayHeight/10 , displayWidth/8, numberOfFlightsByDay, tableOfDates.size, 10, 10);
+ histogramOfDates = new Histogram(displayWidth/7, displayHeight/7 , displayHeight/2 , displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length,0,20,
+  "Frequencies of arrival delay", "Arrival delay (h)", "Frequency");
  //histogramOfDates = new Histogram(displayWidth/7, displayHeight/7 , displayHeight/2 , displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length, 20, 5);// bug: seems that the text doesnot represent the actual values
 }
 

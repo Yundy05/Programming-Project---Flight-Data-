@@ -17,6 +17,7 @@ final int EVENT_BUTTON_ARRIVAL = 7;
 
 final int EVENT_BUTTON_SHOWPIECHART = 11;
 final int EVENT_BUTTON_SHOWHISTOGRAM = 12;
+final int EVENT_GETFLIGHT = 13;
 
 final int SCREEN_HOME = 0;  //Screen sequences
 final int SCREEN_FLIGHT = 1;
@@ -35,7 +36,7 @@ PImage pinImg, planeImg;
 //events related settings//
 int currentEvent;
 final int EVENT_PRINT_DATA_FLIGHTSCREEN = 1;   // keep listing according to SCREEN order
-
+int flightNum = -1;       // the index for showing a flight in Individual flight screen
 //events ends//
 ScreenScrolling myScrollbar;
 ShowingData showingData;
@@ -151,7 +152,13 @@ switch(currentScreen)
    currentEvent = individualFlightScreen.returnEvent();
    if(currentEvent == EVENT_BUTTON_HOME)
    currentScreen = SCREEN_HOME;
-   printIndividualData(dataPoints.get((int)(random(0,1000))));
+   if(currentEvent == EVENT_GETFLIGHT)
+   {
+     flightNum = (int)random(0,1000);
+     currentEvent = EVENT_BUTTON_NULL;
+   }
+   if(flightNum!=-1)
+   printIndividualData(dataPoints.get(flightNum));
 
    break;
    default:

@@ -2,7 +2,7 @@ ArrayList<Button>btnMain;
 ArrayList<Button>btnControlPanel;
 PFont buttonFont;
 
-Button originBtn, destinationBtn, dateBtn, flightDataBtn, homePageBtn, graphBtn, showPieChartBtn, showHistogramBtn,  individualFlightBtn, departBtn, arrivalBtn;
+Button originBtn, destinationBtn, dateBtn, flightDataBtn, homePageBtn, graphBtn, showPieChartBtn, showHistogramBtn,  individualFlightBtn, departBtn, arrivalBtn, getFlightBtn;
 
 void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour, HoverColour, ButtonEvent)
 {
@@ -26,6 +26,7 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   destinationBtn = new Button(displayWidth/2 - MARGIN - (displayWidth/2)/3 + 50 , MARGIN+ 2*(displayHeight)/3 , (displayWidth/2)/3 - 50, (displayHeight - 100)/20, "Destination", #8080ff, #b3b3ff, EVENT_BUTTON_DESTINATION);
   departBtn = new Button(MARGIN, MARGIN+ 2*(displayHeight)/4 , (displayWidth/2)/3 - 50, (displayHeight - 100)/20, "Departure", #8080ff, #b3b3ff, EVENT_BUTTON_DEPARTURE);
   arrivalBtn = new Button(displayWidth/2 - MARGIN - (displayWidth/2)/3 + 50, MARGIN+ 2*(displayHeight)/4 , (displayWidth/2)/3 - 50, (displayHeight - 100)/20, "Arrival", #8080ff, #b3b3ff, EVENT_BUTTON_ARRIVAL);
+  getFlightBtn = new Button(MARGIN , MARGIN , (displayWidth/2)/4 - 2*MARGIN, (displayHeight - 100)/20,"Get A Flight :) " , #8080ff, #b3b3ff, EVENT_GETFLIGHT);
   
   btnMain.add(destinationBtn); btnMain.add(originBtn);
   btnMain.add(dateBtn); btnMain.add(flightDataBtn); btnMain.add(homePageBtn);
@@ -45,6 +46,7 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   individualFlightScreen.addButton(destinationBtn);
   individualFlightScreen.addButton(departBtn);
   individualFlightScreen.addButton(arrivalBtn);
+  individualFlightScreen.addButton(getFlightBtn);
 }
 
 

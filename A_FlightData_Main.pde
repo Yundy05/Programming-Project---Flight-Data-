@@ -60,8 +60,10 @@ void setup()
   setupPins();
   setupScreen();
   setupBtn();
+  
   myScrollbar = new ScreenScrolling(20,100,(displayWidth/2)-25,1);
   showingData = new ShowingData(20, 20, displayWidth/2, displayHeight - 100);  
+  
 //  scrollbarHeight = height * height / contentHeight;
   arrDelayFreq = new HashMap <Integer, Integer>();
 
@@ -79,7 +81,7 @@ void setup()
 void draw() {
   background(#DB6868);
 //  currentEvent = getCurrentEvent();
-
+ 
 switch(currentScreen)
 {
     case SCREEN_HOME :
@@ -191,7 +193,7 @@ void printSortedFlightData()
          showingData.addFlight(temp.get(j).getData());
          count++;
       }
-      }
+    }
     }
 }
      
@@ -211,7 +213,7 @@ void printSortedFlightData()
 void mousePressed() {
   showingData.mousePressed(); // Delegate mousePressed event to the scrollbar.
   //dropdown menu:
-  mousePressedDropdown();
+//  mousePressedDropdown();
 }
 void mouseWheel(MouseEvent event){
   if (showingData != null) {
@@ -336,7 +338,7 @@ void sortDataByDepDelay (ArrayList <DataPoint> data)
 void read_in_the_file()
 {
   dataPoints = new ArrayList <DataPoint> ();
-  reader = createReader("flights2k.csv");    //change the file here
+  reader = createReader("flights10k.csv");    //change the file here
  // hashMap = new HashMap<>();
   try {
     line = reader.readLine();

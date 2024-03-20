@@ -1,7 +1,7 @@
 import java.util.LinkedList;
 public class HashTable {
     LinkedList<DataPoint>[] table;
-    LinkedList<DataPoint>[] newTable;
+//    LinkedList<DataPoint>[] newTable;
     int size;
     
     public HashTable(int size)         //init Hash  Chuan:)
@@ -39,7 +39,7 @@ public class HashTable {
         if(index >=size)
         {
              this.size = index + 1;
-             newTable = new LinkedList[size];
+             LinkedList<DataPoint>[] newTable = new LinkedList[size];
              for(int i=0; i < table.length ;i++)
              {
                  newTable[i] = table [i];
@@ -47,12 +47,13 @@ public class HashTable {
              table = newTable;
           for(int i = 1; i < size; i++)
         {
+          if(table[i]==null)
           table[i] = new LinkedList<>(); 
         }
         }
         LinkedList<DataPoint> bucket = table[index];
         bucket.add(aDataPoint);
-
+        
    }
     
    public int hashFuncForAirport(int x)       // currently blank   Chuan:)

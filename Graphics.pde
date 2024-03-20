@@ -21,7 +21,7 @@ class Histogram
     String title;
     String labelX;
     String labelY;
-    //plot = new GPlot(this);
+    
     // data array is your data collection, range is your data range, like year 6~`12, 6~12 is the range
     Histogram(int x, int y, int gphH, int gphW, double[] data, int numOfBins, int rangeMin,
     int rangeMax, String title, String labelX, String labelY )
@@ -44,7 +44,28 @@ class Histogram
         setupGrafica();
         
     }
-    
+    Histogram(int x, int y, int gphH, int gphW, int[] data, int numOfBins, int rangeMin,
+    int rangeMax, String title, String labelX, String labelY )
+    {
+        this.x = x;
+        this.y = y;
+        this.gphH = gphH;
+        this.gphW = gphW;
+        this.data=data;
+       // doubleToIntArray(data);
+        this.max = max(this.data);
+        this.min = min(this.data);
+        this.numOfBins = numOfBins;
+        this.binWidth = this.gphW/ this.numOfBins;
+        this.frequency = this.data;
+        this.rangeMin = rangeMin;
+        this.rangeMax = rangeMax;
+        this.title = title;
+        this.labelX = labelX; // label for x axis
+        this.labelY = labelY;
+        setupGrafica();
+        drawHistogram();
+    }   
     void setupGrafica()
     {
       plot.setXLim(rangeMin, rangeMax);
@@ -208,7 +229,26 @@ class Histogram
         setupGrafica();
         
     }
-    
+    BarChart(int x, int y, int gphH, int gphW, int[] data, int numOfBins, String[] xCatogories,
+    String title, String labelX, String labelY )
+    {
+        this.x = x;
+        this.y = y;
+        this.gphH = gphH;
+        this.gphW = gphW;
+        //doubleToIntArray(data);
+        this.max = max(this.data);
+        this.min = min(this.data);
+        this.numOfBins = numOfBins;
+        this.binWidth = this.gphW/ this.numOfBins;
+        this.frequency = this.data;
+        this.xCatogories = xCatogories;
+        this.title = title;
+        this.labelX = labelX; // label for x axis
+        this.labelY = labelY;
+        setupGrafica();
+        
+    }
     void setupGrafica()
     {
       plot.setXLim(0, xCatogories.length *10 );

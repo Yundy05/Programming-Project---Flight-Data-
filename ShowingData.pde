@@ -6,15 +6,23 @@ class ShowingData { //new mousewheel scroll method for better screen performance
   float scroll = 0;
   float textHeight = 20;
   float textLeading = 25;
-  int startLine = 0; //to be implimented for scrollBar
+  float startLine = 0; //to be implimented for scrollBar
   int endLine = 0;   //to be implimented for scrollbar
   StringList flights;
-  ScreenScrolling scrollingBar;
   
-  ShowingData(float x, float y, int widthh, int heightt, ScreenScrolling scrollingBar) {
+  //screenScrolling
+  int barWidth = 20;
+  int barHeight = 100;
+  int barX = displayWidth / 2 -25;
+  int barY = 1;
+  float scrollPos = 0;
+  float maxScrollPos;
+  float scrollAmount;
+  boolean isDragging;
+  
+  ShowingData(float x, float y, int widthh, int heightt) {
     screen = createGraphics(widthh - 60, heightt - 60, P2D);
     flights = new StringList();
-    this.scrollingBar = scrollingBar;
   }
 
 void display() {
@@ -27,19 +35,25 @@ void display() {
   screen.fill(0);
   screen.textAlign(LEFT, TOP);
   screen.textLeading(textLeading);
-  
-  
+
   //the loading of flights onto screen
-  for (int i = 0; i < flights.size(); i++) {
-    float y = screenY + (i - startLine) * textLeading + scroll;
-    if (y > screen.height) break; // Stop drawing if the text is beyond the visible area
+  calculateStartLine();
+  for (int i = (int)startLine; i < flights.size(); i++) {
+    float y = screenY + i * textLeading + scroll;
+    if (y > screen.height) // Stop drawing if the text is beyond the visible area
+    {
+      break;
+    }
     screen.text(flights.get(i), screenX, y);
+//    println(flights.get(i));
   }
   screen.endDraw();
   image(screen, screenPos.x, screenPos.y);
+  updatingScroll();
+  scrollDisplay();
+//  scrollingBar.display();
+//  scrollingBar.update();
 }
-
-
 
 
 void mouseWheel(MouseEvent event)
@@ -48,8 +62,61 @@ void mouseWheel(MouseEvent event)
     scroll = constrain(scroll, -(flights.size() * textLeading - screen.height), 0); //constrains the scroll to not go over limits e.g off screen
 }
 
+void calculateStartLine() {
+  startLine = max(0, (int) (-scroll / textLeading));  
+}
 
-  void addFlight(String message) {
-    flights.append(message); // add new message line to string to be shown on screen
+
+void addFlight(String message) {
+  flights.append(message); // add new message line to string to be shown on screen
+}
+
+
+
+//screenScrollingMethods
+
+void scrollDisplay()
+{
+  fill(255);
+  noStroke();
+  scrollPos = -scrollPos;
+  rect(barX, barY + scrollPos, barWidth, barHeight);
+}
+
+void updatingScroll() {
+
+
+    if (isDragging) {
+        scrollPos = mouseY - barY - barHeight / 2;
+        scrollPos = -scrollPos;
+        scrollPos = constrain(scrollPos, maxScrollPos, 0);
+        scroll = scrollPos;
+    }
+    else {
+        // Here, calculate the scroll ratio based on the total scrollable content.
+        float totalContentHeight = flights.size() * textLeading;
+        float visibleHeight = screen.height;
+        float scrollRatio = scroll / (totalContentHeight - visibleHeight);
+        maxScrollPos =-(flights.size() * textLeading - screen.height);
+        // Adjust scrollPos based on the scrollRatio.
+        scrollPos = scrollRatio * (visibleHeight - barHeight);
+        scrollPos = constrain(scrollPos, maxScrollPos, 0);
+    }
+}
+
+
+void mousePressed() {
+  if (mouseX > barX && mouseX < barX + barWidth && mouseY > barY + scrollPos && mouseY < barY + scrollPos + barHeight) 
+  {
+    isDragging = true; 
+    println("is dragging");
+  }
+  else{
+    println("wromg");
+  }
+}
+
+void mouseReleased() {
+  isDragging = false;
 }
 }

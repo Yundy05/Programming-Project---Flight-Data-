@@ -42,8 +42,7 @@ void setup()
 {
   setupScreen();
   setupBtn();
-  myScrollbar = new ScreenScrolling(20,100,(displayWidth/2)-25,1);
-  showingData = new ShowingData(20, 20, displayWidth/2, displayHeight - 100, myScrollbar);  
+  showingData = new ShowingData(20, 20, displayWidth/2, displayHeight - 100);  
 //  scrollbarHeight = height * height / contentHeight;
 
 
@@ -148,7 +147,7 @@ void printSortedFlightData()
 
 
 void mousePressed() {
-  myScrollbar.mousePressed(); // Delegate mousePressed event to the scrollbar.
+  showingData.mousePressed(); // Delegate mousePressed event to the scrollbar.
   //dropdown menu:
   mousePressedDropdown();
 }
@@ -159,7 +158,7 @@ void mouseWheel(MouseEvent event){
   }
 }
 void mouseReleased() {
-  myScrollbar.mouseReleased(); // Delegate mouseReleased event to the scrollbar.
+  showingData.mouseReleased(); // Delegate mouseReleased event to the scrollbar.
 }
 
 //boolean isInteger(String s)

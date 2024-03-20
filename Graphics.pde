@@ -68,38 +68,36 @@ class Histogram
     }   
     void setupGrafica()
     {
+      plot.setPos(x, y);
       plot.setXLim(rangeMin, rangeMax);
       plot.setYLim(0, max);
-      plot.drawBox();
+      //plot.drawBox();
       plot.setMar(100, 90, 90, 70);
       
     }
     
     void drawHistogram()
-    {
+    {   
+      plot.setDim(gphW, gphH);
       plot.setTitleText(title);
       plot.getXAxis().setAxisLabelText(labelX);
       plot.getYAxis().setAxisLabelText(labelY);
-       
       plot.defaultDraw();
-        //plot.setHistType(GPlot.VERTICAL);
-        //plot.setHistVisible(true);
-        
-        
-      plot.setPos(x, y);
-      plot.setDim(gphW, gphH);
+
         // Activate the zooming and panning
         //plot.activatePanning();
         //plot.activateZooming(1.1, CENTER, CENTER);
-      fill(#32348E);
-        
+       
+      //fill(#32348E);
+      fill(#9BFFEA);
       for(int i=0; i<frequency.length; i++)
       {
         int binHeight = (int)map(frequency[i],0, max, 0, gphH);
         println(binHeight);
-        stroke(3);
+        stroke(0,10);
         rect(x+90 +binWidth*i, (int)(y+gphH -binHeight +90), binWidth, (int)binHeight);
       }
+      
     }
 
     void doubleToIntArray(double[] data)

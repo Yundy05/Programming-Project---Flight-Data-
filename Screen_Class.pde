@@ -2,10 +2,10 @@ Screen homeScreen, flightScreen, graphScreen, individualFlightScreen;
 
 void setupScreen()
 {
-  homeScreen = new Screen(#ffd9b3, SCREEN_HOME); //Takes Hexadecimal Colour, and Int value of current page
-  flightScreen = new Screen(#ffd9b3, SCREEN_FLIGHT);
-  graphScreen = new Screen(#ffd9b3, SCREEN_GRAPH);
-  individualFlightScreen = new Screen(#ffd9b3, SCREEN_INDIVIDUAL_FLIGHT);
+  homeScreen = new Screen(#121212, SCREEN_HOME); //Takes Hexadecimal Colour, and Int value of current page
+  flightScreen = new Screen(#121212, SCREEN_FLIGHT);
+  graphScreen = new Screen(#121212, SCREEN_GRAPH);
+  individualFlightScreen = new Screen(#121212, SCREEN_INDIVIDUAL_FLIGHT);
 }
 
 class Screen

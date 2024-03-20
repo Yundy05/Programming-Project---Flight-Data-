@@ -146,6 +146,8 @@ switch(currentScreen)
    break;
    
  case SCREEN_INDIVIDUAL_FLIGHT:
+    fill(255);
+    rect(0,displayHeight/2,displayWidth/2,displayHeight/2);
    individualFlightScreen.draw();
    currentEvent = individualFlightScreen.returnEvent();
    if(currentEvent == EVENT_BUTTON_HOME)

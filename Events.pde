@@ -4,9 +4,11 @@ void printIndividualData(DataPoint aPoint)
 {
       //originBtn = Button(MARGIN, MARGIN+ 2*(displayHeight)/3   Reminder of coordinates  Do Not uncomment
       //departBtn = Button(MARGIN, MARGIN+ 2*(displayHeight)/4   
+
       float buttonH = (displayHeight - 100)/20;
       int m = 5;    // adjust stroke position to have a nicer look
       int LM = 30;       //leftMargin for displaying texts
+      int tR = (int)displayWidth/60;           //self adjusting texts
       float y2 = 2*(displayHeight)/3 + m;
       float y3 = 2*(displayHeight)/3 + 4 * buttonH;
       float y1 = (displayHeight)/2 + m;                   //first line counting from north to south
@@ -19,11 +21,11 @@ void printIndividualData(DataPoint aPoint)
       textAlign(LEFT);
       
       fill(128);
-      textSize(40);
+      textSize(tR);
       text(theDepartDate , LM ,y1+displayWidth/20);      
       
-      fill(255);
-      textSize(50);
+      fill(0);
+      textSize(tR*1.25);
       text(convertTo24HourFormat(aPoint.CRSDepTime) +"     "+aPoint.origin , LM , y1+displayWidth/12);
       fill(#2F67DE);
       text(eraseQuotation(aPoint.originCity),LM, y2 + displayWidth/12);
@@ -31,11 +33,11 @@ void printIndividualData(DataPoint aPoint)
       textAlign(RIGHT);   //the other half
       
       fill(128);
-      textSize(40);
+      textSize(tR);
       text(theArriveDate, displayWidth/2 - LM , y1+displayWidth/20);
       
-      fill(255);
-      textSize(50);
+      fill(0);
+      textSize(tR*1.25);
       text(convertTo24HourFormat(aPoint.CRSArrTime) +"     "+aPoint.dest , displayWidth/2 - LM, y1+displayWidth/12);
       fill(#2F67DE);
       text(eraseQuotation(aPoint.destCity),displayWidth/2-LM, y2 + displayWidth/12);
@@ -92,6 +94,7 @@ void printIndividualData(DataPoint aPoint)
          textAlign(CENTER,TOP);
          text("Diverted" ,displayWidth/4, (displayHeight/2)*(1.618 - 1) + 2*LM);         
       }
+      stroke(0);
       
 }
 String eraseQuotation (String aString)

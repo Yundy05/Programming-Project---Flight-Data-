@@ -82,6 +82,7 @@ class Button
     if(over== true)
     {
       fill(notOverColor);
+      
     }
     else
     {

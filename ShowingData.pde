@@ -49,7 +49,7 @@ void display() {
   }
   screen.endDraw();
   image(screen, screenPos.x, screenPos.y);
-  updatingScroll();
+    updatingScroll();
   scrollDisplay();
 //  scrollingBar.display();
 //  scrollingBar.update();
@@ -79,30 +79,26 @@ void scrollDisplay()
 {
   fill(255);
   noStroke();
-  scrollPos = -scrollPos;
   rect(barX, barY + scrollPos, barWidth, barHeight);
 }
 
 void updatingScroll() {
-
+    float totalContentHeight = flights.size() * textLeading;
+    float visibleHeight = screen.height;
+    maxScrollPos = -(totalContentHeight - visibleHeight); // Max negative scroll value
 
     if (isDragging) {
-        scrollPos = mouseY - barY - barHeight / 2;
-        scrollPos = -scrollPos;
-        scrollPos = constrain(scrollPos, maxScrollPos, 0);
-        scroll = scrollPos;
+        scroll = mouseY - barY - (barHeight / 2);
+        scroll = constrain(scroll, 0, visibleHeight - barHeight); //visible part
+        scroll = scroll / (visibleHeight - barHeight);
+        scroll = scroll * maxScrollPos;
     }
-    else {
-        // Here, calculate the scroll ratio based on the total scrollable content.
-        float totalContentHeight = flights.size() * textLeading;
-        float visibleHeight = screen.height;
-        float scrollRatio = scroll / (totalContentHeight - visibleHeight);
-        maxScrollPos =-(flights.size() * textLeading - screen.height);
-        // Adjust scrollPos based on the scrollRatio.
-        scrollPos = scrollRatio * (visibleHeight - barHeight);
-        scrollPos = constrain(scrollPos, maxScrollPos, 0);
-    }
+    float scrollRatio = (scroll / maxScrollPos);
+    scrollPos = scrollRatio * (visibleHeight - barHeight);
+    scrollPos = constrain(scrollPos, 0, visibleHeight - barHeight); // Constrain to the scroll area
 }
+
+
 
 
 void mousePressed() {

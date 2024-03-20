@@ -58,8 +58,7 @@ void setup()
   setupPins();
   setupScreen();
   setupBtn();
-  myScrollbar = new ScreenScrolling(20,100,(displayWidth/2)-25,1);
-  showingData = new ShowingData(20, 20, displayWidth/2, displayHeight - 100, myScrollbar);  
+  showingData = new ShowingData(20, 20, displayWidth/2, displayHeight - 100);  
 //  scrollbarHeight = height * height / contentHeight;
 
 
@@ -207,8 +206,9 @@ void printSortedFlightData()
 
 
 void mousePressed() {
-  showingData.mousePressed();
-//  mousePressedDropdown();
+  showingData.mousePressed(); // Delegate mousePressed event to the scrollbar.
+  //dropdown menu:
+  mousePressedDropdown();
 }
 void mouseWheel(MouseEvent event){
   if (showingData != null) {

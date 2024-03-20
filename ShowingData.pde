@@ -39,7 +39,6 @@ void display() {
   //the loading of flights onto screen
   calculateStartLine();
   for (int i = (int)startLine; i < flights.size(); i++) {
-//    println(i, startLine);
     float y = screenY + i * textLeading + scroll;
     if (y > screen.height) // Stop drawing if the text is beyond the visible area
     {
@@ -50,7 +49,7 @@ void display() {
   }
   screen.endDraw();
   image(screen, screenPos.x, screenPos.y);
-  updatingScroll();
+    updatingScroll();
   scrollDisplay();
 //  scrollingBar.display();
 //  scrollingBar.update();
@@ -61,8 +60,6 @@ void mouseWheel(MouseEvent event)
 {
     scroll -= event.getCount() * 20; //the speed that u can scroll at that can be changed with 20
     scroll = constrain(scroll, -(flights.size() * textLeading - screen.height), 0); //constrains the scroll to not go over limits e.g off screen
-//    scrollingBar.mouseWheel(event);
-    scrollPos  = scroll;
 }
 
 void calculateStartLine() {
@@ -82,29 +79,27 @@ void scrollDisplay()
 {
   fill(255);
   noStroke();
-  scrollPos = -(scrollPos);
   rect(barX, barY + scrollPos, barWidth, barHeight);
 }
 
-void updatingScroll()
-{
-      float totalContentHeight = flights.size() * textLeading;
-      float visibleHeight = screen.height;
-      maxScrollPos =  -(flights.size() * textLeading - screen.height);
-      float scrollRatio = scroll / (totalContentHeight - visibleHeight);
-      float scrollRatio2 = scrollPos * (totalContentHeight - visibleHeight);
+void updatingScroll() {
+    float totalContentHeight = flights.size() * textLeading;
+    float visibleHeight = screen.height;
+    maxScrollPos = -(totalContentHeight - visibleHeight); // Max negative scroll value
 
-      if (isDragging) {
-      scrollPos = mouseY - barY - barHeight / 2;
-      scrollPos = -(scrollPos);
-      scrollPos = constrain(scrollPos, maxScrollPos, 0);
-      println(scroll, scrollPos);
+    if (isDragging) {
+        scroll = mouseY - barY - (barHeight / 2);
+        scroll = constrain(scroll, 0, visibleHeight - barHeight); //visible part
+        scroll = scroll / (visibleHeight - barHeight);
+        scroll = scroll * maxScrollPos;
     }
-    
-    else{
-      scrollPos = scrollRatio * (visibleHeight - barHeight);
-    }
+    float scrollRatio = (scroll / maxScrollPos);
+    scrollPos = scrollRatio * (visibleHeight - barHeight);
+    scrollPos = constrain(scrollPos, 0, visibleHeight - barHeight); // Constrain to the scroll area
 }
+
+
+
 
 void mousePressed() {
   if (mouseX > barX && mouseX < barX + barWidth && mouseY > barY + scrollPos && mouseY < barY + scrollPos + barHeight) 

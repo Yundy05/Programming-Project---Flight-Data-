@@ -1,9 +1,11 @@
-Screen homeScreen, flightScreen;
+Screen homeScreen, flightScreen, graphScreen, individualFlightScreen;
 
 void setupScreen()
 {
   homeScreen = new Screen(#ffd9b3, SCREEN_HOME); //Takes Hexadecimal Colour, and Int value of current page
   flightScreen = new Screen(#ffd9b3, SCREEN_FLIGHT);
+  graphScreen = new Screen(#ffd9b3, SCREEN_GRAPH);
+  individualFlightScreen = new Screen(#ffd9b3, SCREEN_INDIVIDUAL_FLIGHT);
 }
 
 class Screen
@@ -26,7 +28,7 @@ void addButton(Button button)
 
 void drawBackground()
 {
-  rect(0,1, SCREENX, SCREENY, 1); // (x, y, width, height, outline thickness)
+  rect(0,1, displayWidth/2, displayHeight - 100, 1); // (x, y, width, height, outline thickness)
   fill(screenBackground);
 }
 
@@ -34,7 +36,7 @@ void drawBackgroundOutline()
 {
   stroke(0); // Set the stroke color back to black
   strokeWeight(OUTLINE_WIDTH);
-  rect(0,0, SCREENX, SCREENY, 1); noFill();
+  rect(0,0, displayWidth/2, displayHeight - 100, 1); noFill();
 }
 int returnEvent()
 {

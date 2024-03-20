@@ -5,6 +5,8 @@ class ScreenScrolling
    int barX ;
    int barY ;
    float scrollPos = 0;
+   float maxScrollPos;
+   float scrollAmount;
    boolean isDragging;
    
    ScreenScrolling(int widthh, int heightt,int x, int y){
@@ -19,6 +21,7 @@ class ScreenScrolling
    {
     fill(255);
     noStroke();
+    scrollPos = -(scrollPos);
     rect(barX, barY + scrollPos, barWidth, barHeight);
   }
 
@@ -26,24 +29,21 @@ class ScreenScrolling
   {
     if (isDragging) {
       scrollPos = mouseY - barY - barHeight / 2;
-      scrollPos = constrain(scrollPos, 0, height - barHeight);
+      scrollPos = -(scrollPos);
+      scrollPos = constrain(scrollPos, maxScrollPos, 0);
+      println(scrollPos);
     }
   }
+  
 void mouseWheel(MouseEvent event) {
-  // Adjust scrollAmount based on mouse wheel movement
-  if(scrollPos+barHeight>height)
-  scrollPos = height-barHeight;
-  else if(scrollPos<0)
-  scrollPos = 0;
-  else
-  scrollPos += event.getCount() ;
+  scrollAmount = event.getCount() * 20; // Customize the multiplier as needed for smooth scrolling
+  scrollPos = constrain(scrollPos + scrollAmount, 0, maxScrollPos);
 }
 
   void mousePressed() {
     if (mouseX > barX && mouseX < barX + barWidth &&
         mouseY > barY + scrollPos && mouseY < barY + scrollPos + barHeight) {
-      isDragging = true;
- 
+        isDragging = true; 
     }
   }
 

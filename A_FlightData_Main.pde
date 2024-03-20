@@ -1,4 +1,4 @@
-import java.util.Scanner;
+import java.util.Scanner; //<>//
 import java.io.*;
 import java.util.HashMap;
 //screen and UI settings::
@@ -207,18 +207,18 @@ void printSortedFlightData()
 
 
 void mousePressed() {
-  myScrollbar.mousePressed(); // Delegate mousePressed event to the scrollbar.
-  //dropdown menu:
+  showingData.mousePressed();
 //  mousePressedDropdown();
 }
 void mouseWheel(MouseEvent event){
-  // myScrollbar.mouseWheel(event);
   if (showingData != null) {
     showingData.mouseWheel(event);
+//    myScrollbar.mouseWheel(event);
   }
 }
 void mouseReleased() {
-  myScrollbar.mouseReleased(); // Delegate mouseReleased event to the scrollbar.
+  showingData.mouseReleased();
+    //  myScrollbar.mouseReleased(); // Delegate mouseReleased event to the scrollbar.
 }
 
 void mouseClicked() //Flight For Plane AND Pins

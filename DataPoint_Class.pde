@@ -20,7 +20,7 @@ class DataPoint
   boolean cancelled; //– Cancelled Flight indicator (1=yes).
   boolean diverted; //– Diverted Flight indicator (1=yes).
   int distance;
-  
+
   DataPoint(int year, int month, int day, String code, int flightNumber, String origin,
     String originCity, String originState, int originWac, String dest, String destCity, String destState,
     int destWac, int CRSDepTime, int depTime, int CRSArrTime, int arrTime, boolean cancelled,
@@ -61,5 +61,4 @@ class DataPoint
       +  originState+" "+ originWac+" "+ dest+" "+  destCity+" "+  destState+" "+ destWac+" "+  CRSDepTime+" "
       +  depTime+" "+ CRSArrTime+" "+ arrTime+" "+  cancelled+" "+  diverted+" "+  distance;
   }
-
 }

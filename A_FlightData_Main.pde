@@ -1,8 +1,9 @@
 import java.util.Scanner;
 import java.io.*;
 import java.util.HashMap;
+
 //screen and UI settings::
-final int SCREENX =   1200;
+final int SCREENX = 1200;
 final int SCREENY = 1400;
 final int MARGIN = 10;
 final int OUTLINE_WIDTH = 5;
@@ -12,6 +13,8 @@ final int EVENT_BUTTON_NULL = -1;
 
 final int SCREEN_HOME = 0;  //Screen sequences
 final int SCREEN_FLIGHT = 1;
+
+PFont buttonFont2;
 
 int currentScreen;
 
@@ -27,52 +30,51 @@ ArrayList <DataPoint> dataPoints;
 BufferedReader reader;
 String line;
 HashMap<String, String> hashMap;
-//int listSize = dataPoints[0].size();
-
 
 int lineHeight = 20;
 
 void settings()
 {
-    size(SCREENX,SCREENY);
+  size(displayWidth/3, ((displayWidth)/2), P2D);
 }
-void setup() 
+
+void setup()
 {
+  //background(#8B8B8B);
   setupScreen();
   setupBtn();
-  
-  myScrollbar = new ScreenScrolling(20,100,SCREENX-25,1);
-//  scrollbarHeight = height * height / contentHeight;
+  buttonFont2 = createFont("BMHANNA11yrsoldOTF", 15);
+
+  myScrollbar = new ScreenScrolling(15, 100, (displayWidth/3)-20, 1);
+  //scrollbarHeight = height * height / contentHeight;
 
 
-//data setup::
-  dataPoints = new ArrayList<DataPoint>(); // 初始化全局的dataPoints列表
+  //data setup:
+  dataPoints = new ArrayList<DataPoint>();
   read_in_the_file();
-//data setup ends//
-
+  //data setup ends//
 }
 
 
 void draw() {
-  background(#DB6868);
-//  currentEvent = getCurrentEvent();
-  if(currentScreen == SCREEN_HOME)
- {
-   homeScreen.draw();
-   currentEvent = homeScreen.returnEvent();
-   if(currentEvent == EVENT_BUTTON_FLIGHT)
-   currentScreen = SCREEN_FLIGHT;
- }
- else if(currentScreen == SCREEN_FLIGHT)
- {
-   flightScreen.draw();
-   currentEvent = flightScreen.returnEvent();
-   if(currentEvent == EVENT_BUTTON_HOME)
-   currentScreen = SCREEN_HOME;
-   
-   printFlightData();  
+  //background(#FFCC24);
 
- }
+  //  currentEvent = getCurrentEvent();
+  if (currentScreen == SCREEN_HOME)
+  {
+    homeScreen.draw();
+    currentEvent = homeScreen.returnEvent();
+    if (currentEvent == EVENT_BUTTON_FLIGHT)
+      currentScreen = SCREEN_FLIGHT;
+  } else if (currentScreen == SCREEN_FLIGHT)
+  {
+    flightScreen.draw();
+    currentEvent = flightScreen.returnEvent();
+    if (currentEvent == EVENT_BUTTON_HOME)
+      currentScreen = SCREEN_HOME;
+
+    printFlightData();
+  }
 }
 
 
@@ -82,45 +84,47 @@ void draw() {
 //    currentEvent = homeScreen.returnEvent();
 //  else if(flightScreen.returnEvent()!=-1)
 //    currentEvent = flightScreen.returnEvent();
-    
-    
+
+
 //  return currentEvent;
 //}
 
 
 void printFlightData()
 {
-      //for (int i = 0; i < dataPoints.size(); i++) 
-    //{
-    //  text(dataPoints.get(i).getData(), 50, y);
-    //  y += lineHeight;
-    //}
-    float adapter = 2000;  // used to adapt length with slider!! Try until finding an ideal value that makes perfect length!! Need a function to automatically calculate this!!
-    float totalLength = adapter + dataPoints.size()*20;
-    float translateY = ((myScrollbar.scrollPos+myScrollbar.barHeight)/height)*totalLength;   // translating coordinate
-    float y =20+(myScrollbar.barHeight/float(height))*totalLength;  // correct start y coordinate;
-    
+  //for (int i = 0; i < dataPoints.size(); i++)
+  //{
+  //  text(dataPoints.get(i).getData(), 50, y);
+  //  y += lineHeight;
+  //}
+  PFont font = createFont("BMHANNA11yrsoldOTF", 10);
+  float adapter = 2000;  // used to adapt length with slider!! Try until finding an ideal value that makes perfect length!! Need a function to automatically calculate this!!
+  float totalLength = adapter + dataPoints.size()*20;
+  float translateY = ((myScrollbar.scrollPos+myScrollbar.barHeight)/height)*totalLength;   // translating coordinate
+  float y =20+(myScrollbar.barHeight/float(height))*totalLength;  // correct start y coordinate;
+
   translate(0, -translateY);
-//    for (int j = 0; j < 800 / 10; j++) 
-//    {
-//       line(0, j * 10, width, j * 10);
-      for (int i = 0; i < dataPoints.size() && y-translateY<=height+20; i++) 
+  //    for (int j = 0; j < 800 / 10; j++)
+  //    {
+  //       line(0, j * 10, width, j * 10);
+  for (int i = 0; i < dataPoints.size() && y-translateY<=height+20; i++)
+  {
+    if (y>=-20)                                //need better performance: one suggestion is figure out a way to directly start the loop that matters i.e. change i as scrolling down.
     {
-      if(y>=-20)                                //need better performance: one suggestion is figure out a way to directly start the loop that matters i.e. change i as scrolling down.
-      {
-       textAlign(LEFT);
-       textSize(20);
+      textAlign(LEFT);
+      textSize(10);
+      fill(255);
+      textFont(font);
       text(dataPoints.get(i).getData(), 50, y);
-      }
-      y += lineHeight;
-     }
- //   }
+    }
+    y += lineHeight;
+  }
+  //   }
   translate(0, translateY);
 
 
   myScrollbar.display();
   myScrollbar.update();
-
 }
 
 
@@ -133,8 +137,8 @@ void printFlightData()
 void mousePressed() {
   myScrollbar.mousePressed(); // Delegate mousePressed event to the scrollbar.
 }
-void mouseWheel(MouseEvent event){
-   myScrollbar.mouseWheel(event);
+void mouseWheel(MouseEvent event) {
+  myScrollbar.mouseWheel(event);
 }
 void mouseReleased() {
   myScrollbar.mouseReleased(); // Delegate mouseReleased event to the scrollbar.
@@ -265,7 +269,5 @@ void read_in_the_file()
   for (int index=0; index<dataPoints.size(); index++)
   {
     dataPoints.get(index).printData();
-    //dataPoints.get(index).displayData(5, 100);
   }
-
 }

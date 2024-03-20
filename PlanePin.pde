@@ -9,10 +9,10 @@ void setupPins()
 
 class PlanePins
 {
-  int x; int y;
+  float x; float y;
   PImage pin;
   boolean drop;
-  PlanePins(int x, int y, PImage pin)
+  PlanePins(float x, float y, PImage pin)
   {
     this.x = x ; this.y = y ; this.pin = pin;
     pin.resize(50,50);
@@ -33,17 +33,17 @@ boolean isDropped()
   return drop;
 }
 
-int getX()
+float getX()
 {
   return x;
 }
 
-int getY()
+float getY()
 {
   return y;
 }
 
-void change(int x, int y)
+void change(float x, float y)
 {
   this.x = x; this.y = y;
 }

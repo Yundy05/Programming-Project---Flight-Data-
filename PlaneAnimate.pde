@@ -30,7 +30,7 @@ void move()
   a  /= cos(atan(b/a));
   x = lerp(-a/2,a/2,progress); 
   y = -sqrt(((a/2)*(a/2)-x*x)/10);
-  line(-a/2 , 0 , a/2,0);
+//  line(-a/2 , 0 , a/2,0);
 //  y = (int)lerp(0,-(1/1.414)*a ,(-x/sqrt(2*((a/2)*(a/2) - x*x)))*progress);             //
   draw();
   

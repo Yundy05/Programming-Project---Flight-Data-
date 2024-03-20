@@ -22,10 +22,10 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   showHistogramBtn = new Button(MARGIN , MARGIN+ 2*(displayHeight - 100)/10, (displayWidth/2)/4 - 2*MARGIN, (displayHeight - 100)/20, "Histogram", #8080ff, #b3b3ff, EVENT_BUTTON_SHOWHISTOGRAM);
   
   //INDIVIDUAL FLIGHTS PAGE - Andy
-  originBtn = new Button(MARGIN, MARGIN+ 2*(displayHeight - 100)/10 , (displayWidth/2)/3 - 50, (displayHeight - 100)/20, "Origin", #8080ff, #b3b3ff, EVENT_BUTTON_ORIGIN);
-  destinationBtn = new Button(MARGIN + ((displayWidth/2)/3 - 50), MARGIN+ 2*(displayHeight - 100)/10 , (displayWidth/2)/3 - 50, (displayHeight - 100)/20, "Destination", #8080ff, #b3b3ff, EVENT_BUTTON_DESTINATION);
-  departBtn = new Button(MARGIN, MARGIN+ 2*(displayHeight)/8 , (displayWidth/2)/3 - 50, (displayHeight - 100)/20, "Departure", #8080ff, #b3b3ff, EVENT_BUTTON_DEPARTURE);
-  arrivalBtn = new Button(MARGIN + ((displayWidth/2)/3 - 50), MARGIN+ 2*(displayHeight)/8 , (displayWidth/2)/3 - 50, (displayHeight - 100)/20, "Departure", #8080ff, #b3b3ff, EVENT_BUTTON_ARRIVAL);
+  originBtn = new Button(MARGIN, MARGIN+ 2*(displayHeight)/3 , (displayWidth/2)/3 - 50, (displayHeight - 100)/20, "Origin", #8080ff, #b3b3ff, EVENT_BUTTON_ORIGIN);
+  destinationBtn = new Button(displayWidth/2 - MARGIN - (displayWidth/2)/3 + 50 , MARGIN+ 2*(displayHeight)/3 , (displayWidth/2)/3 - 50, (displayHeight - 100)/20, "Destination", #8080ff, #b3b3ff, EVENT_BUTTON_DESTINATION);
+  departBtn = new Button(MARGIN, MARGIN+ 2*(displayHeight)/4 , (displayWidth/2)/3 - 50, (displayHeight - 100)/20, "Departure", #8080ff, #b3b3ff, EVENT_BUTTON_DEPARTURE);
+  arrivalBtn = new Button(displayWidth/2 - MARGIN - (displayWidth/2)/3 + 50, MARGIN+ 2*(displayHeight)/4 , (displayWidth/2)/3 - 50, (displayHeight - 100)/20, "Arrival", #8080ff, #b3b3ff, EVENT_BUTTON_ARRIVAL);
   
   btnMain.add(destinationBtn); btnMain.add(originBtn);
   btnMain.add(dateBtn); btnMain.add(flightDataBtn); btnMain.add(homePageBtn);

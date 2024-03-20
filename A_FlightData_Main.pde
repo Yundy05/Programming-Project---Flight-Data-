@@ -151,6 +151,8 @@ switch(currentScreen)
    currentEvent = individualFlightScreen.returnEvent();
    if(currentEvent == EVENT_BUTTON_HOME)
    currentScreen = SCREEN_HOME;
+   printIndividualData(dataPoints.get((int)(random(0,1000))));
+
    break;
    default:
    break;

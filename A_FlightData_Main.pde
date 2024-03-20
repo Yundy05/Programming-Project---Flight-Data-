@@ -38,7 +38,6 @@ int currentEvent;
 final int EVENT_PRINT_DATA_FLIGHTSCREEN = 1;   // keep listing according to SCREEN order
 int flightNum = -1;       // the index for showing a flight in Individual flight screen
 //events ends//
-ScreenScrolling myScrollbar;
 ShowingData showingData;
 int count;
 
@@ -68,7 +67,6 @@ void setup()
   setupScreen();
   setupBtn();
   
-  myScrollbar = new ScreenScrolling(20,100,(displayWidth/2)-25,1);
   showingData = new ShowingData(20, 20, displayWidth/2, displayHeight - 100);  
   
 //  scrollbarHeight = height * height / contentHeight;

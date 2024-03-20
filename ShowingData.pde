@@ -5,7 +5,7 @@ class ShowingData { //new mousewheel scroll method for better screen performance
   float screenY = 0;
   float scroll = 0;
   float textHeight = 20;
-  float textLeading = 25;
+  float textLeading = 35;
   float startLine = 0; //to be implimented for scrollBar
   int endLine = 0;   //to be implimented for scrollbar
   StringList flights;
@@ -32,7 +32,7 @@ void display() {
   screen.noFill();
   screen.rect(0, 0, screen.width - 1, screen.height - 1);//my little box
   screen.textSize(20);
-  screen.fill(0);
+  screen.fill(255);
   screen.textAlign(LEFT, TOP);
   screen.textLeading(textLeading);
 

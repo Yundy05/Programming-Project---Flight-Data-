@@ -1,9 +1,39 @@
-Screen homeScreen, flightScreen;
+Screen homeScreen, flightScreen, graphScreen, individualFlightScreen;
 
 void setupScreen()
 {
-  homeScreen = new Screen(#ffd9b3, SCREEN_HOME); //Takes Hexadecimal Colour, and Int value of current page
-  flightScreen = new Screen(#ffd9b3, SCREEN_FLIGHT);
+  homeScreen = new Screen(#121212, SCREEN_HOME); //Takes Hexadecimal Colour, and Int value of current page
+  flightScreen = new Screen(#121212, SCREEN_FLIGHT);
+  graphScreen = new Screen(#121212, SCREEN_GRAPH);
+  individualFlightScreen = new doubleScreen(#121212, 255, SCREEN_INDIVIDUAL_FLIGHT , displayHeight/2);
+}
+class doubleScreen extends Screen
+{
+  
+  color screenBackground2;
+  float splitPoint;
+
+  
+  doubleScreen(color b1 , color b2 , int screenType , float p)    //second color displayed for p pixels counting from below
+  {
+    super(b1, screenType);
+    this.screenBackground2 = b2;
+    this.splitPoint = p;
+  }
+  void drawBackground()
+  {    
+    fill(screenBackground);
+    rect(0,1, displayWidth/2, displayHeight*9/10); // (x, y, width, height, outline thickness)
+    fill(screenBackground2);
+    rect(0,  displayHeight*9/10 - splitPoint , displayWidth/2 , splitPoint + 50 ,50);
+
+  }
+  void draw()
+  {
+    drawBackground();
+//    drawBackgroundOutline();
+    drawBtn();
+  }
 }
 
 class Screen
@@ -26,7 +56,7 @@ void addButton(Button button)
 
 void drawBackground()
 {
-  rect(0,1, SCREENX, SCREENY, 1); // (x, y, width, height, outline thickness)
+  rect(0,1, displayWidth/2, displayHeight - 100, 1); // (x, y, width, height, outline thickness)
   fill(screenBackground);
 }
 
@@ -34,7 +64,7 @@ void drawBackgroundOutline()
 {
   stroke(0); // Set the stroke color back to black
   strokeWeight(OUTLINE_WIDTH);
-  rect(0,0, SCREENX, SCREENY, 1); noFill();
+  rect(0,0, displayWidth/2, displayHeight - 100, 1); noFill();
 }
 int returnEvent()
 {
@@ -51,7 +81,7 @@ void drawBtn()
 {
   for(int i = 0; i<screenItems.size(); i++)
   {
-    Button button = (Button) screenItems.get(i);
+    Button button = (Button) screenItems.get(i);    
     button.display();
     button.update();
     //if(button.clicked() == EVENT_BUTTON_HOME)
@@ -72,5 +102,5 @@ void draw()
   drawBackgroundOutline();
   drawBtn();
 }
-
+  
 }

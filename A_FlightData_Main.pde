@@ -25,7 +25,7 @@ final int SCREEN_GRAPH = 2;
 final int SCREEN_INDIVIDUAL_FLIGHT = 3;
 
 float adapter;
-int currentScreen;
+int currentScreen = 3;
 
 boolean fly;
 boolean prepare;
@@ -57,7 +57,7 @@ int lineHeight = 20;
 
 void settings() //REPLACED SCREENX WITH (displayWidth/2) & SCREENY WITH (displayHeight - 100)
 {
-    size(displayWidth/2,displayHeight - 100, P2D);
+    size(displayWidth/2,displayHeight*9/10, P2D);
 }
 void setup() 
 {

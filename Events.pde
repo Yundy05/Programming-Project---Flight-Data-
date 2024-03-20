@@ -4,47 +4,48 @@ void printIndividualData(DataPoint aPoint)
 {
       //originBtn = Button(MARGIN, MARGIN+ 2*(displayHeight)/3   Reminder of coordinates  Do Not uncomment
       //departBtn = Button(MARGIN, MARGIN+ 2*(displayHeight)/4   
-
-      float buttonH = (displayHeight - 100)/20;
-      int m = 5;    // adjust stroke position to have a nicer look
-      int LM = 30;       //leftMargin for displaying texts
+      float x = displayWidth/200.0;          //unit x 
+      float y = (displayHeight*9/10)/100.0;         //unit y  
+      int m = 0;
+      int LM =0;
+      float buttonH = 5*y;
       int tR = (int)displayWidth/60;           //self adjusting texts
-      float y2 = 2*(displayHeight)/3 + m;
-      float y3 = 2*(displayHeight)/3 + 4 * buttonH;
-      float y1 = (displayHeight)/2 + m;                   //first line counting from north to south
+      
+      float y1 = 55*y;                   //first line counting from north to south
+      float y2 = 74*y ;
+
       stroke(128);
-      line(1,  y2 , displayWidth/2 , 2*(displayHeight)/3 + m);
-      line(1,  y3 , displayWidth/2 , 2*(displayHeight)/3 + 4 * buttonH);
-      line(1,  y1 , displayWidth/2 , (displayHeight)/2  + m);
+      line(1,  y2 , displayWidth/2 , y2);
+      line(1,  y1 , displayWidth/2 , y1);
       String theDepartDate = aPoint.day + "/" + aPoint.month + "/" + aPoint.year ;
       String theArriveDate = (aPoint.CRSArrTime < aPoint.CRSDepTime ? aPoint.day+1 : aPoint.day) + "/" + aPoint.month + "/" + aPoint.year;
       textAlign(LEFT);
       
       fill(128);
       textSize(tR);
-      text(theDepartDate , LM ,y1+displayWidth/20);      
+      text(theDepartDate , x ,y1+10*y);      
       
       fill(0);
       textSize(tR*1.25);
-      text(convertTo24HourFormat(aPoint.CRSDepTime) +"     "+aPoint.origin , LM , y1+displayWidth/12);
+      text(convertTo24HourFormat(aPoint.CRSDepTime) +"     "+aPoint.origin , x , y1+15*y);
       fill(#2F67DE);
-      text(eraseQuotation(aPoint.originCity),LM, y2 + displayWidth/12);
+      text(eraseQuotation(aPoint.originCity), x , y2 + 15*y);
       
       textAlign(RIGHT);   //the other half
       
       fill(128);
       textSize(tR);
-      text(theArriveDate, displayWidth/2 - LM , y1+displayWidth/20);
+      text(theArriveDate, displayWidth/2 - x , y1+10*y);
       
       fill(0);
       textSize(tR*1.25);
-      text(convertTo24HourFormat(aPoint.CRSArrTime) +"     "+aPoint.dest , displayWidth/2 - LM, y1+displayWidth/12);
+      text(convertTo24HourFormat(aPoint.CRSArrTime) +"     "+aPoint.dest , displayWidth/2 - x, y1+15*y);
       fill(#2F67DE);
-      text(eraseQuotation(aPoint.destCity),displayWidth/2-LM, y2 + displayWidth/12);
+      text(eraseQuotation(aPoint.destCity),displayWidth/2-x, y2 + 15*y);
       
-      pinOrigin.change(5*LM,(displayHeight/2)*(1.618 - 1));                      //// Golden Ratio
+      pinOrigin.change(5*x,(displayHeight/2)*(1.618 - 1));                      //// Golden Ratio
       pinOrigin.dropPin();
-      pinArrival.change(displayWidth/2 - 5*LM, (displayHeight/2)*(1.618 - 1));   // Golden Ratio
+      pinArrival.change(displayWidth/2 - 5*x, (displayHeight/2)*(1.618 - 1));   // Golden Ratio
       pinArrival.dropPin();
       airChina = new PlaneAnimate(pinOrigin.getX(),pinOrigin.getY(),pinArrival.getX(),pinArrival.getY(),planeImg);
       fly = true;
@@ -65,34 +66,34 @@ void printIndividualData(DataPoint aPoint)
         status = (#F09941);        // an ominous organge
       }
       stroke(status);
-      line(5*LM,(displayHeight/2)*(1.618 - 1),displayWidth/2 - 5*LM, (displayHeight/2)*(1.618 - 1));      //between the pins
+      line(5*x,(displayHeight/2)*(1.618 - 1),displayWidth/2 - 5*x, (displayHeight/2)*(1.618 - 1));      //between the pins
       
       fill(status); 
       if(!aPoint.cancelled && !aPoint.diverted)
       {
       textAlign(LEFT);
-      text(convertTo24HourFormat(aPoint.depTime)+" "+aPoint.origin,3*LM,  displayHeight/2.5);
+      text(convertTo24HourFormat(aPoint.depTime)+" "+aPoint.origin,3*x,  50*y);
       textAlign(RIGHT);
-      text(convertTo24HourFormat(aPoint.arrTime)+" "+aPoint.dest,displayWidth/2-3*LM , displayHeight/2.5);
+      text(convertTo24HourFormat(aPoint.arrTime)+" "+aPoint.dest,displayWidth/2-3*x , 50*y);
       textAlign(CENTER,TOP);
               if(aPoint.CRSDepTime >= aPoint.depTime && aPoint.CRSArrTime >= aPoint.arrTime)
               {                
-                text("On Time" ,displayWidth/4, (displayHeight/2)*(1.618 - 1) + 2*LM);                
+                text("On Time" ,displayWidth/4, (displayHeight/2)*(1.618 - 1) + 2*x);                
               }
               else
               {
-                text("Delayed" ,displayWidth/4, (displayHeight/2)*(1.618 - 1) + 2*LM);
+                text("Delayed" ,displayWidth/4, (displayHeight/2)*(1.618 - 1) + 2*x);
               }
       }
       else if(aPoint.cancelled)
       {
          textAlign(CENTER,TOP);
-         text("Cancelled" ,displayWidth/4, (displayHeight/2)*(1.618 - 1) + 2*LM); 
+         text("Cancelled" ,displayWidth/4, (displayHeight/2)*(1.618 - 1) + 2*x); 
       }
       else
       {
          textAlign(CENTER,TOP);
-         text("Diverted" ,displayWidth/4, (displayHeight/2)*(1.618 - 1) + 2*LM);         
+         text("Diverted" ,displayWidth/4, (displayHeight/2)*(1.618 - 1) + 2*x);         
       }
       stroke(0);
       

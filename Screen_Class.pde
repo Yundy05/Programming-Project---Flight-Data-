@@ -5,7 +5,7 @@ void setupScreen()
   homeScreen = new Screen(#121212, SCREEN_HOME); //Takes Hexadecimal Colour, and Int value of current page
   flightScreen = new Screen(#121212, SCREEN_FLIGHT);
   graphScreen = new Screen(#121212, SCREEN_GRAPH);
-  individualFlightScreen = new doubleScreen(#121212, 255, SCREEN_INDIVIDUAL_FLIGHT , displayHeight/1.65);
+  individualFlightScreen = new doubleScreen(#121212, 255, SCREEN_INDIVIDUAL_FLIGHT , displayHeight/2);
 }
 class doubleScreen extends Screen
 {
@@ -23,9 +23,9 @@ class doubleScreen extends Screen
   void drawBackground()
   {    
     fill(screenBackground);
-    rect(0,1, displayWidth/2, displayHeight - 100, 1); // (x, y, width, height, outline thickness)
+    rect(0,1, displayWidth/2, displayHeight*9/10); // (x, y, width, height, outline thickness)
     fill(screenBackground2);
-    rect(0,  displayHeight - 100 - splitPoint , displayWidth/2 , splitPoint,50);
+    rect(0,  displayHeight*9/10 - splitPoint , displayWidth/2 , splitPoint + 50 ,50);
 
   }
   void draw()

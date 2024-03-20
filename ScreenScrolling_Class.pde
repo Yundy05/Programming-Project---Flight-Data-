@@ -1,29 +1,37 @@
 class ScreenScrolling
 {
   int barWidth;
+  int barWidth2;
   int barHeight;
   int barX;
   int barY;
   float scrollPos = 0;
   boolean isDragging;
 
-  ScreenScrolling(int widthh, int heightt, int x, int y) {
+  ScreenScrolling(int widthh, int heightt, int x, int y, int widthh2) {
     this.barWidth = widthh;
     this.barHeight = heightt;
     this.barX = x;
     this.barY = y;
+
+    this.barWidth2 = widthh2;
   }
 
 
   void display()
   {
     if (isDragging) {
-    fill(#E3E3E3, 150);
-  } else {
-    fill(#E3E3E3, 100);
-  }
+      fill(#E3E3E3, 150);
+    } else {
+      fill(#E3E3E3, 100);
+    }
     noStroke();
-    rect(barX, barY + scrollPos, barWidth, barHeight, 50);
+    //rect(barX, barY + scrollPos, barWidth, barHeight, 50);
+    if (isDragging) {
+      rect(barX, barY + scrollPos, barWidth, barHeight, 50);
+    } else {
+      rect(barX + 5, barY + scrollPos, barWidth2, barHeight, 50);
+    }
   }
 
   void update()

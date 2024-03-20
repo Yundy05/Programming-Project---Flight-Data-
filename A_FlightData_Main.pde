@@ -45,7 +45,7 @@ void setup()
   setupBtn();
   buttonFont2 = createFont("BMHANNA11yrsoldOTF", 15);
 
-  myScrollbar = new ScreenScrolling(15, 100, (displayWidth/3)-20, 1);
+  myScrollbar = new ScreenScrolling(15, 100, (displayWidth/3)-20, 1, 10);
   //scrollbarHeight = height * height / contentHeight;
 
 

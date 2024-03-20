@@ -306,7 +306,7 @@ void createCharts()              //!!! Use this to create ALL the charts we need
   }
   pieChartOfDates = new PieChart(displayWidth/7,displayHeight/2, displayWidth/10,numberOfFlightsByDay,lables);
  // histogramOfDates = new Histogram(displayWidth/7, displayHeight/2 , displayHeight/10 , displayWidth/8, numberOfFlightsByDay, tableOfDates.size, 10, 10);
- histogramOfDates = new Histogram(displayWidth/3, displayHeight/2 , displayHeight/5 , displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length, 20, 5);// bug: seems that the text doesnot represent the actual values
+ histogramOfDates = new Histogram(displayWidth/7, displayHeight/7 , displayHeight/2 , displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length, 20, 5);// bug: seems that the text doesnot represent the actual values
 }
 
 ArrayList <DataPoint> getNonCancelledFlights (ArrayList <DataPoint> data)

@@ -1,6 +1,7 @@
 import java.util.Scanner; //<>//
 import java.io.*;
 import java.util.HashMap;
+import java.util.Map;
 //screen and UI settings::
 final int MARGIN = 10;
 final int OUTLINE_WIDTH = 7;
@@ -41,6 +42,7 @@ BufferedReader reader;
 String line;
 //HashMap<String, String> hashMap;
 HashTable tableOfDates = new HashTable();
+HashMap <Integer, Integer> arrDelayFreq;
 PieChart pieChartOfDates; Histogram histogramOfDates;
 //HashTable tableOfDates;
 //int listSize = dataPoints[0].size();
@@ -59,9 +61,9 @@ void setup()
   setupScreen();
   setupBtn();
   myScrollbar = new ScreenScrolling(20,100,(displayWidth/2)-25,1);
-  showingData = new ShowingData(20, 20, displayWidth/2, displayHeight - 100, myScrollbar);  
+  showingData = new ShowingData(20, 20, displayWidth/2, displayHeight - 100);  
 //  scrollbarHeight = height * height / contentHeight;
-
+  arrDelayFreq = new HashMap <Integer, Integer>();
 
 //data setup::
   dataPoints = new ArrayList<DataPoint>(); // 初始化全局的dataPoints列表
@@ -276,20 +278,35 @@ void createHashMaps()            //!!! Use this function to create ALL the HashM
 
     for (int i=0; i<dataPoints.size(); i++)
   {
-     tableOfDates.putDates(dataPoints.get(i).day, dataPoints.get(i));
+    DataPoint data = dataPoints.get(i);
+     tableOfDates.putDates(data.day, data);
+     int arrDelay = (int)(data.getArrDelay())/60;
+     arrDelayFreq.put(arrDelay, arrDelayFreq.getOrDefault(arrDelay, 0) + 1);
+        
   }
 }
 void createCharts()              //!!! Use this to create ALL the charts we need!!!               By chuan:)
 {
   int[] numberOfFlightsByDay = new int[tableOfDates.size];
+  ArrayList<Integer> numOfFlightsByArrDelay = new ArrayList<Integer>();
   String[] lables = new String[tableOfDates.size];
   for(int i=0 ; i<tableOfDates.size; i++)
   {
       numberOfFlightsByDay[i]=tableOfDates.getDataByIndex(i).size();
       lables[i] = "January "+(i+1);
   }
+  for (Map.Entry<Integer, Integer> entry : arrDelayFreq.entrySet()) 
+  {
+       numOfFlightsByArrDelay.add( entry.getValue());
+  }
+  int[] arrDelayFreqArray = new int[numOfFlightsByArrDelay.size()];
+  for (int i = 0; i < numOfFlightsByArrDelay.size(); i++) 
+  {
+       arrDelayFreqArray[i] = numOfFlightsByArrDelay.get(i);
+  }
   pieChartOfDates = new PieChart(displayWidth/7,displayHeight/2, displayWidth/10,numberOfFlightsByDay,lables);
-  histogramOfDates = new Histogram(displayWidth/7, displayHeight/2 , displayHeight/10 , displayWidth/8, numberOfFlightsByDay, tableOfDates.size, 10, 10);
+ // histogramOfDates = new Histogram(displayWidth/7, displayHeight/2 , displayHeight/10 , displayWidth/8, numberOfFlightsByDay, tableOfDates.size, 10, 10);
+ histogramOfDates = new Histogram(displayWidth/3, displayHeight/2 , displayHeight/5 , displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length, 20, 5);// bug: seems that the text doesnot represent the actual values
 }
 
 ArrayList <DataPoint> getNonCancelledFlights (ArrayList <DataPoint> data)

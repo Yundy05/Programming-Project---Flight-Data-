@@ -6,8 +6,6 @@ void printIndividualData(DataPoint aPoint)
       //departBtn = Button(MARGIN, MARGIN+ 2*(displayHeight)/4   
       float x = displayWidth/200.0;          //unit x 
       float y = (displayHeight*9/10)/100.0;         //unit y  
-      int m = 0;
-      int LM =0;
       float buttonH = 5*y;
       int tR = (int)displayWidth/60;           //self adjusting texts
       

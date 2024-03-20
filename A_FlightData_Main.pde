@@ -25,7 +25,7 @@ final int SCREEN_GRAPH = 2;
 final int SCREEN_INDIVIDUAL_FLIGHT = 3;
 
 float adapter;
-int currentScreen = 3;
+int currentScreen ;
 
 boolean fly;
 boolean prepare;

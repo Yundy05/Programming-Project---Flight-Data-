@@ -1,18 +1,18 @@
 //Andy Yu
-PlanePin pinOrigin, pinArrival;
+PlanePins pinOrigin, pinArrival;
 
 void setupPins()
 {
-  pinOrigin = new PlanePin(-1,-1,pinImg);
-  pinArrival = new PlanePin(-1,-1,pinImg);
+  pinOrigin = new PlanePins(-1,-1,pinImg);
+  pinArrival = new PlanePins(-1,-1,pinImg);
 }
 
-class PlanePin
+class PlanePins
 {
   int x; int y;
   PImage pin;
   boolean drop;
-  PlanePin(int x, int y, PImage pin)
+  PlanePins(int x, int y, PImage pin)
   {
     this.x = x ; this.y = y ; this.pin = pin;
     pin.resize(50,50);

@@ -5,10 +5,15 @@ import java.util.Map;
 //screen and UI settings::
 final int MARGIN = 10;
 final int OUTLINE_WIDTH = 7;
+final int EVENT_BUTTON_NULL = -1;
 final int EVENT_BUTTON_HOME = 0;
 final int EVENT_BUTTON_FLIGHT = 1;
-final int EVENT_BUTTON_NULL = -1;
 final int EVENT_BUTTON_TOGRAPH = 2;
+final int EVENT_BUTTON_INDIVIDUAL_FLIGHT = 3;
+final int EVENT_BUTTON_ORIGIN = 4;
+final int EVENT_BUTTON_DESTINATION = 5;
+final int EVENT_BUTTON_DEPARTURE = 6;
+final int EVENT_BUTTON_ARRIVAL = 7;
 
 final int EVENT_BUTTON_SHOWPIECHART = 11;
 final int EVENT_BUTTON_SHOWHISTOGRAM = 12;
@@ -16,6 +21,7 @@ final int EVENT_BUTTON_SHOWHISTOGRAM = 12;
 final int SCREEN_HOME = 0;  //Screen sequences
 final int SCREEN_FLIGHT = 1;
 final int SCREEN_GRAPH = 2;
+final int SCREEN_INDIVIDUAL_FLIGHT = 3;
 
 float adapter;
 int currentScreen;
@@ -93,7 +99,9 @@ switch(currentScreen)
    currentScreen = SCREEN_FLIGHT;
    else if(currentEvent == EVENT_BUTTON_TOGRAPH)
    currentScreen = SCREEN_GRAPH;
-      
+   else if(currentEvent == EVENT_BUTTON_INDIVIDUAL_FLIGHT)
+   currentScreen = SCREEN_INDIVIDUAL_FLIGHT;
+   
    if(prepare) //Andy Yu
   {
     pinOrigin.draw();
@@ -137,6 +145,12 @@ switch(currentScreen)
      histogramOfDates.drawHistogram();
    break;
    
+ case SCREEN_INDIVIDUAL_FLIGHT:
+   individualFlightScreen.draw();
+   currentEvent = individualFlightScreen.returnEvent();
+   if(currentEvent == EVENT_BUTTON_HOME)
+   currentScreen = SCREEN_HOME;
+   break;
    default:
    break;
 
@@ -231,8 +245,8 @@ void mouseClicked() //Flight For Plane AND Pins
   if(pinOrigin.isDropped() && pinArrival.isDropped())
     {
       pinOrigin.pickPin(); pinArrival.pickPin();
-      pinOrigin = new PlanePin(-1,-1,pinImg);
-      pinArrival = new PlanePin(-1,-1,pinImg);
+      pinOrigin = new PlanePins(-1,-1,pinImg);
+      pinArrival = new PlanePins(-1,-1,pinImg);
       fly = false;
     }
   if(pinOrigin.isDropped()&&!pinArrival.isDropped())

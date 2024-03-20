@@ -81,6 +81,7 @@ void setup()
 //data setup ends//
 
 //  setupDropDown();
+  GraphicsSetUp();
 }
 
 

@@ -22,7 +22,7 @@ class Histogram
     String labelX;
     String labelY;
     //plot = new GPlot(this);
-    // data array is your data collection, range is your data range, like year 6~12, 6~12 is the range
+    // data array is your data collection, range is your data range, like year 6~`12, 6~12 is the range
     Histogram(int x, int y, int gphH, int gphW, double[] data, int numOfBins, int rangeMin,
     int rangeMax, String title, String labelX, String labelY )
     {

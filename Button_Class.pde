@@ -13,17 +13,17 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   btnMain = new ArrayList<Button>();
   buttonFont = loadFont("Raanana-16.vlw");
   //MENU PAGE
-  dateBtn = new Button(MARGIN , MARGIN+ 2*(displayHeight - 100)/10, (displayWidth/2)/4 - 2*MARGIN, (displayHeight - 100)/20, "Date", #8080ff, #b3b3ff, EVENT_BUTTON_NULL);
-  flightDataBtn = new Button((displayWidth/2) - (displayWidth/2)/3, (displayHeight - 100) - 500, (displayWidth/2)/3 - 50, (displayHeight - 100)/20, "Flight Data",#8080ff, #b3b3ff, EVENT_BUTTON_FLIGHT);
-  graphBtn = new Button(displayWidth/15, (displayHeight - 100) - 500, (displayWidth/2)/3 - 50, (displayHeight - 100)/20, "GRAPHS",#8080ff, #b3b3ff, EVENT_BUTTON_TOGRAPH);
-  individualFlightBtn = new Button(displayWidth/6, displayHeight/2, (displayWidth/6), (displayHeight - 100)/20, "Individual Flights",#8080ff, #b3b3ff, EVENT_BUTTON_INDIVIDUAL_FLIGHT);
+//  dateBtn = new Button(x , MARGIN+ 2*(displayHeight - 100)/10, (displayWidth/2)/4 - 2*MARGIN, (displayHeight - 100)/20, "Date", #8080ff, #b3b3ff, EVENT_BUTTON_NULL);
+  flightDataBtn = new Button(60*x, 75*y, 30*x, 5*y, "Flight Data",#8080ff, #b3b3ff, EVENT_BUTTON_FLIGHT);
+  graphBtn = new Button(10*x, 75*y, 30*x, 5*y, "GRAPHS",#8080ff, #b3b3ff, EVENT_BUTTON_TOGRAPH);
+  individualFlightBtn = new Button(35*x, 45*y, 30*x, 5*y, "Individual Flights",#8080ff, #b3b3ff, EVENT_BUTTON_INDIVIDUAL_FLIGHT);
   
   //FLIGHT PAGE
   homePageBtn = new Button(80*x, 94*y , 15*x , 5*y, "Home",#8080ff, #b3b3ff, EVENT_BUTTON_HOME);
   
   //GRAPH PAGE
-  showPieChartBtn = new Button((displayWidth/2) - (displayWidth/2)/3, MARGIN+ 2*(displayHeight - 100)/10 , (displayWidth/2)/3 - 50, (displayHeight - 100)/20, "PieChart", #8080ff, #b3b3ff, EVENT_BUTTON_SHOWPIECHART);
-  showHistogramBtn = new Button(MARGIN , MARGIN+ 2*(displayHeight - 100)/10, (displayWidth/2)/4 - 2*MARGIN, (displayHeight - 100)/20, "Histogram", #8080ff, #b3b3ff, EVENT_BUTTON_SHOWHISTOGRAM);
+  showPieChartBtn = new Button(60*x, 20*y , 30*x, 5*y , "PieChart", #8080ff, #b3b3ff, EVENT_BUTTON_SHOWPIECHART);
+  showHistogramBtn = new Button(10*x , 20*y , 30*x , 5*y, "Histogram", #8080ff, #b3b3ff, EVENT_BUTTON_SHOWHISTOGRAM);
   
   //INDIVIDUAL FLIGHTS PAGE - Andy
   originBtn = new Button(x, 75*y , 30*x , 5*y , "Origin", #8080ff, #b3b3ff, EVENT_BUTTON_ORIGIN);

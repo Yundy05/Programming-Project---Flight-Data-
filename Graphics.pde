@@ -152,7 +152,10 @@ class Histogram
      return radians;
 
   }
-
+float roundPercentage(float n)
+{
+  return round(n*100)/100.0;
+}
   void drawPieChart()
   { 
     rectMode(CORNER);
@@ -161,8 +164,9 @@ class Histogram
     strokeWeight(5);
     rect(x- 1.5 *radius, y - 1.5*radius, radius *5, radius * 3);
     textAlign(CENTER);
-    textSize(50);
-    text(title, x- 1.5 *radius +(radius *5)/2, y - 1.5*radius+30);
+    textSize(displayWidth/60);
+    fill(255);
+    text(title, x- 1.5 *radius +(radius *5)/2, y - 1.2*radius);
     float lastRadian = 0;
     for(int i=0; i<data.length; i++)
     {
@@ -180,10 +184,12 @@ class Histogram
       float halfAngle = radians[i]/2;
       float x1 = x + radius * cos(lastRadian + halfAngle);
       float y1 = y + radius * sin(lastRadian + halfAngle);
+      x1 = (x1 + x)/2;
+      y1 = (y1 + y)/2;
       textAlign(CENTER);
       fill(255);
-      text(labels[i], x1, y1);
-      
+      text(labels[i], x1, y1);      
+      text(roundPercentage((radians[i]/(2.0*PI))*100)+"%" , x1 , y1 + displayWidth/50);
       lastRadian += radians[i];
     }
   }

@@ -30,7 +30,7 @@ int currentScreen ;
 boolean fly;
 boolean prepare;
 PImage pinImg, planeImg;
-
+PShape usa;
 //screnn and UI ends//
 
 //events related settings//
@@ -55,6 +55,7 @@ PieChart pieChartOfDates; Histogram histogramOfDates;
 int graphOption = -1;
 int lineHeight = 20;
 
+
 void settings() //REPLACED SCREENX WITH (displayWidth/2) & SCREENY WITH (displayHeight - 100)
 {
     size(displayWidth/2,displayHeight*9/10, P2D);
@@ -66,7 +67,7 @@ void setup()
   setupPins();
   setupScreen();
   setupBtn();
-  
+  usa = loadShape("Blank_US_Map_With_Labels.svg");
   showingData = new ShowingData(20, 20, displayWidth/2, displayHeight - 100);  
   
 //  scrollbarHeight = height * height / contentHeight;
@@ -157,8 +158,18 @@ switch(currentScreen)
      currentEvent = EVENT_BUTTON_NULL;
    }
    if(flightNum!=-1)
-   printIndividualData(dataPoints.get(flightNum));
-
+   {
+     background(0);
+     individualFlightScreen.drawBackground();
+     DataPoint flight = dataPoints.get(flightNum);
+     USMap map = new USMap(0,0,flight.originState,flight.destState);
+     map.draw();
+     
+     individualFlightScreen.drawBtn();
+    //individualFlightScreen.draw();
+    printIndividualData(flight);
+    
+   }
    break;
    default:
    break;

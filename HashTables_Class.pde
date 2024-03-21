@@ -55,6 +55,40 @@ public class HashTable {
         bucket.add(aDataPoint);
         
    }
+   public int hashFuncForAirport(String airport)
+   {
+     int key; int a; int b; int c;
+     a = airport.charAt(0);
+     a -= 'A';
+     b = airport.charAt(1);
+     b-='A';
+     c = airport.charAt(2);
+     c -= 'A';
+     return key = a*26*26 + b*26 + c;
+   }
+   
+   public void putAirport(DataPoint p , String s)
+   {
+     int index = hashFuncForAirport(s);     
+     if(index >=size)
+        {
+             this.size = index + 1;
+             LinkedList<DataPoint>[] newTable = new LinkedList[size];
+             for(int i=0; i < table.length ;i++)
+             {
+                 newTable[i] = table [i];
+             }
+             table = newTable;
+          for(int i = 1; i < size; i++)
+        {
+          if(table[i]==null)
+          table[i] = new LinkedList<>(); 
+        }
+        }
+        
+       LinkedList<DataPoint> bucket = table[index];
+       bucket.add(p);
+   }
     
    public int hashFuncForOrigin(DataPoint p)       // group flights by their origin city  Chuan:)
    {
@@ -129,7 +163,7 @@ public class HashTable {
        LinkedList<DataPoint> bucket = table[index];
        bucket.add(aDataPoint);
    }
-   public int getIndexFromCity(String s)       // get a index to origin-sorted or destination-sorted hashtables by city name, capitalize first letter!!!  Chuan:)
+   public int getIndexFromCity(String s)       // get a index to origin-sorted or destination-sorted hashtables by city name, capitalize first letter!!!  Chuan:)   Can't tell newark and new york
    {
      int key; int a; int b ;int c;
      a  = s.charAt(1);
@@ -144,7 +178,54 @@ public class HashTable {
      return key; 
    }
    
-  
+   public int hashFuncForWacs(int w)
+   {
+     return w;
+   }
+   public void putOriginWac(DataPoint p)
+   {
+     int index = hashFuncForWacs(p.originWac);     
+     if(index >=size)
+        {
+             this.size = index + 1;
+             LinkedList<DataPoint>[] newTable = new LinkedList[size];
+             for(int i=0; i < table.length ;i++)
+             {
+                 newTable[i] = table [i];
+             }
+             table = newTable;
+          for(int i = 1; i < size; i++)
+        {
+          if(table[i]==null)
+          table[i] = new LinkedList<>(); 
+        }
+        }
+        
+       LinkedList<DataPoint> bucket = table[index];
+       bucket.add(p);
+   }
+    public void putDestinationWac(DataPoint p)
+   {
+     int index = hashFuncForWacs(p.destWac);     
+     if(index >=size)
+        {
+             this.size = index + 1;
+             LinkedList<DataPoint>[] newTable = new LinkedList[size];
+             for(int i=0; i < table.length ;i++)
+             {
+                 newTable[i] = table [i];
+             }
+             table = newTable;
+          for(int i = 1; i < size; i++)
+        {
+          if(table[i]==null)
+          table[i] = new LinkedList<>(); 
+        }
+        }
+        
+       LinkedList<DataPoint> bucket = table[index];
+       bucket.add(p);
+   }
 }
 
   

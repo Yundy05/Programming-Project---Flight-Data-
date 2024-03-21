@@ -47,10 +47,17 @@ ArrayList <DataPoint> nonDivertedFlights;
 BufferedReader reader;
 String line;
 //HashMap<String, String> hashMap;
+
 HashTable tableOfDates = new HashTable();
 HashTable tableOfOrigin = new HashTable();
+HashTable tableOfOrigin_Wac = new HashTable();
 HashTable tableOfDestination = new HashTable();
+HashTable tableOfDestination_Wac = new HashTable();
+HashTable tableOfAirports_Origin = new HashTable();
+HashTable tableOfAirports_Dest = new HashTable();
 HashMap <Integer, Integer> arrDelayFreq;
+
+
 PieChart pieChartOfDates; Histogram histogramOfDates;
 //HashTable tableOfDates;
 //int listSize = dataPoints[0].size();
@@ -200,11 +207,11 @@ void printSortedFlightData()
 {    
     //jhy implimented a better working printing text that
     //only prints the values within the screen and not all from very top to the scrollbar
-    
+    HashTable tempT = tableOfAirports_Origin;
     showingData.display(); 
     if(count!=dataPoints.size())
     {
-     for (int i = 0; i < tableOfDates.size; i++) 
+     for (int i = 0; i < tempT.size; i++) 
     {
       LinkedList<DataPoint> temp = tableOfDates.getDataByIndex(i);
       for(int j= 0 ; j<temp.size();j++)
@@ -321,7 +328,11 @@ void createHashMaps()            //!!! Use this function to create ALL the HashM
     DataPoint data = dataPoints.get(i);
      tableOfDates.putDates(data.day, data);
      tableOfOrigin.putOrigin(data);
+     tableOfOrigin_Wac.putOriginWac(data);
      tableOfDestination.putDestination(data);
+     tableOfDestination_Wac.putDestinationWac(data);
+     tableOfAirports_Origin.putAirport(data, data.origin);
+     tableOfAirports_Dest.putAirport(data, data.dest);
      int arrDelay = (int)(data.getArrDelay())/60;
      arrDelayFreq.put(arrDelay, arrDelayFreq.getOrDefault(arrDelay, 0) + 1);
         

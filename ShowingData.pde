@@ -31,7 +31,7 @@ void display() {
   screen.background(0, 0, 0, 0);
   screen.noFill();
   screen.rect(0, 0, screen.width - 1, screen.height - 1);//my little box
-  screen.textSize(20);
+  screen.textSize(displayWidth/100);
   screen.fill(255);
   screen.textAlign(LEFT, TOP);
   screen.textLeading(textLeading);

@@ -56,17 +56,95 @@ public class HashTable {
         
    }
     
-   public int hashFuncForAirport(int x)       // currently blank   Chuan:)
+   public int hashFuncForOrigin(DataPoint p)       // group flights by their origin city  Chuan:)
    {
-     return 0; 
+     int key; int a; int b ;int c;
+     a  = p.originCity.charAt(1);
+     a -= 'A';
+     a *= 26*26;
+     b = p.originCity.charAt(2);
+     b -= 'a';
+     b *= 26;
+     c = p.originCity.charAt(3);
+     c -= 'a';
+     key = a + b + c;
+     return key; 
    }
-   public void putAirports(int key , DataPoint aDataPoint)
+   public void putOrigin(DataPoint aDataPoint)    // place flights into groups
    {
-     int index = hashFuncForAirport(key);
+     int index = hashFuncForOrigin(aDataPoint);     
+     if(index >=size)
+        {
+             this.size = index + 1;
+             LinkedList<DataPoint>[] newTable = new LinkedList[size];
+             for(int i=0; i < table.length ;i++)
+             {
+                 newTable[i] = table [i];
+             }
+             table = newTable;
+          for(int i = 1; i < size; i++)
+        {
+          if(table[i]==null)
+          table[i] = new LinkedList<>(); 
+        }
+        }
+        
        LinkedList<DataPoint> bucket = table[index];
-        bucket.add(aDataPoint);
+       bucket.add(aDataPoint);
    }
-
+   
+   public int hashFuncForDestination(DataPoint p)       // group flights by their destination
+   {
+     int key; int a; int b ;int c;
+     a  = p.destCity.charAt(1);
+     a -= 'A';
+     a *= 26*26;
+     b = p.destCity.charAt(2);
+     b -= 'a';
+     b *= 26;
+     c = p.destCity.charAt(3);
+     c -= 'a';
+     key = a + b + c;
+     return key; 
+   }
+    public void putDestination(DataPoint aDataPoint)
+   {
+     int index = hashFuncForDestination(aDataPoint);     
+     if(index >=size)
+        {
+             this.size = index + 1;
+             LinkedList<DataPoint>[] newTable = new LinkedList[size];
+             for(int i=0; i < table.length ;i++)
+             {
+                 newTable[i] = table [i];
+             }
+             table = newTable;
+          for(int i = 1; i < size; i++)
+        {
+          if(table[i]==null)
+          table[i] = new LinkedList<>(); 
+        }
+        }
+        
+       LinkedList<DataPoint> bucket = table[index];
+       bucket.add(aDataPoint);
+   }
+   public int getIndexFromCity(String s)       // get a index to origin-sorted or destination-sorted hashtables by city name, capitalize first letter!!!  Chuan:)
+   {
+     int key; int a; int b ;int c;
+     a  = s.charAt(1);
+     a -= 'A';
+     a *= 26*26;
+     b = s.charAt(2);
+     b -= 'a';
+     b *= 26;
+     c = s.charAt(3);
+     c -= 'a';
+     key = a + b + c;
+     return key; 
+   }
+   
+  
 }
 
   

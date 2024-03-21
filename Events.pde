@@ -73,6 +73,8 @@ void printIndividualData(DataPoint aPoint)
       text(convertTo24HourFormat(aPoint.depTime)+" "+aPoint.origin,3*x,  50*y);
       textAlign(RIGHT);
       text(convertTo24HourFormat(aPoint.arrTime)+" "+aPoint.dest,displayWidth/2-3*x , 50*y);
+      textAlign(CENTER,DOWN);
+      text(aPoint.distance+" miles",displayWidth/4, (displayHeight/2)*(1.618 - 1)- 5*y);
       textAlign(CENTER,TOP);
               if(aPoint.CRSDepTime >= aPoint.depTime && aPoint.CRSArrTime >= aPoint.arrTime)
               {                

@@ -48,6 +48,8 @@ BufferedReader reader;
 String line;
 //HashMap<String, String> hashMap;
 HashTable tableOfDates = new HashTable();
+HashTable tableOfOrigin = new HashTable();
+HashTable tableOfDestination = new HashTable();
 HashMap <Integer, Integer> arrDelayFreq;
 PieChart pieChartOfDates; Histogram histogramOfDates;
 //HashTable tableOfDates;
@@ -125,7 +127,8 @@ switch(currentScreen)
    currentScreen = SCREEN_HOME;
  
  //  printFlightData();  
-  printSortedFlightData();
+  //printSortedFlightData();
+  printOriginSortedFlightData();
  } break;
  
  case SCREEN_GRAPH :
@@ -194,14 +197,7 @@ switch(currentScreen)
 //}
 
 void printSortedFlightData()
-{
-//    float length = (adapter);
-//    float totalLength = 2000 + dataPoints.size()*20; //adapter + dataPoints.size()*20;
-//    float translateY = ((myScrollbar.scrollPos+myScrollbar.barHeight)/height)*totalLength;   // translating coordinate
-//    float y =20+(myScrollbar.barHeight/float(height))*totalLength;  // correct start y coordinate;
-//    float firstVisibleText = max(0, translateY / lineHeight); //checks the current first visible text correct position
-//    translate(0, -translateY);
-    
+{    
     //jhy implimented a better working printing text that
     //only prints the values within the screen and not all from very top to the scrollbar
     
@@ -211,6 +207,24 @@ void printSortedFlightData()
      for (int i = 0; i < tableOfDates.size; i++) 
     {
       LinkedList<DataPoint> temp = tableOfDates.getDataByIndex(i);
+      for(int j= 0 ; j<temp.size();j++)
+      {
+         showingData.addFlight(temp.get(j).getData());
+         count++;
+      }
+    }
+    }
+}
+void printOriginSortedFlightData()
+{    
+    //jhy implimented a better working printing text that
+    //only prints the values within the screen and not all from very top to the scrollbar
+     showingData.display(); 
+    if(count!=dataPoints.size())
+    {
+     for (int i = 0; i < tableOfOrigin.size; i++) 
+    {
+      LinkedList<DataPoint> temp = tableOfOrigin.getDataByIndex(i);
       for(int j= 0 ; j<temp.size();j++)
       {
          showingData.addFlight(temp.get(j).getData());
@@ -306,6 +320,8 @@ void createHashMaps()            //!!! Use this function to create ALL the HashM
   {
     DataPoint data = dataPoints.get(i);
      tableOfDates.putDates(data.day, data);
+     tableOfOrigin.putOrigin(data);
+     tableOfDestination.putDestination(data);
      int arrDelay = (int)(data.getArrDelay())/60;
      arrDelayFreq.put(arrDelay, arrDelayFreq.getOrDefault(arrDelay, 0) + 1);
         

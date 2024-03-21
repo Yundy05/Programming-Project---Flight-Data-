@@ -161,8 +161,9 @@ class Histogram
     strokeWeight(5);
     rect(x- 1.5 *radius, y - 1.5*radius, radius *5, radius * 3);
     textAlign(CENTER);
-    textSize(50);
-    text(title, x- 1.5 *radius +(radius *5)/2, y - 1.5*radius+30);
+    textSize(40);
+    fill(255);
+    text(title, x- 1.5 *radius +(radius *5)/2, y - 1.5*radius+50);
     float lastRadian = 0;
     for(int i=0; i<data.length; i++)
     {

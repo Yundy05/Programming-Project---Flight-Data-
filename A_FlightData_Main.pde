@@ -317,12 +317,13 @@ void createCharts()              //!!! Use this to create ALL the charts we need
 {
   int[] numberOfFlightsByDay = new int[tableOfDates.size];
   ArrayList<Integer> numOfFlightsByArrDelay = new ArrayList<Integer>();
-  String[] lables = new String[tableOfDates.size];
-  for(int i=0 ; i<tableOfDates.size; i++)
+  //String[] lables = new String[tableOfDates.size];
+ /* for(int i=0 ; i<tableOfDates.size; i++)
   {
       numberOfFlightsByDay[i]=tableOfDates.getDataByIndex(i).size();
       lables[i] = "January "+(i+1);
-  }
+  }*/
+  
   for (Map.Entry<Integer, Integer> entry : arrDelayFreq.entrySet()) 
   {
        numOfFlightsByArrDelay.add( entry.getValue());
@@ -333,6 +334,8 @@ void createCharts()              //!!! Use this to create ALL the charts we need
        arrDelayFreqArray[i] = numOfFlightsByArrDelay.get(i);
   }
   //pieChartOfDates = new PieChart(displayWidth/7,displayHeight/2, displayWidth/10,numberOfFlightsByDay,lables);
+  String[] lables = {"on time", "cancelled", "delayed", "diverted"};
+  pieChartOfDates = new PieChart(displayWidth/7,displayHeight/2, displayWidth/10,countCancelDelayDivert(dataPoints),lables,"Proportions of flights with different status");//(int x, int y, int radius, int[]data, String[] labels, String title)
  // histogramOfDates = new Histogram(displayWidth/7, displayHeight/2 , displayHeight/10 , displayWidth/8, numberOfFlightsByDay, tableOfDates.size, 10, 10);
  histogramOfDates = new Histogram(displayWidth/7, displayHeight/7 , displayHeight/2 , displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length,0,20,
   "Frequencies of arrival delay", "Arrival delay (h)", "Frequency");
@@ -361,6 +364,27 @@ void sortDataByDepDelay (ArrayList <DataPoint> data)
     Collections.sort(data, new DepDelayComparator());
 }  
 
+int[] countCancelDelayDivert(ArrayList <DataPoint> data)
+{
+  int normal=0;
+  int cancel=0;
+  int delay=0;
+  int divert=0;
+  for(int i =0;i<data.size();i++)
+  {
+    DataPoint flight = data.get(i);
+    if (flight.delayed)
+      delay++;
+    else if (flight.cancelled)
+      cancel++;
+    else if (flight.diverted)
+      divert++;
+    else
+      normal++;
+  }
+  int[] freqArray={normal, cancel,delay,divert};
+  return freqArray;
+}
 
 void read_in_the_file()
 {

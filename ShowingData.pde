@@ -108,7 +108,7 @@ void mousePressed() {
     println("is dragging");
   }
   else{
-    println("wromg");
+   // println("wrong");
   }
 }
 

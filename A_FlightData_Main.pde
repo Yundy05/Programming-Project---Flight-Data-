@@ -2,18 +2,24 @@ import java.util.Scanner; //<>//
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
+
 //screen and UI settings::
 final int MARGIN = 10;
 final int OUTLINE_WIDTH = 7;
+final int EVENT_BUTTON_FORWARD = -3;
+final int EVENT_BUTTON_BACK = -2;
 final int EVENT_BUTTON_NULL = -1;
 final int EVENT_BUTTON_HOME = 0;
 final int EVENT_BUTTON_FLIGHT = 1;
 final int EVENT_BUTTON_TOGRAPH = 2;
 final int EVENT_BUTTON_INDIVIDUAL_FLIGHT = 3;
-final int EVENT_BUTTON_ORIGIN = 4;
-final int EVENT_BUTTON_DESTINATION = 5;
-final int EVENT_BUTTON_DEPARTURE = 6;
-final int EVENT_BUTTON_ARRIVAL = 7;
+final int EVENT_BUTTON_SEARCH_PAGE = 4;
+
+final int EVENT_BUTTON_ORIGIN = 0;
+final int EVENT_BUTTON_DESTINATION = 0;
+final int EVENT_BUTTON_DEPARTURE = 0;
+final int EVENT_BUTTON_ARRIVAL = 0;
 
 final int EVENT_BUTTON_SHOWPIECHART = 11;
 final int EVENT_BUTTON_SHOWHISTOGRAM = 12;
@@ -23,6 +29,7 @@ final int SCREEN_HOME = 0;  //Screen sequences
 final int SCREEN_FLIGHT = 1;
 final int SCREEN_GRAPH = 2;
 final int SCREEN_INDIVIDUAL_FLIGHT = 3;
+final int SCREEN_SEARCH = 4;
 
 float adapter;
 int currentScreen ;
@@ -31,7 +38,11 @@ boolean fly;
 boolean prepare;
 PImage pinImg, planeImg;
 
+ArrayList<Integer> screenArrow;
+int screenHistory = -1;
+int hasScreenAdded = -1;
 //screnn and UI ends//
+
 
 //events related settings//
 int currentEvent;
@@ -59,6 +70,7 @@ void settings() //REPLACED SCREENX WITH (displayWidth/2) & SCREENY WITH (display
 {
     size(displayWidth/2,displayHeight*9/10, P2D);
 }
+
 void setup() 
 {
   pinImg = loadImage("pin.png");
@@ -81,6 +93,9 @@ void setup()
 //data setup ends//
 
 //  setupDropDown();
+
+//Screen History Arrows - Andy
+  screenArrow = new ArrayList<Integer>();
   
 }
 
@@ -88,13 +103,23 @@ void setup()
 void draw() {
   background(#DB6868);
 //  currentEvent = getCurrentEvent();
- 
+     print(screenArrow.toString());
+     println(screenHistory);
 switch(currentScreen)
 {
     case SCREEN_HOME :
  {
    homeScreen.draw();
-//   drawDropdown();
+   if(hasScreenAdded != SCREEN_HOME)
+   {
+     if(currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
+     {
+       screenArrow.add(SCREEN_HOME);
+       screenHistory++;
+     }
+     hasScreenAdded = SCREEN_HOME;
+   }
+// drawDropdown();
    currentEvent = homeScreen.returnEvent();
    if(currentEvent == EVENT_BUTTON_FLIGHT)
    currentScreen = SCREEN_FLIGHT;
@@ -102,7 +127,21 @@ switch(currentScreen)
    currentScreen = SCREEN_GRAPH;
    else if(currentEvent == EVENT_BUTTON_INDIVIDUAL_FLIGHT)
    currentScreen = SCREEN_INDIVIDUAL_FLIGHT;
+   else if(currentEvent == EVENT_BUTTON_SEARCH_PAGE)
+   currentScreen = SCREEN_SEARCH;
    
+   if(currentEvent == EVENT_BUTTON_BACK)
+   {
+     if(screenHistory > 1)
+     screenHistory--;
+     currentScreen = screenArrow.get(screenHistory);
+   }
+   else if(currentEvent == EVENT_BUTTON_FORWARD)
+   {
+      if(screenArrow.size() > screenHistory + 2)
+      screenHistory++;
+      currentScreen = screenArrow.get(screenHistory);
+   }
    if(prepare) //Andy Yu
   {
     pinOrigin.draw();
@@ -117,19 +156,65 @@ switch(currentScreen)
   
  }   break;
  
+/*
+   else if(currentEvent == EVENT_BUTTON_BACK)
+   {
+     if(screenHistory> 1)
+     currentScreen = screenArrow.get(screenHistory);
+   }
+   else if(currentEvent == EVENT_BUTTON_FORWARD)
+   {
+      if(screenArrow.size() > screenHistory)
+      currentScreen = screenArrow.get(screenHistory++);
+   }
+*/
+
  case SCREEN_FLIGHT :
  {
    flightScreen.draw();
+   
+   if(hasScreenAdded != SCREEN_FLIGHT)
+   {
+     if(currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
+     {
+       screenArrow.add(SCREEN_FLIGHT);
+       screenHistory++;
+     }
+     hasScreenAdded = SCREEN_FLIGHT;
+   }
+   
    currentEvent = flightScreen.returnEvent();
    if(currentEvent == EVENT_BUTTON_HOME)
    currentScreen = SCREEN_HOME;
- 
+   
+   if(currentEvent == EVENT_BUTTON_BACK)
+   {
+     if(screenHistory> 1)
+     screenHistory--;
+     currentScreen = screenArrow.get(screenHistory);
+   }
+   else if(currentEvent == EVENT_BUTTON_FORWARD)
+   {
+      if(screenArrow.size() > screenHistory && screenArrow.size() > 1)
+      screenHistory++;
+      currentScreen = screenArrow.get(screenHistory);
+   }
+  
  //  printFlightData();  
   printSortedFlightData();
  } break;
  
  case SCREEN_GRAPH :
    graphScreen.draw();
+   if(hasScreenAdded != SCREEN_GRAPH)
+   {
+     if(currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
+     {
+       screenArrow.add(SCREEN_GRAPH);
+       screenHistory++;
+     }
+     hasScreenAdded = SCREEN_GRAPH;
+   }
    currentEvent = graphScreen.returnEvent();
    if(currentEvent == EVENT_BUTTON_HOME)
    currentScreen = SCREEN_HOME;
@@ -140,14 +225,37 @@ switch(currentScreen)
    else if(currentEvent == EVENT_BUTTON_SHOWHISTOGRAM)
      graphOption = 2;
      
-  if(graphOption == 1)
+   if(graphOption == 1)
      pieChartOfDates.drawPieChart();
      else if(graphOption == 2)
      histogramOfDates.drawHistogram();
+   
+   if(currentEvent == EVENT_BUTTON_BACK)
+   {
+     if(screenHistory > 1)
+     screenHistory--;
+     currentScreen = screenArrow.get(screenHistory);
+   }
+   else if(currentEvent == EVENT_BUTTON_FORWARD)
+   {
+      if(screenArrow.size() > screenHistory && screenArrow.size() > 1)
+      screenHistory++;
+      currentScreen = screenArrow.get(screenHistory);
+   }
+  
    break;
    
  case SCREEN_INDIVIDUAL_FLIGHT:
    individualFlightScreen.draw();
+   if(hasScreenAdded != SCREEN_INDIVIDUAL_FLIGHT)
+   {
+     if(currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
+     {
+       screenArrow.add(SCREEN_INDIVIDUAL_FLIGHT);
+       screenHistory++;
+     }
+     hasScreenAdded = SCREEN_INDIVIDUAL_FLIGHT;
+   }
    currentEvent = individualFlightScreen.returnEvent();
    if(currentEvent == EVENT_BUTTON_HOME)
    currentScreen = SCREEN_HOME;
@@ -158,8 +266,54 @@ switch(currentScreen)
    }
    if(flightNum!=-1)
    printIndividualData(dataPoints.get(flightNum));
-
+   
+   if(currentEvent == EVENT_BUTTON_BACK)
+   {
+     if(screenHistory> 1)
+     screenHistory--;
+     currentScreen = screenArrow.get(screenHistory);
+   }
+   else if(currentEvent == EVENT_BUTTON_FORWARD)
+   {
+      if(screenArrow.size() > screenHistory && screenArrow.size() > 1)
+      screenHistory++;
+      currentScreen = screenArrow.get(screenHistory);
+   }
+  
    break;
+    
+ case SCREEN_SEARCH :
+ {
+   searchScreen.draw();
+   if(hasScreenAdded != SCREEN_SEARCH)
+   {
+     if(currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
+     {
+       screenArrow.add(SCREEN_SEARCH);
+       screenHistory++;
+     }
+     hasScreenAdded = SCREEN_SEARCH;
+   }
+   currentEvent = searchScreen.returnEvent();
+   if(currentEvent == EVENT_BUTTON_HOME)
+   currentScreen = SCREEN_HOME;
+   
+   if(currentEvent == EVENT_BUTTON_BACK)
+   {
+     if(screenHistory > 0)
+     screenHistory--;
+     currentScreen = screenArrow.get(screenHistory);
+   }
+   else if(currentEvent == EVENT_BUTTON_FORWARD)
+   {
+      if(screenArrow.size() > screenHistory)
+      screenHistory++;
+      currentScreen = screenArrow.get(screenHistory);
+   }
+  
+ } break;
+    
+
    default:
    break;
 
@@ -251,6 +405,7 @@ void mouseReleased() {
 
 void mouseClicked() //Flight For Plane AND Pins
 {
+
   if(pinOrigin.isDropped() && pinArrival.isDropped())
     {
       pinOrigin.pickPin(); pinArrival.pickPin();

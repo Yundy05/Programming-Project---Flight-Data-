@@ -147,7 +147,7 @@ switch(currentScreen)
    }
    else if(currentEvent == EVENT_BUTTON_FORWARD)
    {
-      if(screenArrow.size() > screenHistory + 2)
+      if(screenArrow.size()-1 > screenHistory && screenArrow.size() > 2)
       screenHistory++;
       currentScreen = screenArrow.get(screenHistory);
    }
@@ -204,7 +204,7 @@ switch(currentScreen)
    }
    else if(currentEvent == EVENT_BUTTON_FORWARD)
    {
-      if(screenArrow.size() > screenHistory && screenArrow.size() > 1)
+      if(screenArrow.size()-1 > screenHistory && screenArrow.size() > 2)
       screenHistory++;
       currentScreen = screenArrow.get(screenHistory);
    }
@@ -248,7 +248,7 @@ switch(currentScreen)
    }
    else if(currentEvent == EVENT_BUTTON_FORWARD)
    {
-      if(screenArrow.size() > screenHistory && screenArrow.size() > 1)
+      if(screenArrow.size()-1 > screenHistory && screenArrow.size() > 2)
       screenHistory++;
       currentScreen = screenArrow.get(screenHistory);
    }
@@ -285,7 +285,7 @@ switch(currentScreen)
    }
    else if(currentEvent == EVENT_BUTTON_FORWARD)
    {
-      if(screenArrow.size() > screenHistory && screenArrow.size() > 1)
+      if(screenArrow.size()-1 > screenHistory && screenArrow.size() > 2)
       screenHistory++;
       currentScreen = screenArrow.get(screenHistory);
    }
@@ -316,7 +316,7 @@ switch(currentScreen)
    }
    else if(currentEvent == EVENT_BUTTON_FORWARD)
    {
-      if(screenArrow.size() > screenHistory)
+      if(screenArrow.size()-1 > screenHistory && screenArrow.size() > 2)
       screenHistory++;
       currentScreen = screenArrow.get(screenHistory);
    }

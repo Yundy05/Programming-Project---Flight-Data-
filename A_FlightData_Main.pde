@@ -141,7 +141,7 @@ switch(currentScreen)
    
    if(currentEvent == EVENT_BUTTON_BACK)
    {
-     if(screenHistory > 1)
+     if(screenHistory > 0)
      screenHistory--;
      currentScreen = screenArrow.get(screenHistory);
    }
@@ -198,7 +198,7 @@ switch(currentScreen)
    
    if(currentEvent == EVENT_BUTTON_BACK)
    {
-     if(screenHistory> 1)
+     if(screenHistory > 0)
      screenHistory--;
      currentScreen = screenArrow.get(screenHistory);
    }
@@ -242,7 +242,7 @@ switch(currentScreen)
    
    if(currentEvent == EVENT_BUTTON_BACK)
    {
-     if(screenHistory > 1)
+     if(screenHistory > 0)
      screenHistory--;
      currentScreen = screenArrow.get(screenHistory);
    }
@@ -279,7 +279,7 @@ switch(currentScreen)
    
    if(currentEvent == EVENT_BUTTON_BACK)
    {
-     if(screenHistory> 1)
+     if(screenHistory > 0)
      screenHistory--;
      currentScreen = screenArrow.get(screenHistory);
    }

@@ -124,7 +124,7 @@ class Button
   color fontColor = 0;
   color buttonColor;
   
-  Button(float x, float y, float width, float height, String label, color buttonColor, color overColor, int event)
+  Button(float x, float y, float width, float height, String label, color overColor, color buttonColor, int event)
   {
     this.x = x;
     this.y = y;
@@ -132,21 +132,21 @@ class Button
     this.width = width;
     this.height = height;
     this.label = label;
-    this.notOverColor = buttonColor;
     this.overColor = overColor;
+    this.notOverColor = buttonColor;
     textFont(buttonFont);
   }
   
   void display()
   {
-    if(over== true)
+    if(over == true)
     {
-      fill(notOverColor);
+      fill(overColor);
       
     }
     else
     {
-      fill(overColor);
+      fill(notOverColor);
     }
     rect(this.x, this.y, this.width, this.height, cornerRadius);
     fill(fontColor);

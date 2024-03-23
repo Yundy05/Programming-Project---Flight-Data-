@@ -349,6 +349,7 @@ switch(currentScreen)
     
     selectScreen.draw();
     showFlightSelections(temp,dataPoints);
+    
     currentEvent = returnEventFromListOfButton(temp);
     if(currentEvent>=100)  //the flights events are allocated after 100
     {
@@ -356,6 +357,13 @@ switch(currentScreen)
       currentScreen = SCREEN_INDIVIDUAL_FLIGHT;
       print(selectedFlight);
     }
+    else if(selectScreen.returnEvent()==EVENT_BUTTON_HOME)
+    {
+      currentScreen = SCREEN_HOME;
+    }
+    
+    
+    
   }
 
    default:

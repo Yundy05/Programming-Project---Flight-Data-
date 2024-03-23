@@ -3,7 +3,7 @@ ArrayList<Button>btnControlPanel;
 PFont buttonFont;
 
 Button originBtn, destinationBtn, dateBtn, flightDataBtn, homePageBtn, graphBtn, backArrow, forwardArrow;
-Button showPieChartBtn, showHistogramBtn,  individualFlightBtn, departBtn, arrivalBtn, getFlightBtn, searchPageBtn;
+Button showPieChartBtn, showHistogramBtn,  individualFlightBtn, departBtn, arrivalBtn, getFlightBtn, searchPageBtn , toSelect;
 
 void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour, HoverColour, ButtonEvent)
 {
@@ -33,8 +33,9 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   arrivalBtn = new Button(69*x, 56*y , 30*x, 5*y, "Arrival", #8080ff, #b3b3ff, EVENT_BUTTON_ARRIVAL);
   getFlightBtn = new Button(33*x , y , 30*x, 5*y,"Get A Flight :) " , #8080ff, #b3b3ff, EVENT_GETFLIGHT);
   
-  //TEST SEACH PAGE - Andy
+  //TEST SEARCH PAGE - Andy
   searchPageBtn = new Button(35*x , 20*y , 30*x, 5*y,"Search Screen" , #8080ff, #b3b3ff, EVENT_BUTTON_SEARCH_PAGE);
+  toSelect = new Button(35*x , 40*y , 30*x , 5*y, "Select" , #8080ff, #b3b3ff, SCREEN_SELECT);
   
   //HISTORY BUTTON PAGE - ANDY
   backArrow = new Button(x , y , 3*x, 4*y,"<" , #8080ff, #b3b3ff, EVENT_BUTTON_BACK);
@@ -70,12 +71,44 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   individualFlightScreen.addButton(forwardArrow);
   
   searchScreen.addButton(homePageBtn);
+  searchScreen.addButton(toSelect);
   searchScreen.addButton(backArrow);
   searchScreen.addButton(forwardArrow);
   
-  
+  selectScreen.addButton(homePageBtn);
 }
 
+class fontChangingButton extends Button
+{  
+  color fontColor2;
+  fontChangingButton(float x, float y, float width, float height, String label, color buttonColor, color overColor, int event , color fontColor , color fontColor2)
+  {
+    super(x , y , width, height , label , buttonColor , overColor, event );
+    this.fontColor = fontColor;
+    this.fontColor2 = fontColor2;
+  }
+  void display()
+  {
+    if(over== true)
+    {
+      fill(notOverColor);
+      rect(this.x, this.y, this.width, this.height, cornerRadius);
+      fill(fontColor2);
+      textSize(28);
+      textAlign(CENTER, CENTER);
+      text(label, x + this.width/2, y + this.height/2);
+    }
+    else
+    {
+      fill(overColor);
+    rect(this.x, this.y, this.width, this.height, cornerRadius);
+    fill(fontColor);
+    textSize(28);
+    textAlign(CENTER, CENTER);
+    text(label, x + this.width/2, y + this.height/2);
+    }
+  }
+}
 
 class Button
 {

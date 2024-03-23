@@ -1,4 +1,70 @@
 
+ArrayList<Button> createSelections(ArrayList<DataPoint> theFlights)
+{
+  float y = (displayHeight*9/10)/100.0;         //unit y  
+  ArrayList<Button> flights;
+  flights = new ArrayList<Button>();
+  for(int i =0; i<10;i++)         // change into (i<theFlight.size() ) in future
+  {
+    flights.add(createButtonForFlight(theFlights.get(i),i));
+  }  
+  return flights;
+}
+void showFlightSelections( ArrayList<Button> theButtons, ArrayList<DataPoint> theFlights)
+{
+  float y = (displayHeight*9/10)/100.0;         //unit y  
+  for(int i = 0; i<10; i++)
+  {
+    Button button = (Button) theButtons.get(i);    
+    button.display();
+    button.update();
+  }
+  stroke(#FF1FA6);
+  for(int i =1; i<=10;i++)
+  {
+    line(1, i*10*y , displayWidth/2 , i*10*y);
+    fill(#FF1FA6);
+    pushMatrix();
+    translate(0,(i-1)*10*y);
+    printSimplifiedData(theFlights.get(i-1));
+    translate(0,0);
+    popMatrix();
+  }    
+}
+void printSimplifiedData(DataPoint p)
+{
+  float x = displayWidth/200.0;          //unit x 
+  float y = (displayHeight*9/10)/100.0;         //unit y  
+  textSize(1.5*TS);
+  textAlign(LEFT);
+  text(convertTo24HourFormat(p.CRSDepTime)+ " --- " +convertTo24HourFormat(p.CRSArrTime) , 4*x , 3*y );
+  textSize(TS);
+  text(eraseQuotation(p.originCity) + "--->"  + eraseQuotation(p.destCity),    4*x , 6*y);
+}
+
+Button createButtonForFlight(DataPoint p , int i)
+{
+  float x = displayWidth/200.0;          //unit x 
+  float y = (displayHeight*9/10)/100.0;         //unit y  
+  Button aButton;
+  aButton = new fontChangingButton(60*x, 2.5*y + 10*i*y, 30*x, 5*y, "LET'S GO!",#36DFFF, #BF2E2E , 100+i , 194 , 0);
+  return aButton;
+}
+
+int returnEventFromListOfButton(ArrayList<Button> buttons)
+{
+  int event = EVENT_BUTTON_NULL ;
+  for(int i = 0; i<buttons.size(); i++)
+  {
+    Button button = (Button) buttons.get(i);
+    if(button.clicked())
+    event = button.event;
+  }
+  return event;
+}
+
+
+
 
 void printIndividualData(DataPoint aPoint)
 {
@@ -6,7 +72,7 @@ void printIndividualData(DataPoint aPoint)
       //departBtn = Button(MARGIN, MARGIN+ 2*(displayHeight)/4   
       float x = displayWidth/200.0;          //unit x 
       float y = (displayHeight*9/10)/100.0;         //unit y  
-      float buttonH = 5*y;
+    //  float buttonH = 5*y;
       int tR = (int)displayWidth/60;           //self adjusting texts
       
       float y1 = 55*y;                   //first line counting from north to south

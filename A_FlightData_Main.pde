@@ -30,9 +30,11 @@ final int SCREEN_FLIGHT = 1;
 final int SCREEN_GRAPH = 2;
 final int SCREEN_INDIVIDUAL_FLIGHT = 3;
 final int SCREEN_SEARCH = 4;
+final int SCREEN_SELECT = 5;
 
 float adapter;
 int currentScreen ;
+int TS;
 
 boolean fly;
 boolean prepare;
@@ -46,8 +48,12 @@ int hasScreenAdded = -1;
 
 //events related settings//
 int currentEvent;
+int selectedFlight;                        // An index to access individual flight
 final int EVENT_PRINT_DATA_FLIGHTSCREEN = 1;   // keep listing according to SCREEN order
 int flightNum = -1;       // the index for showing a flight in Individual flight screen
+boolean flightSelected;    //used in Selection page to ensure we select flights only once before next selection
+ArrayList temp;               //temp Arraylist to store the selected flights
+
 //events ends//
 ShowingData showingData;
 int count;
@@ -87,7 +93,7 @@ void setup()
   setupPins();
   setupScreen();
   setupBtn();
-  
+  TS = int(displayWidth/60.0);  //universal text size;
   showingData = new ShowingData(20, 20, displayWidth/2, displayHeight - 100);  
   
 //  scrollbarHeight = height * height / contentHeight;
@@ -112,8 +118,8 @@ void setup()
 void draw() {
   background(#DB6868);
 //  currentEvent = getCurrentEvent();
-     print(screenArrow.toString());
-     println(screenHistory);
+  //   print(screenArrow.toString());
+  //   println(screenHistory);
 switch(currentScreen)
 {
     case SCREEN_HOME :
@@ -177,7 +183,7 @@ switch(currentScreen)
       currentScreen = screenArrow.get(screenHistory++);
    }
 */
-
+/////////////////////////////////////////////////////////////////
  case SCREEN_FLIGHT :
  {
    flightScreen.draw();
@@ -213,7 +219,7 @@ switch(currentScreen)
   //printSortedFlightData();
   printOriginSortedFlightData();
  } break;
- 
+/////////////////////////////////////////////////////////////////// 
  case SCREEN_GRAPH :
    graphScreen.draw();
    if(hasScreenAdded != SCREEN_GRAPH)
@@ -254,7 +260,7 @@ switch(currentScreen)
    }
   
    break;
-   
+ ////////////////////////////////////////////////////////////////////////////////////  
  case SCREEN_INDIVIDUAL_FLIGHT:
    individualFlightScreen.draw();
    if(hasScreenAdded != SCREEN_INDIVIDUAL_FLIGHT)
@@ -269,11 +275,15 @@ switch(currentScreen)
    currentEvent = individualFlightScreen.returnEvent();
    if(currentEvent == EVENT_BUTTON_HOME)
    currentScreen = SCREEN_HOME;
+   
    if(currentEvent == EVENT_GETFLIGHT)
    {
-     flightNum = (int)random(0,1000);
+     flightNum = (int)random(0,1000);                     //for fun
      currentEvent = EVENT_BUTTON_NULL;
    }
+   else if(currentEvent>=100)
+      flightNum = selectedFlight;                         //selected from selection screen
+      
    if(flightNum!=-1)
    printIndividualData(dataPoints.get(flightNum));
    
@@ -291,7 +301,7 @@ switch(currentScreen)
    }
   
    break;
-    
+////////////////////////////////////////////////////////////////////////////////////////    
  case SCREEN_SEARCH :
  {
    searchScreen.draw();
@@ -320,9 +330,32 @@ switch(currentScreen)
       screenHistory++;
       currentScreen = screenArrow.get(screenHistory);
    }
-  
+   else if(currentEvent == SCREEN_SELECT)
+   {
+     currentScreen = SCREEN_SELECT;
+   }
+
  } break;
+ ///////////////////////////////////////////////////////////////////////////////////////////////////////
+  case SCREEN_SELECT :
+  {
+
+    if(!flightSelected)
+    {
+      temp = createSelections(dataPoints);  //temp is a list of buttons consisting the information of the flights
+    flightSelected = true;
+    }
     
+    selectScreen.draw();
+    showFlightSelections(temp,dataPoints);
+    currentEvent = returnEventFromListOfButton(temp);
+    if(currentEvent>=100)  //the flights events are allocated after 100
+    {
+      selectedFlight = currentEvent-100;
+      currentScreen = SCREEN_INDIVIDUAL_FLIGHT;
+      print(selectedFlight);
+    }
+  }
 
    default:
    break;

@@ -26,6 +26,8 @@ class doubleScreen extends Screen
   {    
     fill(screenBackground);
     rect(0,1, displayWidth/2, displayHeight*9/10); // (x, y, width, height, outline thickness)
+    if(map!=null)
+    map.draw();
     fill(screenBackground2);
     rect(0,  displayHeight*9/10 - splitPoint , displayWidth/2 , splitPoint + 50 ,50);
 

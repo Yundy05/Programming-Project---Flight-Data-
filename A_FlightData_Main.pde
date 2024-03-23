@@ -35,11 +35,11 @@ final int SCREEN_SELECT = 5;
 float adapter;
 int currentScreen ;
 int TS;
-
+PShape usa;
 boolean fly;
 boolean prepare;
 PImage pinImg, planeImg;
-
+USMap map;
 ArrayList<Integer> screenArrow;
 int screenHistory = -1;
 int hasScreenAdded = -1;
@@ -90,6 +90,7 @@ void setup()
 {
   pinImg = loadImage("pin.png");
   planeImg = loadImage("plane.png");
+  usa = loadShape("Blank_US_Map_With_Labels.svg");
   setupPins();
   setupScreen();
   setupBtn();
@@ -285,8 +286,11 @@ switch(currentScreen)
       flightNum = selectedFlight;                         //selected from selection screen
       
    if(flightNum!=-1)
-   printIndividualData(dataPoints.get(flightNum));
-   
+   {
+     DataPoint flight = dataPoints.get(flightNum);
+     map = new USMap(0,0,flight.originState,flight.destState);
+     printIndividualData(flight);
+   }
    if(currentEvent == EVENT_BUTTON_BACK)
    {
      if(screenHistory > 0)

@@ -102,6 +102,7 @@ void setup()
 
 //data setup::
   dataPoints = new ArrayList<DataPoint>(); // 初始化全局的dataPoints列表
+  init_stateCoord();
   read_in_the_file();
   createHashMaps();
   GraphicsSetUp();
@@ -716,6 +717,24 @@ void read_in_the_file()
   //}
 
 }
+ void init_stateCoord()
+  {
+    stateCoord=new HashMap<String, double[]>();
+    double[] coord={0.034,0.136};
+    stateCoord.put("CA",coord);
+    coord=new double[]{0.065,0.022};
+    stateCoord.put("WA",coord);
+    coord=new double[]{0.05,0.058};
+    stateCoord.put("OR",coord);
+    coord=new double[]{0.098,0.074};
+    stateCoord.put("ID",coord);
+    coord=new double[]{0.07,0.118};
+    stateCoord.put("NV",coord);
+    coord=new double[]{0.114,0.13};
+    stateCoord.put("UT",coord);
+    coord=new double[]{0.105,0.186};
+    stateCoord.put("AZ",coord);
+  }
 void printDataByDepDelay(ArrayList data,boolean reversedOrder)
 {
   nonCancelledFlights=getNonCancelledFlights(data);

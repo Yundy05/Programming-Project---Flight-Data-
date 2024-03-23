@@ -1,8 +1,16 @@
+HashMap<String, double[]> stateCoord ;
 class USMap
 {
+  boolean wasPressed;//test
   PShape origin;
   PShape dest;
   float scale;
+  double originX;
+  double originY;
+  double[] originCoord;
+  double destX;
+  double destY;
+  double[] destCoord;
   int x; int y; String originState; String destState;
   USMap(int x, int y, String originState, String destState)
   {
@@ -14,7 +22,19 @@ class USMap
     dest = new PShape();
     origin = usa.getChild(originState);
     dest = usa.getChild(destState);
-    scale=displayWidth/1900;
+    scale=(float)displayWidth/2000.0;
+    if(stateCoord!=null&&stateCoord.get(originState)!=null)
+     {
+      originCoord=stateCoord.get(originState);
+      originX=originCoord[0]*displayWidth;
+      originY=originCoord[1]*displayWidth;
+     }
+     if(stateCoord!=null&&stateCoord.get(destState)!=null)
+     {
+      destCoord=stateCoord.get(destState);
+      destX=destCoord[0]*displayWidth;
+      destY=destCoord[1]*displayWidth;
+     }
   }
   void draw()
   {
@@ -24,7 +44,7 @@ class USMap
     stroke(#9BFFEA,80);
     strokeWeight(2);
     
-   // fill(255,255,255,50);
+    //fill(255,255,255,50);
  
     shape(usa, 0, 0);
     //scale(0.5);
@@ -39,16 +59,21 @@ class USMap
     //fill(#8080ff,80);
     // Draw a single state
     shape(origin, 0, 0); // Wolverines!
+    textSize(25);
+    text(originState,(float)originX,(float)originY);
+    text(destState,(float)destX,(float)destY);
     // Disable the colors found in the SVG file
     dest.disableStyle();
     // Set our own coloring
    // fill(153, 0, 0);
    // fill(#8080ff,80);
-    stroke(255);
+ //   stroke(255);
     // Draw a single state
     shape(dest, 0, 0);  // Buckeyes!
     scale(1/scale);
     stroke(0);
     strokeWeight(6);
+   
   }
+  
 }

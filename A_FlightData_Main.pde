@@ -272,7 +272,7 @@ switch(currentScreen)
      }
      hasScreenAdded = SCREEN_INDIVIDUAL_FLIGHT;
    }
-   currentEvent = individualFlightScreen.returnEvent();
+
    if(currentEvent == EVENT_BUTTON_HOME)
    currentScreen = SCREEN_HOME;
    
@@ -299,6 +299,7 @@ switch(currentScreen)
       screenHistory++;
       currentScreen = screenArrow.get(screenHistory);
    }
+      currentEvent = individualFlightScreen.returnEvent();
   
    break;
 ////////////////////////////////////////////////////////////////////////////////////////    

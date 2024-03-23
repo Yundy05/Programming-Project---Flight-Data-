@@ -81,7 +81,7 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
 class fontChangingButton extends Button
 {  
   color fontColor2;
-  fontChangingButton(float x, float y, float width, float height, String label, color buttonColor, color overColor, int event , color fontColor , color fontColor2)
+  fontChangingButton(float x, float y, float width, float height, String label, color overColor, color buttonColor, int event , color fontColor , color fontColor2)
   {
     super(x , y , width, height , label , buttonColor , overColor, event );
     this.fontColor = fontColor;

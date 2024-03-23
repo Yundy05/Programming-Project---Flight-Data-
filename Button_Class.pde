@@ -3,7 +3,7 @@ ArrayList<Button>btnControlPanel;
 PFont buttonFont;
 
 Button originBtn, destinationBtn, dateBtn, flightDataBtn, homePageBtn, graphBtn, backArrow, forwardArrow;
-Button showPieChartBtn, showHistogramBtn,  individualFlightBtn, departBtn, arrivalBtn, getFlightBtn, searchPageBtn , toSelect;
+Button showPieChartBtn, showHistogramBtn,  individualFlightBtn, departBtn, arrivalBtn, getFlightBtn, searchPageBtn , toSelect, helpBtn;
 
 void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour, HoverColour, ButtonEvent)
 {
@@ -32,7 +32,7 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   departBtn = new Button(x, 56*y , 30*x, 5*y, "Departure", #8080ff, #b3b3ff, EVENT_BUTTON_DEPARTURE);
   arrivalBtn = new Button(69*x, 56*y , 30*x, 5*y, "Arrival", #8080ff, #b3b3ff, EVENT_BUTTON_ARRIVAL);
   getFlightBtn = new Button(33*x , y , 30*x, 5*y,"Get A Flight :) " , #8080ff, #b3b3ff, EVENT_GETFLIGHT);
-  
+  helpBtn = new Button(80*x , y , 10*x, 5*y,"HELP" , #8080ff, #b3b3ff, EVENT_GETHELP);
   //TEST SEARCH PAGE - Andy
   searchPageBtn = new Button(35*x , 20*y , 30*x, 5*y,"Search Screen" , #8080ff, #b3b3ff, EVENT_BUTTON_SEARCH_PAGE);
   toSelect = new Button(35*x , 40*y , 30*x , 5*y, "Select" , #8080ff, #b3b3ff, SCREEN_SELECT);
@@ -69,6 +69,7 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   individualFlightScreen.addButton(getFlightBtn);
   individualFlightScreen.addButton(backArrow);
   individualFlightScreen.addButton(forwardArrow);
+  individualFlightScreen.addButton(helpBtn);
   
   searchScreen.addButton(homePageBtn);
   searchScreen.addButton(toSelect);

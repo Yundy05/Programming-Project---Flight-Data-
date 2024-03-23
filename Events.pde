@@ -63,7 +63,20 @@ int returnEventFromListOfButton(ArrayList<Button> buttons)
   return event;
 }
 
-
+void drawHelpingLines()
+{
+  float x = displayWidth/200.0;          //unit x 
+  float y = (displayHeight*9/10)/100.0;         //unit y  
+  for(int i = 1 ; i<=100 ; i++)
+  {
+    stroke(0);
+    strokeWeight(1);
+    if(i%5==0)
+    stroke(255,0,0);
+    line(x*i , 0 , x*i , 100*y);
+    line(0 , y*i , 100*x , y*i);
+  }
+}
 
 
 void printIndividualData(DataPoint aPoint)

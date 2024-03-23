@@ -25,6 +25,8 @@ final int EVENT_BUTTON_SHOWPIECHART = 11;
 final int EVENT_BUTTON_SHOWHISTOGRAM = 12;
 final int EVENT_GETFLIGHT = 13;
 
+final int EVENT_GETHELP = 20;
+
 final int SCREEN_HOME = 0;  //Screen sequences
 final int SCREEN_FLIGHT = 1;
 final int SCREEN_GRAPH = 2;
@@ -52,6 +54,7 @@ int selectedFlight;                        // An index to access individual flig
 final int EVENT_PRINT_DATA_FLIGHTSCREEN = 1;   // keep listing according to SCREEN order
 int flightNum = -1;       // the index for showing a flight in Individual flight screen
 boolean flightSelected;    //used in Selection page to ensure we select flights only once before next selection
+boolean helping;
 ArrayList temp;               //temp Arraylist to store the selected flights
 
 //events ends//
@@ -265,6 +268,13 @@ switch(currentScreen)
  ////////////////////////////////////////////////////////////////////////////////////  
  case SCREEN_INDIVIDUAL_FLIGHT:
    individualFlightScreen.draw();
+   if(currentEvent==EVENT_GETHELP)
+   {
+     helping = !helping;
+   }
+   if(helping)
+   drawHelpingLines();
+   
    if(hasScreenAdded != SCREEN_INDIVIDUAL_FLIGHT)
    {
      if(currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
@@ -564,7 +574,7 @@ void createCharts()              //!!! Use this to create ALL the charts we need
   String[] lables = {"on time", "cancelled", "delayed", "diverted"};
   pieChartOfDates = new PieChart(displayWidth/7,displayHeight/2, displayWidth/10,countCancelDelayDivert(dataPoints),lables,"Proportions of flights with different status");//(int x, int y, int radius, int[]data, String[] labels, String title)
  // histogramOfDates = new Histogram(displayWidth/7, displayHeight/2 , displayHeight/10 , displayWidth/8, numberOfFlightsByDay, tableOfDates.size, 10, 10);
-  histogramOfDates = new Histogram(displayWidth/50, displayHeight/4 , displayHeight/2 , displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length,0,20,
+  histogramOfDates = new Histogram(displayWidth/50, displayHeight/4 , displayHeight/2 , displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length,0,1,
   "Frequencies of arrival delay", "Arrival delay (h)", "Frequency");
  //histogramOfDates = new Histogram(displayWidth/7, displayHeight/7 , displayHeight/2 , displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length, 20, 5);// bug: seems that the text doesnot represent the actual values
 }

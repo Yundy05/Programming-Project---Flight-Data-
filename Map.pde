@@ -22,18 +22,18 @@ class USMap
     dest = new PShape();
     origin = usa.getChild(originState);
     dest = usa.getChild(destState);
-    scale=(float)displayWidth/2000.0;
+    scale=(float)displayWidth/1920.0;
     if(stateCoord!=null&&stateCoord.get(originState)!=null)
      {
       originCoord=stateCoord.get(originState);
-      originX=originCoord[0]*displayWidth;
-      originY=originCoord[1]*displayWidth;
+      originX=originCoord[0];
+      originY=originCoord[1];
      }
      if(stateCoord!=null&&stateCoord.get(destState)!=null)
      {
       destCoord=stateCoord.get(destState);
-      destX=destCoord[0]*displayWidth;
-      destY=destCoord[1]*displayWidth;
+      destX=destCoord[0];
+      destY=destCoord[1];
      }
   }
   void draw()
@@ -47,8 +47,9 @@ class USMap
     //fill(255,255,255,50);
  
     shape(usa, 0, 0);
-    //scale(0.5);
     // Disable the colors found in the SVG file
+    if(origin!=null)
+    {
     origin.disableStyle();
     // Set our own coloring
  
@@ -61,7 +62,9 @@ class USMap
     shape(origin, 0, 0); // Wolverines!
     textSize(25);
     text(originState,(float)originX,(float)originY);
-    text(destState,(float)destX,(float)destY);
+    }
+    if(dest!=null)
+    {
     // Disable the colors found in the SVG file
     dest.disableStyle();
     // Set our own coloring
@@ -70,10 +73,15 @@ class USMap
  //   stroke(255);
     // Draw a single state
     shape(dest, 0, 0);  // Buckeyes!
+    text(destState,(float)destX,(float)destY);
+    }
     scale(1/scale);
     stroke(0);
     strokeWeight(6);
-   
+    if(mousePressed)
+    {
+      println(mouseX,mouseY);
+    }
   }
   
 }

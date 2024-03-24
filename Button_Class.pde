@@ -9,13 +9,14 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   btnMain = new ArrayList<Button>();
   //buttonFont = loadFont("Raanana-16.vlw");
 
-  originBtn = new Button(MARGIN, MARGIN * 6, (displayWidth/3)/5, ((displayWidth)/2)/20, "Origin", #97f6fa, #CDF6F7, EVENT_BUTTON_NULL, 10);
-  destinationBtn = new Button((displayWidth/3)/4 - MARGIN + 25, MARGIN * 6, (displayWidth/3)/5, ((displayWidth)/2)/20, "Destination", #8080ff, #b3b3ff, EVENT_BUTTON_NULL, 10);
-  dateBtn = new Button((displayWidth/3)/4 - MARGIN + 25, 150, (displayWidth/3)/5, ((displayWidth)/2)/20, "Date", #8080ff, #b3b3ff, EVENT_BUTTON_NULL, 10);
-  //flightDataBtn = new Button(MARGIN, 200, (displayWidth/3)/5, ((displayWidth)/2)/20, "Flight Data", #ea8be8, #F74BF5, EVENT_BUTTON_FLIGHT, 10);
-  flightDataBtn = new Button(MARGIN, 150, (displayWidth/3)/5, ((displayWidth)/2)/20, "Flight Data", #F74BF5, #ea8be8, EVENT_BUTTON_FLIGHT, 10);
+  //originBtn      = new Button(MARGIN, MARGIN * 6, (displayWidth/3)/5, ((displayWidth)/2)/20, "Origin", #97f6fa, #CDF6F7, EVENT_BUTTON_NULL, 10);
+  originBtn      = new Button(MARGIN, MARGIN * 6, (displayWidth/3)/5, ((displayWidth)/2)/20, "Origin", #CDF6F7, #97f6fa, EVENT_BUTTON_NULL, 10);
+  //destinationBtn = new Button((displayWidth/3)/4 - MARGIN + 25, MARGIN * 6, (displayWidth/3)/5, ((displayWidth)/2)/20, "Destination", #8080ff, #b3b3ff, EVENT_BUTTON_NULL, 10);
+  destinationBtn = new Button((displayWidth/3)/4 - MARGIN + 25, MARGIN * 6, (displayWidth/3)/5, ((displayWidth)/2)/20, "Destination", #b3b3ff, #8080ff, EVENT_BUTTON_NULL, 10);
+  dateBtn        = new Button((displayWidth/3)/4 - MARGIN + 25, 150, (displayWidth/3)/5, ((displayWidth)/2)/20, "Date", #8080ff, #b3b3ff, EVENT_BUTTON_NULL, 10);
+  flightDataBtn  = new Button(MARGIN, 150, (displayWidth/3)/5, ((displayWidth)/2)/20, "Flight Data", #F74BF5, #ea8be8, EVENT_BUTTON_FLIGHT, 10);
 
-  homePageBtn = new Button(MARGIN, MARGIN, (displayWidth/3)/5, ((displayWidth)/2)/20, "Home", #F74BF5, #ea8be8, EVENT_BUTTON_HOME, 10);
+  homePageBtn    = new Button(MARGIN, MARGIN, (displayWidth/3)/5, ((displayWidth)/2)/20, "Home", #F74BF5, #ea8be8, EVENT_BUTTON_HOME, 10);
 
   btnMain.add(destinationBtn);
   btnMain.add(originBtn);
@@ -40,11 +41,15 @@ class Button
   boolean over = false;
   boolean wasPressed = false;    //used to activate the button only after releasing click to ensure that buttons dont fuck eachother up if they are in the same location  but on different screens
   int cornerRadius = 10;
+
   color notOverColor;
   color overColor;
-  color fontColor = 230;
+  color fontColor = 0;
   color buttonColor;
+  color currentColor;
+
   int glowSize;
+
 
   Button(int x, int y, int width, int height, String label, color buttonColor, color overColor, int event, int glowSize)
   {
@@ -56,36 +61,25 @@ class Button
     this.label = label;
     this.notOverColor = buttonColor;
     this.overColor = overColor;
-    //textFont(buttonFont);
+    this.currentColor = buttonColor;
     this.glowSize = glowSize;
   }
 
   void display()
   {
-    /*
-    if (over == true)
-     {
-     fill(notOverColor);
-     } else
-     {
-     fill(overColor);
-     }
-     rect(this.x, this.y, this.width, this.height, cornerRadius);
-     */
-
+    drawNeonEffect(x, y, width, height, over ? overColor : notOverColor, glowSize);
     fill(fontColor);
     stroke(255, 50);
     textAlign(CENTER, CENTER);
     textFont(buttonFont2);
-    text(label, x + this.width/2, y + this.height/2);
-
-    drawNeonEffect(x, y, width, height, over ? overColor : notOverColor, glowSize);
+    text(label, x + this.width/2, y + this.height/2);   
   }
 
   void drawNeonEffect(int x, int y, int w, int h, color neonColor, int glowSize) {
     int baseAlpha = 30;
     int alphaStep = baseAlpha / (glowSize / 2);
-    noFill();
+    fill(currentColor);
+
     strokeWeight(2);
     stroke(neonColor);
     rect(x, y, w, h, cornerRadius);
@@ -99,14 +93,12 @@ class Button
     }
   }
 
-  void update()
-  {
-    if (mouseX>= x && mouseX <= x+ width && mouseY >= y && mouseY <= y+height)
-    {
-      over = true;
-    } else
-    {
-      over = false;
+  void update() {
+    boolean isOver = mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
+    if (isOver) {
+      currentColor = lerpColor(currentColor, overColor, 0.4);
+    } else {
+      currentColor = lerpColor(currentColor, notOverColor, 0.4);
     }
   }
 

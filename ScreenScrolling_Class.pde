@@ -21,12 +21,11 @@ class ScreenScrolling
   void display()
   {
     if (isDragging) {
-      fill(#E3E3E3, 150);
+      fill(#E3E3E3, 180);
     } else {
-      fill(#E3E3E3, 100);
+      fill(#E3E3E3, 130);
     }
     noStroke();
-    //rect(barX, barY + scrollPos, barWidth, barHeight, 50);
     if (isDragging) {
       rect(barX, barY + scrollPos, barWidth, barHeight, 50);
     } else {

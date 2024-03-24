@@ -35,7 +35,8 @@ int lineHeight = 20;
 
 void settings()
 {
-  size(displayWidth/3, ((displayWidth)/2), P2D);
+  smooth();
+  size(displayWidth/3, ((displayWidth)/2), P2D); 
 }
 
 void setup()

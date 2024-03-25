@@ -1,6 +1,6 @@
 //Andy Yu
 PlaneAnimate airChina;
-int totalFrames = 200;
+int totalFrames = 160;
 int frameCount = 0;
 class PlaneAnimate
 {

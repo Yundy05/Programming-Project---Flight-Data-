@@ -6,6 +6,7 @@ void setupScreen()
   flightScreen = new Screen(#121212, SCREEN_FLIGHT);
   graphScreen = new Screen(#121212, SCREEN_GRAPH);
   individualFlightScreen = new doubleScreen(#121212, 255, SCREEN_INDIVIDUAL_FLIGHT, displayHeight/2);
+//  individualFlightScreen = new Screen(#121212, SCREEN_INDIVIDUAL_FLIGHT);
   searchScreen = new Screen(#121212, SCREEN_SEARCH);
   selectScreen = new Screen(#121212, SCREEN_SELECT);
 }
@@ -28,8 +29,8 @@ class doubleScreen extends Screen
     rect(0, 1, displayWidth/2, displayHeight*9/10); // (x, y, width, height, outline thickness)
     if (map!=null)
       map.draw();
-    fill(screenBackground2);
-    rect(0, displayHeight*9/10 - splitPoint, displayWidth/2, splitPoint + 50, 50);
+//    fill(screenBackground2);
+//    rect(0, displayHeight*9/10 - splitPoint, displayWidth/2, splitPoint + 50, 50);
   }
   void draw()
   {

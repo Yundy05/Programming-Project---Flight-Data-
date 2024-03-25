@@ -2,7 +2,7 @@ ArrayList<Button>btnMain;
 ArrayList<Button>btnControlPanel;
 PFont buttonFont;
 
-Button originBtn, destinationBtn, dateBtn, flightDataBtn, homePageBtn, graphBtn, backArrow, forwardArrow;
+Button originBtn, destinationBtn, dateBtn, flightDataBtn, homePageBtn, graphBtn, backArrow, forwardArrow , previousPage , nextPage;
 Button showPieChartBtn, showHistogramBtn, individualFlightBtn, departBtn, arrivalBtn, getFlightBtn, searchPageBtn, toSelect, helpBtn;
 
 void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour, HoverColour, ButtonEvent)
@@ -41,6 +41,10 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   //HISTORY BUTTON PAGE - ANDY
   backArrow = new Button(x, y, 3*x, 4*y, "<", #8080ff, #b3b3ff, EVENT_BUTTON_BACK, glowSize);
   forwardArrow = new Button(5*x, y, 3*x, 4*y, ">", #8080ff, #b3b3ff, EVENT_BUTTON_FORWARD, glowSize);
+  
+  //SELECT PAGE -CHUAN
+  nextPage = new fontChangingButton(85*x, 90*y, 5*x, 5*y, ">", #36DFFF, #BF2E2E, EVENT_BUTTON_NEXT, 194, 0, 10);
+  previousPage = new fontChangingButton(10*x, 90*y, 5*x, 5*y, "<", #36DFFF, #BF2E2E, EVENT_BUTTON_PREVIOUS, 194, 0, 10);
 
   btnMain.add(destinationBtn);
   btnMain.add(originBtn);
@@ -81,6 +85,8 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   searchScreen.addButton(forwardArrow);
 
   selectScreen.addButton(homePageBtn);
+  selectScreen.addButton(nextPage);
+  selectScreen.addButton(previousPage);
 }
 
 class fontChangingButton extends Button

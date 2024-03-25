@@ -159,7 +159,7 @@ void draw() {
         currentScreen = screenArrow.get(screenHistory);
       } else if (currentEvent == EVENT_BUTTON_FORWARD)
       {
-        if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 2)
+        if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
           screenHistory++;
         currentScreen = screenArrow.get(screenHistory);
       }
@@ -214,7 +214,7 @@ void draw() {
         currentScreen = screenArrow.get(screenHistory);
       } else if (currentEvent == EVENT_BUTTON_FORWARD)
       {
-        if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 2)
+        if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
           screenHistory++;
         currentScreen = screenArrow.get(screenHistory);
       }
@@ -257,7 +257,7 @@ void draw() {
       currentScreen = screenArrow.get(screenHistory);
     } else if (currentEvent == EVENT_BUTTON_FORWARD)
     {
-      if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 2)
+      if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
         screenHistory++;
       currentScreen = screenArrow.get(screenHistory);
     }
@@ -306,7 +306,7 @@ void draw() {
       currentScreen = screenArrow.get(screenHistory);
     } else if (currentEvent == EVENT_BUTTON_FORWARD)
     {
-      if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 2)
+      if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
         screenHistory++;
       currentScreen = screenArrow.get(screenHistory);
     }
@@ -337,7 +337,7 @@ void draw() {
         currentScreen = screenArrow.get(screenHistory);
       } else if (currentEvent == EVENT_BUTTON_FORWARD)
       {
-        if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 2)
+        if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
           screenHistory++;
         currentScreen = screenArrow.get(screenHistory);
       } else if (currentEvent == SCREEN_SELECT)
@@ -357,6 +357,15 @@ void draw() {
       }
 
       selectScreen.draw();
+      if (hasScreenAdded != SCREEN_SELECT)
+      {
+        if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
+        {
+          screenArrow.add(SCREEN_SELECT);
+          screenHistory++;
+        }
+        hasScreenAdded = SCREEN_SELECT;
+      }
       showFlightSelections(temp, dataPoints);
 
       currentEvent = returnEventFromListOfButton(temp);
@@ -368,6 +377,20 @@ void draw() {
       } else if (selectScreen.returnEvent()==EVENT_BUTTON_HOME)
       {
         currentScreen = SCREEN_HOME;
+      }
+            if (currentEvent == EVENT_BUTTON_BACK)
+      {
+        if (screenHistory > 0)
+          screenHistory--;
+        currentScreen = screenArrow.get(screenHistory);
+      } else if (currentEvent == EVENT_BUTTON_FORWARD)
+      {
+        if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
+          screenHistory++;
+        currentScreen = screenArrow.get(screenHistory);
+      } else if (currentEvent == SCREEN_SELECT)
+      {
+        currentScreen = SCREEN_SELECT;
       }
     }
 

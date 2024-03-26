@@ -57,7 +57,7 @@ void printSimplifiedData(DataPoint p)
   float y = (displayHeight*9/10)/100.0;         //unit y
   textSize(1.5*TS);
   textAlign(LEFT);
-  text(convertTo24HourFormat(p.CRSDepTime)+ " --- " +convertTo24HourFormat(p.CRSArrTime), 4*x, 3*y );
+  text(convertTo24HourFormat(p.CRSDepTime)+ " --- " +convertTo24HourFormat(p.CRSArrTime) + "         " + p.day+"/"+p.month+"/"+p.year, 4*x, 3*y );
   textSize(TS);
   text(eraseQuotation(p.originCity) + "--->"  + eraseQuotation(p.destCity), 4*x, 6*y);
 }
@@ -90,7 +90,7 @@ int returnEventFromListOfButton(ArrayList<Button> buttons)
     if (button.clicked())
     {
       event = button.event;
-      print(event);
+//      print(event);
     }
   }
   return event;
@@ -135,7 +135,7 @@ void printIndividualData(DataPoint aPoint)
   textSize(tR);
   text(theDepartDate, x, y1+10*y);
 
-  fill(0);
+  fill(192);
   textSize(tR*1.25);
   text(convertTo24HourFormat(aPoint.CRSDepTime) +"     "+aPoint.origin, x, y1+15*y);
   fill(#2F67DE);
@@ -147,7 +147,7 @@ void printIndividualData(DataPoint aPoint)
   textSize(tR);
   text(theArriveDate, displayWidth/2 - x, y1+10*y);
 
-  fill(0);
+  fill(192);
   textSize(tR*1.25);
   text(convertTo24HourFormat(aPoint.CRSArrTime) +"     "+aPoint.dest, displayWidth/2 - x, y1+15*y);
   fill(#2F67DE);

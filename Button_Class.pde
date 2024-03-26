@@ -166,16 +166,16 @@ class Button
     int alphaStep = baseAlpha / (glowSize / 2);
     fill(currentColor);
     strokeWeight(2);
-    stroke(neonColor);
+//    stroke(neonColor);
     rect(x, y, w, h, cornerRadius);
 
-    for (int i = glowSize; i >= 0; i--) {
-      int alpha = max(baseAlpha - (alphaStep * i), 0);
-      noFill();
-      stroke(neonColor, alpha);
-      strokeWeight(2 + i * 1.5);
-      rect(x - i, y - i, w + i * 2, h + i * 2, cornerRadius);
-    }
+    //for (int i = glowSize; i >= 0; i--) {
+    //  int alpha = max(baseAlpha - (alphaStep * i), 0);
+    //  noFill();
+    //  stroke(neonColor, alpha);
+    //  strokeWeight(2 + i * 1.5);
+    //  rect(x - i, y - i, w + i * 2, h + i * 2, cornerRadius);
+    //}
   }
 
   void update() {

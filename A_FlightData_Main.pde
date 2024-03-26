@@ -84,7 +84,7 @@ HashMap <Integer, Integer> arrDelayFreq;
 
 
 PieChart pieChartOfDates;
-Histogram histogramOfDates;
+Histogram histogramOfArrDelay;
 //HashTable tableOfDates;
 //int listSize = dataPoints[0].size();
 int graphOption = -1;
@@ -242,7 +242,7 @@ void draw() {
     if (graphOption == 1)
       pieChartOfDates.drawPieChart();
     else if (graphOption == 2)
-      histogramOfDates.drawHistogram();
+      histogramOfArrDelay.drawHistogram();
 
     if (currentEvent == EVENT_BUTTON_BACK)
     {
@@ -606,13 +606,15 @@ void createHashMaps()            //!!! Use this function to create ALL the HashM
     tableOfDestination_Wac.putDestinationWac(data);
     tableOfAirports_Origin.putAirport(data, data.origin);
     tableOfAirports_Dest.putAirport(data, data.dest);
-    int arrDelay = (int)(data.getArrDelay())/60;
+    int arrDelay = (int)(data.getArrDelay());
     arrDelayFreq.put(arrDelay, arrDelayFreq.getOrDefault(arrDelay, 0) + 1);
   }
 }
+
 void createCharts()              //!!! Use this to create ALL the charts we need!!!               By chuan:)
 {
   int[] numberOfFlightsByDay = new int[tableOfDates.size];
+  ArrayList<Integer> arrDelays = new ArrayList<Integer>();
   ArrayList<Integer> numOfFlightsByArrDelay = new ArrayList<Integer>();
   //String[] lables = new String[tableOfDates.size];
   /* for(int i=0 ; i<tableOfDates.size; i++)
@@ -620,23 +622,29 @@ void createCharts()              //!!! Use this to create ALL the charts we need
    numberOfFlightsByDay[i]=tableOfDates.getDataByIndex(i).size();
    lables[i] = "January "+(i+1);
    }*/
-
+  
   for (Map.Entry<Integer, Integer> entry : arrDelayFreq.entrySet())
   {
+    if(entry.getKey()>0)
+    {
+    arrDelays.add(entry.getKey());
     numOfFlightsByArrDelay.add( entry.getValue());
+    }
   }
+  int[] arrDelayArray=new int[numOfFlightsByArrDelay.size()];
   int[] arrDelayFreqArray = new int[numOfFlightsByArrDelay.size()];
   for (int i = 0; i < numOfFlightsByArrDelay.size(); i++)
   {
+    arrDelayArray[i]=arrDelays.get(i);
     arrDelayFreqArray[i] = numOfFlightsByArrDelay.get(i);
   }
   //pieChartOfDates = new PieChart(displayWidth/7,displayHeight/2, displayWidth/10,numberOfFlightsByDay,lables);
   String[] lables = {"on time", "cancelled", "delayed", "diverted"};
   pieChartOfDates = new PieChart(displayWidth/7, displayHeight/2, displayWidth/10, countCancelDelayDivert(dataPoints), lables, "Proportions of flights with different status");//(int x, int y, int radius, int[]data, String[] labels, String title)
-  // histogramOfDates = new Histogram(displayWidth/7, displayHeight/2 , displayHeight/10 , displayWidth/8, numberOfFlightsByDay, tableOfDates.size, 10, 10);
-  histogramOfDates = new Histogram(displayWidth/50, displayHeight/4, displayHeight/2, displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length, 0, 1,
-    "Frequencies of arrival delay", "Arrival delay (h)", "Frequency");
-  //histogramOfDates = new Histogram(displayWidth/7, displayHeight/7 , displayHeight/2 , displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length, 20, 5);// bug: seems that the text doesnot represent the actual values
+  // histogramOfArrDelay = new Histogram(displayWidth/7, displayHeight/2 , displayHeight/10 , displayWidth/8, numberOfFlightsByDay, tableOfDates.size, 10, 10);
+  histogramOfArrDelay = new Histogram(displayWidth/50, displayHeight/4, displayHeight/2, displayWidth/4, arrDelayArray, arrDelayFreqArray, arrDelayFreqArray.length,
+    "Frequency distribution of arrival delay", "Arrival delay (minutes)", "Frequency");
+  //histogramOfArrDelay = new Histogram(displayWidth/7, displayHeight/7 , displayHeight/2 , displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length, 20, 5);// bug: seems that the text doesnot represent the actual values
 }
 
 ArrayList <DataPoint> getNonCancelledFlights (ArrayList <DataPoint> data)

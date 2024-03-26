@@ -23,19 +23,21 @@ class Histogram
   String labelY;
 
   // data array is your data collection, range is your data range, like year 6~`12, 6~12 is the range
-  Histogram(int x, int y, int gphH, int gphW, double[] data, int numOfBins, int rangeMin,
+  Histogram(int x, int y, int gphH, int gphW, double[] data, int[]frequency, int numOfBins, int rangeMin,
     int rangeMax, String title, String labelX, String labelY )
   {
     this.x = x;
     this.y = y;
     this.gphH = gphH;
-    this.gphW = gphW;
+    this.gphW = gphW;   
     doubleToIntArray(data);
-    this.max = max(this.data);
-    this.min = min(this.data);
+    
     this.numOfBins = numOfBins;
     this.binWidth = this.gphW/ this.numOfBins;
-    this.frequency = this.data;
+    //this.frequency = this.data;
+    this.frequency=frequency;
+    this.max = max(this.frequency);
+    this.min = min(this.frequency);
     this.rangeMin = rangeMin;
     this.rangeMax = rangeMax;
     this.title = title;
@@ -43,7 +45,27 @@ class Histogram
     this.labelY = labelY;
     setupGrafica();
   }
-  Histogram(int x, int y, int gphH, int gphW, int[] data, int numOfBins, int rangeMin,
+  Histogram(int x, int y, int gphH, int gphW, int[] data, int[]frequency, int numOfBins,  String title, String labelX, String labelY )
+  {
+    this.x = x;
+    this.y = y;
+    this.gphH = gphH;
+    this.gphW = gphW;      
+    this.data=data;
+    this.numOfBins = numOfBins;
+    this.binWidth = this.gphW/ this.numOfBins;
+    //this.frequency = this.data;
+    this.frequency=frequency;
+    this.max = max(this.frequency);
+    this.min = min(this.frequency);
+    this.rangeMin = min(this.data);
+    this.rangeMax = max(this.data);
+    this.title = title;
+    this.labelX = labelX; // label for x axis
+    this.labelY = labelY;
+    setupGrafica();
+  }
+ /* Histogram(int x, int y, int gphH, int gphW, int[] data, int numOfBins, int rangeMin,
     int rangeMax, String title, String labelX, String labelY )
   {
     this.x = x;
@@ -64,7 +86,7 @@ class Histogram
     this.labelY = labelY;
     setupGrafica();
     drawHistogram();
-  }
+  }*/
   void setupGrafica()
   {
     plot.setXLim(rangeMin, rangeMax);
@@ -75,6 +97,7 @@ class Histogram
 
   void drawHistogram()
   {
+    scale(displayWidth/2100.0);
     plot.setTitleText(title);
     plot.getXAxis().setAxisLabelText(labelX);
     plot.getYAxis().setAxisLabelText(labelY);
@@ -91,12 +114,12 @@ class Histogram
     //plot.activateZooming(1.1, CENTER, CENTER);
     fill(#32348E);
 
-    for (int i=0; i<frequency.length; i++)
+    for (int i=0; i<data.length; i++)
     {
       int binHeight = (int)map(frequency[i], 0, max, 0, gphH);
-      println(binHeight);
+      //println(binHeight);
       stroke(3);
-      rect(x+90 +binWidth*i, (int)(y+gphH -binHeight +90), binWidth, (int)binHeight);
+      rect(x+90 +binWidth*data[i], (int)(y+gphH -binHeight +90), binWidth, (int)binHeight);
     }
   }
 

@@ -368,6 +368,7 @@ void draw() {
         }
         hasScreenAdded = SCREEN_SELECT;
       }
+      
       showFlightSelections(temp, dataPoints);
 
       currentEvent = returnEventFromListOfButton(temp);
@@ -435,7 +436,7 @@ void printSortedFlightData()
 {
   //jhy implimented a better working printing text that
   //only prints the values within the screen and not all from very top to the scrollbar
-  HashTable tempT = tableOfAirports_Origin;
+  HashTable tempT = tableOfOrigin;
   showingData.display();
   if (count!=dataPoints.size())
   {

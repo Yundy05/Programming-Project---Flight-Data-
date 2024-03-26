@@ -4,7 +4,7 @@ ArrayList<Button> createSelections(ArrayList<DataPoint> theFlights)
   float y = (displayHeight*9/10)/100.0;         //unit y
   ArrayList<Button> flights;
   flights = new ArrayList<Button>();
-  for (int i =0; i<1000; i++)         // change into (i<theFlight.size() ) in future
+  for (int i =0; i<theFlights.size(); i++)         // change into (i<theFlight.size() ) in future
   {
     flights.add(createButtonForFlight(theFlights.get(i), i));
   }

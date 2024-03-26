@@ -7,14 +7,15 @@ class DateCalander
   int selectedInboundDay = -1;
   int selectedOutboundDay = -1;
   int clickCount = 0;
-  float x = displayWidth/200.0;          //unit x
-  float y = (displayHeight*9/10)/100.0;    //unit y
+  float x = 2560/200.0;          //unit x
+  float y = (1600*9/10)/100.0;    //unit y
   boolean singleDateMode = false;
   int circleXPos;
   Button toSelect =  new Button(50*x, 45*y, 20*x, 4*y, "Select", #8080ff, #b3b3ff, SCREEN_SELECT, 10); //glowsize set to 10 for default use
 
 
   void display() {
+    scale(displayWidth/2560.0,displayHeight/1600.0);
     textFont(font);
     textSize(50);
     fill(255);
@@ -50,12 +51,12 @@ class DateCalander
   }
   
 void mousePressed(int mouseX, int mouseY) {
-    int clickedColumn = (int)((mouseX - int(28.5 * x)) / 80);
-    int clickedRow = (int)((mouseY - int(22 * y)) / 80);
+    int clickedColumn = (int)((mouseX*2560.0/displayWidth - int(28.5 * x)) / 80);
+    int clickedRow = (int)((mouseY*1600.0/displayHeight - int(22 * y)) / 80);
     int clickedDay = clickedRow * 7 + clickedColumn + 1;
     
-     if (mouseX > 63 * x && mouseX < 63 * x + 8* x &&
-        mouseY > 16 * y && mouseY < 16 * y + 2.5 * y) {
+     if (mouseX*2560.0/displayWidth > 63 * x && mouseX*2560.0/displayWidth < 63 * x + 8* x &&
+        mouseY*1600.0/displayHeight > 16 * y && mouseY*1600.0/displayHeight < 16 * y + 2.5 * y) {
         // Toggle the button state
         singleDateMode = !singleDateMode;
         selectedInboundDay = -1;
@@ -70,7 +71,7 @@ void mousePressed(int mouseX, int mouseY) {
         float cellStartY = 22 * y + clickedRow * 80;
         float cellEndY = cellStartY + 70;
 
-        if (mouseX >= cellStartX && mouseX <= cellEndX && mouseY >= cellStartY && mouseY <= cellEndY) {
+        if (mouseX*2560.0/displayWidth >= cellStartX &&mouseX*2560.0/displayWidth <= cellEndX && mouseY*1600.0/displayHeight >= cellStartY && mouseY*1600.0/displayHeight <= cellEndY) {
             if (singleDateMode) {
                 // In single date mode, just select the clicked day
                 selectedInboundDay = clickedDay;
@@ -147,7 +148,13 @@ boolean finalToGoSelect()
 {
     toggleSingle();
     toSelect.display();
-    toSelect.update();
+    toSelect.over = mouseX*2560.0/displayWidth >= toSelect.x && mouseX*2560.0/displayWidth <= toSelect.x + toSelect.width 
+    && mouseY*1600.0/displayHeight >= toSelect.y && mouseY*1600.0/displayHeight <= toSelect.y + toSelect.height;
+    if (toSelect.over) {
+      toSelect.currentColor = lerpColor(toSelect.currentColor, toSelect.overColor, 0.4);
+    } else {
+      toSelect.currentColor = lerpColor(toSelect.currentColor, toSelect.notOverColor, 0.4);
+    }
     if(toSelect.clicked())
     {
       return true;

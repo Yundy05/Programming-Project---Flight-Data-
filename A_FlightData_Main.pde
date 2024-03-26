@@ -355,7 +355,7 @@ void draw() {
         if(calendar.finalToGoSelect())
         {
           calendarDataPoint = new ArrayList<DataPoint> ();
-          println("to" + calendarDataPoint.size());
+          flightSelected = false;
           if(!calendar.singleDateMode)
           {
             if (calendar.selectedInboundDay > -1 && calendar.selectedOutboundDay >= calendar.selectedInboundDay) 
@@ -447,7 +447,6 @@ void draw() {
         }
         hasScreenAdded = SCREEN_SELECT;
       }
-      println("to:" + calendarDataPoint.size());
       showFlightSelections(temp, calendarDataPoint);
       currentEvent = returnEventFromListOfButton(temp);
       if (currentEvent>=100)  //the flights events are allocated after 100

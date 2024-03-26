@@ -40,6 +40,7 @@ class ScreenScrolling
       scrollPos = constrain(scrollPos, 0, height - barHeight);
     }
   }
+  
   void mouseWheel(MouseEvent event) {
     // Adjust scrollAmount based on mouse wheel movement
     if (scrollPos+barHeight>height)

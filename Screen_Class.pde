@@ -56,6 +56,11 @@ class Screen
   {
     screenItems.add(button);
   }
+  
+  void removeButton(Button button)
+  {
+    screenItems.remove(button);
+  }
 
   void drawBackground()
   {

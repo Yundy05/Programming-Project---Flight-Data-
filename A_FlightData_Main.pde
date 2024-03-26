@@ -59,6 +59,9 @@ ArrayList temp;               //temp Arraylist to store the selected flights
 
 //events ends//
 ShowingData showingData;
+DateCalander calendar;
+
+
 int count;
 
 ArrayList <DataPoint> dataPoints;
@@ -100,8 +103,8 @@ void setup()
   setupBtn();
   TS = int(displayWidth/60.0);  //universal text size;
   showingData = new ShowingData(20, 20, displayWidth/2, displayHeight - 100);
+  calendar = new DateCalander();
 
-  //  scrollbarHeight = height * height / contentHeight;
   arrDelayFreq = new HashMap <Integer, Integer>();
 
   //data setup::
@@ -315,6 +318,46 @@ void draw() {
   case SCREEN_SEARCH :
     {
       searchScreen.draw();
+      calendar.display();
+      if (calendar.isSelectionComplete()) 
+      {
+        fill(255);
+        if (calendar.singleDateMode) 
+        {
+            text("Date selected! Press \"View Flights\"  to proceed.", calendar.x * 50, calendar.y * 55);
+            int inBound = calendar.selectedInboundDay;
+        } 
+        else 
+        {
+            text("Dates selected! Press \"View Flights\" to proceed.", calendar.x * 50, calendar.y * 55);
+            int inBound = calendar.selectedInboundDay;
+            int outBound = calendar.selectedOutboundDay;
+        }
+        if(calendar.finalToGoSelect())
+        {
+          if(!calendar.singleDateMode)
+          {
+            if (calendar.selectedInboundDay > -1 && calendar.selectedOutboundDay >= calendar.selectedInboundDay) {
+        for(int day = calendar.selectedInboundDay; day <= calendar.selectedOutboundDay; day++) {
+            int index = day - 1;
+            LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
+                for (DataPoint dp : dayDataPoints) {
+                  
+                    println("Data for day " + day + ": " + dp.getData());
+                }
+            }
+        }
+          }
+        
+        currentScreen = SCREEN_SELECT;        
+        }
+//        searchScreen.addButton(toSelect);
+//      else
+//      {
+//         searchScreen.removeButton(toSelect);
+//      }
+      }
+      
       if (hasScreenAdded != SCREEN_SEARCH)
       {
         if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
@@ -326,12 +369,17 @@ void draw() {
       }
       currentEvent = searchScreen.returnEvent();
       if (currentEvent == EVENT_BUTTON_HOME)
+      {
         currentScreen = SCREEN_HOME;
-
+        calendar.selectedOutboundDay = -1;
+        calendar.selectedInboundDay = -1;
+      }
       if (currentEvent == EVENT_BUTTON_BACK)
       {
         if (screenHistory > 0)
           screenHistory--;
+        calendar.selectedOutboundDay = -1;
+        calendar.selectedInboundDay = -1;
         currentScreen = screenArrow.get(screenHistory);
       } else if (currentEvent == EVENT_BUTTON_FORWARD)
       {
@@ -476,21 +524,34 @@ void printOriginSortedFlightData()
 
 
 void mousePressed() {
-  showingData.mousePressed(); // Delegate mousePressed event to the scrollbar.
+  showingData.mousePressed();
+  if(currentScreen == 4)
+  {
+    calendar.mousePressed(mouseX, mouseY);
+  }
   //dropdown menu:
   //  mousePressedDropdown();
 }
+
 void mouseWheel(MouseEvent event) {
   if (showingData != null) {
     showingData.mouseWheel(event);
-    //    myScrollbar.mouseWheel(event);
   }
 }
 void mouseReleased() {
   showingData.mouseReleased();
-  //  myScrollbar.mouseReleased(); // Delegate mouseReleased event to the scrollbar.
 }
 
+
+void keyPressed() {
+  if (key == 'n' || key == 'N') {
+    if (calendar.isSelectionComplete()) {
+      println("Proceeding with: " + calendar.getSelectedDates());
+      // Here you would transition to the next part of your program
+    }
+  }
+}
+  
 void mouseClicked() //Flight For Plane AND Pins
 {
 

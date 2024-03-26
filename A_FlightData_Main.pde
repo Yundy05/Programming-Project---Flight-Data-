@@ -58,6 +58,9 @@ int flightNum = -1;       // the index for showing a flight in Individual flight
 boolean flightSelected;    //used in Selection page to ensure we select flights only once before next selection
 boolean helping;
 ArrayList temp;               //temp Arraylist to store the selected flights
+//  String lists for dropdown menu
+ArrayList<String> cities = new ArrayList<String>();
+ArrayList<String> airports = new ArrayList<String>();
 
 //events ends//
 ShowingData showingData;
@@ -116,6 +119,29 @@ void setup()
   //data setup ends//
 
   //  setupDropDown();
+  for(int i=0 ; i<tableOfOrigin_Wac.size ; i++)
+  {
+    if(tableOfOrigin_Wac.getDataByIndex(i).size()!=0)
+    {
+       for(int j=0; j<tableOfOrigin_Wac.getDataByIndex(i).size() ; j++)
+       {  
+         if(!duplicateValue(cities , eraseQuotation(tableOfOrigin_Wac.getDataByIndex(i).get(j).originCity)))
+         cities.add(eraseQuotation(tableOfOrigin_Wac.getDataByIndex(i).get(j).originCity));
+       }      
+    }
+  }
+    for(int i=0 ; i<tableOfAirports_Origin.size ; i++)
+  {
+    if(tableOfAirports_Origin.getDataByIndex(i).size()!=0)
+    {
+     
+         airports.add(eraseQuotation(tableOfAirports_Origin.getDataByIndex(i).get(0).origin));
+    
+    }
+  }
+  println(cities);
+  print(airports);
+
 
   //Screen History Arrows - Andy
   screenArrow = new ArrayList<Integer>();
@@ -222,8 +248,8 @@ void draw() {
       }
 
       //  printFlightData();
-      //printSortedFlightData();
-      printOriginSortedFlightData();
+      printSortedFlightData();
+      //printOriginSortedFlightData();
     }
     break;
     ///////////////////////////////////////////////////////////////////
@@ -284,7 +310,7 @@ void draw() {
       }
       hasScreenAdded = SCREEN_INDIVIDUAL_FLIGHT;
     }
-
+ 
     if (currentEvent == EVENT_BUTTON_HOME)
       currentScreen = SCREEN_HOME;
 
@@ -436,13 +462,13 @@ void printSortedFlightData()
 {
   //jhy implimented a better working printing text that
   //only prints the values within the screen and not all from very top to the scrollbar
-  HashTable tempT = tableOfOrigin;
+  HashTable tempT = tableOfDestination_Wac;
   showingData.display();
   if (count!=dataPoints.size())
   {
     for (int i = 0; i < tempT.size; i++)
     {
-      LinkedList<DataPoint> temp = tableOfDates.getDataByIndex(i);
+      LinkedList<DataPoint> temp = tempT.getDataByIndex(i);
       for (int j= 0; j<temp.size(); j++)
       {
         showingData.addFlight(temp.get(j).getData());

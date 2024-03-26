@@ -111,6 +111,16 @@ void drawHelpingLines()
   }
 }
 
+boolean duplicateValue(ArrayList<String> stringList , String s)
+{
+  boolean result = false;
+  for(int i = 0; i<stringList.size() ; i++)
+  {
+    if(stringList.get(i).equals(s))
+    result = true;
+  }
+  return result;
+}
 
 void printIndividualData(DataPoint aPoint)
 {
@@ -204,7 +214,7 @@ void printIndividualData(DataPoint aPoint)
   }
   stroke(0);
 }
-String eraseQuotation (String aString)
+public String eraseQuotation (String aString)
 {
   if (aString.length() >= 2 && aString.charAt(0) == '"' && aString.charAt(aString.length() - 1) == '"') {
     return aString.substring(1, aString.length() - 1);            // Return the string without the first and last characters (quotation marks)

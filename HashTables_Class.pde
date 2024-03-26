@@ -108,7 +108,10 @@ public class HashTable {
     c -= 'a';
     key = a + b + c;
     return key;
-  }
+  }    // To store the hash value.
+
+  
+ 
   public void putOrigin(DataPoint aDataPoint)    // place flights into groups
   {
     int index = hashFuncForOrigin(aDataPoint);
@@ -211,7 +214,7 @@ public class HashTable {
           table[i] = new LinkedList<>();
       }
     }
-
+    
     LinkedList<DataPoint> bucket = table[index];
     bucket.add(p);
   }

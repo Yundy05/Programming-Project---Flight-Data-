@@ -3,6 +3,7 @@ class DateCalander
   PFont font = loadFont("Raanana-16.vlw");
   int year = 2020;
   int month = 0; //january
+  int amountOfDays;
   int totalDays = 31;
   int selectedInboundDay = -1;
   int selectedOutboundDay = -1;
@@ -11,8 +12,12 @@ class DateCalander
   float y = (1600*9/10)/100.0;    //unit y
   boolean singleDateMode = false;
   int circleXPos;
+  ArrayList dp = new ArrayList<>();
   Button toSelect =  new Button(50*x, 45*y, 20*x, 4*y, "Select", #8080ff, #b3b3ff, SCREEN_SELECT, 10); //glowsize set to 10 for default use
-
+  DateCalander(int amountOfDays)
+  {
+    this.amountOfDays = amountOfDays;
+  }
 
   void display() {
     scale(displayWidth/2560.0,displayHeight/1600.0);
@@ -38,7 +43,13 @@ class DateCalander
         strokeWeight(2);
         fill(200);
       }
-      else {
+      else if(i + 1 > amountOfDays)
+      {
+        strokeWeight(0);
+        fill(120);
+      }
+      else
+      {
         strokeWeight(1);
         fill(255);
       }
@@ -65,7 +76,7 @@ void mousePressed(int mouseX, int mouseY) {
     }
 
 
-    if (clickedDay > 0 && clickedDay <= totalDays) {
+    if (clickedDay > 0 && clickedDay <= amountOfDays) {
         float cellStartX = 28.5 * x + clickedColumn * 80;
         float cellEndX = cellStartX + 70;
         float cellStartY = 22 * y + clickedRow * 80;

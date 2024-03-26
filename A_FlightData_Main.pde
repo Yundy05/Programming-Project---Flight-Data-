@@ -104,9 +104,6 @@ void setup()
   setupScreen();
   setupBtn();
   TS = int(displayWidth/60.0);  //universal text size;
-  showingData = new ShowingData(20, 20, displayWidth/2, displayHeight - 100);
-  calendar = new DateCalander();
-
   arrDelayFreq = new HashMap <Integer, Integer>();
 
   //data setup::
@@ -118,6 +115,8 @@ void setup()
   createCharts();
   //data setup ends//
 
+  showingData = new ShowingData(20, 20, displayWidth/2, displayHeight - 100);
+  calendar = new DateCalander(tableOfDates.size);
   //  setupDropDown();
 
   //Screen History Arrows - Andy
@@ -130,8 +129,8 @@ void setup()
 void draw() {
   background(#DB6868);
   //  currentEvent = getCurrentEvent();
-     print(screenArrow.toString());
-     println(screenHistory);
+  //   print(screenArrow.toString());
+  //   println(screenHistory);
   switch(currentScreen)
   {
   case SCREEN_HOME :
@@ -333,18 +332,19 @@ void draw() {
         {
           if(!calendar.singleDateMode)
           {
-            if (calendar.selectedInboundDay > -1 && calendar.selectedOutboundDay >= calendar.selectedInboundDay) {
-        for(int day = calendar.selectedInboundDay; day <= calendar.selectedOutboundDay; day++) {
-            int index = day - 1;
-            LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
-                for (DataPoint dp : dayDataPoints) {
-                  
-                    println("Data for day " + day + ": " + dp.getData());
+            if (calendar.selectedInboundDay > -1 && calendar.selectedOutboundDay >= calendar.selectedInboundDay) 
+            {
+              for(int day = calendar.selectedInboundDay; day <= calendar.selectedOutboundDay; day++) 
+              {
+                int index = day - 1;
+                LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
+                for (int j= 0; j< dayDataPoints.size(); j++)
+                {
+                  calendar.dp.add(dayDataPoints.get(j).getData());
                 }
+              }
             }
-        }
-          }
-        
+          } 
         currentScreen = SCREEN_SELECT;        
         }
 //        searchScreen.addButton(toSelect);
@@ -394,7 +394,7 @@ void draw() {
 
       if (!flightSelected)
       {
-        temp = createSelections(dataPoints);  //temp is a list of buttons consisting the information of the flights
+        temp = createSelections(calendar.dp);  //temp is a list of buttons consisting the information of the flights
         flightSelected = true;
       }
 
@@ -540,16 +540,6 @@ void mouseWheel(MouseEvent event) {
 }
 void mouseReleased() {
   showingData.mouseReleased();
-}
-
-
-void keyPressed() {
-  if (key == 'n' || key == 'N') {
-    if (calendar.isSelectionComplete()) {
-      println("Proceeding with: " + calendar.getSelectedDates());
-      // Here you would transition to the next part of your program
-    }
-  }
 }
   
 void mouseClicked() //Flight For Plane AND Pins

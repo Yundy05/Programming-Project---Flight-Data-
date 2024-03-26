@@ -137,7 +137,8 @@ void draw() {
   {
   case SCREEN_HOME :
     {
-      homeScreen.draw(); homeScreen.drawLogo();
+      homeScreen.draw(); 
+      homeScreen.drawLogo();
       if (hasScreenAdded != SCREEN_HOME)
       {
         if (currentEvent != EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
@@ -368,7 +369,8 @@ void draw() {
       }
 
       selectScreen.draw();
-      if (hasScreenAdded != SCREEN_SELECT)
+      
+       if (hasScreenAdded != SCREEN_SELECT)
       {
         if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
         {
@@ -377,18 +379,18 @@ void draw() {
         }
         hasScreenAdded = SCREEN_SELECT;
       }
+      
       showFlightSelections(temp, dataPoints);
-
+      
       currentEvent = returnEventFromListOfButton(temp);
+      
       if (currentEvent>=100)  //the flights events are allocated after 100
       {
         selectedFlight = currentEvent-100;
         currentScreen = SCREEN_INDIVIDUAL_FLIGHT;
         print(selectedFlight);
-      } else if (selectScreen.returnEvent()==EVENT_BUTTON_HOME)
-      {
-        currentScreen = SCREEN_HOME;
-      }
+      } 
+      
       if (currentEvent == EVENT_BUTTON_BACK)
       {
         if (screenHistory > 0)

@@ -422,6 +422,7 @@ void draw() {
         currentScreen = screenArrow.get(screenHistory);
       } else if (currentEvent == SCREEN_SELECT)
       {
+        currentPage = 0;
         currentScreen = SCREEN_SELECT;
       }
     }

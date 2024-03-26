@@ -41,10 +41,11 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   //HISTORY BUTTON PAGE - ANDY
   backArrow = new Button(x, y, 3*x, 4*y, "<", #8080ff, #b3b3ff, EVENT_BUTTON_BACK, glowSize);
   forwardArrow = new Button(5*x, y, 3*x, 4*y, ">", #8080ff, #b3b3ff, EVENT_BUTTON_FORWARD, glowSize);
-
-
   
-  
+  //SELECT PAGE -CHUAN
+  nextPage = new fontChangingButton(85*x, 90*y, 5*x, 5*y, ">", #36DFFF, #BF2E2E, EVENT_BUTTON_NEXT, 194, 0, 10);
+  previousPage = new fontChangingButton(10*x, 90*y, 5*x, 5*y, "<", #36DFFF, #BF2E2E, EVENT_BUTTON_PREVIOUS, 194, 0, 10);
+
   btnMain.add(destinationBtn);
   btnMain.add(originBtn);
   btnMain.add(dateBtn);
@@ -83,6 +84,8 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
 //  searchScreen.addButton(toSelect);
   searchScreen.addButton(forwardArrow);
   selectScreen.addButton(homePageBtn);
+  selectScreen.addButton(nextPage);
+  selectScreen.addButton(previousPage);
 }
 
 class fontChangingButton extends Button
@@ -162,16 +165,16 @@ class Button
     int alphaStep = baseAlpha / (glowSize / 2);
     fill(currentColor);
     strokeWeight(2);
-    stroke(neonColor);
+//    stroke(neonColor);
     rect(x, y, w, h, cornerRadius);
 
-    for (int i = glowSize; i >= 0; i--) {
-      int alpha = max(baseAlpha - (alphaStep * i), 0);
-      noFill();
-      stroke(neonColor, alpha);
-      strokeWeight(2 + i * 1.5);
-      rect(x - i, y - i, w + i * 2, h + i * 2, cornerRadius);
-    }
+    //for (int i = glowSize; i >= 0; i--) {
+    //  int alpha = max(baseAlpha - (alphaStep * i), 0);
+    //  noFill();
+    //  stroke(neonColor, alpha);
+    //  strokeWeight(2 + i * 1.5);
+    //  rect(x - i, y - i, w + i * 2, h + i * 2, cornerRadius);
+    //}
   }
 
   void update() {

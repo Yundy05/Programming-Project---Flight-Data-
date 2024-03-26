@@ -15,6 +15,8 @@ final int EVENT_BUTTON_FLIGHT = 1;
 final int EVENT_BUTTON_TOGRAPH = 2;
 final int EVENT_BUTTON_INDIVIDUAL_FLIGHT = 3;
 final int EVENT_BUTTON_SEARCH_PAGE = 4;
+final int EVENT_BUTTON_NEXT = 9;
+final int EVENT_BUTTON_PREVIOUS = 10;
 
 final int EVENT_BUTTON_ORIGIN = 0;
 final int EVENT_BUTTON_DESTINATION = 0;
@@ -120,6 +122,8 @@ void setup()
 
   //Screen History Arrows - Andy
   screenArrow = new ArrayList<Integer>();
+  //Searching Bar
+  //setupSB();
 }
 
 
@@ -443,6 +447,9 @@ void draw() {
   default:
     break;
   }
+  
+  //searching Bar
+  //drawSB();
 }
 
 

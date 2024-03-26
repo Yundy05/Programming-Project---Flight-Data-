@@ -153,8 +153,8 @@ void setup()
 void draw() {
   background(#DB6868);
   //  currentEvent = getCurrentEvent();
-  //   print(screenArrow.toString());
-  //   println(screenHistory);
+     print(screenArrow.toString());
+     println(screenHistory);
   switch(currentScreen)
   {
   case SCREEN_HOME :
@@ -190,16 +190,6 @@ void draw() {
         if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
           screenHistory++;
         currentScreen = screenArrow.get(screenHistory);
-      }
-      if (prepare) //Andy Yu
-      {
-        pinOrigin.draw();
-      }
-      if (fly)
-      {
-        pinOrigin.draw();
-        pinArrival.draw();
-        airChina.fly();
       }
     }
     break;
@@ -310,7 +300,8 @@ void draw() {
       }
       hasScreenAdded = SCREEN_INDIVIDUAL_FLIGHT;
     }
- 
+
+  
     if (currentEvent == EVENT_BUTTON_HOME)
       currentScreen = SCREEN_HOME;
 
@@ -327,6 +318,7 @@ void draw() {
       map = new USMap(0, 0, flight.originState, flight.destState);
       printIndividualData(flight);
     }
+    currentEvent = individualFlightScreen.returnEvent();
     if (currentEvent == EVENT_BUTTON_BACK)
     {
       if (screenHistory > 0)
@@ -338,7 +330,7 @@ void draw() {
         screenHistory++;
       currentScreen = screenArrow.get(screenHistory);
     }
-    currentEvent = individualFlightScreen.returnEvent();
+    
 
     break;
     ////////////////////////////////////////////////////////////////////////////////////////

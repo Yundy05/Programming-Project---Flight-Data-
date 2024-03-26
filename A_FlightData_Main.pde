@@ -613,7 +613,6 @@ boolean isDouble(String s)
 
 void createHashMaps()            //!!! Use this function to create ALL the HashMaps we need for furthur data support!!!       By Chuan:)
 {
-
   for (int i=0; i<dataPoints.size(); i++)
   {
     DataPoint data = dataPoints.get(i);

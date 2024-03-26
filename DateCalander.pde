@@ -75,7 +75,7 @@ void mousePressed(int mouseX, int mouseY) {
                 // In single date mode, just select the clicked day
                 selectedInboundDay = clickedDay;
                 selectedOutboundDay = -1; // default
-                clickCount = 1; // You might adjust or remove the click count logic depending on your needs
+                clickCount = 1; 
             } else {
                 // Existing logic for range selection
                 if (clickCount == 0 || clickCount == 2) {
@@ -87,7 +87,7 @@ void mousePressed(int mouseX, int mouseY) {
                         selectedOutboundDay = clickedDay;
                         clickCount = 2;
                     } else {
-                        selectedInboundDay = clickedDay; // Optional: Adjust based on desired behavior for invalid selection
+                        selectedInboundDay = clickedDay;
                         clickCount = 1;
                     }
                 }

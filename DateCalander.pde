@@ -21,7 +21,7 @@ class DateCalander
     text("January", 50 * x, 10 * y);
     textSize(40);
     rect(25 * x, 12 * y, 50 * x, 40 * y, 35);
-    textSize(30);
+    textSize(2 * x);
     fill(0);
     text("Toggle Single", 67 * x, 14 * y);
     textSize(40);
@@ -42,9 +42,9 @@ class DateCalander
         fill(255);
       }
       stroke(0);
-      rect(xPos, yPos, 70, 70);
+      rect(xPos, yPos, 5* x, 5* x);
       fill(0);
-      text(i + 1, xPos + 35, yPos + 30);
+      text(i + 1, xPos + 2.5 * x, yPos + 2* y);
     }
     toggleSingle();
   }

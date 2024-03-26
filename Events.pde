@@ -18,7 +18,9 @@ void showFlightSelections( ArrayList<Button> theButtons, ArrayList<DataPoint> th
   float y = (displayHeight*9/10)/100.0;         //unit y
   int maxPages = theButtons.size()/flightsPerPage + 1;   //maximum pages. Won't do anything if pressing button beyong range
   currentEvent = selectScreen.returnEvent();
-    if(currentEvent == EVENT_BUTTON_NEXT)
+    if (currentEvent == EVENT_BUTTON_HOME)
+      currentScreen = SCREEN_HOME;
+    else if(currentEvent == EVENT_BUTTON_NEXT)
     {
       if(currentPage<maxPages-1)
       currentPage++;

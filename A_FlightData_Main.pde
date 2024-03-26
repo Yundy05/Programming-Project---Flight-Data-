@@ -64,11 +64,15 @@ ArrayList<String> airports = new ArrayList<String>();
 
 //events ends//
 ShowingData showingData;
+DateCalander calendar;
+
+
 int count;
 
 ArrayList <DataPoint> dataPoints;
 ArrayList <DataPoint> nonCancelledFlights;
 ArrayList <DataPoint> nonDivertedFlights;
+ArrayList <DataPoint> calendarDataPoint;
 BufferedReader reader;
 String line;
 //HashMap<String, String> hashMap;
@@ -104,9 +108,6 @@ void setup()
   setupScreen();
   setupBtn();
   TS = int(displayWidth/60.0);  //universal text size;
-  showingData = new ShowingData(20, 20, displayWidth/2, displayHeight - 100);
-
-  //  scrollbarHeight = height * height / contentHeight;
   arrDelayFreq = new HashMap <Integer, Integer>();
 
   //data setup::
@@ -118,6 +119,8 @@ void setup()
   createCharts();
   //data setup ends//
 
+  showingData = new ShowingData(20, 20, displayWidth/2, displayHeight - 100);
+  calendar = new DateCalander(tableOfDates.size);
   //  setupDropDown();
   for(int i=0 ; i<tableOfOrigin_Wac.size ; i++)
   {
@@ -153,8 +156,8 @@ void setup()
 void draw() {
   background(#DB6868);
   //  currentEvent = getCurrentEvent();
-     print(screenArrow.toString());
-     println(screenHistory);
+  //   print(screenArrow.toString());
+  //   println(screenHistory);
   switch(currentScreen)
   {
   case SCREEN_HOME :
@@ -314,7 +317,7 @@ void draw() {
 
     if (flightNum!=-1)
     {
-      DataPoint flight = dataPoints.get(flightNum);
+      DataPoint flight = calendarDataPoint.get(flightNum);
       map = new USMap(0, 0, flight.originState, flight.destState);
       printIndividualData(flight);
     }
@@ -337,6 +340,58 @@ void draw() {
   case SCREEN_SEARCH :
     {
       searchScreen.draw();
+      calendar.display();
+      if (calendar.isSelectionComplete()) 
+      {
+        fill(255);
+        if (calendar.singleDateMode) 
+        {
+            text("Date selected! Press \"View Flights\"  to proceed.", calendar.x * 50, calendar.y * 55);
+        } 
+        else 
+        {
+            text("Dates selected! Press \"View Flights\" to proceed.", calendar.x * 50, calendar.y * 55);
+        }
+        if(calendar.finalToGoSelect())
+        {
+          calendarDataPoint = new ArrayList<DataPoint> ();
+          println("to" + calendarDataPoint.size());
+          if(!calendar.singleDateMode)
+          {
+            if (calendar.selectedInboundDay > -1 && calendar.selectedOutboundDay >= calendar.selectedInboundDay) 
+            {
+              for(int day = calendar.selectedInboundDay; day <= calendar.selectedOutboundDay; day++) 
+              {
+                int index = day - 1;
+                LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
+                for (int j= 0; j< dayDataPoints.size(); j++)
+                {
+                  calendarDataPoint.add(dayDataPoints.get(j));
+                }
+              }
+            }
+          }
+          else
+          {
+             for(int day = calendar.selectedInboundDay; day <= calendar.selectedInboundDay; day++) 
+              {
+                int index = day - 1;
+                LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
+                for (int j= 0; j< dayDataPoints.size(); j++)
+                {
+                  calendarDataPoint.add(dayDataPoints.get(j));
+                }
+              }
+          }
+        currentScreen = SCREEN_SELECT;        
+        }
+//        searchScreen.addButton(toSelect);
+//      else
+//      {
+//         searchScreen.removeButton(toSelect);
+//      }
+      }
+      
       if (hasScreenAdded != SCREEN_SEARCH)
       {
         if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
@@ -348,12 +403,17 @@ void draw() {
       }
       currentEvent = searchScreen.returnEvent();
       if (currentEvent == EVENT_BUTTON_HOME)
+      {
         currentScreen = SCREEN_HOME;
-
+        calendar.selectedOutboundDay = -1;
+        calendar.selectedInboundDay = -1;
+      }
       if (currentEvent == EVENT_BUTTON_BACK)
       {
         if (screenHistory > 0)
           screenHistory--;
+        calendar.selectedOutboundDay = -1;
+        calendar.selectedInboundDay = -1;
         currentScreen = screenArrow.get(screenHistory);
       } else if (currentEvent == EVENT_BUTTON_FORWARD)
       {
@@ -372,7 +432,8 @@ void draw() {
 
       if (!flightSelected)
       {
-        temp = createSelections(dataPoints);  //temp is a list of buttons consisting the information of the flights
+        temp = createSelections(calendarDataPoint);  //temp is a list of buttons consisting the information of the flights
+        
         flightSelected = true;
       }
 
@@ -386,9 +447,8 @@ void draw() {
         }
         hasScreenAdded = SCREEN_SELECT;
       }
-      
-      showFlightSelections(temp, dataPoints);
-
+      println("to:" + calendarDataPoint.size());
+      showFlightSelections(temp, calendarDataPoint);
       currentEvent = returnEventFromListOfButton(temp);
       if (currentEvent>=100)  //the flights events are allocated after 100
       {
@@ -502,21 +562,24 @@ void printOriginSortedFlightData()
 
 
 void mousePressed() {
-  showingData.mousePressed(); // Delegate mousePressed event to the scrollbar.
+  showingData.mousePressed();
+  if(currentScreen == 4)
+  {
+    calendar.mousePressed(mouseX, mouseY);
+  }
   //dropdown menu:
   //  mousePressedDropdown();
 }
+
 void mouseWheel(MouseEvent event) {
   if (showingData != null) {
     showingData.mouseWheel(event);
-    //    myScrollbar.mouseWheel(event);
   }
 }
 void mouseReleased() {
   showingData.mouseReleased();
-  //  myScrollbar.mouseReleased(); // Delegate mouseReleased event to the scrollbar.
 }
-
+  
 void mouseClicked() //Flight For Plane AND Pins
 {
 
@@ -571,7 +634,6 @@ boolean isDouble(String s)
 
 void createHashMaps()            //!!! Use this function to create ALL the HashMaps we need for furthur data support!!!       By Chuan:)
 {
-
   for (int i=0; i<dataPoints.size(); i++)
   {
     DataPoint data = dataPoints.get(i);

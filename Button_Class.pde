@@ -36,7 +36,7 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   helpBtn = new Button(80*x, y, 10*x, 5*y, "HELP", #8080ff, #b3b3ff, EVENT_GETHELP, glowSize);
   //TEST SEARCH PAGE - Andy
   searchPageBtn = new Button(35*x, 20*y, 30*x, 5*y, "Search Screen", #8080ff, #b3b3ff, EVENT_BUTTON_SEARCH_PAGE, glowSize);
-  toSelect = new Button(35*x, 40*y, 30*x, 5*y, "Select", #8080ff, #b3b3ff, SCREEN_SELECT, glowSize);
+  toSelect = new Button(50*x, 50*y, 30*x, 5*y, "Select", #8080ff, #b3b3ff, SCREEN_SELECT, glowSize);
 
   //HISTORY BUTTON PAGE - ANDY
   backArrow = new Button(x, y, 3*x, 4*y, "<", #8080ff, #b3b3ff, EVENT_BUTTON_BACK, glowSize);
@@ -80,10 +80,9 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   individualFlightScreen.addButton(helpBtn);
 
   searchScreen.addButton(homePageBtn);
-  searchScreen.addButton(toSelect);
   searchScreen.addButton(backArrow);
+//  searchScreen.addButton(toSelect);
   searchScreen.addButton(forwardArrow);
-
   selectScreen.addButton(homePageBtn);
   selectScreen.addButton(nextPage);
   selectScreen.addButton(previousPage);

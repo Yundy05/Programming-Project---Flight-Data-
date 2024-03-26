@@ -12,7 +12,7 @@ class DateCalander
   float y = (1600*9/10)/100.0;    //unit y
   boolean singleDateMode = false;
   int circleXPos;
-  ArrayList dp = new ArrayList<>();
+  ArrayList<DataPoint> dp = new ArrayList <DataPoint> ();
   Button toSelect =  new Button(50*x, 45*y, 20*x, 4*y, "Select", #8080ff, #b3b3ff, SCREEN_SELECT, 10); //glowsize set to 10 for default use
   DateCalander(int amountOfDays)
   {

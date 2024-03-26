@@ -69,6 +69,7 @@ int count;
 ArrayList <DataPoint> dataPoints;
 ArrayList <DataPoint> nonCancelledFlights;
 ArrayList <DataPoint> nonDivertedFlights;
+ArrayList <DataPoint> calendarDataPoint;
 BufferedReader reader;
 String line;
 //HashMap<String, String> hashMap;
@@ -215,7 +216,7 @@ void draw() {
 
       //  printFlightData();
       //printSortedFlightData();
-      printOriginSortedFlightData();
+     // printOriginSortedFlightData();
     }
     break;
     ///////////////////////////////////////////////////////////////////
@@ -290,7 +291,7 @@ void draw() {
 
     if (flightNum!=-1)
     {
-      DataPoint flight = dataPoints.get(flightNum);
+      DataPoint flight = calendarDataPoint.get(flightNum);
       map = new USMap(0, 0, flight.originState, flight.destState);
       printIndividualData(flight);
     }
@@ -320,16 +321,15 @@ void draw() {
         if (calendar.singleDateMode) 
         {
             text("Date selected! Press \"View Flights\"  to proceed.", calendar.x * 50, calendar.y * 55);
-            int inBound = calendar.selectedInboundDay;
         } 
         else 
         {
             text("Dates selected! Press \"View Flights\" to proceed.", calendar.x * 50, calendar.y * 55);
-            int inBound = calendar.selectedInboundDay;
-            int outBound = calendar.selectedOutboundDay;
         }
         if(calendar.finalToGoSelect())
         {
+          calendarDataPoint = new ArrayList<DataPoint> ();
+          println("to" + calendarDataPoint.size());
           if(!calendar.singleDateMode)
           {
             if (calendar.selectedInboundDay > -1 && calendar.selectedOutboundDay >= calendar.selectedInboundDay) 
@@ -340,11 +340,23 @@ void draw() {
                 LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
                 for (int j= 0; j< dayDataPoints.size(); j++)
                 {
-                  calendar.dp.add(dayDataPoints.get(j).getData());
+                  calendarDataPoint.add(dayDataPoints.get(j));
                 }
               }
             }
-          } 
+          }
+          else
+          {
+             for(int day = calendar.selectedInboundDay; day <= calendar.selectedInboundDay; day++) 
+              {
+                int index = day - 1;
+                LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
+                for (int j= 0; j< dayDataPoints.size(); j++)
+                {
+                  calendarDataPoint.add(dayDataPoints.get(j));
+                }
+              }
+          }
         currentScreen = SCREEN_SELECT;        
         }
 //        searchScreen.addButton(toSelect);
@@ -394,7 +406,8 @@ void draw() {
 
       if (!flightSelected)
       {
-        temp = createSelections(calendar.dp);  //temp is a list of buttons consisting the information of the flights
+        temp = createSelections(calendarDataPoint);  //temp is a list of buttons consisting the information of the flights
+        
         flightSelected = true;
       }
 
@@ -408,9 +421,8 @@ void draw() {
         }
         hasScreenAdded = SCREEN_SELECT;
       }
-      
-      showFlightSelections(temp, dataPoints);
-
+      println("to:" + calendarDataPoint.size());
+      showFlightSelections(temp, calendarDataPoint);
       currentEvent = returnEventFromListOfButton(temp);
       if (currentEvent>=100)  //the flights events are allocated after 100
       {

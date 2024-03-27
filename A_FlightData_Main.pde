@@ -160,7 +160,7 @@ void setup()
   //Screen History Arrows - Andy
   screenArrow = new ArrayList<Integer>();
   //Searching Bar
-//  setupSB();
+  setupSB();
 
 
 }
@@ -472,7 +472,7 @@ void draw() {
   }
   
   //searching Bar
-//  drawSB();
+  drawSB();
 }
 
 

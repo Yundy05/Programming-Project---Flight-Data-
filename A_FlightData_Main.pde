@@ -35,6 +35,7 @@ final int SCREEN_GRAPH = 2;
 final int SCREEN_INDIVIDUAL_FLIGHT = 3;
 final int SCREEN_SEARCH = 4;
 final int SCREEN_SELECT = 5;
+final int SCREEN_SEARCHCopy = 6;
 
 float adapter;
 int currentScreen ;
@@ -427,6 +428,7 @@ void draw() {
         currentPage = 0;
         currentScreen = SCREEN_SELECT;
       }
+
     }
     break;
     ///////////////////////////////////////////////////////////////////////////////////////////////////////

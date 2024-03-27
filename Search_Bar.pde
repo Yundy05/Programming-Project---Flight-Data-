@@ -66,7 +66,7 @@ class SearchBox
           println("Selected item: " + selectedItem);
         }
     }
-    void drawSB()
+    void drawSB(PApplet parent)
     {
       if(currentScreen== SCREEN_SEARCH && searchField.getText()!=null)
       {
@@ -102,20 +102,26 @@ void setupSB()
   stringList = new ArrayList<String>(
                 Arrays.asList( "trinity", "newYork", "MESSSSS"));
 
-  //sbCities =new SearchBox(cp5, this, btnCites, cities);
   DC = new DateCalander(1);
-  xSBAirport = DC.x *40;
-  ySBAirport = DC.y *80;
+  xSBAirport = DC.x *40 - 50;
+  ySBAirport = DC.y *80 -100;
   xSBCity = DC.x *40;
   ySBCity = DC.y *80;
+  /*xSBAirport = 200;
+  ySBAirport = 200;
+  xSBCity = 300;
+  ySBCity = 300;*/
+  sbCities =new SearchBox(cp5,this, xSBCity,ySBCity , cities);
   sbAirport =new SearchBox(cp5Copy,this, xSBAirport,ySBAirport, airports);
+  
              
 }
 
 void drawSB()
 {
   //background(240);
-  sbAirport.drawSB();
+  //sbCities.drawSB(this);
+  //sbAirport.drawSB(this);
 }
 void controlEvent(ControlEvent event)
 {

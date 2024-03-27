@@ -413,7 +413,6 @@ void draw() {
           screenHistory++;
         currentScreen = screenArrow.get(screenHistory);
       }
-      //drawSB();
     }
     break;
     ///////////////////////////////////////////////////////////////////////////////////////////////////////

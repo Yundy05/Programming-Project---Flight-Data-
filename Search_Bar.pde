@@ -112,11 +112,9 @@ class SearchBox
 ControlP5 cp5;
 ControlP5 cp5Copy;
 ControlP5 cp5DesCities;
-ControlP5 cp5Sort;
 SearchBox sbOriginCities;
 SearchBox sbDestinationCities;
 SearchBox sbAirport;
-SearchBox sortBy;
 DateCalander DC;
 float x = 2560/200.0; 
 float y = (1600*9/10)/100.0;
@@ -134,9 +132,8 @@ void setupSB()
   cp5 = new ControlP5(this);
   cp5Copy = new ControlP5(this);
   cp5DesCities = new ControlP5(this);
-  cp5Sort = new ControlP5(this);
-  stringList = new ArrayList<String>(Arrays.asList( "Date and Time", "Distance", "Arrival Delay", "Airport"));
-               // Arrays.asList( "trinity", "newYork", "MESSSSS"));
+  stringList = new ArrayList<String>(
+                Arrays.asList( "trinity", "newYork", "MESSSSS"));
 
   DC = new DateCalander(1);
   //xSBAirport = DC.x *40 - 50;
@@ -154,6 +151,7 @@ void setupSB()
   sbDestinationCities =new SearchBox(cp5DesCities,this, xSBCity, ySBDestinationCity  , cities, "Destination");
   //sbAirport =new SearchBox(cp5Copy,this, xSBAirport,ySBAirport, airports);
   
+             
 }
 
 void drawSB()
@@ -165,7 +163,6 @@ void drawSB()
   sbDestinationCities.drawSB(this);
   OriginCity=sbOriginCities.selectedItem;
   DestinationCity = sbDestinationCities.selectedItem;
-  sortMethod=sortBy.selectedItem;
 }
 void controlEvent(ControlEvent event)
 {

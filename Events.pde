@@ -32,6 +32,7 @@ void selectFlightsByDate()
           }
 }
 
+
 ArrayList<DataPoint> findIntersection(HashTable t1 , int key1 , HashTable t2, int key2)
 {
   ArrayList intersection = new ArrayList<DataPoint>();

@@ -4,6 +4,21 @@ void GraphicsSetUp()
 {
   plot = new GPlot(this);
 }
+
+void quickFrequencyHistogram(ArrayList<DataPoint> data , String title , String variable)   //what do u wish---supporting: Delay , Distance 
+{
+  float x = displayWidth/200.0;          //unit x
+  float y = (displayHeight*9/10)/100.0;         //unit y
+  if(variable.equalsIgnoreCase("Delay"))
+  {
+    double[] delay = new double[data.size()];
+    for(int i=0 ; i<data.size() ; i++)
+    {
+      delay[i] = data.get(i).getArrDelay()+data.get(i).getDepDelay();
+    }
+  }
+}
+
 class Histogram
 {
   int x, y;

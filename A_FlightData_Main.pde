@@ -169,8 +169,8 @@ void setup()
 void draw() {
   background(#DB6868);
   //  currentEvent = getCurrentEvent();
-     print(screenArrow.toString());
-     println(screenHistory);
+   //  print(screenArrow.toString());
+  //   println(screenHistory);
   switch(currentScreen)
   {
   case SCREEN_HOME :
@@ -336,33 +336,8 @@ void draw() {
         {
           calendarDataPoint = new ArrayList<DataPoint> ();
           flightSelected = false;
-          if(!calendar.singleDateMode)
-          {
-            if (calendar.selectedInboundDay > -1 && calendar.selectedOutboundDay >= calendar.selectedInboundDay) 
-            {
-              for(int day = calendar.selectedInboundDay; day <= calendar.selectedOutboundDay; day++) 
-              {
-                int index = day - 1;
-                LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
-                for (int j= 0; j< dayDataPoints.size(); j++)
-                {
-                  calendarDataPoint.add(dayDataPoints.get(j));
-                }
-              }
-            }
-          }
-          else
-          {
-             for(int day = calendar.selectedInboundDay; day <= calendar.selectedInboundDay; day++) 
-              {
-                int index = day - 1;
-                LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
-                for (int j= 0; j< dayDataPoints.size(); j++)
-                {
-                  calendarDataPoint.add(dayDataPoints.get(j));
-                }
-              }
-          }
+          //selectFlightsByDate();
+          selectFlightsByDateAndOthers(filter);
         currentScreen = SCREEN_SELECT;        
         }
 //        searchScreen.addButton(toSelect);
@@ -546,10 +521,11 @@ void printSortedFlightData()
     }
   }
 }
+
 void getFilteredFlights (String origin, String dest, int date1, int date2, boolean nonCancelled)
 {
   if(origin!="")
-  selectedFlights = dataPoints.stream().filter(DataPoint -> DataPoint.originCity.contains(origin)).collect(Collectors.toCollection(ArrayList<DataPoint>::new));
+  selectedFlights = tableOfOrigin.getDataByIndex(hashFuncForCity(origin)).stream().filter(DataPoint -> DataPoint.originCity.contains(origin)).collect(Collectors.toCollection(ArrayList<DataPoint>::new));
   else
   selectedFlights = dataPoints;
   if(dest!="")
@@ -566,6 +542,7 @@ void getFilteredFlights (String origin, String dest, int date1, int date2, boole
     selectedFlights.get(i).printData();
   }
 }
+
 void printOriginSortedFlightData()
 {
   //jhy implimented a better working printing text that

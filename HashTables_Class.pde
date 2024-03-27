@@ -96,7 +96,6 @@ public class HashTable {
     key = a + b + c;
     return key;
   }    // To store the hash value.
-
   
  
   public void putOrigin(DataPoint aDataPoint)    // place flights into groups
@@ -161,24 +160,6 @@ public class HashTable {
     LinkedList<DataPoint> bucket = table[index];
     bucket.add(aDataPoint);
   }
-  public int getIndexFromCity(String s)       // get a index to origin-sorted or destination-sorted hashtables by city name, capitalize first letter!!!  Chuan:)   Can't tell newark and new york
-  {
-    int key;
-    int a;
-    int b ;
-    int c;
-    a  = s.charAt(1);
-    a -= 'A';
-    a *= 26*26;
-    b = s.charAt(2);
-    b -= 'a';
-    b *= 26;
-    c = s.charAt(3);
-    c -= 'a';
-    key = a + b + c;
-    return key;
-  }
-
   public int hashFuncForWacs(int w)
   {
     return w;
@@ -241,4 +222,21 @@ public class HashTable {
     c = airport.charAt(2);
     c -= 'A';
     return key = a*26*26 + b*26 + c;
+  }
+    public int hashFuncForCity(String s)       // get a index to origin-sorted or destination-sorted hashtables by city name, capitalize first letter!!!  Chuan:)   Can't tell newark and new york
+  {
+    int key;
+    int a;
+    int b ;
+    int c;
+    a  = s.charAt(0);
+    a -= 'A';
+    a *= 26*26;
+    b = s.charAt(1);
+    b -= 'a';
+    b *= 26;
+    c = s.charAt(2);
+    c -= 'a';
+    key = a + b + c;
+    return key;
   }

@@ -8,23 +8,25 @@ import java.util.ArrayList;
 final int MARGIN = 10;
 final int OUTLINE_WIDTH = 7;
 final int EVENT_BUTTON_FORWARD = -3;
-final int EVENT_BUTTON_BACK = -2;
+final int EVENT_BUTTON_BACK = -2; //Arrows for screen history
 final int EVENT_BUTTON_NULL = -1;
 final int EVENT_BUTTON_HOME = 0;
 final int EVENT_BUTTON_FLIGHT = 1;
 final int EVENT_BUTTON_TOGRAPH = 2;
 final int EVENT_BUTTON_INDIVIDUAL_FLIGHT = 3;
 final int EVENT_BUTTON_SEARCH_PAGE = 4;
+final int EVENT_BUTTON_SEARCH_BAR = 5;
 final int EVENT_BUTTON_NEXT = 9;
 final int EVENT_BUTTON_PREVIOUS = 10;
+
 
 final int EVENT_BUTTON_ORIGIN = 0;
 final int EVENT_BUTTON_DESTINATION = 0;
 final int EVENT_BUTTON_DEPARTURE = 0;
 final int EVENT_BUTTON_ARRIVAL = 0;
 
-final int EVENT_BUTTON_SHOWPIECHART = 11;
-final int EVENT_BUTTON_SHOWHISTOGRAM = 12;
+final int EVENT_BUTTON_PIECHART = 11;
+final int EVENT_BUTTON_HISTOGRAM = 12;
 final int EVENT_GETFLIGHT = 13;
 
 final int EVENT_GETHELP = 20;
@@ -35,7 +37,9 @@ final int SCREEN_GRAPH = 2;
 final int SCREEN_INDIVIDUAL_FLIGHT = 3;
 final int SCREEN_SEARCH = 4;
 final int SCREEN_SELECT = 5;
-final int SCREEN_SEARCHCopy = 6;
+final int SCREEN_SEARCH_BAR = 6;
+final int SCREEN_HISTOGRAM = 7;
+final int SCREEN_PIE_CHART = 8;
 
 float adapter;
 int currentScreen ;
@@ -90,13 +94,10 @@ HashMap <Integer, Integer> arrDelayFreq;
 
 
 PieChart pieChartOfDates;
-Histogram histogramOfArrDelay;
-LineGraph flightsByTime;
-BarChart busyAirports;
-
+Histogram histogramOfDates;
+String variable = "";
 //HashTable tableOfDates;
 //int listSize = dataPoints[0].size();
-int graphOption = -1;
 int lineHeight = 20;
 
 void settings() //REPLACED SCREENX WITH (displayWidth/2) & SCREENY WITH (displayHeight - 100)
@@ -161,7 +162,7 @@ void setup()
   //Screen History Arrows - Andy
   screenArrow = new ArrayList<Integer>();
   //Searching Bar
-//  setupSB();
+  setupSB();
 
 
 }
@@ -170,59 +171,26 @@ void setup()
 void draw() {
   background(#DB6868);
   //  currentEvent = getCurrentEvent();
-  //   print(screenArrow.toString());
+   //  print(screenArrow.toString());
   //   println(screenHistory);
   switch(currentScreen)
   {
   case SCREEN_HOME :
     {
       homeScreen.draw();
-      if (hasScreenAdded != SCREEN_HOME)
-      {
-        if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
-        {
-          screenArrow.add(SCREEN_HOME);
-          screenHistory++;
-        }
-        hasScreenAdded = SCREEN_HOME;
-      }
+      screenArrow.clear();
+      screenArrow.add(0);
+      screenHistory = 0;
+      hasScreenAdded = 0;
       // drawDropdown();
       currentEvent = homeScreen.returnEvent();
-      if (currentEvent == EVENT_BUTTON_FLIGHT)
-        currentScreen = SCREEN_FLIGHT;
+      if (currentEvent == EVENT_BUTTON_SEARCH_BAR)
+        currentScreen = SCREEN_SEARCH_BAR;
       else if (currentEvent == EVENT_BUTTON_TOGRAPH)
         currentScreen = SCREEN_GRAPH;
-      else if (currentEvent == EVENT_BUTTON_INDIVIDUAL_FLIGHT)
-        currentScreen = SCREEN_INDIVIDUAL_FLIGHT;
-      else if (currentEvent == EVENT_BUTTON_SEARCH_PAGE)
-        currentScreen = SCREEN_SEARCH;
-
-      if (currentEvent == EVENT_BUTTON_BACK)
-      {
-        if (screenHistory > 0)
-          screenHistory--;
-        currentScreen = screenArrow.get(screenHistory);
-      } else if (currentEvent == EVENT_BUTTON_FORWARD)
-      {
-        if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
-          screenHistory++;
-        currentScreen = screenArrow.get(screenHistory);
-      }
     }
     break;
 
-    /*
-   else if(currentEvent == EVENT_BUTTON_BACK)
-     {
-     if(screenHistory> 1)
-     currentScreen = screenArrow.get(screenHistory);
-     }
-     else if(currentEvent == EVENT_BUTTON_FORWARD)
-     {
-     if(screenArrow.size() > screenHistory)
-     currentScreen = screenArrow.get(screenHistory++);
-     }
-     */
     /////////////////////////////////////////////////////////////////
   case SCREEN_FLIGHT :
     {
@@ -274,16 +242,11 @@ void draw() {
     currentEvent = graphScreen.returnEvent();
     if (currentEvent == EVENT_BUTTON_HOME)
       currentScreen = SCREEN_HOME;
-    else if (currentEvent == EVENT_BUTTON_SHOWPIECHART)
+    else if (currentEvent == EVENT_BUTTON_PIECHART)
     {
-      graphOption = 1 ;
-    } else if (currentEvent == EVENT_BUTTON_SHOWHISTOGRAM)
-      graphOption = 2;
-
-    if (graphOption == 1)
-      pieChartOfDates.drawPieChart();
-    else if (graphOption == 2)
-      histogramOfArrDelay.drawHistogram();
+      currentScreen = SCREEN_PIE_CHART;
+    } else if (currentEvent == EVENT_BUTTON_HISTOGRAM)
+      currentScreen = SCREEN_HISTOGRAM;
 
     if (currentEvent == EVENT_BUTTON_BACK)
     {
@@ -299,6 +262,66 @@ void draw() {
 
     break;
     ////////////////////////////////////////////////////////////////////////////////////
+  case SCREEN_PIE_CHART :
+    pieChartScreen.draw();
+    if (hasScreenAdded != SCREEN_PIE_CHART)
+    {
+      if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
+      {
+        screenArrow.add(SCREEN_PIE_CHART);
+        screenHistory++;
+      }
+      hasScreenAdded = SCREEN_PIE_CHART;
+    }
+    currentEvent = pieChartScreen.returnEvent();
+    pieChartOfDates.drawPieChart();
+    if (currentEvent == EVENT_BUTTON_HOME)
+       currentScreen = SCREEN_HOME;
+    if (currentEvent == EVENT_BUTTON_BACK)
+    {
+      if (screenHistory > 0)
+        screenHistory--;
+      currentScreen = screenArrow.get(screenHistory);
+    } else if (currentEvent == EVENT_BUTTON_FORWARD)
+    {
+      if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
+        screenHistory++;
+      currentScreen = screenArrow.get(screenHistory);
+    }
+
+    break;
+    ////////////////////////////////////////////////////////////////////////////////////
+   case SCREEN_HISTOGRAM :
+    histogramScreen.draw();
+    if (hasScreenAdded != SCREEN_HISTOGRAM)
+    {
+      if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
+      {
+        screenArrow.add(SCREEN_HISTOGRAM);
+        screenHistory++;
+      }
+      hasScreenAdded = SCREEN_HISTOGRAM;
+    }
+    currentEvent = histogramScreen.returnEvent();
+    histogramOfDates.drawHistogram();
+    if (currentEvent == EVENT_BUTTON_HOME)
+       currentScreen = SCREEN_HOME;
+    if (currentEvent == EVENT_BUTTON_BACK)
+    {
+      if (screenHistory > 0)
+        screenHistory--;
+      currentScreen = screenArrow.get(screenHistory);
+    } else if (currentEvent == EVENT_BUTTON_FORWARD)
+    {
+      if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
+        screenHistory++;
+      currentScreen = screenArrow.get(screenHistory);
+    }
+
+    break;
+    ////////////////////////////////////////////////////////////////////////////////////
+    
+    
   case SCREEN_INDIVIDUAL_FLIGHT:
     individualFlightScreen.draw();
     if (currentEvent==EVENT_GETHELP)
@@ -370,9 +393,14 @@ void draw() {
         }
         if(calendar.finalToGoSelect())
         {
+          calendarDataPoint = new ArrayList<DataPoint> ();
+          flightSelected = false;
+         
+          
           //selectFlightsByDate();
-          selectFlightsByDateAndOthers(filter);
-                  currentPage = 0;
+        selectFlightsByDateAndOthers(filter);
+      
+        
         currentScreen = SCREEN_SELECT;        
         }
 //        searchScreen.addButton(toSelect);
@@ -397,7 +425,8 @@ void draw() {
         currentScreen = SCREEN_HOME;
         calendar.selectedOutboundDay = -1;
         calendar.selectedInboundDay = -1;
-      }
+      }else if (currentEvent == EVENT_BUTTON_TOGRAPH)
+        currentScreen = SCREEN_GRAPH;
       if (currentEvent == EVENT_BUTTON_BACK)
       {
         if (screenHistory > 0)
@@ -410,10 +439,48 @@ void draw() {
         if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
           screenHistory++;
         currentScreen = screenArrow.get(screenHistory);
-      } 
+      } else if (currentEvent == SCREEN_SELECT)
+      {
+        currentPage = 0;
+        currentScreen = SCREEN_SELECT;
+      }
+
     }
     break;
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
+       case SCREEN_SEARCH_BAR :
+    {
+      searchBarScreen.draw();
+      if (hasScreenAdded != SCREEN_SEARCH_BAR)
+      {
+        if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
+        {
+          screenArrow.add(SCREEN_SEARCH_BAR);
+          screenHistory++;
+        }
+        hasScreenAdded = SCREEN_SEARCH_BAR;
+      }
+      currentEvent = searchBarScreen.returnEvent();      
+      if (currentEvent == EVENT_BUTTON_HOME)
+        currentScreen = SCREEN_HOME;
+      else if(currentEvent == EVENT_BUTTON_SEARCH_PAGE)
+        currentScreen = SCREEN_SEARCH;
+      if (currentEvent == EVENT_BUTTON_BACK)
+      {
+        if (screenHistory > 0)
+         screenHistory--;
+        currentScreen = screenArrow.get(screenHistory);
+      } else if (currentEvent == EVENT_BUTTON_FORWARD)
+      {
+        if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
+          screenHistory++;
+        currentScreen = screenArrow.get(screenHistory);
+      }
+    }
+    break;
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    
   case SCREEN_SELECT :
     {
 
@@ -441,8 +508,7 @@ void draw() {
         selectedFlight = currentEvent-100;
         currentScreen = SCREEN_INDIVIDUAL_FLIGHT;
         print(selectedFlight);
-      } 
-      else if (selectScreen.returnEvent()==EVENT_BUTTON_HOME)
+      } else if (selectScreen.returnEvent()==EVENT_BUTTON_HOME)
       {
         currentScreen = SCREEN_HOME;
       }
@@ -461,13 +527,15 @@ void draw() {
         currentScreen = SCREEN_SELECT;
       }
     }
+    
 
+    
   default:
     break;
   }
   
   //searching Bar
-//  drawSB();
+  drawSB();
 }
 
 
@@ -516,10 +584,11 @@ void printSortedFlightData()
     }
   }
 }
+
 void getFilteredFlights (String origin, String dest, int date1, int date2, boolean nonCancelled)
 {
   if(origin!="")
-  selectedFlights = dataPoints.stream().filter(DataPoint -> DataPoint.originCity.contains(origin)).collect(Collectors.toCollection(ArrayList<DataPoint>::new));
+  selectedFlights = tableOfOrigin.getDataByIndex(hashFuncForCity(origin)).stream().filter(DataPoint -> DataPoint.originCity.contains(origin)).collect(Collectors.toCollection(ArrayList<DataPoint>::new));
   else
   selectedFlights = dataPoints;
   if(dest!="")
@@ -536,6 +605,7 @@ void getFilteredFlights (String origin, String dest, int date1, int date2, boole
     selectedFlights.get(i).printData();
   }
 }
+
 void printOriginSortedFlightData()
 {
   //jhy implimented a better working printing text that
@@ -670,8 +740,9 @@ void createHashMaps()            //!!! Use this function to create ALL the HashM
 
 void createCharts()              //!!! Use this to create ALL the charts we need!!!               By chuan:)
 {
-  int[] numberOfFlightsByDay = new int[tableOfDates.size];
-  ArrayList<Integer> arrDelays = new ArrayList<Integer>();
+
+  
+//  int[] numberOfFlightsByDay = new int[tableOfDates.size];
   ArrayList<Integer> numOfFlightsByArrDelay = new ArrayList<Integer>();
   //String[] lables = new String[tableOfDates.size];
   /* for(int i=0 ; i<tableOfDates.size; i++)
@@ -698,10 +769,12 @@ void createCharts()              //!!! Use this to create ALL the charts we need
   //pieChartOfDates = new PieChart(displayWidth/7,displayHeight/2, displayWidth/10,numberOfFlightsByDay,lables);
   String[] lables = {"on time", "cancelled", "delayed", "diverted"};
   pieChartOfDates = new PieChart(displayWidth/7, displayHeight/2, displayWidth/10, countCancelDelayDivert(dataPoints), lables, "Proportions of flights with different status");//(int x, int y, int radius, int[]data, String[] labels, String title)
-  // histogramOfArrDelay = new Histogram(displayWidth/7, displayHeight/2 , displayHeight/10 , displayWidth/8, numberOfFlightsByDay, tableOfDates.size, 10, 10);
-  histogramOfArrDelay = new Histogram(displayWidth/50, displayHeight/4, displayHeight/2, displayWidth/4, arrDelayArray, arrDelayFreqArray, arrDelayFreqArray.length,
-    "Frequency distribution of arrival delay", "Arrival delay (minutes)", "Frequency");
-  //histogramOfArrDelay = new Histogram(displayWidth/7, displayHeight/7 , displayHeight/2 , displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length, 20, 5);// bug: seems that the text doesnot represent the actual values
+  // histogramOfDates = new Histogram(displayWidth/7, displayHeight/2 , displayHeight/10 , displayWidth/8, numberOfFlightsByDay, tableOfDates.size, 10, 10);
+  histogramOfDates = new Histogram(displayWidth/50, displayHeight/4, displayHeight/2, displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length, 0, 1,
+    "Frequencies of arrival delay", "Arrival delay (h)", "Frequency");
+    if(variable !="")
+  histogramOfDates = quickFrequencyHistogram(dataPoints , "title" ,  variable , "1/1 - 1/31");   //what do u wish---supporting: Delay , Distance 
+  //histogramOfDates = new Histogram(displayWidth/7, displayHeight/7 , displayHeight/2 , displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length, 20, 5);// bug: seems that the text doesnot represent the actual values
 }
 
 ArrayList <DataPoint> getNonCancelledFlights (ArrayList <DataPoint> data)

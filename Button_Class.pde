@@ -3,7 +3,7 @@ ArrayList<Button>btnControlPanel;
 PFont buttonFont;
 
 Button originBtn, destinationBtn, dateBtn, flightDataBtn, homePageBtn, graphBtn, backArrow, forwardArrow , previousPage , nextPage;
-Button showPieChartBtn, showHistogramBtn, individualFlightBtn, departBtn, arrivalBtn, getFlightBtn, searchPageBtn, toSelect, helpBtn;
+Button showPieChartBtn, showHistogramBtn, individualFlightBtn, departBtn, arrivalBtn, getFlightBtn, searchPageBtn, toSelect, helpBtn, searchBarBtn;
 
 void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour, HoverColour, ButtonEvent)
 {
@@ -17,15 +17,15 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   //MENU PAGE
   //  dateBtn = new Button(x , MARGIN+ 2*(displayHeight - 100)/10, (displayWidth/2)/4 - 2*MARGIN, (displayHeight - 100)/20, "Date", #8080ff, #b3b3ff, EVENT_BUTTON_NULL);
   flightDataBtn = new Button(60*x, 75*y, 30*x, 5*y, "Flight Data", #8080ff, #b3b3ff, EVENT_BUTTON_FLIGHT, glowSize);
-  graphBtn = new Button(10*x, 75*y, 30*x, 5*y, "GRAPHS", #8080ff, #b3b3ff, EVENT_BUTTON_TOGRAPH, glowSize);
+  graphBtn = new Button(35*x, 60*y, 30*x, 5*y, "GRAPHS", #8080ff, #b3b3ff, EVENT_BUTTON_TOGRAPH, glowSize);
   individualFlightBtn = new Button(35*x, 45*y, 30*x, 5*y, "Individual Flights", #8080ff, #b3b3ff, EVENT_BUTTON_INDIVIDUAL_FLIGHT, glowSize);
 
   //FLIGHT PAGE
   homePageBtn = new Button(45*x, 94*y, 8*x, 5*y, "", #8080ff, #b3b3ff, EVENT_BUTTON_HOME, glowSize);
 
   //GRAPH PAGE
-  showPieChartBtn = new Button(60*x, 20*y, 30*x, 5*y, "PieChart", #8080ff, #b3b3ff, EVENT_BUTTON_SHOWPIECHART, glowSize);
-  showHistogramBtn = new Button(10*x, 20*y, 30*x, 5*y, "Histogram", #8080ff, #b3b3ff, EVENT_BUTTON_SHOWHISTOGRAM, glowSize);
+  showPieChartBtn = new Button(60*x, 20*y, 30*x, 5*y, "PieChart", #8080ff, #b3b3ff, EVENT_BUTTON_PIECHART, glowSize);
+  showHistogramBtn = new Button(10*x, 20*y, 30*x, 5*y, "Histogram", #8080ff, #b3b3ff, EVENT_BUTTON_HISTOGRAM, glowSize);
 
   //INDIVIDUAL FLIGHTS PAGE - Andy
   originBtn = new Button(x, 75*y, 30*x, 5*y, "Origin", #8080ff, #b3b3ff, EVENT_BUTTON_ORIGIN, glowSize);
@@ -34,7 +34,7 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   arrivalBtn = new Button(69*x, 56*y, 30*x, 5*y, "Arrival", #8080ff, #b3b3ff, EVENT_BUTTON_ARRIVAL, glowSize);
   getFlightBtn = new Button(33*x, y, 30*x, 5*y, "Get A Flight :) ", #8080ff, #b3b3ff, EVENT_GETFLIGHT, glowSize);
   helpBtn = new Button(80*x, y, 10*x, 5*y, "HELP", #8080ff, #b3b3ff, EVENT_GETHELP, glowSize);
-  //TEST SEARCH PAGE - Andy
+  //SEARCH PAGE - Andy
   searchPageBtn = new Button(35*x, 20*y, 30*x, 5*y, "Search Screen", #8080ff, #b3b3ff, EVENT_BUTTON_SEARCH_PAGE, glowSize);
   toSelect = new Button(50*x, 50*y, 30*x, 5*y, "Select", #8080ff, #b3b3ff, SCREEN_SELECT, glowSize);
 
@@ -45,19 +45,20 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   //SELECT PAGE -CHUAN
   nextPage = new fontChangingButton(85*x, 90*y, 5*x, 5*y, ">", #36DFFF, #BF2E2E, EVENT_BUTTON_NEXT, 194, 0, 10);
   previousPage = new fontChangingButton(10*x, 90*y, 5*x, 5*y, "<", #36DFFF, #BF2E2E, EVENT_BUTTON_PREVIOUS, 194, 0, 10);
-
+  
+  //SEARCH BAR PAGE - ANDY
+  searchBarBtn = new Button(35*x, 45*y, 30*x, 5*y, "Search Bar Screen", #8080ff, #b3b3ff, EVENT_BUTTON_SEARCH_BAR, glowSize);
+  
   btnMain.add(destinationBtn);
   btnMain.add(originBtn);
   btnMain.add(dateBtn);
   btnMain.add(flightDataBtn);
   btnMain.add(homePageBtn);
 
-  homeScreen.addButton(individualFlightBtn);
-  homeScreen.addButton(flightDataBtn);
+
   homeScreen.addButton(graphBtn);
-  homeScreen.addButton(searchPageBtn);
-  homeScreen.addButton(backArrow);
-  homeScreen.addButton(forwardArrow);
+  homeScreen.addButton(searchBarBtn);
+
 
   flightScreen.addButton(homePageBtn);
   flightScreen.addButton(backArrow);
@@ -68,6 +69,14 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   graphScreen.addButton(showHistogramBtn);
   graphScreen.addButton(backArrow);
   graphScreen.addButton(forwardArrow);
+  
+  histogramScreen.addButton(homePageBtn);
+  histogramScreen.addButton(backArrow);
+  histogramScreen.addButton(forwardArrow);
+  
+  pieChartScreen.addButton(homePageBtn);
+  pieChartScreen.addButton(backArrow);
+  pieChartScreen.addButton(forwardArrow);
 
   individualFlightScreen.addButton(homePageBtn);
   individualFlightScreen.addButton(originBtn);
@@ -78,11 +87,17 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   individualFlightScreen.addButton(backArrow);
   individualFlightScreen.addButton(forwardArrow);
   individualFlightScreen.addButton(helpBtn);
+  
+  searchBarScreen.addButton(backArrow);
+  searchBarScreen.addButton(forwardArrow);
+  searchBarScreen.addButton(homePageBtn);
+  searchBarScreen.addButton(searchPageBtn);
 
   searchScreen.addButton(homePageBtn);
   searchScreen.addButton(backArrow);
-//  searchScreen.addButton(toSelect);
   searchScreen.addButton(forwardArrow);
+  searchScreen.addButton(graphBtn);
+  
   selectScreen.addButton(homePageBtn);
   selectScreen.addButton(nextPage);
   selectScreen.addButton(previousPage);

@@ -102,4 +102,8 @@ class DataPoint
     }
     return delay;
   }
+  int getDepDateTime()
+  {
+    return(day*1440+(depTime/100)*60+(depTime%100));
+  }
 }

@@ -1,4 +1,4 @@
-import java.util.Scanner; //<>// //<>//
+import java.util.Scanner; //<>// //<>// //<>//
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -86,6 +86,9 @@ HashMap <Integer, Integer> arrDelayFreq;
 
 PieChart pieChartOfDates;
 Histogram histogramOfArrDelay;
+LineGraph flightsByTime;
+BarChart busyAirports;
+
 //HashTable tableOfDates;
 //int listSize = dataPoints[0].size();
 int graphOption = -1;
@@ -680,7 +683,14 @@ void sortDataByDepDelay (ArrayList <DataPoint> data)
 {
   Collections.sort(data, new DepDelayComparator());
 }
-
+void sortDataByDistance (ArrayList <DataPoint> data)
+{
+  Collections.sort(data, new DistanceComparator());
+}
+void sortDataByAirports (ArrayList <DataPoint> data)
+{
+   Collections.sort(data, new AirportComparator());
+}
 int[] countCancelDelayDivert(ArrayList <DataPoint> data)
 {
   int normal=0;
@@ -929,6 +939,14 @@ void init_stateCoord()
   stateCoord.put("DC", coord);
   coord=new double[]{362, 551};
   stateCoord.put("HI", coord);
+}
+void testSort(ArrayList<DataPoint> data)
+{
+  sortDataByAirports(data);
+  for (int index=0; index<data.size(); index++)
+      {
+        data.get(index).printData();
+      }
 }
 void printDataByDepDelay(ArrayList data, boolean reversedOrder)
 {

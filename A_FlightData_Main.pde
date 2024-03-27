@@ -20,14 +20,16 @@ final int EVENT_BUTTON_NEXT = 9;
 final int EVENT_BUTTON_PREVIOUS = 10;
 
 
-final int EVENT_BUTTON_ORIGIN = 0;
-final int EVENT_BUTTON_DESTINATION = 0;
-final int EVENT_BUTTON_DEPARTURE = 0;
-final int EVENT_BUTTON_ARRIVAL = 0;
+final int EVENT_BUTTON_ORIGIN = 3;
+final int EVENT_BUTTON_DESTINATION = 3;
+final int EVENT_BUTTON_DEPARTURE = 3;
+final int EVENT_BUTTON_ARRIVAL = 3;
 
 final int EVENT_BUTTON_PIECHART = 11;
 final int EVENT_BUTTON_HISTOGRAM = 12;
 final int EVENT_GETFLIGHT = 13;
+final int EVENT_BUTTON_DELAY = 14;
+final int EVENT_BUTTON_DISTANCE = 15;
 
 final int EVENT_GETHELP = 20;
 
@@ -306,6 +308,11 @@ void draw() {
     histogramOfDates.drawHistogram();
     if (currentEvent == EVENT_BUTTON_HOME)
        currentScreen = SCREEN_HOME;
+       //CHANGE CODE FROM HERE TO WHATEVER YOU WANT DELAY AND DISTANCE TO DO 
+    else if(currentEvent == EVENT_BUTTON_DELAY)
+       currentScreen = SCREEN_HISTOGRAM;
+    else if(currentEvent == EVENT_BUTTON_DISTANCE)
+       currentScreen = SCREEN_HISTOGRAM;
     if (currentEvent == EVENT_BUTTON_BACK)
     {
       if (screenHistory > 0)

@@ -2,7 +2,7 @@ ArrayList<Button>btnMain;
 ArrayList<Button>btnControlPanel;
 PFont buttonFont;
 
-Button originBtn, destinationBtn, dateBtn, flightDataBtn, homePageBtn, graphBtn, backArrow, forwardArrow , previousPage , nextPage;
+Button originBtn, destinationBtn, dateBtn, flightDataBtn, homePageBtn, graphBtn, backArrow, forwardArrow , previousPage , nextPage, adjustDelayBtn, adjustDistanceBtn;
 Button showPieChartBtn, showHistogramBtn, individualFlightBtn, departBtn, arrivalBtn, getFlightBtn, searchPageBtn, toSelect, helpBtn, searchBarBtn;
 
 void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour, HoverColour, ButtonEvent)
@@ -12,7 +12,6 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   //  float mx = 2*x;                        //x margin
   int glowSize = 10;
 
-  btnMain = new ArrayList<Button>();
   buttonFont = loadFont("Raanana-16.vlw");
   //MENU PAGE
   //  dateBtn = new Button(x , MARGIN+ 2*(displayHeight - 100)/10, (displayWidth/2)/4 - 2*MARGIN, (displayHeight - 100)/20, "Date", #8080ff, #b3b3ff, EVENT_BUTTON_NULL);
@@ -26,6 +25,10 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   //GRAPH PAGE
   showPieChartBtn = new Button(60*x, 20*y, 30*x, 5*y, "PieChart", #8080ff, #b3b3ff, EVENT_BUTTON_PIECHART, glowSize);
   showHistogramBtn = new Button(10*x, 20*y, 30*x, 5*y, "Histogram", #8080ff, #b3b3ff, EVENT_BUTTON_HISTOGRAM, glowSize);
+  
+  //HISTOGRAM PAGE - ANDY
+  adjustDelayBtn = new Button(30*x, 10*y, 15*x, 5*y, "Delay", #8080ff, #b3b3ff, EVENT_BUTTON_DELAY, glowSize);
+  adjustDistanceBtn = new Button(50*x, 10*y, 15*x, 5*y, "Distance", #8080ff, #b3b3ff, EVENT_BUTTON_DISTANCE, glowSize);
 
   //INDIVIDUAL FLIGHTS PAGE - Andy
   originBtn = new Button(x, 75*y, 30*x, 5*y, "Origin", #8080ff, #b3b3ff, EVENT_BUTTON_ORIGIN, glowSize);
@@ -34,6 +37,7 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   arrivalBtn = new Button(69*x, 56*y, 30*x, 5*y, "Arrival", #8080ff, #b3b3ff, EVENT_BUTTON_ARRIVAL, glowSize);
   getFlightBtn = new Button(33*x, y, 30*x, 5*y, "Get A Flight :) ", #8080ff, #b3b3ff, EVENT_GETFLIGHT, glowSize);
   helpBtn = new Button(80*x, y, 10*x, 5*y, "HELP", #8080ff, #b3b3ff, EVENT_GETHELP, glowSize);
+  
   //SEARCH PAGE - Andy
   searchPageBtn = new Button(35*x, 20*y, 30*x, 5*y, "Search Screen", #8080ff, #b3b3ff, EVENT_BUTTON_SEARCH_PAGE, glowSize);
   toSelect = new Button(50*x, 50*y, 30*x, 5*y, "Select", #8080ff, #b3b3ff, SCREEN_SELECT, glowSize);
@@ -49,13 +53,6 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   //SEARCH BAR PAGE - ANDY
   searchBarBtn = new Button(35*x, 45*y, 30*x, 5*y, "Search Bar Screen", #8080ff, #b3b3ff, EVENT_BUTTON_SEARCH_BAR, glowSize);
   
-  btnMain.add(destinationBtn);
-  btnMain.add(originBtn);
-  btnMain.add(dateBtn);
-  btnMain.add(flightDataBtn);
-  btnMain.add(homePageBtn);
-
-
   homeScreen.addButton(graphBtn);
   homeScreen.addButton(searchBarBtn);
 
@@ -73,6 +70,8 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   histogramScreen.addButton(homePageBtn);
   histogramScreen.addButton(backArrow);
   histogramScreen.addButton(forwardArrow);
+  histogramScreen.addButton(adjustDelayBtn);
+  histogramScreen.addButton(adjustDistanceBtn);
   
   pieChartScreen.addButton(homePageBtn);
   pieChartScreen.addButton(backArrow);

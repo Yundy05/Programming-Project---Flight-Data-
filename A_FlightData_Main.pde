@@ -73,6 +73,7 @@ ArrayList <DataPoint> dataPoints;
 ArrayList <DataPoint> nonCancelledFlights;
 ArrayList <DataPoint> nonDivertedFlights;
 ArrayList <DataPoint> calendarDataPoint;
+ArrayList <DataPoint> filter;                   //corruptible filter to select data 
 BufferedReader reader;
 String line;
 //HashMap<String, String> hashMap;
@@ -121,6 +122,11 @@ void setup()
 
   showingData = new ShowingData(20, 20, displayWidth/2, displayHeight - 100);
   calendar = new DateCalander(tableOfDates.size);
+  Scanner input = new Scanner(System.in);
+
+  
+  filter = findIntersection(tableOfAirports_Origin , hashFuncForAirport("JFK") , tableOfAirports_Dest , hashFuncForAirport("SAN"));
+  
   //  setupDropDown();
   for(int i=0 ; i<tableOfOrigin_Wac.size ; i++)
   {
@@ -142,14 +148,16 @@ void setup()
     
     }
   }
-  println(cities);
-  print(airports);
+//  println(cities);
+//  print(airports);
 
 
   //Screen History Arrows - Andy
   screenArrow = new ArrayList<Integer>();
   //Searching Bar
-  setupSB();
+//  setupSB();
+
+
 }
 
 
@@ -354,35 +362,9 @@ void draw() {
         }
         if(calendar.finalToGoSelect())
         {
-          calendarDataPoint = new ArrayList<DataPoint> ();
-          flightSelected = false;
-          if(!calendar.singleDateMode)
-          {
-            if (calendar.selectedInboundDay > -1 && calendar.selectedOutboundDay >= calendar.selectedInboundDay) 
-            {
-              for(int day = calendar.selectedInboundDay; day <= calendar.selectedOutboundDay; day++) 
-              {
-                int index = day - 1;
-                LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
-                for (int j= 0; j< dayDataPoints.size(); j++)
-                {
-                  calendarDataPoint.add(dayDataPoints.get(j));
-                }
-              }
-            }
-          }
-          else
-          {
-             for(int day = calendar.selectedInboundDay; day <= calendar.selectedInboundDay; day++) 
-              {
-                int index = day - 1;
-                LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
-                for (int j= 0; j< dayDataPoints.size(); j++)
-                {
-                  calendarDataPoint.add(dayDataPoints.get(j));
-                }
-              }
-          }
+          //selectFlightsByDate();
+          selectFlightsByDateAndOthers(filter);
+                  currentPage = 0;
         currentScreen = SCREEN_SELECT;        
         }
 //        searchScreen.addButton(toSelect);
@@ -420,11 +402,7 @@ void draw() {
         if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
           screenHistory++;
         currentScreen = screenArrow.get(screenHistory);
-      } else if (currentEvent == SCREEN_SELECT)
-      {
-        currentPage = 0;
-        currentScreen = SCREEN_SELECT;
-      }
+      } 
     }
     break;
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -455,7 +433,8 @@ void draw() {
         selectedFlight = currentEvent-100;
         currentScreen = SCREEN_INDIVIDUAL_FLIGHT;
         print(selectedFlight);
-      } else if (selectScreen.returnEvent()==EVENT_BUTTON_HOME)
+      } 
+      else if (selectScreen.returnEvent()==EVENT_BUTTON_HOME)
       {
         currentScreen = SCREEN_HOME;
       }
@@ -480,7 +459,7 @@ void draw() {
   }
   
   //searching Bar
-  drawSB();
+//  drawSB();
 }
 
 

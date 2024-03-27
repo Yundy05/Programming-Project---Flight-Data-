@@ -47,14 +47,23 @@ class DataPoint
     this. diverted= diverted; //– Diverted Flight indicator (1=yes).
     this.distance= distance;
   }
-
+  
+  //boolean equals(DataPoint p)
+  //{
+  //  if(this.day == p.day && this.origin == p.origin && this.depTime == p.depTime && this.arrTime == p.arrTime )
+  //  return true;
+  //  else
+  //  return false;
+  //}
+  
   void printData()
   {
     System.out.println(year+" "+ month+" "+  day+" "+ code+" "+  flightNumber+" "+  origin+" "+ originCity+" "
       +  originState+" "+ originWac+" "+ dest+" "+  destCity+" "+  destState+" "+ destWac+" "+  CRSDepTime+" "
       +  depTime+" "+ CRSArrTime+" "+ arrTime+" "+  cancelled+" "+  diverted+" "+  distance);
   }
-
+  
+  
   String getData()
   {
     return year+" "+ month+" "+  day+" "+ code+" "+  flightNumber+" "+  origin+" "+ originCity+" "

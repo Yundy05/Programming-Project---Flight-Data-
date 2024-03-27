@@ -1,4 +1,100 @@
 
+void selectFlightsByDate()
+{
+  calendarDataPoint = new ArrayList<DataPoint> ();
+          flightSelected = false;
+          if(!calendar.singleDateMode)
+          {
+            if (calendar.selectedInboundDay > -1 && calendar.selectedOutboundDay >= calendar.selectedInboundDay) 
+            {
+              for(int day = calendar.selectedInboundDay; day <= calendar.selectedOutboundDay; day++) 
+              {
+                int index = day - 1;
+                LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
+                for (int j= 0; j< dayDataPoints.size(); j++)
+                {
+                  calendarDataPoint.add(dayDataPoints.get(j));
+                }
+              }
+            }
+          }
+          else
+          {
+             for(int day = calendar.selectedInboundDay; day <= calendar.selectedInboundDay; day++) 
+              {
+                int index = day - 1;
+                LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
+                for (int j= 0; j< dayDataPoints.size(); j++)
+                {
+                  calendarDataPoint.add(dayDataPoints.get(j));
+                }
+              }
+          }
+}
+
+ArrayList<DataPoint> findIntersection(HashTable t1 , int key1 , HashTable t2, int key2)
+{
+  ArrayList intersection = new ArrayList<DataPoint>();
+  for(int i =0 ; i<t1.getDataByIndex(key1).size() ; i++)
+  {
+    DataPoint temp = t1.getDataByIndex(key1).get(i);
+    for(int j=0 ; j<t2.getDataByIndex(key2).size();j++)
+    {
+      if(temp.equals(t2.getDataByIndex(key2).get(j)))
+      intersection.add(temp);
+    }
+  }
+  return intersection;
+}
+
+void selectFlightsByDateAndOthers(ArrayList<DataPoint> filter)
+{
+  calendarDataPoint = new ArrayList<DataPoint> ();
+          flightSelected = false;
+          if(!calendar.singleDateMode)
+          {
+            if (calendar.selectedInboundDay > -1 && calendar.selectedOutboundDay >= calendar.selectedInboundDay) 
+            {
+              for(int day = calendar.selectedInboundDay; day <= calendar.selectedOutboundDay; day++) 
+              {
+                int index = day - 1;
+                LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
+                for (int j= 0; j< dayDataPoints.size(); j++)
+                {
+                  for(int i = 0; i<filter.size() ; i++)
+                  {
+                      if(filter.get(i).equals(dayDataPoints.get(j)))
+                      calendarDataPoint.add(dayDataPoints.get(j));
+                  }
+                }
+              }
+            }
+          }
+          else
+          {
+             for(int day = calendar.selectedInboundDay; day <= calendar.selectedInboundDay; day++) 
+              {
+                int index = day - 1;
+                LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
+                for (int j= 0; j< dayDataPoints.size(); j++)
+                {
+                  for(int i = 0; i<filter.size() ; i++)
+                  {
+                      if(filter.get(i).equals(dataPoints.get(j)))
+                      calendarDataPoint.add(dayDataPoints.get(j));
+                  }
+                }
+              }
+          }
+}
+
+
+
+
+
+
+
+
 ArrayList<Button> createSelections(ArrayList<DataPoint> theFlights)
 {
   float y = (displayHeight*9/10)/100.0;         //unit y
@@ -16,13 +112,13 @@ int flightsPerPage = 8;
 void showFlightSelections( ArrayList<Button> theButtons, ArrayList<DataPoint> theFlights)
 {
   float y = (displayHeight*9/10)/100.0;         //unit y
-  int maxPages = theButtons.size()/flightsPerPage + 1;   //maximum pages. Won't do anything if pressing button beyong range
+  int maxPages = theButtons.size()/flightsPerPage ;   //maximum pages. Won't do anything if pressing button beyong range
   currentEvent = selectScreen.returnEvent();
     if (currentEvent == EVENT_BUTTON_HOME)
       currentScreen = SCREEN_HOME;
     else if(currentEvent == EVENT_BUTTON_NEXT)
     {
-      if(currentPage<maxPages-1)
+      if(currentPage<maxPages)
       currentPage++;
       print(currentPage);
     }

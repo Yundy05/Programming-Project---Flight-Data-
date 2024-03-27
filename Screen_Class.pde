@@ -1,4 +1,4 @@
-Screen homeScreen, flightScreen, graphScreen, individualFlightScreen, searchScreen, selectScreen;
+Screen homeScreen, flightScreen, graphScreen, individualFlightScreen, searchScreen, selectScreen, searchBarScreen;
 
 void setupScreen()
 {
@@ -9,6 +9,7 @@ void setupScreen()
 //  individualFlightScreen = new Screen(#121212, SCREEN_INDIVIDUAL_FLIGHT);
   searchScreen = new Screen(#121212, SCREEN_SEARCH);
   selectScreen = new Screen(#121212, SCREEN_SELECT);
+  searchBarScreen = new Screen(#121212, SCREEN_SEARCH_BAR);
 }
 class doubleScreen extends Screen
 {

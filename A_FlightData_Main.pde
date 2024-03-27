@@ -8,15 +8,17 @@ import java.util.ArrayList;
 final int MARGIN = 10;
 final int OUTLINE_WIDTH = 7;
 final int EVENT_BUTTON_FORWARD = -3;
-final int EVENT_BUTTON_BACK = -2;
+final int EVENT_BUTTON_BACK = -2; //Arrows for screen history
 final int EVENT_BUTTON_NULL = -1;
 final int EVENT_BUTTON_HOME = 0;
 final int EVENT_BUTTON_FLIGHT = 1;
 final int EVENT_BUTTON_TOGRAPH = 2;
 final int EVENT_BUTTON_INDIVIDUAL_FLIGHT = 3;
 final int EVENT_BUTTON_SEARCH_PAGE = 4;
+final int EVENT_BUTTON_SEARCH_BAR = 5;
 final int EVENT_BUTTON_NEXT = 9;
 final int EVENT_BUTTON_PREVIOUS = 10;
+
 
 final int EVENT_BUTTON_ORIGIN = 0;
 final int EVENT_BUTTON_DESTINATION = 0;
@@ -35,7 +37,7 @@ final int SCREEN_GRAPH = 2;
 final int SCREEN_INDIVIDUAL_FLIGHT = 3;
 final int SCREEN_SEARCH = 4;
 final int SCREEN_SELECT = 5;
-final int SCREEN_SEARCHCopy = 6;
+final int SCREEN_SEARCH_BAR = 6;
 
 float adapter;
 int currentScreen ;
@@ -167,59 +169,26 @@ void setup()
 void draw() {
   background(#DB6868);
   //  currentEvent = getCurrentEvent();
-  //   print(screenArrow.toString());
-  //   println(screenHistory);
+     print(screenArrow.toString());
+     println(screenHistory);
   switch(currentScreen)
   {
   case SCREEN_HOME :
     {
       homeScreen.draw();
-      if (hasScreenAdded != SCREEN_HOME)
-      {
-        if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
-        {
-          screenArrow.add(SCREEN_HOME);
-          screenHistory++;
-        }
-        hasScreenAdded = SCREEN_HOME;
-      }
+      screenArrow.clear();
+      screenArrow.add(0);
+      screenHistory = 0;
+      hasScreenAdded = 0;
       // drawDropdown();
       currentEvent = homeScreen.returnEvent();
-      if (currentEvent == EVENT_BUTTON_FLIGHT)
-        currentScreen = SCREEN_FLIGHT;
+      if (currentEvent == EVENT_BUTTON_SEARCH_BAR)
+        currentScreen = SCREEN_SEARCH_BAR;
       else if (currentEvent == EVENT_BUTTON_TOGRAPH)
         currentScreen = SCREEN_GRAPH;
-      else if (currentEvent == EVENT_BUTTON_INDIVIDUAL_FLIGHT)
-        currentScreen = SCREEN_INDIVIDUAL_FLIGHT;
-      else if (currentEvent == EVENT_BUTTON_SEARCH_PAGE)
-        currentScreen = SCREEN_SEARCH;
-
-      if (currentEvent == EVENT_BUTTON_BACK)
-      {
-        if (screenHistory > 0)
-          screenHistory--;
-        currentScreen = screenArrow.get(screenHistory);
-      } else if (currentEvent == EVENT_BUTTON_FORWARD)
-      {
-        if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
-          screenHistory++;
-        currentScreen = screenArrow.get(screenHistory);
-      }
     }
     break;
 
-    /*
-   else if(currentEvent == EVENT_BUTTON_BACK)
-     {
-     if(screenHistory> 1)
-     currentScreen = screenArrow.get(screenHistory);
-     }
-     else if(currentEvent == EVENT_BUTTON_FORWARD)
-     {
-     if(screenArrow.size() > screenHistory)
-     currentScreen = screenArrow.get(screenHistory++);
-     }
-     */
     /////////////////////////////////////////////////////////////////
   case SCREEN_FLIGHT :
     {
@@ -365,9 +334,35 @@ void draw() {
         }
         if(calendar.finalToGoSelect())
         {
-          //selectFlightsByDate();
-          selectFlightsByDateAndOthers(filter);
-                  currentPage = 0;
+          calendarDataPoint = new ArrayList<DataPoint> ();
+          flightSelected = false;
+          if(!calendar.singleDateMode)
+          {
+            if (calendar.selectedInboundDay > -1 && calendar.selectedOutboundDay >= calendar.selectedInboundDay) 
+            {
+              for(int day = calendar.selectedInboundDay; day <= calendar.selectedOutboundDay; day++) 
+              {
+                int index = day - 1;
+                LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
+                for (int j= 0; j< dayDataPoints.size(); j++)
+                {
+                  calendarDataPoint.add(dayDataPoints.get(j));
+                }
+              }
+            }
+          }
+          else
+          {
+             for(int day = calendar.selectedInboundDay; day <= calendar.selectedInboundDay; day++) 
+              {
+                int index = day - 1;
+                LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
+                for (int j= 0; j< dayDataPoints.size(); j++)
+                {
+                  calendarDataPoint.add(dayDataPoints.get(j));
+                }
+              }
+          }
         currentScreen = SCREEN_SELECT;        
         }
 //        searchScreen.addButton(toSelect);
@@ -392,7 +387,8 @@ void draw() {
         currentScreen = SCREEN_HOME;
         calendar.selectedOutboundDay = -1;
         calendar.selectedInboundDay = -1;
-      }
+      }else if (currentEvent == EVENT_BUTTON_TOGRAPH)
+        currentScreen = SCREEN_GRAPH;
       if (currentEvent == EVENT_BUTTON_BACK)
       {
         if (screenHistory > 0)
@@ -405,10 +401,48 @@ void draw() {
         if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
           screenHistory++;
         currentScreen = screenArrow.get(screenHistory);
-      } 
+      } else if (currentEvent == SCREEN_SELECT)
+      {
+        currentPage = 0;
+        currentScreen = SCREEN_SELECT;
+      }
+
     }
     break;
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
+       case SCREEN_SEARCH_BAR :
+    {
+      searchBarScreen.draw();
+      if (hasScreenAdded != SCREEN_SEARCH_BAR)
+      {
+        if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
+        {
+          screenArrow.add(SCREEN_SEARCH_BAR);
+          screenHistory++;
+        }
+        hasScreenAdded = SCREEN_SEARCH_BAR;
+      }
+      currentEvent = searchBarScreen.returnEvent();      
+      if (currentEvent == EVENT_BUTTON_HOME)
+        currentScreen = SCREEN_HOME;
+      else if(currentEvent == EVENT_BUTTON_SEARCH_PAGE)
+        currentScreen = SCREEN_SEARCH;
+      if (currentEvent == EVENT_BUTTON_BACK)
+      {
+        if (screenHistory > 0)
+         screenHistory--;
+        currentScreen = screenArrow.get(screenHistory);
+      } else if (currentEvent == EVENT_BUTTON_FORWARD)
+      {
+        if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
+          screenHistory++;
+        currentScreen = screenArrow.get(screenHistory);
+      }
+    }
+    break;
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    
   case SCREEN_SELECT :
     {
 
@@ -436,8 +470,7 @@ void draw() {
         selectedFlight = currentEvent-100;
         currentScreen = SCREEN_INDIVIDUAL_FLIGHT;
         print(selectedFlight);
-      } 
-      else if (selectScreen.returnEvent()==EVENT_BUTTON_HOME)
+      } else if (selectScreen.returnEvent()==EVENT_BUTTON_HOME)
       {
         currentScreen = SCREEN_HOME;
       }
@@ -456,7 +489,9 @@ void draw() {
         currentScreen = SCREEN_SELECT;
       }
     }
+    
 
+    
   default:
     break;
   }

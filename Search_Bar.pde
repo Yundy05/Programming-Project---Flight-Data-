@@ -1,3 +1,4 @@
+/*
 import java.util.Arrays;
 class SearchBox
 {
@@ -107,6 +108,7 @@ void setupSB()
   stringList = new ArrayList<String>(
                 Arrays.asList( "trinity", "newYork", "MESSSSS"));
 
+<<<<<<< Updated upstream
   DC = new DateCalander(1);
   xSBAirport = DC.x *40 - 50;
   ySBAirport = DC.y *80 -100;
@@ -137,3 +139,18 @@ void controlEvent(ControlEvent event)
   sbDestinationCities.controlEvent(event);
   sbAirport.controlEvent(event);
 }
+=======
+//void drawSB()
+//{
+//  //background(240);
+//  btnCites.display();
+//  btnAirport.display();
+//}
+//void controlEvent(ControlEvent event)
+//{
+//  sbCities.controlEvent(event);
+//  //sbAirport.controlEvent(event);
+//}
+
+*/
+>>>>>>> Stashed changes

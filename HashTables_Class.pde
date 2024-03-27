@@ -54,20 +54,7 @@ public class HashTable {
     LinkedList<DataPoint> bucket = table[index];
     bucket.add(aDataPoint);
   }
-  public int hashFuncForAirport(String airport)
-  {
-    int key;
-    int a;
-    int b;
-    int c;
-    a = airport.charAt(0);
-    a -= 'A';
-    b = airport.charAt(1);
-    b-='A';
-    c = airport.charAt(2);
-    c -= 'A';
-    return key = a*26*26 + b*26 + c;
-  }
+
 
   public void putAirport(DataPoint p, String s)
   {
@@ -108,7 +95,10 @@ public class HashTable {
     c -= 'a';
     key = a + b + c;
     return key;
-  }
+  }    // To store the hash value.
+
+  
+ 
   public void putOrigin(DataPoint aDataPoint)    // place flights into groups
   {
     int index = hashFuncForOrigin(aDataPoint);
@@ -211,7 +201,7 @@ public class HashTable {
           table[i] = new LinkedList<>();
       }
     }
-
+    
     LinkedList<DataPoint> bucket = table[index];
     bucket.add(p);
   }
@@ -238,3 +228,17 @@ public class HashTable {
     bucket.add(p);
   }
 }
+  public int hashFuncForAirport(String airport)
+  {
+    int key;
+    int a;
+    int b;
+    int c;
+    a = airport.charAt(0);
+    a -= 'A';
+    b = airport.charAt(1);
+    b-='A';
+    c = airport.charAt(2);
+    c -= 'A';
+    return key = a*26*26 + b*26 + c;
+  }

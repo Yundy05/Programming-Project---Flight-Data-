@@ -1,4 +1,4 @@
-import java.util.Scanner; //<>// //<>// //<>//
+import java.util.Scanner; //<>//
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +35,6 @@ final int SCREEN_GRAPH = 2;
 final int SCREEN_INDIVIDUAL_FLIGHT = 3;
 final int SCREEN_SEARCH = 4;
 final int SCREEN_SELECT = 5;
-final int SCREEN_SEARCHCopy = 6;
 
 float adapter;
 int currentScreen ;
@@ -59,22 +58,14 @@ int flightNum = -1;       // the index for showing a flight in Individual flight
 boolean flightSelected;    //used in Selection page to ensure we select flights only once before next selection
 boolean helping;
 ArrayList temp;               //temp Arraylist to store the selected flights
-//  String lists for dropdown menu
-ArrayList<String> cities = new ArrayList<String>();
-ArrayList<String> airports = new ArrayList<String>();
-ArrayList<DataPoint> selectedFlights = new ArrayList<DataPoint>();
+
 //events ends//
 ShowingData showingData;
-DateCalander calendar;
-
-
 int count;
 
 ArrayList <DataPoint> dataPoints;
 ArrayList <DataPoint> nonCancelledFlights;
 ArrayList <DataPoint> nonDivertedFlights;
-ArrayList <DataPoint> calendarDataPoint;
-ArrayList <DataPoint> filter;                   //corruptible filter to select data 
 BufferedReader reader;
 String line;
 //HashMap<String, String> hashMap;
@@ -90,10 +81,7 @@ HashMap <Integer, Integer> arrDelayFreq;
 
 
 PieChart pieChartOfDates;
-Histogram histogramOfArrDelay;
-LineGraph flightsByTime;
-BarChart busyAirports;
-
+Histogram histogramOfDates;
 //HashTable tableOfDates;
 //int listSize = dataPoints[0].size();
 int graphOption = -1;
@@ -113,6 +101,9 @@ void setup()
   setupScreen();
   setupBtn();
   TS = int(displayWidth/60.0);  //universal text size;
+  showingData = new ShowingData(20, 20, displayWidth/2, displayHeight - 100);
+
+  //  scrollbarHeight = height * height / contentHeight;
   arrDelayFreq = new HashMap <Integer, Integer>();
 
   //data setup::
@@ -124,46 +115,12 @@ void setup()
   createCharts();
   //data setup ends//
 
-  showingData = new ShowingData(20, 20, displayWidth/2, displayHeight - 100);
-  calendar = new DateCalander(tableOfDates.size);
-  Scanner input = new Scanner(System.in);
-
-  
-  filter = findIntersection(tableOfAirports_Origin , hashFuncForAirport("JFK") , tableOfAirports_Dest , hashFuncForAirport("SAN"));
-  
   //  setupDropDown();
-  for(int i=0 ; i<tableOfOrigin_Wac.size ; i++)
-  {
-    if(tableOfOrigin_Wac.getDataByIndex(i).size()!=0)
-    {
-       for(int j=0; j<tableOfOrigin_Wac.getDataByIndex(i).size() ; j++)
-       {  
-         if(!duplicateValue(cities , eraseQuotation(tableOfOrigin_Wac.getDataByIndex(i).get(j).originCity)))
-         cities.add(eraseQuotation(tableOfOrigin_Wac.getDataByIndex(i).get(j).originCity));
-       }      
-    }
-  }
-    for(int i=0 ; i<tableOfAirports_Origin.size ; i++)
-  {
-    if(tableOfAirports_Origin.getDataByIndex(i).size()!=0)
-    {
-     
-         airports.add(eraseQuotation(tableOfAirports_Origin.getDataByIndex(i).get(0).origin));
-    
-    }
-  }
-  //println(cities);
-  //print(airports);
-  // filter test example  (originCity,destCity,startDay,endDay,only show non-cancelled flights)
-  getFilteredFlights("Chicago, IL","",1,5, true);
-
 
   //Screen History Arrows - Andy
   screenArrow = new ArrayList<Integer>();
   //Searching Bar
-//  setupSB();
-
-
+  //setupSB();
 }
 
 
@@ -207,6 +164,16 @@ void draw() {
         if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
           screenHistory++;
         currentScreen = screenArrow.get(screenHistory);
+      }
+      if (prepare) //Andy Yu
+      {
+        pinOrigin.draw();
+      }
+      if (fly)
+      {
+        pinOrigin.draw();
+        pinArrival.draw();
+        airChina.fly();
       }
     }
     break;
@@ -255,8 +222,8 @@ void draw() {
       }
 
       //  printFlightData();
-      printSortedFlightData();
-      //printOriginSortedFlightData();
+      //printSortedFlightData();
+      printOriginSortedFlightData();
     }
     break;
     ///////////////////////////////////////////////////////////////////
@@ -283,7 +250,7 @@ void draw() {
     if (graphOption == 1)
       pieChartOfDates.drawPieChart();
     else if (graphOption == 2)
-      histogramOfArrDelay.drawHistogram();
+      histogramOfDates.drawHistogram();
 
     if (currentEvent == EVENT_BUTTON_BACK)
     {
@@ -318,7 +285,6 @@ void draw() {
       hasScreenAdded = SCREEN_INDIVIDUAL_FLIGHT;
     }
 
-  
     if (currentEvent == EVENT_BUTTON_HOME)
       currentScreen = SCREEN_HOME;
 
@@ -331,11 +297,10 @@ void draw() {
 
     if (flightNum!=-1)
     {
-      DataPoint flight = calendarDataPoint.get(flightNum);
+      DataPoint flight = dataPoints.get(flightNum);
       map = new USMap(0, 0, flight.originState, flight.destState);
       printIndividualData(flight);
     }
-    currentEvent = individualFlightScreen.returnEvent();
     if (currentEvent == EVENT_BUTTON_BACK)
     {
       if (screenHistory > 0)
@@ -347,39 +312,13 @@ void draw() {
         screenHistory++;
       currentScreen = screenArrow.get(screenHistory);
     }
-    
+    currentEvent = individualFlightScreen.returnEvent();
 
     break;
     ////////////////////////////////////////////////////////////////////////////////////////
   case SCREEN_SEARCH :
     {
       searchScreen.draw();
-      calendar.display();
-      if (calendar.isSelectionComplete()) 
-      {
-        fill(255);
-        if (calendar.singleDateMode) 
-        {
-            text("Date selected! Press \"View Flights\"  to proceed.", calendar.x * 50, calendar.y * 55);
-        } 
-        else 
-        {
-            text("Dates selected! Press \"View Flights\" to proceed.", calendar.x * 50, calendar.y * 55);
-        }
-        if(calendar.finalToGoSelect())
-        {
-          //selectFlightsByDate();
-          selectFlightsByDateAndOthers(filter);
-                  currentPage = 0;
-        currentScreen = SCREEN_SELECT;        
-        }
-//        searchScreen.addButton(toSelect);
-//      else
-//      {
-//         searchScreen.removeButton(toSelect);
-//      }
-      }
-      
       if (hasScreenAdded != SCREEN_SEARCH)
       {
         if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
@@ -391,24 +330,22 @@ void draw() {
       }
       currentEvent = searchScreen.returnEvent();
       if (currentEvent == EVENT_BUTTON_HOME)
-      {
         currentScreen = SCREEN_HOME;
-        calendar.selectedOutboundDay = -1;
-        calendar.selectedInboundDay = -1;
-      }
+
       if (currentEvent == EVENT_BUTTON_BACK)
       {
         if (screenHistory > 0)
           screenHistory--;
-        calendar.selectedOutboundDay = -1;
-        calendar.selectedInboundDay = -1;
         currentScreen = screenArrow.get(screenHistory);
       } else if (currentEvent == EVENT_BUTTON_FORWARD)
       {
         if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
           screenHistory++;
         currentScreen = screenArrow.get(screenHistory);
-      } 
+      } else if (currentEvent == SCREEN_SELECT)
+      {
+        currentScreen = SCREEN_SELECT;
+      }
     }
     break;
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -417,8 +354,7 @@ void draw() {
 
       if (!flightSelected)
       {
-        temp = createSelections(calendarDataPoint);  //temp is a list of buttons consisting the information of the flights
-        
+        temp = createSelections(dataPoints);  //temp is a list of buttons consisting the information of the flights
         flightSelected = true;
       }
 
@@ -432,15 +368,15 @@ void draw() {
         }
         hasScreenAdded = SCREEN_SELECT;
       }
-      showFlightSelections(temp, calendarDataPoint);
+      showFlightSelections(temp, dataPoints);
+
       currentEvent = returnEventFromListOfButton(temp);
       if (currentEvent>=100)  //the flights events are allocated after 100
       {
         selectedFlight = currentEvent-100;
         currentScreen = SCREEN_INDIVIDUAL_FLIGHT;
         print(selectedFlight);
-      } 
-      else if (selectScreen.returnEvent()==EVENT_BUTTON_HOME)
+      } else if (selectScreen.returnEvent()==EVENT_BUTTON_HOME)
       {
         currentScreen = SCREEN_HOME;
       }
@@ -465,7 +401,7 @@ void draw() {
   }
   
   //searching Bar
-//  drawSB();
+  //drawSB();
 }
 
 
@@ -499,39 +435,19 @@ void printSortedFlightData()
 {
   //jhy implimented a better working printing text that
   //only prints the values within the screen and not all from very top to the scrollbar
-  HashTable tempT = tableOfDestination_Wac;
+  HashTable tempT = tableOfAirports_Origin;
   showingData.display();
   if (count!=dataPoints.size())
   {
     for (int i = 0; i < tempT.size; i++)
     {
-      LinkedList<DataPoint> temp = tempT.getDataByIndex(i);
+      LinkedList<DataPoint> temp = tableOfDates.getDataByIndex(i);
       for (int j= 0; j<temp.size(); j++)
       {
         showingData.addFlight(temp.get(j).getData());
         count++;
       }
     }
-  }
-}
-void getFilteredFlights (String origin, String dest, int date1, int date2, boolean nonCancelled)
-{
-  if(origin!="")
-  selectedFlights = dataPoints.stream().filter(DataPoint -> DataPoint.originCity.contains(origin)).collect(Collectors.toCollection(ArrayList<DataPoint>::new));
-  else
-  selectedFlights = dataPoints;
-  if(dest!="")
-  selectedFlights = selectedFlights.stream().filter(DataPoint -> DataPoint.destCity.contains(dest)).collect(Collectors.toCollection(ArrayList<DataPoint>::new));
-  if(date1!=0&&date2!=0)
-  {
-    selectedFlights=selectedFlights.stream().filter(DataPoint ->(  DataPoint.day<=date2&&DataPoint.day>=date1)).collect(Collectors.toCollection(ArrayList<DataPoint>::new));
-  }
-  if(nonCancelled)
-    selectedFlights=selectedFlights.stream().filter(DataPoint ->(  DataPoint.cancelled ==false)).collect(Collectors.toCollection(ArrayList<DataPoint>::new));
-  // test
-  for(int i=0;i<selectedFlights.size();i++)
-  {
-    selectedFlights.get(i).printData();
   }
 }
 void printOriginSortedFlightData()
@@ -567,24 +483,21 @@ void printOriginSortedFlightData()
 
 
 void mousePressed() {
-  showingData.mousePressed();
-  if(currentScreen == 4)
-  {
-    calendar.mousePressed(mouseX, mouseY);
-  }
+  showingData.mousePressed(); // Delegate mousePressed event to the scrollbar.
   //dropdown menu:
   //  mousePressedDropdown();
 }
-
 void mouseWheel(MouseEvent event) {
   if (showingData != null) {
     showingData.mouseWheel(event);
+    //    myScrollbar.mouseWheel(event);
   }
 }
 void mouseReleased() {
   showingData.mouseReleased();
+  //  myScrollbar.mouseReleased(); // Delegate mouseReleased event to the scrollbar.
 }
-  
+
 void mouseClicked() //Flight For Plane AND Pins
 {
 
@@ -639,6 +552,7 @@ boolean isDouble(String s)
 
 void createHashMaps()            //!!! Use this function to create ALL the HashMaps we need for furthur data support!!!       By Chuan:)
 {
+
   for (int i=0; i<dataPoints.size(); i++)
   {
     DataPoint data = dataPoints.get(i);
@@ -649,15 +563,13 @@ void createHashMaps()            //!!! Use this function to create ALL the HashM
     tableOfDestination_Wac.putDestinationWac(data);
     tableOfAirports_Origin.putAirport(data, data.origin);
     tableOfAirports_Dest.putAirport(data, data.dest);
-    int arrDelay = (int)(data.getArrDelay());
+    int arrDelay = (int)(data.getArrDelay())/60;
     arrDelayFreq.put(arrDelay, arrDelayFreq.getOrDefault(arrDelay, 0) + 1);
   }
 }
-
 void createCharts()              //!!! Use this to create ALL the charts we need!!!               By chuan:)
 {
   int[] numberOfFlightsByDay = new int[tableOfDates.size];
-  ArrayList<Integer> arrDelays = new ArrayList<Integer>();
   ArrayList<Integer> numOfFlightsByArrDelay = new ArrayList<Integer>();
   //String[] lables = new String[tableOfDates.size];
   /* for(int i=0 ; i<tableOfDates.size; i++)
@@ -665,29 +577,23 @@ void createCharts()              //!!! Use this to create ALL the charts we need
    numberOfFlightsByDay[i]=tableOfDates.getDataByIndex(i).size();
    lables[i] = "January "+(i+1);
    }*/
-  
+
   for (Map.Entry<Integer, Integer> entry : arrDelayFreq.entrySet())
   {
-    if(entry.getKey()>0)
-    {
-    arrDelays.add(entry.getKey());
     numOfFlightsByArrDelay.add( entry.getValue());
-    }
   }
-  int[] arrDelayArray=new int[numOfFlightsByArrDelay.size()];
   int[] arrDelayFreqArray = new int[numOfFlightsByArrDelay.size()];
   for (int i = 0; i < numOfFlightsByArrDelay.size(); i++)
   {
-    arrDelayArray[i]=arrDelays.get(i);
     arrDelayFreqArray[i] = numOfFlightsByArrDelay.get(i);
   }
   //pieChartOfDates = new PieChart(displayWidth/7,displayHeight/2, displayWidth/10,numberOfFlightsByDay,lables);
   String[] lables = {"on time", "cancelled", "delayed", "diverted"};
   pieChartOfDates = new PieChart(displayWidth/7, displayHeight/2, displayWidth/10, countCancelDelayDivert(dataPoints), lables, "Proportions of flights with different status");//(int x, int y, int radius, int[]data, String[] labels, String title)
-  // histogramOfArrDelay = new Histogram(displayWidth/7, displayHeight/2 , displayHeight/10 , displayWidth/8, numberOfFlightsByDay, tableOfDates.size, 10, 10);
-  histogramOfArrDelay = new Histogram(displayWidth/50, displayHeight/4, displayHeight/2, displayWidth/4, arrDelayArray, arrDelayFreqArray, arrDelayFreqArray.length,
-    "Frequency distribution of arrival delay", "Arrival delay (minutes)", "Frequency");
-  //histogramOfArrDelay = new Histogram(displayWidth/7, displayHeight/7 , displayHeight/2 , displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length, 20, 5);// bug: seems that the text doesnot represent the actual values
+  // histogramOfDates = new Histogram(displayWidth/7, displayHeight/2 , displayHeight/10 , displayWidth/8, numberOfFlightsByDay, tableOfDates.size, 10, 10);
+  histogramOfDates = new Histogram(displayWidth/50, displayHeight/4, displayHeight/2, displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length, 0, 1,
+    "Frequencies of arrival delay", "Arrival delay (h)", "Frequency");
+  //histogramOfDates = new Histogram(displayWidth/7, displayHeight/7 , displayHeight/2 , displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length, 20, 5);// bug: seems that the text doesnot represent the actual values
 }
 
 ArrayList <DataPoint> getNonCancelledFlights (ArrayList <DataPoint> data)
@@ -711,14 +617,7 @@ void sortDataByDepDelay (ArrayList <DataPoint> data)
 {
   Collections.sort(data, new DepDelayComparator());
 }
-void sortDataByDistance (ArrayList <DataPoint> data)
-{
-  Collections.sort(data, new DistanceComparator());
-}
-void sortDataByAirports (ArrayList <DataPoint> data)
-{
-   Collections.sort(data, new AirportComparator());
-}
+
 int[] countCancelDelayDivert(ArrayList <DataPoint> data)
 {
   int normal=0;
@@ -967,14 +866,6 @@ void init_stateCoord()
   stateCoord.put("DC", coord);
   coord=new double[]{362, 551};
   stateCoord.put("HI", coord);
-}
-void testSort(ArrayList<DataPoint> data)
-{
-  sortDataByAirports(data);
-  for (int index=0; index<data.size(); index++)
-      {
-        data.get(index).printData();
-      }
 }
 void printDataByDepDelay(ArrayList data, boolean reversedOrder)
 {

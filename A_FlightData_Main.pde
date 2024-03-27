@@ -95,6 +95,7 @@ PieChart pieChartOfDates;
 Histogram histogramOfDates;
 //HashTable tableOfDates;
 //int listSize = dataPoints[0].size();
+
 int graphOption = -1;
 int lineHeight = 20;
 
@@ -249,8 +250,8 @@ void draw() {
     if (graphOption == 1)
       pieChartOfDates.drawPieChart();
     else if (graphOption == 2)
-      histogramOfDates.drawHistogram();
-
+     // histogramOfDates.drawHistogram();
+        histogramOfDates.drawHistogram();
     if (currentEvent == EVENT_BUTTON_BACK)
     {
       if (screenHistory > 0)
@@ -336,8 +337,12 @@ void draw() {
         {
           calendarDataPoint = new ArrayList<DataPoint> ();
           flightSelected = false;
+         
+          
           //selectFlightsByDate();
-          selectFlightsByDateAndOthers(filter);
+        selectFlightsByDateAndOthers(filter);
+      
+        
         currentScreen = SCREEN_SELECT;        
         }
 //        searchScreen.addButton(toSelect);
@@ -664,7 +669,9 @@ void createHashMaps()            //!!! Use this function to create ALL the HashM
 }
 void createCharts()              //!!! Use this to create ALL the charts we need!!!               By chuan:)
 {
-  int[] numberOfFlightsByDay = new int[tableOfDates.size];
+
+  
+//  int[] numberOfFlightsByDay = new int[tableOfDates.size];
   ArrayList<Integer> numOfFlightsByArrDelay = new ArrayList<Integer>();
   //String[] lables = new String[tableOfDates.size];
   /* for(int i=0 ; i<tableOfDates.size; i++)
@@ -688,6 +695,7 @@ void createCharts()              //!!! Use this to create ALL the charts we need
   // histogramOfDates = new Histogram(displayWidth/7, displayHeight/2 , displayHeight/10 , displayWidth/8, numberOfFlightsByDay, tableOfDates.size, 10, 10);
   histogramOfDates = new Histogram(displayWidth/50, displayHeight/4, displayHeight/2, displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length, 0, 1,
     "Frequencies of arrival delay", "Arrival delay (h)", "Frequency");
+  histogramOfDates = quickFrequencyHistogram(dataPoints , "title" ,  "Delay" , "1/1 - 1/31");   //what do u wish---supporting: Delay , Distance 
   //histogramOfDates = new Histogram(displayWidth/7, displayHeight/7 , displayHeight/2 , displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length, 20, 5);// bug: seems that the text doesnot represent the actual values
 }
 

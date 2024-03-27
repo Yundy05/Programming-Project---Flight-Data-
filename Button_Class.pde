@@ -52,12 +52,12 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   btnMain.add(flightDataBtn);
   btnMain.add(homePageBtn);
 
-  homeScreen.addButton(individualFlightBtn);
-  homeScreen.addButton(flightDataBtn);
-  homeScreen.addButton(graphBtn);
+  //homeScreen.addButton(individualFlightBtn);
+  //homeScreen.addButton(flightDataBtn);
+  //homeScreen.addButton(graphBtn);
   homeScreen.addButton(searchPageBtn);
-  homeScreen.addButton(backArrow);
-  homeScreen.addButton(forwardArrow);
+  //homeScreen.addButton(backArrow);
+  //homeScreen.addButton(forwardArrow);
 
   flightScreen.addButton(homePageBtn);
   flightScreen.addButton(backArrow);
@@ -81,8 +81,10 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
 
   searchScreen.addButton(homePageBtn);
   searchScreen.addButton(backArrow);
-//  searchScreen.addButton(toSelect);
+ // searchScreen.addButton(toSelect);
   searchScreen.addButton(forwardArrow);
+  searchScreen.addButton(graphBtn);
+  
   selectScreen.addButton(homePageBtn);
   selectScreen.addButton(nextPage);
   selectScreen.addButton(previousPage);

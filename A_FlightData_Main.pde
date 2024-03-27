@@ -163,16 +163,10 @@ void draw() {
   {
   case SCREEN_HOME :
     {
-      homeScreen.draw();
-      if (hasScreenAdded != SCREEN_HOME)
-      {
-        if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
-        {
-          screenArrow.add(SCREEN_HOME);
-          screenHistory++;
-        }
-        hasScreenAdded = SCREEN_HOME;
-      }
+       homeScreen.draw();
+      screenArrow.clear();
+      screenArrow.add(0);
+      screenHistory = 0;
       // drawDropdown();
       currentEvent = homeScreen.returnEvent();
       if (currentEvent == EVENT_BUTTON_FLIGHT)
@@ -183,33 +177,9 @@ void draw() {
         currentScreen = SCREEN_INDIVIDUAL_FLIGHT;
       else if (currentEvent == EVENT_BUTTON_SEARCH_PAGE)
         currentScreen = SCREEN_SEARCH;
-
-      if (currentEvent == EVENT_BUTTON_BACK)
-      {
-        if (screenHistory > 0)
-          screenHistory--;
-        currentScreen = screenArrow.get(screenHistory);
-      } else if (currentEvent == EVENT_BUTTON_FORWARD)
-      {
-        if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
-          screenHistory++;
-        currentScreen = screenArrow.get(screenHistory);
-      }
     }
     break;
 
-    /*
-   else if(currentEvent == EVENT_BUTTON_BACK)
-     {
-     if(screenHistory> 1)
-     currentScreen = screenArrow.get(screenHistory);
-     }
-     else if(currentEvent == EVENT_BUTTON_FORWARD)
-     {
-     if(screenArrow.size() > screenHistory)
-     currentScreen = screenArrow.get(screenHistory++);
-     }
-     */
     /////////////////////////////////////////////////////////////////
   case SCREEN_FLIGHT :
     {
@@ -408,7 +378,8 @@ void draw() {
         currentScreen = SCREEN_HOME;
         calendar.selectedOutboundDay = -1;
         calendar.selectedInboundDay = -1;
-      }
+      }else if (currentEvent == EVENT_BUTTON_TOGRAPH)
+        currentScreen = SCREEN_GRAPH;
       if (currentEvent == EVENT_BUTTON_BACK)
       {
         if (screenHistory > 0)

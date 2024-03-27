@@ -8,6 +8,7 @@ class SearchBox
   java.util.List<String> filteredOptions = new java.util.ArrayList<String>();
   float x, y;
   float width,height;
+  String selectedItem;
     SearchBox(ControlP5 cp5, PApplet parent,float x, float y, ArrayList<String> stringList)
     {
         this.cp5 = cp5;
@@ -61,7 +62,6 @@ class SearchBox
         {
           float value = event.getValue();
           String selectedItem = event.getController().getLabel();
-    
           println("Selected value: " + value);
           println("Selected item: " + selectedItem);
         }
@@ -86,19 +86,24 @@ class SearchBox
 }
 ControlP5 cp5;
 ControlP5 cp5Copy;
-SearchBox sbCities;
+ControlP5 cp5DesCities;
+SearchBox sbOriginCities;
+SearchBox sbDestinationCities;
 SearchBox sbAirport;
 DateCalander DC;
 float xSBAirport;          //unit x
 float ySBAirport;    //unit y
 float xSBCity;          //unit x
 float ySBCity;    //unit y
+String OriginCity = null;
+String DestinationCity = null;
 
 ArrayList<String> stringList;
 void setupSB()
 {
   cp5 = new ControlP5(this);
   cp5Copy = new ControlP5(this);
+  cp5DesCities = new ControlP5(this);
   stringList = new ArrayList<String>(
                 Arrays.asList( "trinity", "newYork", "MESSSSS"));
 
@@ -111,7 +116,8 @@ void setupSB()
   ySBAirport = 200;
   xSBCity = 300;
   ySBCity = 300;*/
-  sbCities =new SearchBox(cp5,this, xSBCity,ySBCity , cities);
+  sbOriginCities =new SearchBox(cp5,this, xSBCity,ySBCity , cities);
+  sbDestinationCities =new SearchBox(cp5DesCities,this, xSBCity,ySBCity+200 , cities);
   sbAirport =new SearchBox(cp5Copy,this, xSBAirport,ySBAirport, airports);
   
              
@@ -122,9 +128,12 @@ void drawSB()
   //background(240);
   //sbCities.drawSB(this);
   //sbAirport.drawSB(this);
+  OriginCity=sbOriginCities.selectedItem;
+  DestinationCity = sbDestinationCities.selectedItem;
 }
 void controlEvent(ControlEvent event)
 {
-  sbCities.controlEvent(event);
+  sbOriginCities.controlEvent(event);
+  sbDestinationCities.controlEvent(event);
   sbAirport.controlEvent(event);
 }

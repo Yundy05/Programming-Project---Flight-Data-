@@ -23,7 +23,7 @@ public int[] getFrequency(int[] aList , float interval)
   return f;
 }
 
-Histogram quickFrequencyHistogram(ArrayList<DataPoint> data , String title , String variable , String datePeriod)   //what do u wish---supporting: Delay , Distance 
+Histogram quickFrequencyHistogram(ArrayList<DataPoint> data , String variable , String datePeriod)   //what do u wish---supporting: Delay , Distance 
 {
   float x = displayWidth/200.0;          //unit x
   float y = (displayHeight*9/10)/100.0;         //unit y

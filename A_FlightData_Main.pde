@@ -95,6 +95,7 @@ HashMap <Integer, Integer> arrDelayFreq;
 
 PieChart pieChartOfDates;
 Histogram histogramOfDates;
+Histogram currentHistogram = new Histogram();
 String variable = "";
 //HashTable tableOfDates;
 //int listSize = dataPoints[0].size();
@@ -303,7 +304,10 @@ void draw() {
       hasScreenAdded = SCREEN_HISTOGRAM;
     }
     currentEvent = histogramScreen.returnEvent();
-    histogramOfDates.drawHistogram();
+    
+    currentHistogram = quickFrequencyHistogram(calendarDataPoint , "Distance" , calendar.selectedOutboundDay + "---"+calendar.selectedInboundDay); 
+    currentHistogram.drawHistogram();
+//    histogramOfDates.drawHistogram();
     if (currentEvent == EVENT_BUTTON_HOME)
        currentScreen = SCREEN_HOME;
     if (currentEvent == EVENT_BUTTON_BACK)
@@ -390,16 +394,15 @@ void draw() {
             text("Dates selected! Press \"View Flights\" to proceed.", calendar.x * 50, calendar.y * 55);
         }
         if(calendar.finalToGoSelect())
-        {
-          calendarDataPoint = new ArrayList<DataPoint> ();
-          flightSelected = false;
-         
-          
+        {         
           //selectFlightsByDate();
-        selectFlightsByDateAndOthers(filter);
-      
-        
-        currentScreen = SCREEN_SELECT;        
+            selectFlightsByDateAndOthers(filter);
+                currentScreen = SCREEN_SELECT; 
+        }
+        else if(calendar.finalToGoGraph())
+        {
+            selectFlightsByDateAndOthers(filter);
+                currentScreen = SCREEN_GRAPH; 
         }
 //        searchScreen.addButton(toSelect);
 //      else
@@ -751,8 +754,8 @@ void createCharts()              //!!! Use this to create ALL the charts we need
   // histogramOfDates = new Histogram(displayWidth/7, displayHeight/2 , displayHeight/10 , displayWidth/8, numberOfFlightsByDay, tableOfDates.size, 10, 10);
   histogramOfDates = new Histogram(displayWidth/50, displayHeight/4, displayHeight/2, displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length, 0, 1,
     "Frequencies of arrival delay", "Arrival delay (h)", "Frequency");
-    if(variable !="")
-  histogramOfDates = quickFrequencyHistogram(dataPoints , "title" ,  variable , "1/1 - 1/31");   //what do u wish---supporting: Delay , Distance 
+ //   if(variable !="")
+//  histogramOfDates = quickFrequencyHistogram(dataPoints , variable , "1/1 - 1/31");   //what do u wish---supporting: Delay , Distance 
   //histogramOfDates = new Histogram(displayWidth/7, displayHeight/7 , displayHeight/2 , displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length, 20, 5);// bug: seems that the text doesnot represent the actual values
 }
 

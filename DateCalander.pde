@@ -175,4 +175,24 @@ boolean finalToGoSelect()
       return false;
     }
 }
+boolean finalToGoGraph()
+{
+    toggleSingle();
+    toSelect.display();
+    toSelect.over = mouseX*2560.0/displayWidth >= toSelect.x && mouseX*2560.0/displayWidth <= toSelect.x + toSelect.width 
+    && mouseY*1600.0/displayHeight >= toSelect.y && mouseY*1600.0/displayHeight <= toSelect.y + toSelect.height;
+    if (toSelect.over) {
+      toSelect.currentColor = lerpColor(toSelect.currentColor, toSelect.overColor, 0.4);
+    } else {
+      toSelect.currentColor = lerpColor(toSelect.currentColor, toSelect.notOverColor, 0.4);
+    }
+    if(graphBtn.clicked())
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+}
 }

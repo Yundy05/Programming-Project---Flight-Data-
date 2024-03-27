@@ -751,7 +751,7 @@ void createCharts()              //!!! Use this to create ALL the charts we need
   // histogramOfDates = new Histogram(displayWidth/7, displayHeight/2 , displayHeight/10 , displayWidth/8, numberOfFlightsByDay, tableOfDates.size, 10, 10);
   histogramOfDates = new Histogram(displayWidth/50, displayHeight/4, displayHeight/2, displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length, 0, 1,
     "Frequencies of arrival delay", "Arrival delay (h)", "Frequency");
-    if(variable !="");
+    if(variable !="")
   histogramOfDates = quickFrequencyHistogram(dataPoints , "title" ,  variable , "1/1 - 1/31");   //what do u wish---supporting: Delay , Distance 
   //histogramOfDates = new Histogram(displayWidth/7, displayHeight/7 , displayHeight/2 , displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length, 20, 5);// bug: seems that the text doesnot represent the actual values
 }

@@ -1,51 +1,52 @@
 import java.util.Arrays;
 class SearchBox
 {
-  //ControlP5 cp5;
+  ControlP5 cp5;
   Textfield searchField;
   ScrollableList dropdown;
   java.util.List<String> allOptions = new java.util.ArrayList<String>();
   java.util.List<String> filteredOptions = new java.util.ArrayList<String>();
   float x, y;
-  float value;
-  String selectedItem;
   float width,height;
-    SearchBox(ControlP5 cp5, PApplet parent, Button btn, ArrayList<String> stringList)
+    SearchBox(ControlP5 cp5, PApplet parent,float x, float y, ArrayList<String> stringList)
     {
-        x= btn.x+btn.width;
-        y = btn.y ;//+btn.height;
-        width = btn.width;
-        height = btn.height/2;
+        this.cp5 = cp5;
+        this.x= x;
+        this.y = y;
+        this.width = 80;
+        this.height = 50;
         allOptions = stringList;
 
-//        searchField =cp5.addTextfield("SF")
-//           .setPosition(x,y)
-//           .setSize((int)width, (int)height)
-//           .setFont(createFont("arial", 20))
-//           .setAutoClear(true)
-//           .setColor(color(255,0,0))
-//           .setFocus(true)
-//           .setLabel("Destroy the world immediately!!!!")
-//           ;
-//        dropdown = cp5.addScrollableList("ddl")
-//                            .setPosition(x, y+height)
-//                            .setSize(200, 120)
-//                            .setBarHeight(20)
-//                            .setItemHeight(20)
-//                            .addItems(allOptions);
-//                            //.hide();
-//    }
+        searchField =this.cp5.addTextfield("SF")
+           .setPosition(this.x,this.y)
+           .setSize((int)width, (int)height)
+           .setFont(createFont("arial", 30))
+           .setAutoClear(true)
+           .setColor(color(255,0,0))
+           .setFocus(true)
+           .setLabel("Destroy the world immediately!!!!")
+           .hide()
+           ;
+        dropdown = this.cp5.addScrollableList("ddl")
+                            .setPosition(x, y+height)
+                            .setSize(200, 120)
+                            .setBarHeight(10)
+                            .setItemHeight(50)
+                            .addItems(allOptions)
+                            .hide()
+                            ;
+    }
 
-//    void updateDropdown(String query)
-//    {
-//        filteredOptions.clear();
-//        for(String option : allOptions)
-//        {
-//            if(option.toLowerCase().contains(query.toLowerCase()))
-//            {
-//                filteredOptions.add(option);
-//            }
-//        }
+    void updateDropdown(String query)
+    {
+        filteredOptions.clear();
+        for(String option : allOptions)
+        {
+            if(option.toLowerCase().contains(query.toLowerCase()))
+            {
+                filteredOptions.add(option);
+            }
+        }
 
         dropdown.clear();
         dropdown.addItems(filteredOptions);
@@ -55,46 +56,75 @@ class SearchBox
         if(event.isFrom(searchField))
         {
             updateDropdown(searchField.getText());
-            //dropdown = cp5.show();
         }
-        if (event.isFrom(dropdown)) {
-    value = event.getValue();
-    selectedItem = event.getController().getLabel();
+        if (event.isFrom(dropdown)) 
+        {
+          float value = event.getValue();
+          String selectedItem = event.getController().getLabel();
     
-    println("Selected value: " + value);
-    println("Selected item: " + selectedItem);
-  }
+          println("Selected value: " + value);
+          println("Selected item: " + selectedItem);
+        }
+    }
+    void drawSB(PApplet parent)
+    {
+      if(currentScreen== SCREEN_SEARCH && searchField.getText()!=null)
+      {
+        searchField.show();
+        if(!searchField.getText().trim().isEmpty())
+        {
+          dropdown.show();
+          println(searchField.getText());
+        }
+      }
+      else
+      {
+        searchField.hide();
+        dropdown.hide();
+      }
     }
 }
 ControlP5 cp5;
 ControlP5 cp5Copy;
 SearchBox sbCities;
 SearchBox sbAirport;
-Button btnCites;
-Button btnAirport;
+DateCalander DC;
+float xSBAirport;          //unit x
+float ySBAirport;    //unit y
+float xSBCity;          //unit x
+float ySBCity;    //unit y
+
 ArrayList<String> stringList;
 void setupSB()
 {
-  //size(700,700);
   cp5 = new ControlP5(this);
   cp5Copy = new ControlP5(this);
   stringList = new ArrayList<String>(
                 Arrays.asList( "trinity", "newYork", "MESSSSS"));
-  btnCites = new Button(100, 100, 80, 50, "Cities", #8080ff, #b3b3ff,3, 10);
-  btnAirport = new Button(500, 100, 80, 50, "Airport", #8080ff, #b3b3ff,3, 10);
-  sbCities =new SearchBox(cp5, this, btnCites, cities);
-  sbAirport =new SearchBox(cp5Copy, this,btnAirport, airports);
-             
-//}
 
-//void drawSB()
-//{
-//  //background(240);
-//  btnCites.display();
-//  btnAirport.display();
-//}
-//void controlEvent(ControlEvent event)
-//{
-//  sbCities.controlEvent(event);
-//  //sbAirport.controlEvent(event);
-//}
+  DC = new DateCalander(1);
+  xSBAirport = DC.x *40 - 50;
+  ySBAirport = DC.y *80 -100;
+  xSBCity = DC.x *40;
+  ySBCity = DC.y *80;
+  /*xSBAirport = 200;
+  ySBAirport = 200;
+  xSBCity = 300;
+  ySBCity = 300;*/
+  sbCities =new SearchBox(cp5,this, xSBCity,ySBCity , cities);
+  sbAirport =new SearchBox(cp5Copy,this, xSBAirport,ySBAirport, airports);
+  
+             
+}
+
+void drawSB()
+{
+  //background(240);
+  //sbCities.drawSB(this);
+  //sbAirport.drawSB(this);
+}
+void controlEvent(ControlEvent event)
+{
+  sbCities.controlEvent(event);
+  sbAirport.controlEvent(event);
+}

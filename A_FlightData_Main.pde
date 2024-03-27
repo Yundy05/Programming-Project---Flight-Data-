@@ -160,7 +160,7 @@ void setup()
   //Screen History Arrows - Andy
   screenArrow = new ArrayList<Integer>();
   //Searching Bar
-//  setupSB();
+  setupSB();
 
 
 }
@@ -438,6 +438,7 @@ void draw() {
           screenHistory++;
         currentScreen = screenArrow.get(screenHistory);
       }
+      //drawSB();
     }
     break;
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -497,7 +498,7 @@ void draw() {
   }
   
   //searching Bar
-//  drawSB();
+  drawSB();
 }
 
 

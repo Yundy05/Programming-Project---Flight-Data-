@@ -81,8 +81,6 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
 
   searchScreen.addButton(homePageBtn);
   searchScreen.addButton(backArrow);
-  searchScreen.addButton(btnCites);
-  searchScreen.addButton(btnAirport);
 //  searchScreen.addButton(toSelect);
   searchScreen.addButton(forwardArrow);
   selectScreen.addButton(homePageBtn);

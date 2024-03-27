@@ -25,8 +25,8 @@ final int EVENT_BUTTON_DESTINATION = 0;
 final int EVENT_BUTTON_DEPARTURE = 0;
 final int EVENT_BUTTON_ARRIVAL = 0;
 
-final int EVENT_BUTTON_SHOWPIECHART = 11;
-final int EVENT_BUTTON_SHOWHISTOGRAM = 12;
+final int EVENT_BUTTON_PIECHART = 11;
+final int EVENT_BUTTON_HISTOGRAM = 12;
 final int EVENT_GETFLIGHT = 13;
 
 final int EVENT_GETHELP = 20;
@@ -38,6 +38,8 @@ final int SCREEN_INDIVIDUAL_FLIGHT = 3;
 final int SCREEN_SEARCH = 4;
 final int SCREEN_SELECT = 5;
 final int SCREEN_SEARCH_BAR = 6;
+final int SCREEN_HISTOGRAM = 7;
+final int SCREEN_PIE_CHART = 8;
 
 float adapter;
 int currentScreen ;
@@ -95,8 +97,6 @@ PieChart pieChartOfDates;
 Histogram histogramOfDates;
 //HashTable tableOfDates;
 //int listSize = dataPoints[0].size();
-
-int graphOption = -1;
 int lineHeight = 20;
 
 void settings() //REPLACED SCREENX WITH (displayWidth/2) & SCREENY WITH (displayHeight - 100)
@@ -161,7 +161,7 @@ void setup()
   //Screen History Arrows - Andy
   screenArrow = new ArrayList<Integer>();
   //Searching Bar
-//  setupSB();
+  setupSB();
 
 
 }
@@ -241,17 +241,12 @@ void draw() {
     currentEvent = graphScreen.returnEvent();
     if (currentEvent == EVENT_BUTTON_HOME)
       currentScreen = SCREEN_HOME;
-    else if (currentEvent == EVENT_BUTTON_SHOWPIECHART)
+    else if (currentEvent == EVENT_BUTTON_PIECHART)
     {
-      graphOption = 1 ;
-    } else if (currentEvent == EVENT_BUTTON_SHOWHISTOGRAM)
-      graphOption = 2;
+      currentScreen = SCREEN_PIE_CHART;
+    } else if (currentEvent == EVENT_BUTTON_HISTOGRAM)
+      currentScreen = SCREEN_HISTOGRAM;
 
-    if (graphOption == 1)
-      pieChartOfDates.drawPieChart();
-    else if (graphOption == 2)
-     // histogramOfDates.drawHistogram();
-        histogramOfDates.drawHistogram();
     if (currentEvent == EVENT_BUTTON_BACK)
     {
       if (screenHistory > 0)
@@ -266,6 +261,66 @@ void draw() {
 
     break;
     ////////////////////////////////////////////////////////////////////////////////////
+  case SCREEN_PIE_CHART :
+    pieChartScreen.draw();
+    if (hasScreenAdded != SCREEN_PIE_CHART)
+    {
+      if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
+      {
+        screenArrow.add(SCREEN_PIE_CHART);
+        screenHistory++;
+      }
+      hasScreenAdded = SCREEN_PIE_CHART;
+    }
+    currentEvent = pieChartScreen.returnEvent();
+    pieChartOfDates.drawPieChart();
+    if (currentEvent == EVENT_BUTTON_HOME)
+       currentScreen = SCREEN_HOME;
+    if (currentEvent == EVENT_BUTTON_BACK)
+    {
+      if (screenHistory > 0)
+        screenHistory--;
+      currentScreen = screenArrow.get(screenHistory);
+    } else if (currentEvent == EVENT_BUTTON_FORWARD)
+    {
+      if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
+        screenHistory++;
+      currentScreen = screenArrow.get(screenHistory);
+    }
+
+    break;
+    ////////////////////////////////////////////////////////////////////////////////////
+   case SCREEN_HISTOGRAM :
+    histogramScreen.draw();
+    if (hasScreenAdded != SCREEN_HISTOGRAM)
+    {
+      if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
+      {
+        screenArrow.add(SCREEN_HISTOGRAM);
+        screenHistory++;
+      }
+      hasScreenAdded = SCREEN_HISTOGRAM;
+    }
+    currentEvent = histogramScreen.returnEvent();
+    histogramOfDates.drawHistogram();
+    if (currentEvent == EVENT_BUTTON_HOME)
+       currentScreen = SCREEN_HOME;
+    if (currentEvent == EVENT_BUTTON_BACK)
+    {
+      if (screenHistory > 0)
+        screenHistory--;
+      currentScreen = screenArrow.get(screenHistory);
+    } else if (currentEvent == EVENT_BUTTON_FORWARD)
+    {
+      if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
+        screenHistory++;
+      currentScreen = screenArrow.get(screenHistory);
+    }
+
+    break;
+    ////////////////////////////////////////////////////////////////////////////////////
+    
+    
   case SCREEN_INDIVIDUAL_FLIGHT:
     individualFlightScreen.draw();
     if (currentEvent==EVENT_GETHELP)
@@ -477,7 +532,7 @@ void draw() {
   }
   
   //searching Bar
-//  drawSB();
+  drawSB();
 }
 
 

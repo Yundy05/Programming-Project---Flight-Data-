@@ -61,7 +61,7 @@ ArrayList temp;               //temp Arraylist to store the selected flights
 //  String lists for dropdown menu
 ArrayList<String> cities = new ArrayList<String>();
 ArrayList<String> airports = new ArrayList<String>();
-
+ArrayList<DataPoint> selectedFlights = new ArrayList<DataPoint>();
 //events ends//
 ShowingData showingData;
 DateCalander calendar;
@@ -142,8 +142,10 @@ void setup()
     
     }
   }
-  println(cities);
-  print(airports);
+  //println(cities);
+  //print(airports);
+  // filter test example  (originCity,destCity,startDay,endDay,only show non-cancelled flights)
+  getFilteredFlights("Chicago, IL","",1,5, true);
 
 
   //Screen History Arrows - Andy
@@ -527,6 +529,26 @@ void printSortedFlightData()
         count++;
       }
     }
+  }
+}
+void getFilteredFlights (String origin, String dest, int date1, int date2, boolean nonCancelled)
+{
+  if(origin!="")
+  selectedFlights = dataPoints.stream().filter(DataPoint -> DataPoint.originCity.contains(origin)).collect(Collectors.toCollection(ArrayList<DataPoint>::new));
+  else
+  selectedFlights = dataPoints;
+  if(dest!="")
+  selectedFlights = selectedFlights.stream().filter(DataPoint -> DataPoint.destCity.contains(dest)).collect(Collectors.toCollection(ArrayList<DataPoint>::new));
+  if(date1!=0&&date2!=0)
+  {
+    selectedFlights=selectedFlights.stream().filter(DataPoint ->(  DataPoint.day<=date2&&DataPoint.day>=date1)).collect(Collectors.toCollection(ArrayList<DataPoint>::new));
+  }
+  if(nonCancelled)
+    selectedFlights=selectedFlights.stream().filter(DataPoint ->(  DataPoint.cancelled ==false)).collect(Collectors.toCollection(ArrayList<DataPoint>::new));
+  // test
+  for(int i=0;i<selectedFlights.size();i++)
+  {
+    selectedFlights.get(i).printData();
   }
 }
 void printOriginSortedFlightData()

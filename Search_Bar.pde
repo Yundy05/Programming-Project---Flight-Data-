@@ -7,11 +7,13 @@ class SearchBox
   java.util.List<String> allOptions = new java.util.ArrayList<String>();
   java.util.List<String> filteredOptions = new java.util.ArrayList<String>();
   float x, y;
+  float value;
+  String selectedItem;
   float width,height;
     SearchBox(ControlP5 cp5, PApplet parent, Button btn, ArrayList<String> stringList)
     {
-        x= btn.x;
-        y = btn.y +btn.height;
+        x= btn.x+btn.width;
+        y = btn.y ;//+btn.height;
         width = btn.width;
         height = btn.height/2;
         allOptions = stringList;
@@ -56,8 +58,8 @@ class SearchBox
             //dropdown = cp5.show();
         }
         if (event.isFrom(dropdown)) {
-    float value = event.getValue();
-    String selectedItem = event.getController().getLabel();
+    value = event.getValue();
+    selectedItem = event.getController().getLabel();
     
     println("Selected value: " + value);
     println("Selected item: " + selectedItem);
@@ -78,8 +80,8 @@ void setupSB()
   cp5Copy = new ControlP5(this);
   stringList = new ArrayList<String>(
                 Arrays.asList( "trinity", "newYork", "MESSSSS"));
-  btnCites = new Button(300, 400, 80, 50, "Cities", #8080ff, #b3b3ff,3, 10);
-  btnAirport = new Button(400, 500, 80, 50, "Airport", #8080ff, #b3b3ff,3, 10);
+  btnCites = new Button(100, 100, 80, 50, "Cities", #8080ff, #b3b3ff,3, 10);
+  btnAirport = new Button(500, 100, 80, 50, "Airport", #8080ff, #b3b3ff,3, 10);
   sbCities =new SearchBox(cp5, this, btnCites, cities);
   sbAirport =new SearchBox(cp5Copy, this,btnAirport, airports);
              

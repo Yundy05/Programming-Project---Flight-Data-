@@ -1,4 +1,4 @@
-import java.util.Scanner; //<>// //<>// //<>// //<>//
+import java.util.Scanner; //<>// //<>//
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -354,19 +354,17 @@ void draw() {
   case SCREEN_SEARCH :
     {
       searchScreen.draw();
-      calendar.displayForOrigin();
-//      calendar.displayForCalendar();
+      calendar.displayForCalendar();
       if (calendar.isSelectionComplete()) 
       {
-        fill(0);
-        textSize(30);
+        fill(255);
         if (calendar.singleDateMode) 
         {
-            text("Date selected! Press \"View Flights\"  to proceed.", calendar.x * 28, calendar.y * 83);
+            text("Date selected! Press \"View Flights\"  to proceed.", calendar.x * 50, calendar.y * 55);
         } 
         else 
         {
-            text("Dates selected! Press \"View Flights\" to proceed.", calendar.x * 28, calendar.y * 83);
+            text("Dates selected! Press \"View Flights\" to proceed.", calendar.x * 50, calendar.y * 55);
         }
         if(calendar.finalToGoSelect())
         {
@@ -579,22 +577,10 @@ void mousePressed() {
 }
 
 void mouseWheel(MouseEvent event) {
-    if(currentScreen == 4)
-  {
-    calendar.mouseWheel(event);
-  }
   if (showingData != null) {
     showingData.mouseWheel(event);
   }
 }
-
-void keyPressed(){
-  if(currentScreen == 4)
-  {
-    calendar.keyPressed();
-  }
-}
-
 void mouseReleased() {
   showingData.mouseReleased();
 }

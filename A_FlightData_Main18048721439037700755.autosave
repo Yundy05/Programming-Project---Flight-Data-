@@ -1,4 +1,4 @@
-import java.util.Scanner; //<>// //<>//
+import java.util.Scanner; //<>//
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -58,21 +58,14 @@ int flightNum = -1;       // the index for showing a flight in Individual flight
 boolean flightSelected;    //used in Selection page to ensure we select flights only once before next selection
 boolean helping;
 ArrayList temp;               //temp Arraylist to store the selected flights
-//  String lists for dropdown menu
-ArrayList<String> cities = new ArrayList<String>();
-ArrayList<String> airports = new ArrayList<String>();
 
 //events ends//
 ShowingData showingData;
-DateCalander calendar;
-
-
 int count;
 
 ArrayList <DataPoint> dataPoints;
 ArrayList <DataPoint> nonCancelledFlights;
 ArrayList <DataPoint> nonDivertedFlights;
-ArrayList <DataPoint> calendarDataPoint;
 BufferedReader reader;
 String line;
 //HashMap<String, String> hashMap;
@@ -108,6 +101,9 @@ void setup()
   setupScreen();
   setupBtn();
   TS = int(displayWidth/60.0);  //universal text size;
+  showingData = new ShowingData(20, 20, displayWidth/2, displayHeight - 100);
+
+  //  scrollbarHeight = height * height / contentHeight;
   arrDelayFreq = new HashMap <Integer, Integer>();
 
   //data setup::
@@ -119,37 +115,12 @@ void setup()
   createCharts();
   //data setup ends//
 
-  showingData = new ShowingData(20, 20, displayWidth/2, displayHeight - 100);
-  calendar = new DateCalander(tableOfDates.size);
   //  setupDropDown();
-  for(int i=0 ; i<tableOfOrigin_Wac.size ; i++)
-  {
-    if(tableOfOrigin_Wac.getDataByIndex(i).size()!=0)
-    {
-       for(int j=0; j<tableOfOrigin_Wac.getDataByIndex(i).size() ; j++)
-       {  
-         if(!duplicateValue(cities , eraseQuotation(tableOfOrigin_Wac.getDataByIndex(i).get(j).originCity)))
-         cities.add(eraseQuotation(tableOfOrigin_Wac.getDataByIndex(i).get(j).originCity));
-       }      
-    }
-  }
-    for(int i=0 ; i<tableOfAirports_Origin.size ; i++)
-  {
-    if(tableOfAirports_Origin.getDataByIndex(i).size()!=0)
-    {
-     
-         airports.add(eraseQuotation(tableOfAirports_Origin.getDataByIndex(i).get(0).origin));
-    
-    }
-  }
-  println(cities);
-  print(airports);
-
 
   //Screen History Arrows - Andy
   screenArrow = new ArrayList<Integer>();
   //Searching Bar
-  setupSB();
+  //setupSB();
 }
 
 
@@ -193,6 +164,16 @@ void draw() {
         if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
           screenHistory++;
         currentScreen = screenArrow.get(screenHistory);
+      }
+      if (prepare) //Andy Yu
+      {
+        pinOrigin.draw();
+      }
+      if (fly)
+      {
+        pinOrigin.draw();
+        pinArrival.draw();
+        airChina.fly();
       }
     }
     break;
@@ -241,8 +222,8 @@ void draw() {
       }
 
       //  printFlightData();
-      printSortedFlightData();
-      //printOriginSortedFlightData();
+      //printSortedFlightData();
+      printOriginSortedFlightData();
     }
     break;
     ///////////////////////////////////////////////////////////////////
@@ -304,7 +285,6 @@ void draw() {
       hasScreenAdded = SCREEN_INDIVIDUAL_FLIGHT;
     }
 
-  
     if (currentEvent == EVENT_BUTTON_HOME)
       currentScreen = SCREEN_HOME;
 
@@ -317,11 +297,10 @@ void draw() {
 
     if (flightNum!=-1)
     {
-      DataPoint flight = calendarDataPoint.get(flightNum);
+      DataPoint flight = dataPoints.get(flightNum);
       map = new USMap(0, 0, flight.originState, flight.destState);
       printIndividualData(flight);
     }
-    currentEvent = individualFlightScreen.returnEvent();
     if (currentEvent == EVENT_BUTTON_BACK)
     {
       if (screenHistory > 0)
@@ -333,65 +312,13 @@ void draw() {
         screenHistory++;
       currentScreen = screenArrow.get(screenHistory);
     }
-    
+    currentEvent = individualFlightScreen.returnEvent();
 
     break;
     ////////////////////////////////////////////////////////////////////////////////////////
   case SCREEN_SEARCH :
     {
       searchScreen.draw();
-      calendar.display();
-      if (calendar.isSelectionComplete()) 
-      {
-        fill(255);
-        if (calendar.singleDateMode) 
-        {
-            text("Date selected! Press \"View Flights\"  to proceed.", calendar.x * 50, calendar.y * 55);
-        } 
-        else 
-        {
-            text("Dates selected! Press \"View Flights\" to proceed.", calendar.x * 50, calendar.y * 55);
-        }
-        if(calendar.finalToGoSelect())
-        {
-          calendarDataPoint = new ArrayList<DataPoint> ();
-          flightSelected = false;
-          if(!calendar.singleDateMode)
-          {
-            if (calendar.selectedInboundDay > -1 && calendar.selectedOutboundDay >= calendar.selectedInboundDay) 
-            {
-              for(int day = calendar.selectedInboundDay; day <= calendar.selectedOutboundDay; day++) 
-              {
-                int index = day - 1;
-                LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
-                for (int j= 0; j< dayDataPoints.size(); j++)
-                {
-                  calendarDataPoint.add(dayDataPoints.get(j));
-                }
-              }
-            }
-          }
-          else
-          {
-             for(int day = calendar.selectedInboundDay; day <= calendar.selectedInboundDay; day++) 
-              {
-                int index = day - 1;
-                LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
-                for (int j= 0; j< dayDataPoints.size(); j++)
-                {
-                  calendarDataPoint.add(dayDataPoints.get(j));
-                }
-              }
-          }
-        currentScreen = SCREEN_SELECT;        
-        }
-//        searchScreen.addButton(toSelect);
-//      else
-//      {
-//         searchScreen.removeButton(toSelect);
-//      }
-      }
-      
       if (hasScreenAdded != SCREEN_SEARCH)
       {
         if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
@@ -403,17 +330,12 @@ void draw() {
       }
       currentEvent = searchScreen.returnEvent();
       if (currentEvent == EVENT_BUTTON_HOME)
-      {
         currentScreen = SCREEN_HOME;
-        calendar.selectedOutboundDay = -1;
-        calendar.selectedInboundDay = -1;
-      }
+
       if (currentEvent == EVENT_BUTTON_BACK)
       {
         if (screenHistory > 0)
           screenHistory--;
-        calendar.selectedOutboundDay = -1;
-        calendar.selectedInboundDay = -1;
         currentScreen = screenArrow.get(screenHistory);
       } else if (currentEvent == EVENT_BUTTON_FORWARD)
       {
@@ -422,7 +344,6 @@ void draw() {
         currentScreen = screenArrow.get(screenHistory);
       } else if (currentEvent == SCREEN_SELECT)
       {
-        currentPage = 0;
         currentScreen = SCREEN_SELECT;
       }
     }
@@ -433,8 +354,7 @@ void draw() {
 
       if (!flightSelected)
       {
-        temp = createSelections(calendarDataPoint);  //temp is a list of buttons consisting the information of the flights
-        
+        temp = createSelections(dataPoints);  //temp is a list of buttons consisting the information of the flights
         flightSelected = true;
       }
 
@@ -448,7 +368,8 @@ void draw() {
         }
         hasScreenAdded = SCREEN_SELECT;
       }
-      showFlightSelections(temp, calendarDataPoint);
+      showFlightSelections(temp, dataPoints);
+
       currentEvent = returnEventFromListOfButton(temp);
       if (currentEvent>=100)  //the flights events are allocated after 100
       {
@@ -480,7 +401,7 @@ void draw() {
   }
   
   //searching Bar
-  drawSB();
+  //drawSB();
 }
 
 
@@ -514,13 +435,13 @@ void printSortedFlightData()
 {
   //jhy implimented a better working printing text that
   //only prints the values within the screen and not all from very top to the scrollbar
-  HashTable tempT = tableOfDestination_Wac;
+  HashTable tempT = tableOfAirports_Origin;
   showingData.display();
   if (count!=dataPoints.size())
   {
     for (int i = 0; i < tempT.size; i++)
     {
-      LinkedList<DataPoint> temp = tempT.getDataByIndex(i);
+      LinkedList<DataPoint> temp = tableOfDates.getDataByIndex(i);
       for (int j= 0; j<temp.size(); j++)
       {
         showingData.addFlight(temp.get(j).getData());
@@ -562,24 +483,21 @@ void printOriginSortedFlightData()
 
 
 void mousePressed() {
-  showingData.mousePressed();
-  if(currentScreen == 4)
-  {
-    calendar.mousePressed(mouseX, mouseY);
-  }
+  showingData.mousePressed(); // Delegate mousePressed event to the scrollbar.
   //dropdown menu:
   //  mousePressedDropdown();
 }
-
 void mouseWheel(MouseEvent event) {
   if (showingData != null) {
     showingData.mouseWheel(event);
+    //    myScrollbar.mouseWheel(event);
   }
 }
 void mouseReleased() {
   showingData.mouseReleased();
+  //  myScrollbar.mouseReleased(); // Delegate mouseReleased event to the scrollbar.
 }
-  
+
 void mouseClicked() //Flight For Plane AND Pins
 {
 
@@ -634,6 +552,7 @@ boolean isDouble(String s)
 
 void createHashMaps()            //!!! Use this function to create ALL the HashMaps we need for furthur data support!!!       By Chuan:)
 {
+
   for (int i=0; i<dataPoints.size(); i++)
   {
     DataPoint data = dataPoints.get(i);

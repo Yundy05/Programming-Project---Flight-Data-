@@ -55,19 +55,30 @@ void displayForOrigin()
   dropdownOption2.draw();
   dropdownOption1.draw();
   
-  if(dropdownOption1.inputText == "Departure Only")
+  if(dropdownOption1.inputText == "Departure & Arriving")
   {
+    dropdownOption2.inputText = "Departure: " + OriginCity; 
+    dropdownOption3.inputText = "Arrival: " + DestinationCity; 
+  }
+  else if(dropdownOption1.inputText == "Departure Only")
+  {
+    dropdownOption2.inputText = "Departure: " + OriginCity; 
     dropdownOption3.inputText = "Arrival: Any"; 
   }
   
   else if(dropdownOption1.inputText == "Arrival Only")
   {
-    dropdownOption2.inputText = "Departure: Any"; 
+    dropdownOption2.inputText = "Departure: Any";
+    dropdownOption3.inputText = "Arrival: " + DestinationCity; 
   }
   else if(dropdownOption1.inputText =="Single Date Only" || dropdownOption1.inputText == "Date range")
   {
     dropdownOption2.inputText = "Departure: Any";
     dropdownOption3.inputText = "Arrival: Any";
+  }
+  else if(dropdownOption1.inputText == "")
+  {
+    dropdownOption1.inputText = ("Select Your Data Type");
   }
 }
 

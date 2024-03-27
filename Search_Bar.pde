@@ -149,11 +149,8 @@ void setupSB()
   ySBDestinationCity = 700;
   sbOriginCities =new SearchBox(cp5,this, xSBCity,ySBCity , cities, "Origin");
   sbDestinationCities =new SearchBox(cp5DesCities,this, xSBCity, ySBDestinationCity  , cities, "Destination");
-  //sbAirport =new SearchBox(cp5Copy,this, xSBAirport,ySBAirport, airports);
-  
-             
+  //sbAirport =new SearchBox(cp5Copy,this, xSBAirport,ySBAirport, airports);             
 }
-
 void drawSB()
 {
   //background(240);
@@ -163,6 +160,8 @@ void drawSB()
   sbDestinationCities.drawSB(this);
   OriginCity=sbOriginCities.selectedItem;
   DestinationCity = sbDestinationCities.selectedItem;
+  
+  println(OriginCity, DestinationCity);
 }
 void controlEvent(ControlEvent event)
 {

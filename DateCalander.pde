@@ -1,5 +1,6 @@
 class DateCalander
 {
+  PImage takeOff = loadImage("flight-takeoff.256x193.png");
   PFont font = loadFont("Raanana-16.vlw");
   int year = 2020;
   int month = 0; //january
@@ -11,39 +12,85 @@ class DateCalander
   float x = 2560/200.0;          //unit x
   float y = (1600*9/10)/100.0;    //unit y
   boolean singleDateMode = false;
+  String inputChanged = "";
   int circleXPos;
   ArrayList<DataPoint> dp = new ArrayList <DataPoint> ();
-  Button toSelect =  new Button(50*x, 45*y, 20*x, 4*y, "Select", #8080ff, #b3b3ff, SCREEN_SELECT, 10); //glowsize set to 10 for default use
+  ArrayList<String> departureOrArrive = new ArrayList<String>();
+  ArrayList<String> departure = new ArrayList<String>();
+  ArrayList<String> arrival = new ArrayList<String>();
+
+  DropdownTextbox dropdownOption1;
+  DropdownTextbox dropdownOption2;
+  DropdownTextbox dropdownOption3;
+  Button toSelect =  new Button(50*x, 77*y, 20*x, 4*y, "Select", #8080ff, #b3b3ff, SCREEN_SELECT, 10); //glowsize set to 10 for default use
+  
   DateCalander(int amountOfDays)
   {
     this.amountOfDays = amountOfDays;
+    takeOff.resize(int(3 * x),int(2 * y));
+    dropdownOption1 = new DropdownTextbox(int(x * 10), int(x * 15), int(80 * x) , int(5 * y), 10);
+    dropdownOption2 = new DropdownTextbox(int(x * 10), int(x * 25), int(80 * x) , int(5 * y), 10);
+    dropdownOption3 = new DropdownTextbox(int(x * 10), int(x * 35), int(80 * x) , int(5 * y), 10);
+
+    Collections.addAll(departureOrArrive, "Departure Only", "Arrival Only", "Departure & Arriving", "Single Date Only", "Date range");
+    dropdownOption1.addOptions(departureOrArrive);
   }
 
-  void display() {
+
+void displayForOrigin()
+{
+  scale(displayWidth/2560.0,displayHeight/1600.0);
+  textFont(font);
+  fill(225);
+  noStroke();
+  rect(5 * x, 12 * y, 90 * x, 80 * y, 20);
+  rect(5 * x, 8 * y, 20 * x, 5 * y);
+  
+  textSize(30);
+  fill(100);
+  image(takeOff, 6* x, 8.5 * y);
+  text("Check a flight", 16 * x, 9.5 * y);
+  displayForCalendar();
+  dropdownOption3.draw();
+  dropdownOption2.draw();
+  dropdownOption1.draw();
+  
+  if(dropdownOption1.inputText == "Departure Only")
+  {
+    dropdownOption3.inputText = "Arrival: Any"; 
+  }
+  
+  else if(dropdownOption1.inputText == "Arrival Only")
+  {
+    dropdownOption2.inputText = "Departure: Any"; 
+  }
+  else if(dropdownOption1.inputText =="Single Date Only" || dropdownOption1.inputText == "Date range")
+  {
+    dropdownOption2.inputText = "Departure: Any";
+    dropdownOption3.inputText = "Arrival: Any";
+  }
+}
+
+//for Calendar -jhy
+  void displayForCalendar() {
     scale(displayWidth/2560.0,displayHeight/1600.0);
     textFont(font);
-    textSize(50);
+    textSize(40);
     fill(255);
-    text("January", 50 * x, 10 * y);
-    textSize(40);
-    rect(25 * x, 12 * y, 50 * x, 40 * y, 35);
-    textSize(2 * x);
-    fill(0);
-    text("Toggle Single", 67 * x, 14 * y);
-    textSize(40);
+    rect(25 * x, 50 * y, 50 * x, 35 * y, 35);
     for (int i = 0; i < totalDays; i++) {
       int xPos = (i % 7) * 80 + int(28.5 * x);
-      int yPos = (i / 7) * 80 + int(22 * y);
-      if (i + 1 == selectedInboundDay || i + 1 == selectedOutboundDay) {
+      int yPos = (i / 7) * 80 + int(55 * y);
+      if (i + 1 == selectedInboundDay || i + 1 == selectedOutboundDay && dropdownOption1.inputText != "") {
         strokeWeight(4);
         fill(color(50,205,50));
       } 
-      else if(i + 1 > selectedInboundDay && i + 1 < selectedOutboundDay)
+      else if(i + 1 > selectedInboundDay && i + 1 < selectedOutboundDay && dropdownOption1.inputText != "")
       {
         strokeWeight(2);
         fill(200);
       }
-      else if(i + 1 > amountOfDays)
+      else if(i + 1 > amountOfDays || dropdownOption1.inputText == "" || !dropdownOption1.ifItIsOption)
       {
         strokeWeight(0);
         fill(120);
@@ -58,28 +105,38 @@ class DateCalander
       fill(0);
       text(i + 1, xPos + 2.5 * x, yPos + 2* y);
     }
-    toggleSingle();
+    textSize(50);
+    fill(0);
+    text("January", 50 * x, 52 * y);
+    
+    if(inputChanged != dropdownOption1.inputText)
+    {
+      selectedInboundDay = -1;
+      selectedOutboundDay = -1;
+      inputChanged = dropdownOption1.inputText;
+      if(inputChanged == "Departure & Arriving" || inputChanged == "Date range")
+      {
+        singleDateMode = false;
+      }
+      else
+      {
+        singleDateMode = true;
+      }
+    }
   }
+
+
   
 void mousePressed(int mouseX, int mouseY) {
+    dropdownOption1.mousePressed();
     int clickedColumn = (int)((mouseX*2560.0/displayWidth - int(28.5 * x)) / 80);
-    int clickedRow = (int)((mouseY*1600.0/displayHeight - int(22 * y)) / 80);
+    int clickedRow = (int)((mouseY*1600.0/displayHeight - int(55 * y)) / 80);
     int clickedDay = clickedRow * 7 + clickedColumn + 1;
-    
-     if (mouseX*2560.0/displayWidth > 63 * x && mouseX*2560.0/displayWidth < 63 * x + 8* x &&
-        mouseY*1600.0/displayHeight > 16 * y && mouseY*1600.0/displayHeight < 16 * y + 2.5 * y) {
-        // Toggle the button state
-        singleDateMode = !singleDateMode;
-        selectedInboundDay = -1;
-        selectedOutboundDay = -1;
-        clickCount = 0;
-    }
 
-
-    if (clickedDay > 0 && clickedDay <= amountOfDays) {
+    if (clickedDay > 0 && clickedDay <= amountOfDays && (dropdownOption1.inputText != "" && dropdownOption1.ifItIsOption)) {
         float cellStartX = 28.5 * x + clickedColumn * 80;
         float cellEndX = cellStartX + 70;
-        float cellStartY = 22 * y + clickedRow * 80;
+        float cellStartY = 55 * y + clickedRow * 80;
         float cellEndY = cellStartY + 70;
 
         if (mouseX*2560.0/displayWidth >= cellStartX &&mouseX*2560.0/displayWidth <= cellEndX && mouseY*1600.0/displayHeight >= cellStartY && mouseY*1600.0/displayHeight <= cellEndY) {
@@ -108,6 +165,17 @@ void mousePressed(int mouseX, int mouseY) {
     }
 }
 
+void keyPressed()
+{
+  dropdownOption1.keyPressed();
+}
+
+void mouseWheel(MouseEvent event)
+{
+  dropdownOption1.mouseWheel(event);
+}
+
+
 
 
   
@@ -126,38 +194,9 @@ String getSelectedDates() {
     }
     return "Incomplete Search";
 }
-//67 * x, 14 * y
-void toggleSingle()
-{
-  float circleXPos;
-  if(singleDateMode)
-  {
-    fill(color(50,205,50));
-    stroke(0);
-    rect(63 * x, 16 * y, 8* x, 2.5 * y, (2.5 * y)/2);
-    circleXPos =  63 * x + 8* x - 2.5 * y;
-    fill(0);
-    textSize(25);
-    text("On", 66 * x, 17 * y);
-  }
-  else
-  {
-    fill(color(192,192,192));
-    stroke(0);
-    rect(63 * x, 16 * y, 8* x, 2.5 * y, (2.5 * y)/2);
-    circleXPos = 63 * x;
-    fill(255);
-    textSize(25);
-    text("Off", 68 * x, 17 * y);
-  }
-  fill(255); // White for the circle
-  ellipse(circleXPos + (2.5 * y)/2, 16 * y + (2.5 * y)/2, 2.5 * y *0.8, 2.5 * y *0.8);
-}
-
 
 boolean finalToGoSelect()
 {
-    toggleSingle();
     toSelect.display();
     toSelect.over = mouseX*2560.0/displayWidth >= toSelect.x && mouseX*2560.0/displayWidth <= toSelect.x + toSelect.width 
     && mouseY*1600.0/displayHeight >= toSelect.y && mouseY*1600.0/displayHeight <= toSelect.y + toSelect.height;

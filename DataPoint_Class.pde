@@ -80,7 +80,7 @@ class DataPoint
     int depDelay=getDepDelay();
     if (delay-depDelay>12*60)
       return (delay-24*60);
-    else if (delay-depDelay<-2*60)
+    else if (delay-depDelay<-12*60)
       return (delay+24*60);
     else
       return delay;

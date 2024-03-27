@@ -1,4 +1,4 @@
-import java.util.Scanner; //<>// //<>// //<>// //<>//
+import java.util.Scanner; //<>// //<>// //<>//
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -740,11 +740,10 @@ void createHashMaps()            //!!! Use this function to create ALL the HashM
     tableOfDestination_Wac.putDestinationWac(data);
     tableOfAirports_Origin.putAirport(data, data.origin);
     tableOfAirports_Dest.putAirport(data, data.dest);
-    int arrDelay = (int)(data.getArrDelay());
+    int arrDelay = (int)(data.getArrDelay())/60;
     arrDelayFreq.put(arrDelay, arrDelayFreq.getOrDefault(arrDelay, 0) + 1);
   }
 }
-
 void createCharts()              //!!! Use this to create ALL the charts we need!!!               By chuan:)
 {
 
@@ -757,20 +756,14 @@ void createCharts()              //!!! Use this to create ALL the charts we need
    numberOfFlightsByDay[i]=tableOfDates.getDataByIndex(i).size();
    lables[i] = "January "+(i+1);
    }*/
-  
+
   for (Map.Entry<Integer, Integer> entry : arrDelayFreq.entrySet())
   {
-    if(entry.getKey()>0)
-    {
-    arrDelays.add(entry.getKey());
     numOfFlightsByArrDelay.add( entry.getValue());
-    }
   }
-  int[] arrDelayArray=new int[numOfFlightsByArrDelay.size()];
   int[] arrDelayFreqArray = new int[numOfFlightsByArrDelay.size()];
   for (int i = 0; i < numOfFlightsByArrDelay.size(); i++)
   {
-    arrDelayArray[i]=arrDelays.get(i);
     arrDelayFreqArray[i] = numOfFlightsByArrDelay.get(i);
   }
   //pieChartOfDates = new PieChart(displayWidth/7,displayHeight/2, displayWidth/10,numberOfFlightsByDay,lables);
@@ -805,14 +798,7 @@ void sortDataByDepDelay (ArrayList <DataPoint> data)
 {
   Collections.sort(data, new DepDelayComparator());
 }
-void sortDataByDistance (ArrayList <DataPoint> data)
-{
-  Collections.sort(data, new DistanceComparator());
-}
-void sortDataByAirports (ArrayList <DataPoint> data)
-{
-   Collections.sort(data, new AirportComparator());
-}
+
 int[] countCancelDelayDivert(ArrayList <DataPoint> data)
 {
   int normal=0;
@@ -1061,14 +1047,6 @@ void init_stateCoord()
   stateCoord.put("DC", coord);
   coord=new double[]{362, 551};
   stateCoord.put("HI", coord);
-}
-void testSort(ArrayList<DataPoint> data)
-{
-  sortDataByAirports(data);
-  for (int index=0; index<data.size(); index++)
-      {
-        data.get(index).printData();
-      }
 }
 void printDataByDepDelay(ArrayList data, boolean reversedOrder)
 {

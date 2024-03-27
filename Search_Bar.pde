@@ -24,14 +24,22 @@ class SearchBox
            .setColor(color(255,0,0))
            .setFocus(true)
            .setLabel("Destroy the world immediately!!!!")
+           .hide()
            ;
+       
         dropdown = cp5.addScrollableList("ddl")
                             .setPosition(x, y+height)
                             .setSize(200, 120)
                             .setBarHeight(20)
                             .setItemHeight(20)
-                            .addItems(allOptions);
-                            //.hide();
+                            .addItems(allOptions)
+                            .hide()
+                            ;
+        /*if(currentScreen == 4)
+        {
+          searchField.show();
+          dropdown.show();
+        }*/
     }
 
     void updateDropdown(String query)
@@ -53,7 +61,7 @@ class SearchBox
         if(event.isFrom(searchField))
         {
             updateDropdown(searchField.getText());
-            //dropdown = cp5.show();
+            dropdown.show();
         }
         if (event.isFrom(dropdown)) {
     float value = event.getValue();
@@ -62,6 +70,16 @@ class SearchBox
     println("Selected value: " + value);
     println("Selected item: " + selectedItem);
   }
+        
+    }
+    
+    void drawSB()
+    {
+      if(currentScreen == 4)
+        {
+          searchField.show();
+          dropdown.show();
+        }
     }
 }
 ControlP5 cp5;
@@ -90,6 +108,7 @@ void drawSB()
   //background(240);
   btnCites.display();
   btnAirport.display();
+  sbCities.drawSB();
 }
 void controlEvent(ControlEvent event)
 {

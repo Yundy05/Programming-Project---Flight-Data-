@@ -3,7 +3,7 @@ ArrayList<Button>btnControlPanel;
 PFont buttonFont;
 
 Button originBtn, destinationBtn, dateBtn, flightDataBtn, homePageBtn, graphBtn, backArrow, forwardArrow , previousPage , nextPage, adjustDelayBtn, adjustDistanceBtn , lengthByRoute;
-Button showPieChartBtn, showHistogramBtn, showBarChartBtn , individualFlightBtn, departBtn, arrivalBtn, getFlightBtn, searchPageBtn, toSelect, helpBtn, searchBarBtn;
+Button showPieChartBtn, showHistogramBtn, showBarChartBtn , individualFlightBtn, departBtn, arrivalBtn, getFlightBtn, searchPageBtn, toSelect, helpBtn, searchBarBtn, filterBtn1, filterBtn2;
 
 void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour, HoverColour, ButtonEvent)
 {
@@ -31,7 +31,9 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   adjustDistanceBtn = new Button(50*x, 10*y, 15*x, 5*y, "Distance", #8080ff, #b3b3ff, EVENT_BUTTON_DISTANCE, glowSize);
   
   //BARCHART PAGE 
-  lengthByRoute = new Button(30*x, 10*y, 30*x, 5*y, "10 Busiest Airports", #8080ff, #b3b3ff, EVENT_BUTTON_RL, glowSize);
+  lengthByRoute = new Button(35*x, 10*y, 30*x, 5*y, "10 Busiest Airports", #8080ff, #b3b3ff, EVENT_BUTTON_RL, glowSize);
+  filterBtn1 = new Button(5*x, 10*y, 30*x, 5*y, "Filter 1", #8080ff, #b3b3ff, EVENT_BUTTON_FILTER_1, glowSize);
+  filterBtn2 = new Button(65*x, 10*y, 30*x, 5*y, "Filter 2", #8080ff, #b3b3ff, EVENT_BUTTON_FILTER_2, glowSize);
 
   //INDIVIDUAL FLIGHTS PAGE - Andy
   originBtn = new Button(x, 75*y, 30*x, 5*y, "Origin", #8080ff, #b3b3ff, EVENT_BUTTON_ORIGIN, glowSize);
@@ -85,6 +87,8 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   
   barChartScreen.addButton(homePageBtn);
   barChartScreen.addButton(lengthByRoute);
+  barChartScreen.addButton(filterBtn1);
+    barChartScreen.addButton(filterBtn2);
   barChartScreen.addButton(backArrow);
   barChartScreen.addButton(forwardArrow);
 

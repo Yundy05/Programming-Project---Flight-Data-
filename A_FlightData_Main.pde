@@ -31,6 +31,8 @@ final int EVENT_GETFLIGHT = 13;
 final int EVENT_BUTTON_DELAY = 14;
 final int EVENT_BUTTON_DISTANCE = 15;
 final int EVENT_BUTTON_RL = 16;
+final int EVENT_BUTTON_FILTER_1 = 17;
+final int EVENT_BUTTON_FILTER_2 = 18;
 
 final int EVENT_GETHELP = 20;
 
@@ -610,6 +612,12 @@ void draw() {
         currentScreen = SCREEN_HOME;
       else if (currentEvent == EVENT_BUTTON_SEARCH_PAGE)
         currentScreen = SCREEN_SEARCH;
+        //CHANGE THIS FOR FILTER BUTTONS 
+     else if (currentEvent == EVENT_BUTTON_FILTER_1)
+        currentScreen = SCREEN_SEARCH;
+     else if (currentEvent == EVENT_BUTTON_FILTER_2)
+        currentScreen = SCREEN_SEARCH;
+        
       if (currentEvent == EVENT_BUTTON_BACK)
       {
         if (screenHistory > 0)

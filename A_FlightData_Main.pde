@@ -406,14 +406,14 @@ void draw() {
         if(calendar.finalToGoSelect())
         {         
           //selectFlightsByDate();
-            selectFlightsByDateAndOthers(filter);
-                currentScreen = SCREEN_SELECT; 
-        }
-        else if(calendar.finalToGoGraph())
-        {
-            selectFlightsByDateAndOthers(filter);
-                currentScreen = SCREEN_GRAPH; 
-        {
+ //           selectFlightsByDateAndOthers(filter);
+//            currentScreen = SCREEN_SELECT; 
+//        }
+//        else if(calendar.finalToGoGraph())
+//        {
+//            selectFlightsByDateAndOthers(filter);
+//            currentScreen = SCREEN_GRAPH; 
+//      {
 //          "Departure Only", "Arrival Only", "Departure & Arriving", "Single Date Only", "Date range"
           if(calendar.inputChanged == "Departure Only")
           {
@@ -433,12 +433,10 @@ void draw() {
           else if(calendar.inputChanged == "Single Date Only")
           {
             selectFlightsByDate();
-            selectFlightsByDateAndOthers(calendarDataPoint);
           }
           else if(calendar.inputChanged == "Date range")
           {
             selectFlightsByDate();
-            selectFlightsByDateAndOthers(calendarDataPoint);
           }
           currentScreen = SCREEN_SELECT;
         }
@@ -483,10 +481,10 @@ void draw() {
         currentPage = 0;
         currentScreen = SCREEN_SELECT;
       }
-      }
     }
     break;
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
        case SCREEN_SEARCH_BAR :
     {
       searchBarScreen.draw();

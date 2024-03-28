@@ -25,6 +25,8 @@ class DateCalander
   DropdownTextbox dropdownOption1;
   DropdownTextbox dropdownOption2;
   DropdownTextbox dropdownOption3;
+  DropdownTextbox dropdownOption4;
+
   Button toSelect =  new Button(50*x, 80*y, 20*x, 4*y, "View Flights", #8080ff, #b3b3ff, SCREEN_SELECT, 10); //glowsize set to 10 for default use
   Button toGraph = new Button(50*x, 85 *y, 20*x, 4*y, "GRAPHS", #8080ff, #b3b3ff, EVENT_BUTTON_TOGRAPH, 10);
 
@@ -35,11 +37,10 @@ class DateCalander
     dropdownOption1 = new DropdownTextbox(int(x * 10), int(x * 15), int(80 * x), int(5 * y), 10);
     dropdownOption2 = new DropdownTextbox(int(x * 10), int(x * 25), int(80 * x), int(5 * y), 10);
     dropdownOption3 = new DropdownTextbox(int(x * 10), int(x * 35), int(80 * x), int(5 * y), 10);
-
+    dropdownOption4 = new DropdownTextbox(int(x * 10), int(x * 45), int(80 * x), int(5 * y), 10);
     Collections.addAll(departureOrArrive, "Departure Only", "Arrival Only", "Departure & Arriving", "Single Date Only", "Date range");
     dropdownOption1.addOptions(departureOrArrive);
   }
-
 
   void displayForOrigin()
   {
@@ -55,6 +56,7 @@ class DateCalander
     image(takeOff, 6 * x, 8.5 * y);
     text("Check a flight", 16 * x, 9.5 * y);
     displayForCalendar();
+    dropdownOption4.draw();
     dropdownOption3.draw();
     dropdownOption2.draw();
     dropdownOption1.draw();
@@ -92,10 +94,18 @@ class DateCalander
     {
       dropdownOption2.inputText = "Departure: Any";
       dropdownOption3.inputText = "Arrival: Any";
-    } else if (dropdownOption1.inputText == " ")
+    } 
+    if (dropdownOption1.inputText == " ")
     {
       dropdownOption1.inputText = ("Select Your Data Type");
+      dropdownOption2.inputText = ("Departing at....");
+      dropdownOption3.inputText = ("Arriving at....");
+      if(dropdownOption4.inputText == (" "))
+      {
+        dropdownOption4.inputText = ("Click to select dates");
+      }
     }
+    
     if(toggleClickMode)
     {
       toggleSingle();
@@ -106,6 +116,17 @@ class DateCalander
   }
 
   //for Calendar -jhy
+
+ 
+boolean calendarShowing()
+  {
+    
+    
+    return false;
+    
+    
+  }
+  
   void displayForCalendar() {
     //    scale(displayWidth/2560.0,displayHeight/1600.0);
     textFont(font);

@@ -54,6 +54,7 @@ ArrayList<DataPoint> findIntersection(HashTable t1, int key1)
   for (int i =0; i<t1.getDataByIndex(key1).size(); i++)
   {
     DataPoint temp = t1.getDataByIndex(key1).get(i);
+    println(key1);
     intersection.add(temp);
   }
   return intersection;
@@ -91,8 +92,10 @@ void selectFlightsByDateAndOthers(ArrayList<DataPoint> filter)
       {
         for (int i = 0; i<filter.size(); i++)
         {
-          if (filter.get(i).equals(dataPoints.get(j)))
+          if (filter.get(i).equals(dayDataPoints.get(j)))
+          {
             calendarDataPoint.add(dayDataPoints.get(j));
+          }
         }
       }
     }

@@ -1,4 +1,4 @@
-import java.util.Scanner; //<>// //<>// //<>// //<>// //<>//
+import java.util.Scanner; //<>// //<>// //<>//
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,8 +31,6 @@ final int EVENT_GETFLIGHT = 13;
 final int EVENT_BUTTON_DELAY = 14;
 final int EVENT_BUTTON_DISTANCE = 15;
 final int EVENT_BUTTON_RL = 16;
-final int EVENT_BUTTON_FILTER_1 = 17;
-final int EVENT_BUTTON_FILTER_2 = 18;
 
 final int EVENT_GETHELP = 20;
 
@@ -385,15 +383,6 @@ void draw() {
     /////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////
   case SCREEN_BAR_CHART:
       barChartScreen.draw();
-      if (hasScreenAdded != SCREEN_BAR_CHART)
-    {
-      if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
-      {
-        screenArrow.add(SCREEN_BAR_CHART);
-        screenHistory++;
-      }
-      hasScreenAdded = SCREEN_BAR_CHART;
-    }
       currentEvent = barChartScreen.returnEvent();
       if (currentEvent == EVENT_BUTTON_HOME)
        currentScreen = SCREEN_HOME;
@@ -415,17 +404,6 @@ void draw() {
         currentBar.drawBarChart();
         currentBar.drawBarChartt();
       }
-     if (currentEvent == EVENT_BUTTON_BACK)
-    {
-      if (screenHistory > 0)
-        screenHistory--;
-      currentScreen = screenArrow.get(screenHistory);
-    } else if (currentEvent == EVENT_BUTTON_FORWARD)
-    {
-      if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
-        screenHistory++;
-      currentScreen = screenArrow.get(screenHistory);
-    }
       
   break;
     /////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART
@@ -612,12 +590,6 @@ void draw() {
         currentScreen = SCREEN_HOME;
       else if (currentEvent == EVENT_BUTTON_SEARCH_PAGE)
         currentScreen = SCREEN_SEARCH;
-        //CHANGE THIS FOR FILTER BUTTONS 
-     else if (currentEvent == EVENT_BUTTON_FILTER_1)
-        currentScreen = SCREEN_SEARCH;
-     else if (currentEvent == EVENT_BUTTON_FILTER_2)
-        currentScreen = SCREEN_SEARCH;
-        
       if (currentEvent == EVENT_BUTTON_BACK)
       {
         if (screenHistory > 0)
@@ -629,8 +601,6 @@ void draw() {
           screenHistory++;
         currentScreen = screenArrow.get(screenHistory);
       }
-      
-      drawSB();
     }
     break;
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -690,7 +660,7 @@ void draw() {
   }
 
   //searching Bar
-  //drawSB();
+  drawSB();
 }
 
 
@@ -813,7 +783,6 @@ void mouseWheel(MouseEvent event) {
   if (showingData != null) {
     showingData.mouseWheel(event);
   }
-  mouseWheelSB(event);
 }
 
 void keyPressed() {
@@ -821,12 +790,10 @@ void keyPressed() {
   {
     calendar.keyPressed();
   }
-  keyPressedSB();
 }
 
 void mouseReleased() {
   showingData.mouseReleased();
-  mousePressedSB();
 }
 
 void mouseClicked() //Flight For Plane AND Pins

@@ -1,17 +1,181 @@
 
-import java.util.Arrays;
 import controlP5.*;
 import java.util.Arrays;
+class SearchBox
+{
+    ArrayList<String> options = new ArrayList<String>();
+    ArrayList<String> filteredOptions =new ArrayList<String>();
+    float x, y;
+    float width, height;
+    int ddlVisableCount = 4;
+    int scrollIndex = 0;
+    boolean ddlVisible = false;
+    String label;
+    String selectedItem;
+    String searchQuery ="";
+    boolean overSearchBox = false;
+    SearchBox(ArrayList<String> data, float x, float y, String label) 
+    {
+        options = data;
+        this.label = label;
+        //filteredOptions = null;
+        this.x = x;
+        this.y = y;
+        this.width = 300;
+        this.height = 40;
+    }
 
+    void draw()
+    {
+        textSize(32);
+        //setFontSize(32);
+        drawGlow(x, y, width, height, color(#CFFCFB));
+        fill(0);
+        //rectMode(RIGHT);
+        textAlign(LEFT);
+        fill(255);
+        text(label, x, y-height/2);
+        fill(0);
+        rect(x, y, width, height);
+        fill(255);
+        textAlign(LEFT);
+        text(searchQuery, x +10, y+ this.height/2 +7);
 
-ControlP5 cp5;
-ControlP5 cp5Copy;
-ControlP5 cp5DesCities;
+        if(ddlVisible && !filteredOptions.isEmpty())
+        {
+            for(int i = 0; i < ddlVisableCount; i++)
+            {
+                if(i + scrollIndex < filteredOptions.size())
+                {
+                    int optionX = (int)x;
+                    int optionY = (int)y + (int)height *(i+1);
+
+                    drawGlow(optionX, optionY, width, height,color(#CFFCFB));
+
+                    fill(0);
+                    //rectMode(RIGHT);
+                    rect(optionX, optionY, width, height);
+                    fill(255);
+                    //textAlign(CENTER);
+                    text(filteredOptions.get(i+scrollIndex), optionX +10, optionY +height/2 +7);
+                }
+            }
+        }
+        updateFilteredOptions();
+        overSearchBox();
+        //rectMode(CORNER);
+    }
+
+    void mouseWheel(MouseEvent event)
+    {
+        float e = event.getCount();
+        if(ddlVisible)
+        {
+          //println("event.getCount()" + event.getCount());
+            scrollIndex += int(e);
+            //println("scrollIndex" + scrollIndex);
+            scrollIndex = max(0,min(scrollIndex, filteredOptions.size()- ddlVisableCount));
+            //scrollIndex = max(0,min(scrollIndex, filteredOptions.size()));
+            //println(scrollIndex);
+            
+        }
+    }
+
+    void drawGlow(float t, float p, float w, float h, int glowColor)
+    {
+      
+        int glowSize = 10;
+        for(int i = glowSize; i>0; i--)
+        {
+            int alphaValue = (int)map(i, 0, glowSize, 0, 150);
+            fill(red(glowColor), green(glowColor), blue(glowColor), alphaValue);
+            //rectMode(RIGHT);
+            rect(t-i, p-i, w+i*2, h+i*2);
+        }
+    }
+
+    void keyPressed()
+    {
+        if(keyCode == BACKSPACE)
+        {
+            if(searchQuery.length()>0)
+            {
+                searchQuery = searchQuery.substring(0, searchQuery.length()-1);
+                updateFilteredOptions();
+            }
+        }
+        else if(keyCode == ENTER|| keyCode == RETURN)
+        {
+            ddlVisible = !ddlVisible;
+        }
+        else if(key >= ' ' && key <= '~')
+        {
+            searchQuery += key;
+            updateFilteredOptions();
+        }
+    }
+
+    void updateFilteredOptions()
+    {
+        filteredOptions.clear();
+        if(searchQuery.equals(""))
+        {
+                    
+            ddlVisible = false;
+        }
+        else
+        {
+          for(String option: options)
+          {
+                if(option.toLowerCase().contains(searchQuery.toLowerCase()))
+                {
+                    filteredOptions.add(option);
+                    ddlVisible = true;
+                }
+            }
+        }
+    }
+
+    void mousePressed()
+    {
+        if(ddlVisible)
+        {
+            int clickedIndex = (int)((mouseY - y)/ height-1 );
+            //println(clickedIndex);
+            //println(filteredOptions.size());
+            if(clickedIndex >=0 && clickedIndex <= (filteredOptions.size()-1))
+            {
+                searchQuery = filteredOptions.get(clickedIndex+scrollIndex);
+                selectedItem = filteredOptions.get(clickedIndex+scrollIndex);
+                println(selectedItem);
+                // println("bhbh");
+                ddlVisible = false;
+                updateFilteredOptions();
+            }
+        }
+        else;
+       
+    }
+    
+    void overSearchBox()
+    {
+      if(mouseX>x && mouseX< x+ width&& mouseY >y && mouseY <y+height)
+      {
+        overSearchBox= true;
+      }
+      else
+      {
+        overSearchBox = false;
+      }
+    }
+}
+
+SearchBox activeSB = null;
 SearchBox sbOriginCities;
 SearchBox sbDestinationCities;
 SearchBox sbAirport;
-DateCalander DC;
-float x = 2560/200.0;
+//DateCalander DC;
+float x = 2560/200.0; 
 float y = (1600*9/10)/100.0;
 float xSBAirport;          //unit x
 float ySBAirport;    //unit y
@@ -20,164 +184,72 @@ float ySBCity;    //unit y
 float ySBDestinationCity;
 String OriginCity = null;
 String DestinationCity = null;
-class SearchBox
-{
-  ControlP5 cp5;
-  Textfield searchField;
-  ScrollableList dropdown;
-  java.util.List<String> allOptions = new java.util.ArrayList<String>();
-  java.util.List<String> filteredOptions = new java.util.ArrayList<String>();
-  float x, y;
-  float width,height;
-  String label;
-  String selectedItem;
-    SearchBox(ControlP5 cp5, PApplet parent,float x, float y, ArrayList<String> stringList, String label)
-    {
-        this.cp5 = cp5;
-        this.x= x;
-        this.y = y;
-        this.width = 300;
-        this.height = 100;
-        allOptions = stringList;
-        this.label = label;
 
-        searchField =this.cp5.addTextfield(label)
-           .align(ControlP5.TOP, ControlP5.TOP, ControlP5.CENTER, -80)
-           //.setPaddingY(-15)
-           //.setOffsetY(-20)
-           //.setPaddingY(-20)
-           .setPosition(this.x,this.y)
-           .setSize((int)width, (int)height)
-           .setFont(parent.createFont("arial", 32))
-           .setAutoClear(true)
-           .setColor(color(255))
-           .setFocus(true)
-           //.setLabel("Destroy the world immediately!!!!")
-           //.hide()
-           ;
-         searchField.getCaptionLabel().align(ControlP5.CENTER, ControlP5.TOP_OUTSIDE).setPadding(0, 10);
-         //searchField.getCaptionLabel().setColorValue(parent.color(196, 132, 195));
-         //searchField.getCaptionLabel().setColorValue(#567899);
-         //searchField.getCaptionLabel().setColor(0xC484C3); // Sets the label color to red
-         // Correct way to set the caption label color within a custom class
-        searchField.getCaptionLabel().setColor(parent.color(196, 195, 255)); // Example: sets the color to red
-        searchField.setColorBackground(122);
-
-
-
-        dropdown = this.cp5.addScrollableList("Select twice \nto confirm")
-                            .setPosition(x, y+height)
-                            .setSize(300, 200)
-                            .setFont(createFont("arial", 32))
-                            .setBarHeight(100)
-                            .setItemHeight(50)
-                            .addItems(allOptions)
-                            //.setColor(parent.color(0x6AEFF5))
-                            //.hide()
-                            ;
-        //dropdown.setColorCaptionLabel(0xFF0000); // Sets the caption label color to red
-        dropdown.setColorActive(0xE5ABE4); // Sets the active item color to red
-        dropdown.setColorForeground(0xE5ABE4); // Sets the foreground color
-        dropdown.setColorBackground(122); // Sets the background color
-
-    }
-
-    void updateDropdown(String query)
-    {
-        filteredOptions.clear();
-        for(String option : allOptions)
-        {        
-              //if(option.toLowerCase().contains(query.toLowerCase()))
-              //{
-              //    filteredOptions.add(option);
-              //}
-            //for(int i=0 ; i<query.length(); i++)
-            //{
-              if(option.substring(0,query.length()).equals(query))
-              {
-                  filteredOptions.add(option);
-              }
-            //}
-        }
-
-        dropdown.clear();
-        dropdown.addItems(filteredOptions);
-    }
-    void controlEvent(ControlEvent event)
-    {
-        if(event.isFrom(searchField))
-        {
-            updateDropdown(searchField.getText());
-        }
-        if (event.isFrom(dropdown)) 
-        {
-          float value = event.getValue();
-          selectedItem = event.getController().getLabel();
-    
-          //println("Selected value: " + value);
-          println("Current selection: " + selectedItem);
-        }
-    }
-    void drawSB(PApplet parent)
-    {
-      //println("gyhu");
-      if(currentScreen== SCREEN_SEARCH_BAR)
-      {
-        //println("gyhhhjjj");
-        searchField.show();
-        if(!searchField.getText().trim().isEmpty())
-        {
-          dropdown.show();
-          println(searchField.getText());          
-        }
-      }
-      else
-      {
-        searchField.hide();
-        dropdown.hide();
-      }
-    }
-}
 ArrayList<String> stringList;
 void setupSB()
 {
-  cp5 = new ControlP5(this);
-  cp5Copy = new ControlP5(this);
-  cp5DesCities = new ControlP5(this);
-  stringList = new ArrayList<String>(
-    Arrays.asList( "trinity", "newYork", "MESSSSS"));
 
-  DC = new DateCalander(1);
+  //DC = new DateCalander(1);
   //xSBAirport = DC.x *40 - 50;
   //ySBAirport = DC.y *80 -100;
   //xSBCity = DC.x *40;
   //ySBCity = DC.y *80;
   //xSBAirport = 200;
   //ySBAirport = 200;
-  xSBCity = 100;
-  ySBCity = 400;
+  xSBCity = 300;
+  ySBCity = 350;
   //xSBCity = x *100;
   //ySBCity = y*100/3;
-  ySBDestinationCity = 400;
-  sbOriginCities =new SearchBox(cp5, this, xSBCity, ySBCity, cities, "Origin");
-  sbDestinationCities =new SearchBox(cp5DesCities, this, xSBCity+500, ySBDestinationCity, cities, "Destination");
+  ySBDestinationCity = 700;
+  sbOriginCities =new SearchBox(cities, xSBCity,ySBCity , "Origin");
+  sbDestinationCities =new SearchBox(cities, xSBCity, ySBDestinationCity  , "Destination");
   //sbAirport =new SearchBox(cp5Copy,this, xSBAirport,ySBAirport, airports);
+  
+             
 }
+
 void drawSB()
 {
-  //background(240);
-  //sbCities.drawSB(this);
-  //sbAirport.displaySB(this);
- // controlEvents();
-  sbOriginCities.drawSB(this);
-  sbDestinationCities.drawSB(this);
-  OriginCity=sbOriginCities.selectedItem;
-  DestinationCity = sbDestinationCities.selectedItem;
-  println(OriginCity, DestinationCity);
+    sbOriginCities.draw();
+    sbDestinationCities.draw();
+    OriginCity=sbOriginCities.selectedItem;
+    DestinationCity = sbDestinationCities.selectedItem;
+
 }
-void controlEvent(ControlEvent event)
+
+void mouseWheelSB(MouseEvent event)
 {
-  sbOriginCities.controlEvent(event);
-  sbDestinationCities.controlEvent(event);
-  //sbAirport.controlEvent(event);
+  if(activeSB != null)
+    {
+      activeSB.mouseWheel(event);
+    }
+  //sbOriginCities.mouseWheel(event);
+  //sbDestinationCities.mouseWheel(event);
+}
+void keyPressedSB()
+{
+  if(activeSB != null)
+    {
+      activeSB.keyPressed();
+    }
+  //sbOriginCities.keyPressed();
+  //sbDestinationCities.keyPressed();
+}
+
+void mousePressedSB()
+{
+  if(activeSB != null)
+    {
+      activeSB.mousePressed();
+    }
+    if(sbOriginCities.overSearchBox == true)
+    {
+      activeSB = sbOriginCities;
+    }
+    else if(sbDestinationCities.overSearchBox == true)
+    {
+      activeSB = sbDestinationCities;
+    }
+  //sbOriginCities.mousePressed();
+  //sbDestinationCities.mousePressed();
 }

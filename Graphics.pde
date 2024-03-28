@@ -305,7 +305,8 @@ class PieChart
       y1 = (y1 + y)/2;
       textAlign(CENTER);
       fill(0);
-      text(labels[i], x1, y1);
+    //  text(labels[i], x1, y1);
+      fill(255);
       textAlign(LEFT);
       text(roundPercentage((radians[i]/(2.0*PI))*100)+"%", x+1*radius+20, y-radius + 30*i +10);
       lastRadian += radians[i];

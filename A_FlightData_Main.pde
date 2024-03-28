@@ -398,7 +398,8 @@ void draw() {
         currentBar.drawBarChart();
         currentBar.drawBarChartt();
       }
-      
+      if(currentEvent==EVENT_BUTTON_HOME)
+        currentScreen = SCREEN_HOME;
   break;
     /////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART
   case SCREEN_INDIVIDUAL_FLIGHT:

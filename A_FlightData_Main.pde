@@ -306,17 +306,20 @@ void draw() {
       hasScreenAdded = SCREEN_HISTOGRAM;
     }
     currentEvent = histogramScreen.returnEvent();
-    
-    currentHistogram = quickFrequencyHistogram(calendarDataPoint , "Distance" , calendar.selectedOutboundDay + "---"+calendar.selectedInboundDay); 
+    if(variable!="")
+    {
+    currentHistogram = quickFrequencyHistogram(calendarDataPoint , variable , calendarDataPoint.get(0).day+"/"+calendarDataPoint.get(0).month+"/"+calendarDataPoint.get(0).year+ " <---TO---> "+
+    calendarDataPoint.get(calendarDataPoint.size()-1).day+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).month+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).year); 
     currentHistogram.drawHistogram();
+    }
 //    histogramOfDates.drawHistogram();
     if (currentEvent == EVENT_BUTTON_HOME)
        currentScreen = SCREEN_HOME;
        //CHANGE CODE FROM HERE TO WHATEVER YOU WANT DELAY AND DISTANCE TO DO 
     else if(currentEvent == EVENT_BUTTON_DELAY)
-       currentScreen = SCREEN_HISTOGRAM;
+       variable = "Delay";
     else if(currentEvent == EVENT_BUTTON_DISTANCE)
-       currentScreen = SCREEN_HISTOGRAM;
+       variable = "Distance";
     if (currentEvent == EVENT_BUTTON_BACK)
     {
       if (screenHistory > 0)
@@ -393,14 +396,14 @@ void draw() {
       if (calendar.isSelectionComplete()) 
       {
         fill(0);
-        textSize(30);
+        textSize(TS/1.5);
         if (calendar.singleDateMode) 
         {
-            text("Date selected! Press \"View Flights\"  to proceed.", calendar.x * 28, calendar.y * 83);
+            text("Date selected! Press \"View Flights\"  to proceed. \nOr Press \"GRAPHS\" to view data", calendar.x * 28, calendar.y * 87);
         } 
         else 
         {
-            text("Dates selected! Press \"View Flights\" to proceed.", calendar.x * 28, calendar.y * 83);
+            text("Dates selected! Press \"View Flights\"  to proceed. \nOr Press \"GRAPHS\" to view data", calendar.x * 28, calendar.y * 87);
         }
         if(calendar.finalToGoSelect())
         {         

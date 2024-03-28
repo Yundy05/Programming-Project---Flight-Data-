@@ -1,5 +1,6 @@
 import grafica.*;
 GPlot plot;
+
 void GraphicsSetUp()
 {
   plot = new GPlot(this);
@@ -10,12 +11,12 @@ public int[] getFrequency(int[] aList , float interval)
 {
   int[] f = new int[(int)Math.ceil(max(aList)/interval)];
   //sort(aList);
-  
-  for(int i = 0; i<f.length ; i++)
+
+  for (int i = 0; i<f.length; i++)
   {
-    for(int j=0 ; j<aList.length ; j++)
+    for (int j=0; j<aList.length; j++)
     {
-      if(aList[j]>=i*interval && aList[j]<(i+1)*interval)
+      if (aList[j]>=i*interval && aList[j]<(i+1)*interval)
       {
         f[i]++;
       }
@@ -24,41 +25,42 @@ public int[] getFrequency(int[] aList , float interval)
   return f;
 }
 
-Histogram quickFrequencyHistogram(ArrayList<DataPoint> data , String variable , String datePeriod)   //what do u wish---supporting: Delay , Distance 
+Histogram quickFrequencyHistogram(ArrayList<DataPoint> data, String variable, String datePeriod)   //what do u wish---supporting: Delay , Distance
 {
   float x = displayWidth/200.0;          //unit x
   float y = (displayHeight*9/10)/100.0;         //unit y
   Histogram tempHistogram = new Histogram();
-  if(variable.equalsIgnoreCase("Delay"))
+  if (variable.equalsIgnoreCase("Delay"))
   {
     int interval = 10;
     int[] delay = new int[data.size()];
-    for(int i=0 ; i<data.size() ; i++)
+    for (int i=0; i<data.size(); i++)
     {
       delay[i] = data.get(i).getArrDelay()+data.get(i).getDepDelay();
     }
     int max = max(delay);
-    while(max%interval!=0)
-    max++;
+    while (max%interval!=0)
+      max++;
     int bins = max / interval;
-      tempHistogram = new Histogram(int(20*x) , int(30*y) , int(40*x) , int(30*y) , getFrequency(delay,(float)interval) , bins , 0 , max , "Delay_Frequency_From"+datePeriod , "Delay(min)" , "Absolute Frequency");
+    tempHistogram = new Histogram(int(20*x), int(30*y), int(40*x), int(30*y), getFrequency(delay, (float)interval), bins, 0, max, "Delay_Frequency_From"+datePeriod, "Delay(min)", "Absolute Frequency");
   }
-   if(variable.equalsIgnoreCase("Distance"))
-   {
-     int[] distance = new int[data.size()];
-     int max = 5000;
-     int interval = 500;
-     int bins = max / interval;
-     for(int i=0 ; i<data.size() ; i++)
-     {
-       distance[i] = data.get(i).distance;
-     }
-       tempHistogram = new Histogram(int(20*x) , int(30*y) , int(40*x) , int(30*y) , getFrequency(distance,(float)interval) , bins , 0 , max , "Distance_Frequency_From"+datePeriod , "Distance(miles)" , "Absolute Frequency");
-   }
-  
+  if (variable.equalsIgnoreCase("Distance"))
+  {
+    int[] distance = new int[data.size()];
+    int max = 5000;
+    int interval = 500;
+    int bins = max / interval;
+    for (int i=0; i<data.size(); i++)
+    {
+      distance[i] = data.get(i).distance;
+    }
+    tempHistogram = new Histogram(int(20*x), int(30*y), int(40*x), int(30*y), getFrequency(distance, (float)interval), bins, 0, max, "Distance_Frequency_From"+datePeriod, "Distance(miles)", "Absolute Frequency");
+  }
+
   return tempHistogram;
 }
-class Histogram 
+
+class Histogram
 {
   int x, y;
   int gphH, gphW;
@@ -121,8 +123,9 @@ class Histogram
     this.labelX = labelX; // label for x axis
     this.labelY = labelY;
     setupGrafica();
-//    drawHistogram();
+    //    drawHistogram();
   }
+  
   void setupGrafica()
   {
     plot.setXLim(rangeMin, rangeMax);
@@ -301,7 +304,7 @@ class PieChart
       x1 = (x1 + x)/2;
       y1 = (y1 + y)/2;
       textAlign(CENTER);
-      fill(255);
+      fill(0);
       text(labels[i], x1, y1);
       textAlign(LEFT);
       text(roundPercentage((radians[i]/(2.0*PI))*100)+"%", x+1*radius+20, y-radius + 30*i +10);

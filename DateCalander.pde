@@ -9,7 +9,7 @@ class DateCalander
   int selectedInboundDay = -1;
   int selectedOutboundDay = -1;
   int clickCount = 0;
-  float x = displayWidth/200.0;          //unit x
+  float x = displayWidth/200.0;                 //unit x
   float y = (displayHeight*9/10)/100.0;         //unit y
   int tR =(int)displayWidth/60;
   boolean singleDateMode = false;
@@ -24,68 +24,63 @@ class DateCalander
   DropdownTextbox dropdownOption2;
   DropdownTextbox dropdownOption3;
   Button toSelect =  new Button(50*x, 80*y, 20*x, 4*y, "View Flights", #8080ff, #b3b3ff, SCREEN_SELECT, 10); //glowsize set to 10 for default use
-  
+
   DateCalander(int amountOfDays)
   {
     this.amountOfDays = amountOfDays;
-    takeOff.resize(int(3 * x),int(2 * y));
-    dropdownOption1 = new DropdownTextbox(int(x * 10), int(x * 15), int(80 * x) , int(5 * y), 10);
-    dropdownOption2 = new DropdownTextbox(int(x * 10), int(x * 25), int(80 * x) , int(5 * y), 10);
-    dropdownOption3 = new DropdownTextbox(int(x * 10), int(x * 35), int(80 * x) , int(5 * y), 10);
+    takeOff.resize(int(3 * x), int(2 * y));
+    dropdownOption1 = new DropdownTextbox(int(x * 10), int(x * 15), int(80 * x), int(5 * y), 10);
+    dropdownOption2 = new DropdownTextbox(int(x * 10), int(x * 25), int(80 * x), int(5 * y), 10);
+    dropdownOption3 = new DropdownTextbox(int(x * 10), int(x * 35), int(80 * x), int(5 * y), 10);
 
     Collections.addAll(departureOrArrive, "Departure Only", "Arrival Only", "Departure & Arriving", "Single Date Only", "Date range");
     dropdownOption1.addOptions(departureOrArrive);
   }
 
 
-void displayForOrigin()
-{
-//  scale(displayWidth/2560.0,displayHeight/1600.0);
-  textFont(font);
-  fill(225);
-  noStroke();
-  rect(5 * x, 12 * y, 90 * x, 80 * y, 20);
-  rect(5 * x, 8 * y, 20 * x, 5 * y);
-  
-  textSize(0.7 * tR);
-  fill(100);
-  image(takeOff, 6* x, 8.5 * y);
-  text("Check a flight", 16 * x, 9.5 * y);
-  displayForCalendar();
-  dropdownOption3.draw();
-  dropdownOption2.draw();
-  dropdownOption1.draw();
-  
-  if(dropdownOption1.inputText == "Departure & Arriving")
+  void displayForOrigin()
   {
-    dropdownOption2.inputText = "Departure: " + OriginCity; 
-    dropdownOption3.inputText = "Arrival: " + DestinationCity; 
-  }
-  else if(dropdownOption1.inputText == "Departure Only")
-  {
-    dropdownOption2.inputText = "Departure: " + OriginCity; 
-    dropdownOption3.inputText = "Arrival: Any"; 
-  }
-  
-  else if(dropdownOption1.inputText == "Arrival Only")
-  {
-    dropdownOption2.inputText = "Departure: Any";
-    dropdownOption3.inputText = "Arrival: " + DestinationCity; 
-  }
-  else if(dropdownOption1.inputText =="Single Date Only" || dropdownOption1.inputText == "Date range")
-  {
-    dropdownOption2.inputText = "Departure: Any";
-    dropdownOption3.inputText = "Arrival: Any";
-  }
-  else if(dropdownOption1.inputText == " ")
-  {
-    dropdownOption1.inputText = ("Select Your Data Type");
-  }
-}
+    //  scale(displayWidth/2560.0,displayHeight/1600.0);
+    textFont(font);
+    fill(225);
+    noStroke();
+    rect(5 * x, 12 * y, 90 * x, 80 * y, 20);
+    rect(5 * x, 8 * y, 20 * x, 5 * y);
 
-//for Calendar -jhy
+    textSize(0.7 * tR);
+    fill(100);
+    image(takeOff, 6 * x, 8.5 * y);
+    text("Check a flight", 16 * x, 9.5 * y);
+    displayForCalendar();
+    dropdownOption3.draw();
+    dropdownOption2.draw();
+    dropdownOption1.draw();
+
+    if (dropdownOption1.inputText == "Departure & Arriving")
+    {
+      dropdownOption2.inputText = "Departure: " + OriginCity;
+      dropdownOption3.inputText = "Arrival: " + DestinationCity;
+    } else if (dropdownOption1.inputText == "Departure Only")
+    {
+      dropdownOption2.inputText = "Departure: " + OriginCity;
+      dropdownOption3.inputText = "Arrival: Any";
+    } else if (dropdownOption1.inputText == "Arrival Only")
+    {
+      dropdownOption2.inputText = "Departure: Any";
+      dropdownOption3.inputText = "Arrival: " + DestinationCity;
+    } else if (dropdownOption1.inputText =="Single Date Only" || dropdownOption1.inputText == "Date range")
+    {
+      dropdownOption2.inputText = "Departure: Any";
+      dropdownOption3.inputText = "Arrival: Any";
+    } else if (dropdownOption1.inputText == " ")
+    {
+      dropdownOption1.inputText = ("Select Your Data Type");
+    }
+  }
+
+  //for Calendar -jhy
   void displayForCalendar() {
-//    scale(displayWidth/2560.0,displayHeight/1600.0);
+    //    scale(displayWidth/2560.0,displayHeight/1600.0);
     textFont(font);
     textSize(1 * tR);
     fill(255);
@@ -95,42 +90,38 @@ void displayForOrigin()
       int yPos = int((i / 7) * 6.25*y + 55 * y);
       if (i + 1 == selectedInboundDay || i + 1 == selectedOutboundDay && dropdownOption1.inputText != "") {
         strokeWeight(4);
-        fill(color(50,205,50));
-      } 
-      else if(i + 1 > selectedInboundDay && i + 1 < selectedOutboundDay && dropdownOption1.inputText != "")
+        fill(color(50, 205, 50));
+      } else if (i + 1 > selectedInboundDay && i + 1 < selectedOutboundDay && dropdownOption1.inputText != "")
       {
         strokeWeight(2);
         fill(200);
-      }
-      else if(i + 1 > amountOfDays || dropdownOption1.inputText == "" || !dropdownOption1.ifItIsOption)
+      } else if (i + 1 > amountOfDays || dropdownOption1.inputText == "" || !dropdownOption1.ifItIsOption)
       {
         strokeWeight(0);
         fill(120);
-      }
-      else
+      } else
       {
         strokeWeight(1);
         fill(255);
       }
       stroke(0);
-      rect(xPos, yPos, 5* x, 5* x);
+      rect(xPos, yPos, 5 * x, 5 * x);
       fill(0);
-      text(i + 1, xPos + 2.5 * x, yPos + 2* y);
+      text(i + 1, xPos + 2.5 * x, yPos + 2 * y);
     }
     textSize(1.2 * tR);
     fill(0);
     text("January", 50 * x, 52 * y);
-    
-    if(inputChanged != dropdownOption1.inputText)
+
+    if (inputChanged != dropdownOption1.inputText)
     {
       selectedInboundDay = -1;
       selectedOutboundDay = -1;
       inputChanged = dropdownOption1.inputText;
-      if(inputChanged == "Departure & Arriving" || inputChanged == "Date range")
+      if (inputChanged == "Departure & Arriving" || inputChanged == "Date range")
       {
         singleDateMode = false;
-      }
-      else
+      } else
       {
         singleDateMode = true;
       }
@@ -138,8 +129,8 @@ void displayForOrigin()
   }
 
 
-  
-void mousePressed(int mouseX, int mouseY) {
+
+  void mousePressed(int mouseX, int mouseY) {
     dropdownOption1.mousePressed();
     //int clickedColumn = (int)((mouseX*2560.0/displayWidth - int(28.5 * x)) / 80);
     //int clickedRow = (int)((mouseY*1600.0/displayHeight - int(55 * y)) / 80);
@@ -148,105 +139,104 @@ void mousePressed(int mouseX, int mouseY) {
     int clickedDay = clickedRow * 7 + clickedColumn + 1;
 
     if (clickedDay > 0 && clickedDay <= amountOfDays && (dropdownOption1.inputText != "" && dropdownOption1.ifItIsOption)) {
-        float cellStartX = 28.5 * x + clickedColumn * 6.25*x;
-        float cellEndX = cellStartX + 5.46*x;
-        float cellStartY = 55 * y + clickedRow * 4.53*y;
-        float cellEndY = cellStartY + 4*y;
+      float cellStartX = 28.5 * x + clickedColumn * 6.25*x;
+      float cellEndX = cellStartX + 5.46*x;
+      float cellStartY = 55 * y + clickedRow * 4.53*y;
+      float cellEndY = cellStartY + 4*y;
 
- //       if (mouseX*2560.0/displayWidth >= cellStartX &&mouseX*2560.0/displayWidth <= cellEndX && mouseY*1600.0/displayHeight >= cellStartY && mouseY*1600.0/displayHeight <= cellEndY) {
-          if (mouseX >= cellStartX &&mouseX <= cellEndX && mouseY >= cellStartY && mouseY <= cellEndY) {
-            if (singleDateMode) {
-                // In single date mode, just select the clicked day
-                selectedInboundDay = clickedDay;
-                selectedOutboundDay = -1; // default
-                clickCount = 1; 
+      //       if (mouseX*2560.0/displayWidth >= cellStartX &&mouseX*2560.0/displayWidth <= cellEndX && mouseY*1600.0/displayHeight >= cellStartY && mouseY*1600.0/displayHeight <= cellEndY) {
+      if (mouseX >= cellStartX &&mouseX <= cellEndX && mouseY >= cellStartY && mouseY <= cellEndY) {
+        if (singleDateMode) {
+          // In single date mode, just select the clicked day
+          selectedInboundDay = clickedDay;
+          selectedOutboundDay = -1; // default
+          clickCount = 1;
+        } else {
+          // Existing logic for range selection
+          if (clickCount == 0 || clickCount == 2) {
+            selectedInboundDay = clickedDay;
+            selectedOutboundDay = -1;
+            clickCount = 1;
+          } else if (clickCount == 1) {
+            if (clickedDay > selectedInboundDay) {
+              selectedOutboundDay = clickedDay;
+              clickCount = 2;
             } else {
-                // Existing logic for range selection
-                if (clickCount == 0 || clickCount == 2) {
-                    selectedInboundDay = clickedDay;
-                    selectedOutboundDay = -1;
-                    clickCount = 1;
-                } else if (clickCount == 1) {
-                    if (clickedDay > selectedInboundDay) {
-                        selectedOutboundDay = clickedDay;
-                        clickCount = 2;
-                    } else {
-                        selectedInboundDay = clickedDay;
-                        clickCount = 1;
-                    }
-                }
+              selectedInboundDay = clickedDay;
+              clickCount = 1;
             }
+          }
         }
+      }
     }
-}
+  }
 
-void keyPressed()
-{
-  dropdownOption1.keyPressed();
-}
+  void keyPressed()
+  {
+    dropdownOption1.keyPressed();
+  }
 
-void mouseWheel(MouseEvent event)
-{
-  dropdownOption1.mouseWheel(event);
-}
-
-
+  void mouseWheel(MouseEvent event)
+  {
+    dropdownOption1.mouseWheel(event);
+  }
 
 
-  
-boolean isSelectionComplete() {
+
+
+
+  boolean isSelectionComplete() {
     if (singleDateMode) {
-        return selectedInboundDay > -1;
+      return selectedInboundDay > -1;
     } else {
-        return selectedInboundDay > -1 && selectedOutboundDay > -1;
+      return selectedInboundDay > -1 && selectedOutboundDay > -1;
     }
-}
+  }
 
-String getSelectedDates() {
-    if (isSelectionComplete()) 
+  String getSelectedDates() {
+    if (isSelectionComplete())
     {
       return "selectedInboundDay , selectedOutboundDay";
     }
     return "Incomplete Search";
-}
+  }
 
-boolean finalToGoSelect()
-{
+  boolean finalToGoSelect()
+  {
     toSelect.display();
-    toSelect.over = mouseX >= toSelect.x && mouseX <= toSelect.x + toSelect.width 
-    && mouseY >= toSelect.y && mouseY <= toSelect.y + toSelect.height;
+    toSelect.over = mouseX >= toSelect.x && mouseX <= toSelect.x + toSelect.width
+      && mouseY >= toSelect.y && mouseY <= toSelect.y + toSelect.height;
     if (toSelect.over) {
       toSelect.currentColor = lerpColor(toSelect.currentColor, toSelect.overColor, 0.4);
     } else {
       toSelect.currentColor = lerpColor(toSelect.currentColor, toSelect.notOverColor, 0.4);
     }
-    if(toSelect.clicked())
+    if (toSelect.clicked())
     {
       return true;
-    }
-    else
+    } else
     {
       return false;
     }
-}
-boolean finalToGoGraph()
-{
-//    toggleSingle();
+  }
+  
+  boolean finalToGoGraph()
+  {
+    //    toggleSingle();
     toSelect.display();
-    toSelect.over = mouseX >= toSelect.x && mouseX <= toSelect.x + toSelect.width 
-    && mouseY >= toSelect.y && mouseY <= toSelect.y + toSelect.height;
+    toSelect.over = mouseX >= toSelect.x && mouseX <= toSelect.x + toSelect.width
+      && mouseY >= toSelect.y && mouseY <= toSelect.y + toSelect.height;
     if (toSelect.over) {
       toSelect.currentColor = lerpColor(toSelect.currentColor, toSelect.overColor, 0.4);
     } else {
       toSelect.currentColor = lerpColor(toSelect.currentColor, toSelect.notOverColor, 0.4);
     }
-    if(graphBtn.clicked())
+    if (graphBtn.clicked())
     {
       return true;
-    }
-    else
+    } else
     {
       return false;
     }
-}
+  }
 }

@@ -18,7 +18,7 @@ class DropdownTextbox { //made by jiahao for the departure/ single/ arrival etc
   int cursorTimer = 0; // Timer to control cursor blinking
   int intervalForTime = 500; // Time in milliseconds for each blink interval
 
-  DropdownTextbox(int x, int y, int widthh, int heightt, int round) 
+  DropdownTextbox(int x, int y, int widthh, int heightt, int round)
   {
     this.textboxX = x;
     this.textboxY = y;
@@ -29,86 +29,83 @@ class DropdownTextbox { //made by jiahao for the departure/ single/ arrival etc
     this.round = round;
     filteredOptions.addAll(dropdownOptions); //copy all data over for filter
   }
-  
-void addOptions(ArrayList<String> options) 
-{
+
+  void addOptions(ArrayList<String> options)
+  {
     for (String option : options) {
-        dropdownOptions.add(option);
+      dropdownOptions.add(option);
     }
     filterDropdownOptions();
-}
-
-void draw() 
-{
-  drawTextbox();
-  if (displayDropdown && textboxSelected) 
-  {
-    drawDropdown();
   }
-}
-  
-void drawTextbox() 
-{
+
+  void draw()
+  {
+    drawTextbox();
+    if (displayDropdown && textboxSelected)
+    {
+      drawDropdown();
+    }
+  }
+
+  void drawTextbox()
+  {
     textSize(0.6 * tR);
-    if(textboxSelected)
+    if (textboxSelected)
     {
       fill(245);
       strokeWeight(2);
       ifItIsOption = false;
     }
-    if(!textboxSelected && inputText != "" && !ifItIsOption)
+    if (!textboxSelected && inputText != "" && !ifItIsOption)
     {
       strokeWeight(1);
       fill(255);
 
-      for(int i = 0; i < dropdownOptions.size(); i++)
+      for (int i = 0; i < dropdownOptions.size(); i++)
       {
-        if(dropdownOptions.get(i) == inputText)
+        if (dropdownOptions.get(i) == inputText)
         {
           ifItIsOption = true;
           break;
-        }
-        else
+        } else
         {
-            stroke(255,0,0);
-            fill(255,0,0);
-            text("Pick valid Type!", textboxX, 1.45* textboxY);
-            fill(255);
+          stroke(255, 0, 0);
+          fill(255, 0, 0);
+          text("Pick valid Type!", textboxX, 1.45* textboxY);
+          fill(255);
         }
-      } 
-    }
-    else
+      }
+    } else
     {
       fill(255);
       strokeWeight(1);
     }
-    
+
     rect(textboxX, textboxY, textboxWidth, textboxHeight);
     fill(0);
-    textAlign(LEFT, CENTER); 
+    textAlign(LEFT, CENTER);
     String displayText = inputText;
     float textW = textWidth(displayText);
-    
+
     //fixing alignment because for some weird reason it goes left when typing
-    float textX = textboxX + 5; 
+    float textX = textboxX + 5;
     if (textW > textboxWidth - 10) { // 10 pixels for padding
-        textX = textboxX + textboxWidth - 5 - textW;
+      textX = textboxX + textboxWidth - 5 - textW;
     }
     text(displayText, textX, textboxY + textboxHeight / 2);
-    
+
     float cursorX = textX + textW;
     if (millis() - cursorTimer > intervalForTime) {
-        cursorVisible = !cursorVisible; // Toggle cursor visibility
-        cursorTimer = millis(); // Reset the timer
+      cursorVisible = !cursorVisible; // Toggle cursor visibility
+      cursorTimer = millis(); // Reset the timer
     }
     if (cursorVisible && textboxSelected) {
-        stroke(0);
-        line(cursorX, textboxY + textboxHeight/3, cursorX, textboxY + textboxHeight / 1.5);
+      stroke(0);
+      line(cursorX, textboxY + textboxHeight/3, cursorX, textboxY + textboxHeight / 1.5);
     }
-    
-}
+  }
 
-  
+
   void drawDropdown() {
     int shownCount = 0;
     for (int i = scrollOffset; i < filteredOptions.size(); i++) {
@@ -122,7 +119,7 @@ void drawTextbox()
       shownCount++;
     }
   }
-  
+
   void keyPressed() {
     if (!textboxSelected) return;
     if (key == BACKSPACE) {
@@ -132,11 +129,11 @@ void drawTextbox()
     } else if (key != CODED && key >= 32 && key <= 126) {
       inputText += key;
     }
-    
+
     filterDropdownOptions();
     displayDropdown = true;
   }
-  
+
   void filterDropdownOptions() {
     filteredOptions.clear();
     String lowerCaseInput = inputText.toLowerCase();
@@ -147,7 +144,7 @@ void drawTextbox()
     }
     scrollOffset = 0; // Reset scroll offset on filter change
   }
-  
+
   void mousePressed() {
     if (overTextbox(mouseX, mouseY)) {
       textboxSelected = true;
@@ -165,7 +162,7 @@ void drawTextbox()
       textboxSelected = false;
     }
   }
-  
+
   void mouseWheel(MouseEvent event) {
     float e = event.getCount();
     if (displayDropdown && overDropdown(mouseX, mouseY)) {
@@ -173,11 +170,11 @@ void drawTextbox()
       scrollOffset = constrain(scrollOffset, 0, max(0, filteredOptions.size() - 5));
     }
   }
-  
+
   boolean overTextbox(int x, int y) {
     return x > textboxX && x < textboxX + textboxWidth && y > textboxY && y < textboxY + textboxHeight;
   }
-  
+
   boolean overDropdown(int x, int y) {
     int dropdownHeight = min(filteredOptions.size(), 5) * dropdownItemHeight;
     return x > textboxX && x < textboxX + textboxWidth && y > textboxY + textboxHeight && y < textboxY + textboxHeight + dropdownHeight;

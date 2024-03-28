@@ -96,8 +96,8 @@ public class HashTable {
     key = a + b + c;
     return key;
   }    // To store the hash value.
-  
- 
+
+
   public void putOrigin(DataPoint aDataPoint)    // place flights into groups
   {
     int index = hashFuncForOrigin(aDataPoint);
@@ -182,7 +182,7 @@ public class HashTable {
           table[i] = new LinkedList<>();
       }
     }
-    
+
     LinkedList<DataPoint> bucket = table[index];
     bucket.add(p);
   }
@@ -209,34 +209,34 @@ public class HashTable {
     bucket.add(p);
   }
 }
-  public int hashFuncForAirport(String airport)
-  {
-    int key;
-    int a;
-    int b;
-    int c;
-    a = airport.charAt(0);
-    a -= 'A';
-    b = airport.charAt(1);
-    b-='A';
-    c = airport.charAt(2);
-    c -= 'A';
-    return key = a*26*26 + b*26 + c;
-  }
-    public int hashFuncForCity(String s)       // get a index to origin-sorted or destination-sorted hashtables by city name, capitalize first letter!!!  Chuan:)   Can't tell newark and new york
-  {
-    int key;
-    int a;
-    int b ;
-    int c;
-    a  = s.charAt(0);
-    a -= 'A';
-    a *= 26*26;
-    b = s.charAt(1);
-    b -= 'a';
-    b *= 26;
-    c = s.charAt(2);
-    c -= 'a';
-    key = a + b + c;
-    return key;
-  }
+public int hashFuncForAirport(String airport)
+{
+  int key;
+  int a;
+  int b;
+  int c;
+  a = airport.charAt(0);
+  a -= 'A';
+  b = airport.charAt(1);
+  b-='A';
+  c = airport.charAt(2);
+  c -= 'A';
+  return key = a*26*26 + b*26 + c;
+}
+public int hashFuncForCity(String s)       // get a index to origin-sorted or destination-sorted hashtables by city name, capitalize first letter!!!  Chuan:)   Can't tell newark and new york
+{
+  int key;
+  int a;
+  int b ;
+  int c;
+  a  = s.charAt(0);
+  a -= 'A';
+  a *= 26*26;
+  b = s.charAt(1);
+  b -= 'a';
+  b *= 26;
+  c = s.charAt(2);
+  c -= 'a';
+  key = a + b + c;
+  return key;
+}

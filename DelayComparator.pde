@@ -28,8 +28,8 @@ class DistanceComparator implements Comparator<DataPoint>
 }
 class AirportComparator implements Comparator<DataPoint>
 {
-   @Override
+  @Override
     public int compare(DataPoint dp1, DataPoint dp2) {
-        return dp1.origin.compareTo(dp2.origin);
-    }
+    return dp1.origin.compareTo(dp2.origin);
+  }
 }

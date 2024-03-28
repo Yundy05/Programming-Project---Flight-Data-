@@ -28,6 +28,7 @@ void selectFlightsByDate()
         calendarDataPoint.add(dayDataPoints.get(j));
       }
     }
+    //calendar.selectedOutboundDay=calendar.selectedInboundDay;
   }
 }
 

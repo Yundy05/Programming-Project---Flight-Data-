@@ -1,4 +1,4 @@
-import java.util.Scanner; //<>// //<>// //<>//
+import java.util.Scanner; //<>// //<>// //<>// //<>//
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -404,7 +404,6 @@ void draw() {
             text("Dates selected! Press \"View Flights\"  to proceed. \nOr Press \"GRAPHS\" to view data", calendar.x * 28, calendar.y * 87);
         }
         if(calendar.finalToGoSelect())
-<<<<<<< Updated upstream
         {         
           //selectFlightsByDate();
             selectFlightsByDateAndOthers(filter);
@@ -414,7 +413,6 @@ void draw() {
         {
             selectFlightsByDateAndOthers(filter);
                 currentScreen = SCREEN_GRAPH; 
-=======
         {
 //          "Departure Only", "Arrival Only", "Departure & Arriving", "Single Date Only", "Date range"
           if(calendar.inputChanged == "Departure Only")
@@ -444,7 +442,6 @@ void draw() {
           }
           currentScreen = SCREEN_SELECT;
         }
->>>>>>> Stashed changes
         }
 //        searchScreen.addButton(toSelect);
 //      else
@@ -486,9 +483,9 @@ void draw() {
         currentPage = 0;
         currentScreen = SCREEN_SELECT;
       }
-
+      }
+    }
     break;
-  }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
        case SCREEN_SEARCH_BAR :
     {

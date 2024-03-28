@@ -14,6 +14,7 @@ class DateCalander
   int tR =(int)displayWidth/60;
   boolean singleDateMode = false;
   boolean toggleClickMode = false;
+  boolean errorOption = false;
   String inputChanged = "";
   int circleXPos;
   ArrayList<DataPoint> dp = new ArrayList <DataPoint> ();
@@ -62,15 +63,32 @@ class DateCalander
     {
       dropdownOption2.inputText = "Departure: " + OriginCity;
       dropdownOption3.inputText = "Arrival: " + DestinationCity;
-    } else if (dropdownOption1.inputText == "Departure Only")
+    } 
+    else if (dropdownOption1.inputText == "Departure Only")
     {
-      dropdownOption2.inputText = "Departure: " + OriginCity;
       dropdownOption3.inputText = "Arrival: Any";
-    } else if (dropdownOption1.inputText == "Arrival Only")
+      if(OriginCity == null)
+      {
+        dropdownOption2.inputText = "Departure: ERROR";
+      }
+      else
+      {
+      dropdownOption2.inputText = "Departure: " + OriginCity;
+      }
+    }
+    else if (dropdownOption1.inputText == "Arrival Only")
     {
       dropdownOption2.inputText = "Departure: Any";
+      if(DestinationCity == null)
+      {
+          dropdownOption3.inputText = "Arrival: ERROR";
+      }
+      else
+      {
       dropdownOption3.inputText = "Arrival: " + DestinationCity;
-    } else if (dropdownOption1.inputText =="Single Date Only" || dropdownOption1.inputText == "Date range")
+      }
+    } 
+    else if (dropdownOption1.inputText =="Single Date Only" || dropdownOption1.inputText == "Date range")
     {
       dropdownOption2.inputText = "Departure: Any";
       dropdownOption3.inputText = "Arrival: Any";
@@ -242,6 +260,10 @@ void toggleSingle()
 
 
   boolean isSelectionComplete() {
+    if(dropdownOption2.inputText == "Departure: ERROR"  || dropdownOption3.inputText == "Arrival: ERROR")
+    {
+      return false;
+    }
     if (singleDateMode) {
       return selectedInboundDay > -1;
     } else {

@@ -130,11 +130,7 @@ void setup()
 
   showingData = new ShowingData(20, 20, displayWidth/2, displayHeight - 100);
   calendar = new DateCalander(tableOfDates.size);
-  Scanner input = new Scanner(System.in);
-
-  
-  filter = findIntersection(tableOfAirports_Origin , hashFuncForAirport("JFK") , tableOfAirports_Dest , hashFuncForAirport("SAN"));
-  
+//  Scanner input = new Scanner(System.in);  
   //  setupDropDown();
   for(int i=0 ; i<tableOfOrigin_Wac.size ; i++)
   {
@@ -395,6 +391,8 @@ void draw() {
 //      calendar.displayForCalendar();
       if (calendar.isSelectionComplete()) 
       {
+        calendarDataPoint = new ArrayList<DataPoint> ();
+        flightSelected = false;
         fill(0);
         textSize(TS/1.5);
         if (calendar.singleDateMode) 
@@ -406,6 +404,7 @@ void draw() {
             text("Dates selected! Press \"View Flights\"  to proceed. \nOr Press \"GRAPHS\" to view data", calendar.x * 28, calendar.y * 87);
         }
         if(calendar.finalToGoSelect())
+<<<<<<< Updated upstream
         {         
           //selectFlightsByDate();
             selectFlightsByDateAndOthers(filter);
@@ -415,13 +414,43 @@ void draw() {
         {
             selectFlightsByDateAndOthers(filter);
                 currentScreen = SCREEN_GRAPH; 
+=======
+        {
+//          "Departure Only", "Arrival Only", "Departure & Arriving", "Single Date Only", "Date range"
+          if(calendar.inputChanged == "Departure Only")
+          {
+              filter = findIntersection(tableOfAirports_Origin , hashFuncForAirport(OriginCity) , tableOfAirports_Dest);
+              selectFlightsByDateAndOthers(filter);
+          }
+          else if(calendar.inputChanged == "Arrival Only")
+          {
+              filter = findIntersection(tableOfAirports_Origin, tableOfAirports_Dest, hashFuncForAirport(DestinationCity));
+              selectFlightsByDateAndOthers(filter);
+          }
+          else if(calendar.inputChanged == "Departure & Arriving")
+          {
+              filter = findIntersection(tableOfAirports_Origin, hashFuncForAirport(OriginCity), tableOfAirports_Dest, hashFuncForAirport(DestinationCity));
+              selectFlightsByDateAndOthers(filter);
+        }
+          else if(calendar.inputChanged == "Single Date Only")
+          {
+            selectFlightsByDate();
+            selectFlightsByDateAndOthers(calendarDataPoint);
+          }
+          else if(calendar.inputChanged == "Date range")
+          {
+            selectFlightsByDate();
+            selectFlightsByDateAndOthers(calendarDataPoint);
+          }
+          currentScreen = SCREEN_SELECT;
+        }
+>>>>>>> Stashed changes
         }
 //        searchScreen.addButton(toSelect);
 //      else
 //      {
 //         searchScreen.removeButton(toSelect);
 //      }
-      }
       
       if (hasScreenAdded != SCREEN_SEARCH)
       {
@@ -458,8 +487,8 @@ void draw() {
         currentScreen = SCREEN_SELECT;
       }
 
-    }
     break;
+  }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
        case SCREEN_SEARCH_BAR :
     {

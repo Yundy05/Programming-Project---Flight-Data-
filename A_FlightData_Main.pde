@@ -71,7 +71,7 @@ ArrayList temp;               //temp Arraylist to store the selected flights
 //  String lists for dropdown menu
 ArrayList<String> cities = new ArrayList<String>();
 ArrayList<String> airports = new ArrayList<String>();
-ArrayList<DataPoint> selectedFlights = new ArrayList<DataPoint>();
+//ArrayList<DataPoint> selectedFlights = new ArrayList<DataPoint>();
 //events ends//
 ShowingData showingData;
 DateCalander calendar;
@@ -169,7 +169,7 @@ void setup()
   //println(cities);
   //print(airports);
   // filter test example  (originCity,destCity,startDay,endDay,only show non-cancelled flights)
-  getFilteredFlights("Chicago, IL", "", 1, 5, true);
+ // getFilteredFlights("Chicago, IL", "", 1, 5, true);
 
 
   //Screen History Arrows - Andy
@@ -485,16 +485,35 @@ void draw() {
           //          "Departure Only", "Arrival Only", "Departure & Arriving", "Single Date Only", "Date range"
           if (calendar.inputChanged == "Departure Only")
           {
-            filter = findIntersection(tableOfAirports_Origin, hashFuncForAirport(OriginCity), tableOfAirports_Dest);
-            selectFlightsByDateAndOthers(filter);
+            //filter = findIntersection(tableOfAirports_Origin, hashFuncForAirport(OriginCity), tableOfAirports_Dest);
+            //selectFlightsByDateAndOthers(filter);
+            calendarDataPoint=getFilteredFlights(OriginCity, null,1,6, false);//1,6: default date. How do I get the date from the calendar and why there is only single date mode
+            //test sort
+            if(keyPressed)
+            {
+              if (keyCode == UP||keyCode==DOWN) sortDataByDepDelay(calendarDataPoint);
+              if(keyCode == DOWN) Collections.reverse(calendarDataPoint);
+            }
           } else if (calendar.inputChanged == "Arrival Only")
           {
-            filter = findIntersection(tableOfAirports_Origin, tableOfAirports_Dest, hashFuncForAirport(DestinationCity));
-            selectFlightsByDateAndOthers(filter);
+           // filter = findIntersection(tableOfAirports_Origin, tableOfAirports_Dest, hashFuncForAirport(DestinationCity));
+           // selectFlightsByDateAndOthers(filter);
+           calendarDataPoint=getFilteredFlights(null, DestinationCity,1,6, false);
+           if(keyPressed)
+            {
+              if (keyCode == UP||keyCode==DOWN) sortDataByArrDelay(calendarDataPoint);
+              if(keyCode == DOWN) Collections.reverse(calendarDataPoint);
+            }
           } else if (calendar.inputChanged == "Departure & Arriving")
           {
-            filter = findIntersection(tableOfAirports_Origin, hashFuncForAirport(OriginCity), tableOfAirports_Dest, hashFuncForAirport(DestinationCity));
-            selectFlightsByDateAndOthers(filter);
+            //filter = findIntersection(tableOfAirports_Origin, hashFuncForAirport(OriginCity), tableOfAirports_Dest, hashFuncForAirport(DestinationCity));
+            //selectFlightsByDateAndOthers(filter);
+            calendarDataPoint=getFilteredFlights(OriginCity,DestinationCity,calendar.selectedInboundDay,calendar.selectedOutboundDay, false);
+            if(keyPressed)
+            {
+              if (keyCode == UP||keyCode==DOWN) sortDataByDistance(calendarDataPoint);
+              if(keyCode == DOWN) Collections.reverse(calendarDataPoint);
+            }
           } else if (calendar.inputChanged == "Single Date Only")
           {
             selectFlightsByDate();
@@ -686,13 +705,14 @@ void printSortedFlightData()
   }
 }
 
-void getFilteredFlights (String origin, String dest, int date1, int date2, boolean nonCancelled)
+ArrayList<DataPoint> getFilteredFlights (String origin, String dest, int date1, int date2, boolean nonCancelled)
 {
-  if (origin!="")
+  ArrayList<DataPoint>selectedFlights=new ArrayList<DataPoint> ();
+  if (origin!=null)
     selectedFlights = tableOfOrigin.getDataByIndex(hashFuncForCity(origin)).stream().filter(DataPoint -> DataPoint.originCity.contains(origin)).collect(Collectors.toCollection(ArrayList<DataPoint>::new));
   else
     selectedFlights = dataPoints;
-  if (dest!="")
+  if (dest!=null)
     selectedFlights = selectedFlights.stream().filter(DataPoint -> DataPoint.destCity.contains(dest)).collect(Collectors.toCollection(ArrayList<DataPoint>::new));
   if (date1!=0&&date2!=0)
   {
@@ -701,10 +721,11 @@ void getFilteredFlights (String origin, String dest, int date1, int date2, boole
   if (nonCancelled)
     selectedFlights=selectedFlights.stream().filter(DataPoint ->(  DataPoint.cancelled ==false)).collect(Collectors.toCollection(ArrayList<DataPoint>::new));
   // test
-  for (int i=0; i<selectedFlights.size(); i++)
+ /* for (int i=0; i<selectedFlights.size(); i++)
   {
     selectedFlights.get(i).printData();
-  }
+  }*/
+  return selectedFlights;
 }
 
 void printOriginSortedFlightData()
@@ -883,7 +904,10 @@ ArrayList <DataPoint> getNonDivertedFlights (ArrayList <DataPoint> data)
   ArrayList<DataPoint> filteredDataPoints = data.stream().filter(DataPoint ->(  DataPoint.diverted ==false)).collect(Collectors.toCollection(ArrayList::new));
   return filteredDataPoints;
 }
-
+void sortDataByDistance (ArrayList <DataPoint> data)
+{
+  Collections.sort(data, new DistanceComparator());
+}
 void sortDataByArrDelay (ArrayList <DataPoint> data)
 {
   Collections.sort(data, new ArrDelayComparator());

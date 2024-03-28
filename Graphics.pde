@@ -336,7 +336,12 @@ BarChart quickBar(ArrayList<DataPoint> data , String iv ,String dv, String dateP
       }
       dis[i] = temp.get(max).distance;
       labels[i] = temp.get(max).origin + "->"+ temp.get(max).dest;
-      temp.remove(max);
+      for(int j=0 ; j<temp.size();j++)
+      {
+         if(dis[i] == temp.get(j).distance)
+         temp.remove(j);
+      }
+
     }
   //    print(dis[0]);
       templeBar = new BarChart(int(20*x) , int(30*y) , int(40*x) , int(30*y) , dis , bins , labels ,"Distance_Frequency_From"+datePeriod , "Routes" , "Distance");
@@ -450,7 +455,7 @@ class BarChart
     for (int i =0; i<xCatogories.length; i++)
     {
       //text("uu",x+90 +binWidth*i+i*(gphW/numOfBins), y + gphH+90);
-      textSize(TS/2);
+      textSize(TS/3);
       text(xCatogories[i], x+90 +binWidth*(i+0.5), y + gphH+120);
     }
   }

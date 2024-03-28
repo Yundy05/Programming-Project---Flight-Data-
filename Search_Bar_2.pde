@@ -8,6 +8,7 @@ class DropdownTextbox { //made by jiahao for the departure/ single/ arrival etc
   int textboxWidth;
   int textboxHeight;
   int dropdownItemHeight;
+  int tR =(int)displayWidth/60;
   int scrollOffset = 0;
   int round;
   boolean textboxSelected = false;
@@ -44,7 +45,7 @@ void draw()
   
 void drawTextbox() 
 {
-    textSize(30);
+    textSize(0.6 * tR);
     if(textboxSelected)
     {
       fill(245);
@@ -136,6 +137,7 @@ void drawTextbox()
     if (overTextbox(mouseX, mouseY)) {
       textboxSelected = true;
       displayDropdown = true;
+      inputText = "";
     } else if (displayDropdown && overDropdown(mouseX, mouseY)) {
       int index = (mouseY - textboxY - textboxHeight) / dropdownItemHeight + scrollOffset;
       if (index >= 0 && index < filteredOptions.size()) {

@@ -19,7 +19,6 @@ class doubleScreen extends Screen
   color screenBackground2;
   float splitPoint;
 
-
   doubleScreen(color b1, color b2, int screenType, float p)    //second color displayed for p pixels counting from below
   {
     super(b1, screenType);

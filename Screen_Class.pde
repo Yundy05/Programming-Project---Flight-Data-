@@ -69,7 +69,9 @@ class Screen
     imageMode(CENTER);
     image(logoImg, width/2, 500);
     logoImg.resize(200,200);
+    imageMode(CORNER);
   }
+  
 
   void addButton(Button button)
   {

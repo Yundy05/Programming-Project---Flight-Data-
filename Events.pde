@@ -2,47 +2,46 @@
 void selectFlightsByDate()
 {
   calendarDataPoint = new ArrayList<DataPoint> ();
-          flightSelected = false;
-          if(!calendar.singleDateMode)
-          {
-            if (calendar.selectedInboundDay > -1 && calendar.selectedOutboundDay >= calendar.selectedInboundDay) 
-            {
-              for(int day = calendar.selectedInboundDay; day <= calendar.selectedOutboundDay; day++) 
-              {
-                int index = day - 1;
-                LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
-                for (int j= 0; j< dayDataPoints.size(); j++)
-                {
-                  calendarDataPoint.add(dayDataPoints.get(j));
-                }
-              }
-            }
-          }
-          else
-          {
-             for(int day = calendar.selectedInboundDay; day <= calendar.selectedInboundDay; day++) 
-              {
-                int index = day - 1;
-                LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
-                for (int j= 0; j< dayDataPoints.size(); j++)
-                {
-                  calendarDataPoint.add(dayDataPoints.get(j));
-                }
-              }
-          }
+  flightSelected = false;
+  if (!calendar.singleDateMode)
+  {
+    if (calendar.selectedInboundDay > -1 && calendar.selectedOutboundDay >= calendar.selectedInboundDay)
+    {
+      for (int day = calendar.selectedInboundDay; day <= calendar.selectedOutboundDay; day++)
+      {
+        int index = day - 1;
+        LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
+        for (int j= 0; j< dayDataPoints.size(); j++)
+        {
+          calendarDataPoint.add(dayDataPoints.get(j));
+        }
+      }
+    }
+  } else
+  {
+    for (int day = calendar.selectedInboundDay; day <= calendar.selectedInboundDay; day++)
+    {
+      int index = day - 1;
+      LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
+      for (int j= 0; j< dayDataPoints.size(); j++)
+      {
+        calendarDataPoint.add(dayDataPoints.get(j));
+      }
+    }
+  }
 }
 
 
-ArrayList<DataPoint> findIntersection(HashTable t1 , int key1 , HashTable t2, int key2)
+ArrayList<DataPoint> findIntersection(HashTable t1, int key1, HashTable t2, int key2)
 {
   ArrayList intersection = new ArrayList<DataPoint>();
-  for(int i =0 ; i<t1.getDataByIndex(key1).size() ; i++)
+  for (int i =0; i<t1.getDataByIndex(key1).size(); i++)
   {
     DataPoint temp = t1.getDataByIndex(key1).get(i);
-    for(int j=0 ; j<t2.getDataByIndex(key2).size();j++)
+    for (int j=0; j<t2.getDataByIndex(key2).size(); j++)
     {
-      if(temp.equals(t2.getDataByIndex(key2).get(j)))
-      intersection.add(temp);
+      if (temp.equals(t2.getDataByIndex(key2).get(j)))
+        intersection.add(temp);
     }
   }
   return intersection;
@@ -51,7 +50,7 @@ ArrayList<DataPoint> findIntersection(HashTable t1 , int key1 , HashTable t2, in
 ArrayList<DataPoint> findIntersection(HashTable t1, HashTable t2, int key2)
 {
   ArrayList intersection = new ArrayList<DataPoint>();
-  for(int i =0 ; i<t2.getDataByIndex(key2).size() ; i++)
+  for (int i =0; i<t2.getDataByIndex(key2).size(); i++)
   {
     DataPoint temp = t2.getDataByIndex(key2).get(i);
     intersection.add(temp);
@@ -59,10 +58,10 @@ ArrayList<DataPoint> findIntersection(HashTable t1, HashTable t2, int key2)
   return intersection;
 }
 
-ArrayList<DataPoint> findIntersection(HashTable t1 , int key1 , HashTable t2)
+ArrayList<DataPoint> findIntersection(HashTable t1, int key1, HashTable t2)
 {
   ArrayList intersection = new ArrayList<DataPoint>();
-  for(int i =0 ; i<t1.getDataByIndex(key1).size() ; i++)
+  for (int i =0; i<t1.getDataByIndex(key1).size(); i++)
   {
     DataPoint temp = t1.getDataByIndex(key1).get(i);
   }
@@ -72,42 +71,41 @@ ArrayList<DataPoint> findIntersection(HashTable t1 , int key1 , HashTable t2)
 void selectFlightsByDateAndOthers(ArrayList<DataPoint> filter)
 {
   calendarDataPoint = new ArrayList<DataPoint> ();
-          flightSelected = false;
-          if(!calendar.singleDateMode)
+  flightSelected = false;
+  if (!calendar.singleDateMode)
+  {
+    if (calendar.selectedInboundDay > -1 && calendar.selectedOutboundDay >= calendar.selectedInboundDay)
+    {
+      for (int day = calendar.selectedInboundDay; day <= calendar.selectedOutboundDay; day++)
+      {
+        int index = day - 1;
+        LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
+        for (int j= 0; j< dayDataPoints.size(); j++)
+        {
+          for (int i = 0; i<filter.size(); i++)
           {
-            if (calendar.selectedInboundDay > -1 && calendar.selectedOutboundDay >= calendar.selectedInboundDay) 
-            {
-              for(int day = calendar.selectedInboundDay; day <= calendar.selectedOutboundDay; day++) 
-              {
-                int index = day - 1;
-                LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
-                for (int j= 0; j< dayDataPoints.size(); j++)
-                {
-                  for(int i = 0; i<filter.size() ; i++)
-                  {
-                      if(filter.get(i).equals(dayDataPoints.get(j)))
-                      calendarDataPoint.add(dayDataPoints.get(j));
-                  }
-                }
-              }
-            }
+            if (filter.get(i).equals(dayDataPoints.get(j)))
+              calendarDataPoint.add(dayDataPoints.get(j));
           }
-          else
-          {
-             for(int day = calendar.selectedInboundDay; day <= calendar.selectedInboundDay; day++) 
-              {
-                int index = day - 1;
-                LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
-                for (int j= 0; j< dayDataPoints.size(); j++)
-                {
-                  for(int i = 0; i<filter.size() ; i++)
-                  {
-                      if(filter.get(i).equals(dataPoints.get(j)))
-                      calendarDataPoint.add(dayDataPoints.get(j));
-                  }
-                }
-              }
-          }
+        }
+      }
+    }
+  } else
+  {
+    for (int day = calendar.selectedInboundDay; day <= calendar.selectedInboundDay; day++)
+    {
+      int index = day - 1;
+      LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
+      for (int j= 0; j< dayDataPoints.size(); j++)
+      {
+        for (int i = 0; i<filter.size(); i++)
+        {
+          if (filter.get(i).equals(dataPoints.get(j)))
+            calendarDataPoint.add(dayDataPoints.get(j));
+        }
+      }
+    }
+  }
 }
 
 
@@ -136,21 +134,20 @@ void showFlightSelections( ArrayList<Button> theButtons, ArrayList<DataPoint> th
   float y = (displayHeight*9/10)/100.0;         //unit y
   int maxPages = theButtons.size()/flightsPerPage ;   //maximum pages. Won't do anything if pressing button beyong range
   currentEvent = selectScreen.returnEvent();
-    if (currentEvent == EVENT_BUTTON_HOME)
-      currentScreen = SCREEN_HOME;
-    else if(currentEvent == EVENT_BUTTON_NEXT)
-    {
-      if(currentPage<maxPages)
+  if (currentEvent == EVENT_BUTTON_HOME)
+    currentScreen = SCREEN_HOME;
+  else if (currentEvent == EVENT_BUTTON_NEXT)
+  {
+    if (currentPage<maxPages)
       currentPage++;
-      print(currentPage);
-    }
-    else if(currentEvent == EVENT_BUTTON_PREVIOUS)
-    {
-      if(currentPage>0)
+    print(currentPage);
+  } else if (currentEvent == EVENT_BUTTON_PREVIOUS)
+  {
+    if (currentPage>0)
       currentPage--;
-    }
-    
-  for (int i = currentPage * flightsPerPage ; i < flightsPerPage *(currentPage + 1) && i<theButtons.size() ; i++)
+  }
+
+  for (int i = currentPage * flightsPerPage; i < flightsPerPage *(currentPage + 1) && i<theButtons.size(); i++)
   {
     Button button = (Button) theButtons.get(i);
     button.display();
@@ -167,8 +164,8 @@ void showFlightSelections( ArrayList<Button> theButtons, ArrayList<DataPoint> th
     translate(0, 0);
     popMatrix();
   }
-  textAlign(CENTER,TOP);
-  text((currentPage+1)+"/"+(maxPages+1) , displayWidth/4 , 80*y);
+  textAlign(CENTER, TOP);
+  text((currentPage+1)+"/"+(maxPages+1), displayWidth/4, 80*y);
 }
 
 void printSimplifiedData(DataPoint p)
@@ -194,7 +191,7 @@ Button createButtonForFlight(DataPoint p, int i)
 ArrayList<Button> tempButtonsForOnePage(ArrayList<Button> buttons)             //create an arrayList for just one page to improve performance and realize page switch
 {
   ArrayList temp = new ArrayList<Button>();
-  for(int i = currentPage*flightsPerPage ; i < flightsPerPage*(currentPage + 1) && i<buttons.size(); i++)
+  for (int i = currentPage*flightsPerPage; i < flightsPerPage*(currentPage + 1) && i<buttons.size(); i++)
   {
     temp.add(buttons.get(i));
   }
@@ -210,7 +207,7 @@ int returnEventFromListOfButton(ArrayList<Button> buttons)
     if (button.clicked())
     {
       event = button.event;
-//      print(event);
+      //      print(event);
     }
   }
   return event;
@@ -231,13 +228,13 @@ void drawHelpingLines()
   }
 }
 
-boolean duplicateValue(ArrayList<String> stringList , String s)
+boolean duplicateValue(ArrayList<String> stringList, String s)
 {
   boolean result = false;
-  for(int i = 0; i<stringList.size() ; i++)
+  for (int i = 0; i<stringList.size(); i++)
   {
-    if(stringList.get(i).equals(s))
-    result = true;
+    if (stringList.get(i).equals(s))
+      result = true;
   }
   return result;
 }

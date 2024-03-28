@@ -2,8 +2,8 @@ ArrayList<Button>btnMain;
 ArrayList<Button>btnControlPanel;
 PFont buttonFont;
 
-Button originBtn, destinationBtn, dateBtn, flightDataBtn, homePageBtn, graphBtn, backArrow, forwardArrow , previousPage , nextPage, adjustDelayBtn, adjustDistanceBtn;
-Button showPieChartBtn, showHistogramBtn, individualFlightBtn, departBtn, arrivalBtn, getFlightBtn, searchPageBtn, toSelect, helpBtn, searchBarBtn;
+Button originBtn, destinationBtn, dateBtn, flightDataBtn, homePageBtn, graphBtn, backArrow, forwardArrow , previousPage , nextPage, adjustDelayBtn, adjustDistanceBtn , lengthByRoute;
+Button showPieChartBtn, showHistogramBtn, showBarChartBtn , individualFlightBtn, departBtn, arrivalBtn, getFlightBtn, searchPageBtn, toSelect, helpBtn, searchBarBtn;
 
 void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour, HoverColour, ButtonEvent)
 {
@@ -25,10 +25,13 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   //GRAPH PAGE
   showPieChartBtn = new Button(60*x, 20*y, 30*x, 5*y, "PieChart", #8080ff, #b3b3ff, EVENT_BUTTON_PIECHART, glowSize);
   showHistogramBtn = new Button(10*x, 20*y, 30*x, 5*y, "Histogram", #8080ff, #b3b3ff, EVENT_BUTTON_HISTOGRAM, glowSize);
-  
+  showBarChartBtn = new Button(10*x, 30*y, 30*x, 5*y, "BarChart", #8080ff, #b3b3ff, SCREEN_BAR_CHART, glowSize);
   //HISTOGRAM PAGE - ANDY
   adjustDelayBtn = new Button(30*x, 10*y, 15*x, 5*y, "Delay", #8080ff, #b3b3ff, EVENT_BUTTON_DELAY, glowSize);
   adjustDistanceBtn = new Button(50*x, 10*y, 15*x, 5*y, "Distance", #8080ff, #b3b3ff, EVENT_BUTTON_DISTANCE, glowSize);
+  
+  //BARCHART PAGE 
+  lengthByRoute = new Button(30*x, 10*y, 15*x, 5*y, "Route:Length", #8080ff, #b3b3ff, EVENT_BUTTON_RL, glowSize);
 
   //INDIVIDUAL FLIGHTS PAGE - Andy
   originBtn = new Button(x, 75*y, 30*x, 5*y, "Origin", #8080ff, #b3b3ff, EVENT_BUTTON_ORIGIN, glowSize);
@@ -64,6 +67,7 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   graphScreen.addButton(homePageBtn);
   graphScreen.addButton(showPieChartBtn);
   graphScreen.addButton(showHistogramBtn);
+  graphScreen.addButton(showBarChartBtn);
   graphScreen.addButton(backArrow);
   graphScreen.addButton(forwardArrow);
   
@@ -76,6 +80,12 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   pieChartScreen.addButton(homePageBtn);
   pieChartScreen.addButton(backArrow);
   pieChartScreen.addButton(forwardArrow);
+  pieChartScreen.addButton(adjustDelayBtn);
+  pieChartScreen.addButton(adjustDistanceBtn);
+  
+  barChartScreen.addButton(homePageBtn);
+  barChartScreen.addButton(lengthByRoute);
+
 
   individualFlightScreen.addButton(homePageBtn);
   individualFlightScreen.addButton(originBtn);

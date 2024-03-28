@@ -30,6 +30,7 @@ final int EVENT_BUTTON_HISTOGRAM = 12;
 final int EVENT_GETFLIGHT = 13;
 final int EVENT_BUTTON_DELAY = 14;
 final int EVENT_BUTTON_DISTANCE = 15;
+final int EVENT_BUTTON_RL = 16;
 
 final int EVENT_GETHELP = 20;
 
@@ -42,6 +43,8 @@ final int SCREEN_SELECT = 5;
 final int SCREEN_SEARCH_BAR = 6;
 final int SCREEN_HISTOGRAM = 7;
 final int SCREEN_PIE_CHART = 8;
+final int SCREEN_BAR_CHART = 9;
+
 
 float adapter;
 int currentScreen ;
@@ -97,8 +100,20 @@ HashMap <Integer, Integer> arrDelayFreq;
 
 PieChart pieChartOfDates;
 Histogram histogramOfDates;
+
 Histogram currentHistogram = new Histogram();
-String variable = "";
+boolean switchingHistogram = false;
+
+PieChart  currentPie = new PieChart();
+boolean switchingPie = false;
+
+BarChart  currentBar = new BarChart();
+boolean switchingBar = false;
+
+String variableHistogram = "";
+String variablePie = "";
+String independentVariableBar = "";
+String dependentVariableBar = "";
 //HashTable tableOfDates;
 //int listSize = dataPoints[0].size();
 int lineHeight = 20;
@@ -250,6 +265,8 @@ void draw() {
       currentScreen = SCREEN_PIE_CHART;
     } else if (currentEvent == EVENT_BUTTON_HISTOGRAM)
       currentScreen = SCREEN_HISTOGRAM;
+      else if( currentEvent == SCREEN_BAR_CHART)
+      currentScreen = SCREEN_BAR_CHART;
 
     if (currentEvent == EVENT_BUTTON_BACK)
     {
@@ -277,9 +294,30 @@ void draw() {
       hasScreenAdded = SCREEN_PIE_CHART;
     }
     currentEvent = pieChartScreen.returnEvent();
-    pieChartOfDates.drawPieChart();
+//    pieChartOfDates.drawPieChart();
     if (currentEvent == EVENT_BUTTON_HOME)
        currentScreen = SCREEN_HOME;
+    else if(currentEvent == EVENT_BUTTON_DELAY)
+    {
+       variablePie = "Delay";
+       switchingPie = true;
+    }
+    else if(currentEvent == EVENT_BUTTON_DISTANCE)
+    {
+       variablePie = "Distance";
+       switchingPie = true;
+    }
+       
+      if(variablePie!="")
+      {
+        if(switchingPie)
+        {
+        currentPie = quickFrequencyPie(calendarDataPoint , variablePie , calendarDataPoint.get(0).day+"/"+calendarDataPoint.get(0).month+"/"+calendarDataPoint.get(0).year+ " <---TO---> "+
+    calendarDataPoint.get(calendarDataPoint.size()-1).day+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).month+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).year); 
+          switchingPie = false;
+        }
+        currentPie.drawPieChart();
+      }
     if (currentEvent == EVENT_BUTTON_BACK)
     {
       if (screenHistory > 0)
@@ -306,10 +344,14 @@ void draw() {
       hasScreenAdded = SCREEN_HISTOGRAM;
     }
     currentEvent = histogramScreen.returnEvent();
-    if(variable!="")
+    if(variableHistogram!="")
     {
-    currentHistogram = quickFrequencyHistogram(calendarDataPoint , variable , calendarDataPoint.get(0).day+"/"+calendarDataPoint.get(0).month+"/"+calendarDataPoint.get(0).year+ " <---TO---> "+
+      if(switchingHistogram)
+      {
+    currentHistogram = quickFrequencyHistogram(calendarDataPoint , variableHistogram , calendarDataPoint.get(0).day+"/"+calendarDataPoint.get(0).month+"/"+calendarDataPoint.get(0).year+ " <---TO---> "+
     calendarDataPoint.get(calendarDataPoint.size()-1).day+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).month+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).year); 
+        switchingHistogram = false;
+      }
     currentHistogram.drawHistogram();
     }
 //    histogramOfDates.drawHistogram();
@@ -317,9 +359,15 @@ void draw() {
        currentScreen = SCREEN_HOME;
        //CHANGE CODE FROM HERE TO WHATEVER YOU WANT DELAY AND DISTANCE TO DO 
     else if(currentEvent == EVENT_BUTTON_DELAY)
-       variable = "Delay";
+    {
+       variableHistogram = "Delay";
+       switchingHistogram = true;
+    }
     else if(currentEvent == EVENT_BUTTON_DISTANCE)
-       variable = "Distance";
+    {
+       variableHistogram = "Distance";
+       switchingHistogram = true;
+    }
     if (currentEvent == EVENT_BUTTON_BACK)
     {
       if (screenHistory > 0)
@@ -333,9 +381,32 @@ void draw() {
     }
 
     break;
-    ////////////////////////////////////////////////////////////////////////////////////
-    
-    
+    /////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////
+  case SCREEN_BAR_CHART:
+      barChartScreen.draw();
+      currentEvent = barChartScreen.returnEvent();
+      
+      if(currentEvent == EVENT_BUTTON_RL)
+      {
+        independentVariableBar = "Route";
+        dependentVariableBar = "Distance";
+        switchingBar = true;
+      }
+      
+      if(dependentVariableBar!="")
+      {
+        if(switchingBar)
+        {
+          currentBar = quickBar(calendarDataPoint, independentVariableBar , dependentVariableBar , calendarDataPoint.get(0).day+"/"+calendarDataPoint.get(0).month+"/"+calendarDataPoint.get(0).year+ " <---TO---> "+
+    calendarDataPoint.get(calendarDataPoint.size()-1).day+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).month+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).year); 
+            switchingBar = false;
+        }
+        currentBar.drawBarChart();
+        currentBar.drawBarChartt();
+      }
+      
+  break;
+    /////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART
   case SCREEN_INDIVIDUAL_FLIGHT:
     individualFlightScreen.draw();
     if (currentEvent==EVENT_GETHELP)
@@ -361,7 +432,7 @@ void draw() {
 
     if (currentEvent == EVENT_GETFLIGHT)
     {
-      flightNum = (int)random(0, 1000);                     //for fun
+      flightNum = (int)random(0, calendarDataPoint.size());                     //for fun
       currentEvent = EVENT_BUTTON_NULL;
     } else if (currentEvent>=100)
       flightNum = selectedFlight;                         //selected from selection screen
@@ -520,7 +591,7 @@ void draw() {
       {
         selectedFlight = currentEvent-100;
         currentScreen = SCREEN_INDIVIDUAL_FLIGHT;
-        print(selectedFlight);
+      //  print(selectedFlight);
       } else if (selectScreen.returnEvent()==EVENT_BUTTON_HOME)
       {
         currentScreen = SCREEN_HOME;

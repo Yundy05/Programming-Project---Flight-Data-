@@ -5,6 +5,7 @@ void GraphicsSetUp()
   plot = new GPlot(this);
 }
 
+
 public int[] getFrequency(int[] aList , float interval)
 {
   int[] f = new int[(int)Math.ceil(max(aList)/interval)];
@@ -166,7 +167,58 @@ class Histogram
     }
   }
 }
-
+PieChart quickFrequencyPie(ArrayList<DataPoint> data , String variable , String datePeriod)   //what do u wish---supporting: Delay , Distance
+{
+  float x = displayWidth/200.0;          //unit x
+  float y = (displayHeight*9/10)/100.0;         //unit y
+  PieChart tempPie = new PieChart();
+  if(variable.equalsIgnoreCase("Delay"))
+  {
+    int interval = 20;
+    int[] delay = new int[data.size()];
+    for(int i=0 ; i<data.size() ; i++)
+    {
+      delay[i] = data.get(i).getArrDelay()+data.get(i).getDepDelay();
+    }
+   // int max = max(delay);
+   // while(max%interval!=0)
+    //max++;
+    int[] f = getFrequency(delay,(float)interval);
+    String[] labels = new String[f.length];
+    labels[0] = "D <="+interval+"min";
+    for(int i=1 ; i<f.length-1 ;i++)
+    {
+      labels[i] = interval*i + "< D <=" + interval*(i+1)+"min";
+    }
+     labels[f.length-1] = interval*(f.length-1) + "< D min";
+     
+      tempPie = new PieChart(int(30*x) , int (50*y) , int(20*x) , f, labels, "Delay_Frequency_From " + datePeriod);
+  }
+   if(variable.equalsIgnoreCase("Distance"))
+   {
+     int[] distance = new int[data.size()];
+     int interval = 500;
+     for(int i=0 ; i<data.size() ; i++)
+     {
+       distance[i] = data.get(i).distance;
+     }
+     int[] f = getFrequency(distance,(float)interval);
+     String[] labels = new String[f.length];
+     if(f.length>1)
+     {
+     labels[0] = "D <="+interval+"miles";
+      for(int i=1 ; i<f.length-1 ;i++)
+    {
+      labels[i] = interval*i + "< D <=" + interval*(i+1)+"miles";
+    }
+       labels[f.length-1] = interval*(f.length-1) + "< D miles";
+     }
+     else if(f.length==1)
+     labels[0] = f[0]+"miles";
+     tempPie = new PieChart(int(30*x) , int (50*y) , int(20*x) , f, labels, "Distance_Frequency_From " + datePeriod);
+   }
+  return tempPie;
+}
 class PieChart
 {
   int x, y;
@@ -176,6 +228,7 @@ class PieChart
   float radians[];
   String labels[];
   String title;
+  PieChart(){}
   PieChart(int x, int y, int radius, int[]data, String[] labels, String title)
   {
     this.x = x;
@@ -194,12 +247,18 @@ class PieChart
     float[] radians = new float[data.length];
     for (int i = 0; i<data.length; i++)
     {
+      if(data[i]==0)
+      continue;
+      
       sum += data[i];
       //print(sum);
     }
-    print(sum);
+    //print(sum);
     for (int i = 0; i<data.length; i++)
     {
+      if(data[i] == 0)
+      continue;
+      
       radians[i] = map(data[i], 0, sum, 0, 2*PI);
       print(radians[i]);
     }
@@ -223,6 +282,8 @@ class PieChart
     float lastRadian = 0;
     for (int i=0; i<data.length; i++)
     {
+      if(data[i]==0)
+      continue;
       colorMode(HSB, 255);
       int col = (int)map(i, 0, data.length, 0, 10);
       noStroke();
@@ -242,10 +303,42 @@ class PieChart
       textAlign(CENTER);
       fill(255);
       text(labels[i], x1, y1);
-      text(roundPercentage((radians[i]/(2.0*PI))*100)+"%", x1, y1 + displayWidth/50);
+      textAlign(LEFT);
+      text(roundPercentage((radians[i]/(2.0*PI))*100)+"%", x+1*radius+20, y-radius + 30*i +10);
       lastRadian += radians[i];
     }
   }
+}
+
+BarChart quickBar(ArrayList<DataPoint> data , String iv ,String dv, String datePeriod)   //what do u wish---supporting: Route/Distance , Airport/Flights
+{
+  BarChart templeBar = new BarChart();          //temple BAR GET DRUNK HAHAHAHA
+  int bins = 5;
+  if(dv.equalsIgnoreCase("Distance"))
+  {
+    ArrayList<DataPoint> temp = new ArrayList<DataPoint>();
+    for(int i=0 ; i<data.size() ; i++)
+    {
+      temp.add(data.get(i));
+    }
+    String[] labels = new String[bins];
+    int[] dis = new int[bins];
+    for(int i=0 ; i<bins ; i++)
+    {
+      int max = 0;
+      for(int j=0 ; j<temp.size();j++)
+      {
+         if(temp.get(max).distance< temp.get(j).distance)
+          max = j;
+      }
+      dis[i] = temp.get(max).distance;
+      labels[i] = temp.get(max).origin + "->"+ temp.get(max).dest;
+      temp.remove(max);
+    }
+  //    print(dis[0]);
+      templeBar = new BarChart(int(20*x) , int(30*y) , int(40*x) , int(30*y) , dis , bins , labels ,"Distance_Frequency_From"+datePeriod , "Routes" , "Distance");
+  }    
+  return templeBar;
 }
 
 class BarChart
@@ -253,7 +346,7 @@ class BarChart
   int x, y;
   int gphH, gphW;
   int[] data;
-  int[] frequency;
+  int[] dependent;
   int max;
   int min;
   int numOfBins, binWidth;
@@ -268,6 +361,7 @@ class BarChart
   String[] xCatogories;
   //plot = new GPlot(this);
   // data array is your data collection, xCatogories is your data catagories, like color red, blue is the xCatogories
+  BarChart(){}
   BarChart(int x, int y, int gphH, int gphW, double[] data, int numOfBins, String[] xCatogories,
     String title, String labelX, String labelY )
   {
@@ -280,7 +374,7 @@ class BarChart
     this.min = min(this.data);
     this.numOfBins = numOfBins;
     this.binWidth = this.gphW/ this.numOfBins;
-    this.frequency = this.data;
+    this.dependent = this.data;
     this.xCatogories = xCatogories;
     this.title = title;
     this.labelX = labelX; // label for x axis
@@ -295,11 +389,12 @@ class BarChart
     this.gphH = gphH;
     this.gphW = gphW;
     //doubleToIntArray(data);
-    this.max = max(this.data);
-    this.min = min(this.data);
+    this.max = max(data);
+    this.min = min(data);
     this.numOfBins = numOfBins;
     this.binWidth = this.gphW/ this.numOfBins;
-    this.frequency = this.data;
+   
+    this.dependent = data;
     this.xCatogories = xCatogories;
     this.title = title;
     this.labelX = labelX; // label for x axis
@@ -313,15 +408,16 @@ class BarChart
     //plot.drawBox();
     plot.setMar(100, 90, 90, 70);
   }
+  
   void drawBarChartt()
   {
     fill(#32348E);
-    for (int i=0; i<frequency.length; i++)
+    for (int i=0; i<dependent.length; i++)
     {
-      int binHeight = (int)map(frequency[i], 0, max, 0, gphH);
+      int binHeight = (int)map(dependent[i], 0, this.max, 0, this.gphH);
       println(binHeight);
       stroke(3);
-      rect(x+90 +binWidth*i, (int)(y+gphH -binHeight +90), binWidth, (int)binHeight);
+      rect(x+90 +binWidth*i + gap*i, (int)(y+gphH -binHeight +90), binWidth, (int)binHeight);
     }
   }
 
@@ -351,6 +447,7 @@ class BarChart
     for (int i =0; i<xCatogories.length; i++)
     {
       //text("uu",x+90 +binWidth*i+i*(gphW/numOfBins), y + gphH+90);
+      textSize(TS/2);
       text(xCatogories[i], x+90 +binWidth*(i+0.5), y + gphH+120);
     }
   }

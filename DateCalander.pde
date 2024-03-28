@@ -77,9 +77,9 @@ void displayForOrigin()
     dropdownOption2.inputText = "Departure: Any";
     dropdownOption3.inputText = "Arrival: Any";
   }
-  else if(dropdownOption1.inputText == "")
+  else if(dropdownOption1.inputText == " ")
   {
-//    dropdownOption1.inputText = ("Select Your Data Type");
+    dropdownOption1.inputText = ("Select Your Data Type");
   }
 }
 

@@ -2,7 +2,7 @@ class DropdownTextbox { //made by jiahao for the departure/ single/ arrival etc
   ArrayList<String> dropdownOptions = new ArrayList<String>();
   ArrayList<String> filteredOptions = new ArrayList<String>();
   boolean displayDropdown = false;
-  String inputText = "";
+  String inputText = " ";
   int textboxX;
   int textboxY;
   int textboxWidth;
@@ -13,7 +13,11 @@ class DropdownTextbox { //made by jiahao for the departure/ single/ arrival etc
   int round;
   boolean textboxSelected = false;
   boolean ifItIsOption = false;
-  
+  //mouse blinker like how we have it when we type as a guideline
+  boolean cursorVisible = true; // Whether the cursor is currently visible
+  int cursorTimer = 0; // Timer to control cursor blinking
+  int intervalForTime = 500; // Time in milliseconds for each blink interval
+
   DropdownTextbox(int x, int y, int widthh, int heightt, int round) 
   {
     this.textboxX = x;
@@ -91,6 +95,17 @@ void drawTextbox()
         textX = textboxX + textboxWidth - 5 - textW;
     }
     text(displayText, textX, textboxY + textboxHeight / 2);
+    
+    float cursorX = textX + textW;
+    if (millis() - cursorTimer > intervalForTime) {
+        cursorVisible = !cursorVisible; // Toggle cursor visibility
+        cursorTimer = millis(); // Reset the timer
+    }
+    if (cursorVisible && textboxSelected) {
+        stroke(0);
+        line(cursorX, textboxY + textboxHeight/3, cursorX, textboxY + textboxHeight / 1.5);
+    }
+    
 }
 
   
@@ -138,6 +153,7 @@ void drawTextbox()
       textboxSelected = true;
       displayDropdown = true;
       inputText = "";
+      filterDropdownOptions();
     } else if (displayDropdown && overDropdown(mouseX, mouseY)) {
       int index = (mouseY - textboxY - textboxHeight) / dropdownItemHeight + scrollOffset;
       if (index >= 0 && index < filteredOptions.size()) {

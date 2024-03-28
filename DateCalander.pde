@@ -11,6 +11,7 @@ class DateCalander
   int clickCount = 0;
   float x = 2560/200.0;          //unit x
   float y = (1600*9/10)/100.0;    //unit y
+  int tR =(int)displayWidth/60;
   boolean singleDateMode = false;
   String inputChanged = "";
   int circleXPos;
@@ -46,7 +47,7 @@ void displayForOrigin()
   rect(5 * x, 12 * y, 90 * x, 80 * y, 20);
   rect(5 * x, 8 * y, 20 * x, 5 * y);
   
-  textSize(30);
+  textSize(0.7 * tR);
   fill(100);
   image(takeOff, 6* x, 8.5 * y);
   text("Check a flight", 16 * x, 9.5 * y);
@@ -78,7 +79,7 @@ void displayForOrigin()
   }
   else if(dropdownOption1.inputText == "")
   {
-    dropdownOption1.inputText = ("Select Your Data Type");
+//    dropdownOption1.inputText = ("Select Your Data Type");
   }
 }
 
@@ -86,7 +87,7 @@ void displayForOrigin()
   void displayForCalendar() {
     scale(displayWidth/2560.0,displayHeight/1600.0);
     textFont(font);
-    textSize(40);
+    textSize(1 * tR);
     fill(255);
     rect(25 * x, 50 * y, 50 * x, 35 * y, 35);
     for (int i = 0; i < totalDays; i++) {
@@ -116,7 +117,7 @@ void displayForOrigin()
       fill(0);
       text(i + 1, xPos + 2.5 * x, yPos + 2* y);
     }
-    textSize(50);
+    textSize(1.2 * tR);
     fill(0);
     text("January", 50 * x, 52 * y);
     

@@ -383,6 +383,15 @@ void draw() {
     /////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////
   case SCREEN_BAR_CHART:
       barChartScreen.draw();
+      if (hasScreenAdded != SCREEN_BAR_CHART)
+    {
+      if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
+      {
+        screenArrow.add(SCREEN_BAR_CHART);
+        screenHistory++;
+      }
+      hasScreenAdded = SCREEN_BAR_CHART;
+    }
       currentEvent = barChartScreen.returnEvent();
       if (currentEvent == EVENT_BUTTON_HOME)
        currentScreen = SCREEN_HOME;
@@ -404,6 +413,17 @@ void draw() {
         currentBar.drawBarChart();
         currentBar.drawBarChartt();
       }
+     if (currentEvent == EVENT_BUTTON_BACK)
+    {
+      if (screenHistory > 0)
+        screenHistory--;
+      currentScreen = screenArrow.get(screenHistory);
+    } else if (currentEvent == EVENT_BUTTON_FORWARD)
+    {
+      if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
+        screenHistory++;
+      currentScreen = screenArrow.get(screenHistory);
+    }
       
   break;
     /////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART

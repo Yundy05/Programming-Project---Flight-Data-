@@ -85,6 +85,8 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   
   barChartScreen.addButton(homePageBtn);
   barChartScreen.addButton(lengthByRoute);
+  barChartScreen.addButton(backArrow);
+  barChartScreen.addButton(forwardArrow);
 
 
   individualFlightScreen.addButton(homePageBtn);

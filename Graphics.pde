@@ -305,9 +305,9 @@ class PieChart
       y1 = (y1 + y)/2;
       textAlign(CENTER);
       fill(0);
-      text(labels[i], x1, y1);
+      //text(labels[i], x1, y1);
       textAlign(LEFT);
-      text(roundPercentage((radians[i]/(2.0*PI))*100)+"%", x+1*radius+20, y-radius + 30*i +10);
+      text(roundPercentage((radians[i]/(2.0*PI))*100)+"%", x1, y1);
       lastRadian += radians[i];
     }
   }
@@ -400,7 +400,7 @@ class BarChart
     this.max = max(data);
     this.min = min(data);
     this.numOfBins = numOfBins;
-    this.binWidth = this.gphW/ this.numOfBins;
+    this.binWidth = this.gphW/ this.numOfBins-gap;
    
     this.dependent = data;
     this.xCatogories = xCatogories;
@@ -456,7 +456,7 @@ class BarChart
     {
       //text("uu",x+90 +binWidth*i+i*(gphW/numOfBins), y + gphH+90);
       textSize(TS/3);
-      text(xCatogories[i], x+90 +binWidth*(i+0.5), y + gphH+120);
+      text(xCatogories[i], x+90 +(binWidth+gap)*(i+0.5), y + gphH+120);
     }
   }
 

@@ -31,7 +31,7 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   adjustDistanceBtn = new Button(50*x, 10*y, 15*x, 5*y, "Distance", #8080ff, #b3b3ff, EVENT_BUTTON_DISTANCE, glowSize);
   
   //BARCHART PAGE 
-  lengthByRoute = new Button(30*x, 10*y, 15*x, 5*y, "Route:Length", #8080ff, #b3b3ff, EVENT_BUTTON_RL, glowSize);
+  lengthByRoute = new Button(30*x, 10*y, 30*x, 5*y, "10 Busiest Airports", #8080ff, #b3b3ff, EVENT_BUTTON_RL, glowSize);
 
   //INDIVIDUAL FLIGHTS PAGE - Andy
   originBtn = new Button(x, 75*y, 30*x, 5*y, "Origin", #8080ff, #b3b3ff, EVENT_BUTTON_ORIGIN, glowSize);

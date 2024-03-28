@@ -269,6 +269,7 @@ void toggleSingle()
     }
     if (toSelect.clicked())
     {
+      updateData=true;
       return true;
     } else
     {
@@ -288,6 +289,7 @@ void toggleSingle()
     }
     if (toGraph.clicked())
     {
+      updateData=true;
       return true;
     } else
     {

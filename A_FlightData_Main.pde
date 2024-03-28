@@ -61,6 +61,7 @@ int hasScreenAdded = -1;
 
 
 //events related settings//
+boolean updateData;
 int currentEvent;
 int selectedFlight;                        // An index to access individual flight
 final int EVENT_PRINT_DATA_FLIGHTSCREEN = 1;   // keep listing according to SCREEN order
@@ -96,11 +97,11 @@ HashTable tableOfDestination_Wac = new HashTable();
 HashTable tableOfAirports_Origin = new HashTable();
 HashTable tableOfAirports_Dest = new HashTable();
 HashMap <Integer, Integer> arrDelayFreq;
-
-
+HashMap <String, Integer> airportFreq;
+List<Map.Entry<String, Integer>> airportFreqList;
 PieChart pieChartOfDates;
 Histogram histogramOfDates;
-
+BarChart flightsByAirport;
 Histogram currentHistogram = new Histogram();
 boolean switchingHistogram = false;
 
@@ -133,11 +134,13 @@ void setup()
   setupBtn();
   TS = int(displayWidth/60.0);  //universal text size;
   arrDelayFreq = new HashMap <Integer, Integer>();
+  airportFreq = new HashMap <String, Integer>();
 
   //data setup::
   dataPoints = new ArrayList<DataPoint>();
   init_stateCoord();
   read_in_the_file();
+  calendarDataPoint=dataPoints;
   createHashMaps();
   GraphicsSetUp();
   createCharts();
@@ -176,6 +179,7 @@ void setup()
   screenArrow = new ArrayList<Integer>();
   //Searching Bar
   setupSB();
+  
 }
 
 
@@ -306,8 +310,9 @@ void draw() {
       {
         if(switchingPie)
         {
-        currentPie = quickFrequencyPie(calendarDataPoint , variablePie , calendarDataPoint.get(0).day+"/"+calendarDataPoint.get(0).month+"/"+calendarDataPoint.get(0).year+ " <---TO---> "+
-    calendarDataPoint.get(calendarDataPoint.size()-1).day+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).month+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).year); 
+        //currentPie = quickFrequencyPie(calendarDataPoint , variablePie , calendarDataPoint.get(0).day+"/"+calendarDataPoint.get(0).month+"/"+calendarDataPoint.get(0).year+ " <---TO---> "+
+    //calendarDataPoint.get(calendarDataPoint.size()-1).day+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).month+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).year); 
+          currentPie=pieChartOfDates;
           switchingPie = false;
         }
         currentPie.drawPieChart();
@@ -379,7 +384,8 @@ void draw() {
   case SCREEN_BAR_CHART:
       barChartScreen.draw();
       currentEvent = barChartScreen.returnEvent();
-      
+      if (currentEvent == EVENT_BUTTON_HOME)
+       currentScreen = SCREEN_HOME;
       if(currentEvent == EVENT_BUTTON_RL)
       {
         independentVariableBar = "Route";
@@ -391,8 +397,8 @@ void draw() {
       {
         if(switchingBar)
         {
-          currentBar = quickBar(calendarDataPoint, independentVariableBar , dependentVariableBar , calendarDataPoint.get(0).day+"/"+calendarDataPoint.get(0).month+"/"+calendarDataPoint.get(0).year+ " <---TO---> "+
-    calendarDataPoint.get(calendarDataPoint.size()-1).day+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).month+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).year); 
+          currentBar = flightsByAirport;// = quickBar(calendarDataPoint, independentVariableBar , dependentVariableBar , calendarDataPoint.get(0).day+"/"+calendarDataPoint.get(0).month+"/"+calendarDataPoint.get(0).year+ " <---TO---> "+
+    //calendarDataPoint.get(calendarDataPoint.size()-1).day+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).month+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).year); 
             switchingBar = false;
         }
         currentBar.drawBarChart();
@@ -858,24 +864,54 @@ void createHashMaps()            //!!! Use this function to create ALL the HashM
     arrDelayFreq.put(arrDelay, arrDelayFreq.getOrDefault(arrDelay, 0) + 1);
   }
 }
+void createHashMaps(ArrayList<DataPoint> flights)
+{
+  arrDelayFreq=new HashMap<Integer, Integer>();
+  airportFreq=new HashMap<String, Integer>();
+  for (int i=0;i<flights.size();i++)
+  {
+    DataPoint data = flights.get(i);
+    int arrDelay = (int)(data.getArrDelay())/60;
+    arrDelayFreq.put(arrDelay, arrDelayFreq.getOrDefault(arrDelay, 0) + 1);
+    String airport = data.origin;
+    airportFreq.put(airport, airportFreq.getOrDefault(airport, 0) + 1);
+    airport = data.dest;
+    airportFreq.put(airport, airportFreq.getOrDefault(airport, 0) + 1);
+  }
+  airportFreqList = new ArrayList<>(airportFreq.entrySet());
+  Collections.sort(airportFreqList, new Comparator<Map.Entry<String, Integer>>() {
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                return Integer.compare(o1.getValue(),o2.getValue());
+            }
+        });
+   Collections.reverse(airportFreqList);
+}
 
 void createCharts()              //!!! Use this to create ALL the charts we need!!!               By chuan:)
 {
-
-
+   createHashMaps(calendarDataPoint);
   //  int[] numberOfFlightsByDay = new int[tableOfDates.size];
   ArrayList<Integer> numOfFlightsByArrDelay = new ArrayList<Integer>();
+
   //String[] lables = new String[tableOfDates.size];
   /* for(int i=0 ; i<tableOfDates.size; i++)
    {
    numberOfFlightsByDay[i]=tableOfDates.getDataByIndex(i).size();
    lables[i] = "January "+(i+1);
    }*/
-
+  String[] airportArray = new String[min(airportFreqList.size(),10)];
+   int[] airportsNumArray = new int[min(airportFreqList.size(),10)];
   for (Map.Entry<Integer, Integer> entry : arrDelayFreq.entrySet())
   {
     numOfFlightsByArrDelay.add( entry.getValue());
   }
+  for (int i=0;i<10&&i<airportFreqList.size();i++) {
+     airportArray[i]= airportFreqList.get(i).getKey();
+     airportsNumArray[i]= airportFreqList.get(i).getValue();
+     println(airportFreqList.get(i).getKey()+" " +airportFreqList.get(i).getValue());
+   }
+  
+ 
   int[] arrDelayFreqArray = new int[numOfFlightsByArrDelay.size()];
   for (int i = 0; i < numOfFlightsByArrDelay.size(); i++)
   {
@@ -883,11 +919,16 @@ void createCharts()              //!!! Use this to create ALL the charts we need
   }
   //pieChartOfDates = new PieChart(displayWidth/7,displayHeight/2, displayWidth/10,numberOfFlightsByDay,lables);
   String[] lables = {"on time", "cancelled", "delayed", "diverted"};
-  pieChartOfDates = new PieChart(displayWidth/7, displayHeight/2, displayWidth/10, countCancelDelayDivert(dataPoints), lables, "Proportions of flights with different status");//(int x, int y, int radius, int[]data, String[] labels, String title)
+  pieChartOfDates = new PieChart(displayWidth/7, displayHeight/2, displayWidth/10, countCancelDelayDivert(calendarDataPoint), lables, "Proportions of flights with different status");//(int x, int y, int radius, int[]data, String[] labels, String title)
   // histogramOfDates = new Histogram(displayWidth/7, displayHeight/2 , displayHeight/10 , displayWidth/8, numberOfFlightsByDay, tableOfDates.size, 10, 10);
   histogramOfDates = new Histogram(displayWidth/50, displayHeight/4, displayHeight/2, displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length, 0, 1,
     "Frequencies of arrival delay", "Arrival delay (h)", "Frequency");
+   flightsByAirport= new BarChart (displayWidth/50, displayHeight/7, displayHeight/2, displayWidth/4, airportsNumArray, airportsNumArray.length, airportArray,
+   "Busiest airports", "Airports IATA", "Frequency");
   //   if(variable !="")
+  
+  //BarChart(int x, int y, int gphH, int gphW, double[] data, int numOfBins, String[] xCatogories,
+   // String title, String labelX, String labelY )
   //  histogramOfDates = quickFrequencyHistogram(dataPoints , variable , "1/1 - 1/31");   //what do u wish---supporting: Delay , Distance
   //histogramOfDates = new Histogram(displayWidth/7, displayHeight/7 , displayHeight/2 , displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length, 20, 5);// bug: seems that the text doesnot represent the actual values
 }

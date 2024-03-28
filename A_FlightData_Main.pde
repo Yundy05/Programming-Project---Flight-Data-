@@ -485,15 +485,19 @@ void draw() {
           //          "Departure Only", "Arrival Only", "Departure & Arriving", "Single Date Only", "Date range"
           if (calendar.inputChanged == "Departure Only")
           {
-            filter = findIntersection(tableOfAirports_Origin, hashFuncForAirport(OriginCity), tableOfAirports_Dest);
+//            String OriginCity = sbOriginCities.selectedItem;
+            filter = findIntersection(tableOfOrigin, hashFuncForCity(OriginCity), tableOfDestination);
             selectFlightsByDateAndOthers(filter);
           } else if (calendar.inputChanged == "Arrival Only")
           {
-            filter = findIntersection(tableOfAirports_Origin, tableOfAirports_Dest, hashFuncForAirport(DestinationCity));
+///            String DestinationCity = sbDestinationCities.selectedItem;
+            filter = findIntersection(tableOfOrigin, tableOfDestination, hashFuncForCity(DestinationCity));
             selectFlightsByDateAndOthers(filter);
           } else if (calendar.inputChanged == "Departure & Arriving")
           {
-            filter = findIntersection(tableOfAirports_Origin, hashFuncForAirport(OriginCity), tableOfAirports_Dest, hashFuncForAirport(DestinationCity));
+//             String OriginCity = sbOriginCities.selectedItem;
+ //            String DestinationCity = sbDestinationCities.selectedItem;
+            filter = findIntersection(tableOfOrigin, hashFuncForCity(OriginCity), tableOfDestination, hashFuncForCity(DestinationCity));
             selectFlightsByDateAndOthers(filter);
           } else if (calendar.inputChanged == "Single Date Only")
           {

@@ -86,11 +86,18 @@ class SearchBox
     {
         filteredOptions.clear();
         for(String option : allOptions)
-        {
-            if(option.toLowerCase().contains(query.toLowerCase()))
-            {
-                filteredOptions.add(option);
-            }
+        {        
+              //if(option.toLowerCase().contains(query.toLowerCase()))
+              //{
+              //    filteredOptions.add(option);
+              //}
+            //for(int i=0 ; i<query.length(); i++)
+            //{
+              if(option.substring(0,query.length()).equals(query))
+              {
+                  filteredOptions.add(option);
+              }
+            //}
         }
 
         dropdown.clear();
@@ -121,8 +128,7 @@ class SearchBox
         if(!searchField.getText().trim().isEmpty())
         {
           dropdown.show();
-          println(searchField.getText());
-          
+          println(searchField.getText());          
         }
       }
       else
@@ -162,11 +168,11 @@ void drawSB()
   //background(240);
   //sbCities.drawSB(this);
   //sbAirport.displaySB(this);
+ // controlEvents();
   sbOriginCities.drawSB(this);
   sbDestinationCities.drawSB(this);
   OriginCity=sbOriginCities.selectedItem;
   DestinationCity = sbDestinationCities.selectedItem;
-
   println(OriginCity, DestinationCity);
 }
 void controlEvent(ControlEvent event)

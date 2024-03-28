@@ -466,54 +466,68 @@ void draw() {
         textSize(TS/1.5);
         if (calendar.singleDateMode)
         {
-          text("Date selected! Press \"View Flights\"  to proceed. \nOr Press \"GRAPHS\" to view data", calendar.x * 28, calendar.y * 87);
+          text("Press \"View Flights\" \nOr \"GRAPHS\" \n to view data", calendar.x * 28, calendar.y * 88);
         } else
         {
-          text("Dates selected! Press \"View Flights\"  to proceed. \nOr Press \"GRAPHS\" to view data", calendar.x * 28, calendar.y * 87);
+          text("Press \"View Flights\" \nOr \"GRAPHS\" \n to view data", calendar.x * 28, calendar.y * 88);
         }
         if (calendar.finalToGoSelect())
         {
-          //selectFlightsByDate();
-          //           selectFlightsByDateAndOthers(filter);
-          //            currentScreen = SCREEN_SELECT;
-          //        }
-          //        else if(calendar.finalToGoGraph())
-          //        {
-          //            selectFlightsByDateAndOthers(filter);
-          //            currentScreen = SCREEN_GRAPH;
-          //      {
-          //          "Departure Only", "Arrival Only", "Departure & Arriving", "Single Date Only", "Date range"
           if (calendar.inputChanged == "Departure Only")
           {
-//            String OriginCity = sbOriginCities.selectedItem;
-            filter = findIntersection(tableOfOrigin, hashFuncForCity(OriginCity), tableOfDestination);
+            filter = findIntersection(tableOfOrigin, hashFuncForCity(OriginCity));
             selectFlightsByDateAndOthers(filter);
+            currentScreen = SCREEN_SELECT;
           } else if (calendar.inputChanged == "Arrival Only")
           {
-///            String DestinationCity = sbDestinationCities.selectedItem;
-            filter = findIntersection(tableOfOrigin, tableOfDestination, hashFuncForCity(DestinationCity));
+            filter = findIntersection(tableOfDestination, hashFuncForCity(DestinationCity));
             selectFlightsByDateAndOthers(filter);
+            currentScreen = SCREEN_SELECT;
           } else if (calendar.inputChanged == "Departure & Arriving")
           {
-//             String OriginCity = sbOriginCities.selectedItem;
- //            String DestinationCity = sbDestinationCities.selectedItem;
             filter = findIntersection(tableOfOrigin, hashFuncForCity(OriginCity), tableOfDestination, hashFuncForCity(DestinationCity));
             selectFlightsByDateAndOthers(filter);
+            currentScreen = SCREEN_SELECT;
           } else if (calendar.inputChanged == "Single Date Only")
           {
             selectFlightsByDate();
+            currentScreen = SCREEN_SELECT;
           } else if (calendar.inputChanged == "Date range")
           {
             selectFlightsByDate();
+            currentScreen = SCREEN_SELECT;
           }
-          currentScreen = SCREEN_SELECT;
+        }
+        
+          if (calendar.finalToGoGraph())
+          {
+          if (calendar.inputChanged == "Departure Only")
+          {
+            filter = findIntersection(tableOfOrigin, hashFuncForCity(OriginCity));
+            selectFlightsByDateAndOthers(filter);
+             currentScreen = SCREEN_GRAPH;
+          } else if (calendar.inputChanged == "Arrival Only")
+          {
+            filter = findIntersection(tableOfDestination, hashFuncForCity(DestinationCity));
+            selectFlightsByDateAndOthers(filter);
+             currentScreen = SCREEN_GRAPH;
+          } else if (calendar.inputChanged == "Departure & Arriving")
+          {
+            filter = findIntersection(tableOfOrigin, hashFuncForCity(OriginCity), tableOfDestination, hashFuncForCity(DestinationCity));
+            selectFlightsByDateAndOthers(filter);
+             currentScreen = SCREEN_GRAPH;
+          } else if (calendar.inputChanged == "Single Date Only")
+          {
+            selectFlightsByDate();
+            currentScreen = SCREEN_GRAPH;
+          } else if (calendar.inputChanged == "Date range")
+          {
+            selectFlightsByDate();
+            currentScreen = SCREEN_GRAPH;
+          }
         }
       }
-      //        searchScreen.addButton(toSelect);
-      //      else
-      //      {
-      //         searchScreen.removeButton(toSelect);
-      //      }
+
 
       if (hasScreenAdded != SCREEN_SEARCH)
       {

@@ -13,6 +13,7 @@ class DateCalander
   float y = (displayHeight*9/10)/100.0;         //unit y
   int tR =(int)displayWidth/60;
   boolean singleDateMode = false;
+  boolean toggleClickMode = false;
   String inputChanged = "";
   int circleXPos;
   ArrayList<DataPoint> dp = new ArrayList <DataPoint> ();
@@ -24,6 +25,7 @@ class DateCalander
   DropdownTextbox dropdownOption2;
   DropdownTextbox dropdownOption3;
   Button toSelect =  new Button(50*x, 80*y, 20*x, 4*y, "View Flights", #8080ff, #b3b3ff, SCREEN_SELECT, 10); //glowsize set to 10 for default use
+  Button toGraph = new Button(50*x, 85 *y, 20*x, 4*y, "GRAPHS", #8080ff, #b3b3ff, EVENT_BUTTON_TOGRAPH, 10);
 
   DateCalander(int amountOfDays)
   {
@@ -76,6 +78,13 @@ class DateCalander
     {
       dropdownOption1.inputText = ("Select Your Data Type");
     }
+    if(toggleClickMode)
+    {
+      toggleSingle();
+      textSize(0.5 * tR);
+      fill(0);
+      text("Toggle Single", 63 * x, 50 * y);
+    }
   }
 
   //for Calendar -jhy
@@ -84,7 +93,7 @@ class DateCalander
     textFont(font);
     textSize(1 * tR);
     fill(255);
-    rect(25 * x, 50 * y, 50 * x, 40 * y, 35);
+    rect(25 * x, 47 * y, 50 * x, 44 * y, 35);
     for (int i = 0; i < totalDays; i++) {
       int xPos = int((i % 7) * 6.25*x + 28.5 * x);
       int yPos = int((i / 7) * 6.25*y + 55 * y);
@@ -111,19 +120,26 @@ class DateCalander
     }
     textSize(1.2 * tR);
     fill(0);
-    text("January", 50 * x, 52 * y);
+    text("January", 50 * x, 50 * y);
 
     if (inputChanged != dropdownOption1.inputText)
     {
       selectedInboundDay = -1;
       selectedOutboundDay = -1;
       inputChanged = dropdownOption1.inputText;
+      toggleClickMode = false;
       if (inputChanged == "Departure & Arriving" || inputChanged == "Date range")
       {
         singleDateMode = false;
-      } else
+      }
+      else if(inputChanged == "Single Date Only")
       {
         singleDateMode = true;
+      }
+      else
+      {
+        singleDateMode = false;
+        toggleClickMode = true;
       }
     }
   }
@@ -138,12 +154,25 @@ class DateCalander
     int clickedRow = (int)((mouseY - int(55 * y)) / (4.53*y));
     int clickedDay = clickedRow * 7 + clickedColumn + 1;
 
+    if(toggleClickMode)
+    {
+      if (mouseX > (63 * x) && mouseX < (63 * x + 8 * x) && mouseY > (51 * y) && mouseY < (51 * y + 2.5 * y))
+      {
+        // Toggle on off
+        singleDateMode = !singleDateMode;
+        selectedInboundDay = -1;
+        selectedOutboundDay = -1;
+        clickCount = 0;
+      }
+    }
+    
+    
     if (clickedDay > 0 && clickedDay <= amountOfDays && (dropdownOption1.inputText != "" && dropdownOption1.ifItIsOption)) {
       float cellStartX = 28.5 * x + clickedColumn * 6.25*x;
       float cellEndX = cellStartX + 5.46*x;
       float cellStartY = 55 * y + clickedRow * 4.53*y;
-      float cellEndY = cellStartY + 4*y;
-
+      float cellEndY = cellStartY + 4*y;    
+      
       //       if (mouseX*2560.0/displayWidth >= cellStartX &&mouseX*2560.0/displayWidth <= cellEndX && mouseY*1600.0/displayHeight >= cellStartY && mouseY*1600.0/displayHeight <= cellEndY) {
       if (mouseX >= cellStartX &&mouseX <= cellEndX && mouseY >= cellStartY && mouseY <= cellEndY) {
         if (singleDateMode) {
@@ -182,6 +211,33 @@ class DateCalander
   }
 
 
+void toggleSingle()
+{
+  float circleXPos;
+  if(singleDateMode)
+  {
+    fill(color(50,205,50));
+    stroke(0);
+    rect(63 * x, 51 * y, 8* x, 2.5 * y, (2.5 * y)/2);
+    circleXPos =  63 * x + 8* x - 2.5 * y;
+    fill(0);
+    textSize(25);
+    text("On", 66 * x, 52 * y);
+  }
+  
+  else
+  {
+    fill(color(192,192,192));
+    stroke(0);
+    rect(63 * x, 51 * y, 8* x, 2.5 * y, (2.5 * y)/2);
+    circleXPos = 63 * x;
+    fill(255);
+    textSize(25);
+    text("Off", 67 * x, 52 * y);
+  }
+  fill(255); // White for the circle
+  ellipse(circleXPos + (2.5 * y)/2, 51 * y + (2.5 * y)/2, 2.5 * y *0.8, 2.5 * y *0.8);
+}
 
 
 
@@ -222,16 +278,15 @@ class DateCalander
   
   boolean finalToGoGraph()
   {
-    //    toggleSingle();
-    toSelect.display();
-    toSelect.over = mouseX >= toSelect.x && mouseX <= toSelect.x + toSelect.width
-      && mouseY >= toSelect.y && mouseY <= toSelect.y + toSelect.height;
-    if (toSelect.over) {
-      toSelect.currentColor = lerpColor(toSelect.currentColor, toSelect.overColor, 0.4);
+    toGraph.display();
+    toGraph.over = mouseX >= toGraph.x && mouseX <= toGraph.x + toGraph.width
+      && mouseY >= toGraph.y && mouseY <= toGraph.y + toGraph.height;
+    if (toGraph.over) {
+      toGraph.currentColor = lerpColor(toGraph.currentColor, toGraph.overColor, 0.4);
     } else {
-      toSelect.currentColor = lerpColor(toSelect.currentColor, toSelect.notOverColor, 0.4);
+      toGraph.currentColor = lerpColor(toGraph.currentColor, toGraph.notOverColor, 0.4);
     }
-    if (graphBtn.clicked())
+    if (toGraph.clicked())
     {
       return true;
     } else

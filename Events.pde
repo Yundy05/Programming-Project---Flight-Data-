@@ -48,23 +48,13 @@ ArrayList<DataPoint> findIntersection(HashTable t1, int key1, HashTable t2, int 
   return intersection;
 }
 
-ArrayList<DataPoint> findIntersection(HashTable t1, HashTable t2, int key2)
-{
-  ArrayList intersection = new ArrayList<DataPoint>();
-  for (int i =0; i<t2.getDataByIndex(key2).size(); i++)
-  {
-    DataPoint temp = t2.getDataByIndex(key2).get(i);
-    intersection.add(temp);
-  }
-  return intersection;
-}
-
-ArrayList<DataPoint> findIntersection(HashTable t1, int key1, HashTable t2)
+ArrayList<DataPoint> findIntersection(HashTable t1, int key1)
 {
   ArrayList intersection = new ArrayList<DataPoint>();
   for (int i =0; i<t1.getDataByIndex(key1).size(); i++)
   {
     DataPoint temp = t1.getDataByIndex(key1).get(i);
+    intersection.add(temp);
   }
   return intersection;
 }

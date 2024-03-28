@@ -143,14 +143,14 @@ void mousePressed(int mouseX, int mouseY) {
     dropdownOption1.mousePressed();
     //int clickedColumn = (int)((mouseX*2560.0/displayWidth - int(28.5 * x)) / 80);
     //int clickedRow = (int)((mouseY*1600.0/displayHeight - int(55 * y)) / 80);
-    int clickedColumn = (int)((mouseX- int(28.5 * x)) / 80);
-    int clickedRow = (int)((mouseY - int(55 * y)) / 80);
+    int clickedColumn = (int)((mouseX- int(28.5 * x)) / (6.25*x));
+    int clickedRow = (int)((mouseY - int(55 * y)) / (4.53*y));
     int clickedDay = clickedRow * 7 + clickedColumn + 1;
 
     if (clickedDay > 0 && clickedDay <= amountOfDays && (dropdownOption1.inputText != "" && dropdownOption1.ifItIsOption)) {
-        float cellStartX = 28.5 * x + clickedColumn * 80;
+        float cellStartX = 28.5 * x + clickedColumn * 6.25*x;
         float cellEndX = cellStartX + 5.46*x;
-        float cellStartY = 55 * y + clickedRow * 80;
+        float cellStartY = 55 * y + clickedRow * 4.53*y;
         float cellEndY = cellStartY + 4*y;
 
  //       if (mouseX*2560.0/displayWidth >= cellStartX &&mouseX*2560.0/displayWidth <= cellEndX && mouseY*1600.0/displayHeight >= cellStartY && mouseY*1600.0/displayHeight <= cellEndY) {

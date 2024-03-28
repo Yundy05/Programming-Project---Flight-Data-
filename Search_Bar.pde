@@ -17,12 +17,12 @@ class SearchBox
     SearchBox(ArrayList<String> data, float x, float y, String label) 
     {
         options = data;
-        this.label = label;
         //filteredOptions = null;
         this.x = x;
         this.y = y;
         this.width = 300;
         this.height = 40;
+        this.label = label;
     }
 
     void draw()
@@ -31,7 +31,6 @@ class SearchBox
         //setFontSize(32);
         drawGlow(x, y, width, height, color(#CFFCFB));
         fill(0);
-        //rectMode(RIGHT);
         textAlign(LEFT);
         fill(255);
         text(label, x, y-height/2);
@@ -40,6 +39,16 @@ class SearchBox
         fill(255);
         textAlign(LEFT);
         text(searchQuery, x +10, y+ this.height/2 +7);
+        
+       /* textSize(32);
+        //setFontSize(32);
+        drawGlow(x, y, width, height, color(#CFFCFB));
+        fill(0);
+        //rectMode(RIGHT);
+        rect(x, y, width, height);
+        fill(255);
+        //textAlign(CENTER);
+        text(searchQuery, x +10, y+ this.height/2 +7);*/
 
         if(ddlVisible && !filteredOptions.isEmpty())
         {
@@ -127,7 +136,9 @@ class SearchBox
         {
           for(String option: options)
           {
-                if(option.toLowerCase().contains(searchQuery.toLowerCase()))
+                int inputLength = searchQuery.length();
+                String cutString = option.substring(0, inputLength);
+                if(cutString.toLowerCase().contains(searchQuery.toLowerCase()))
                 {
                     filteredOptions.add(option);
                     ddlVisible = true;

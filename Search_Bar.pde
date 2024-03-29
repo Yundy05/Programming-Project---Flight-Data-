@@ -137,7 +137,9 @@ class SearchBox
           for(String option: options)
           {
                 int inputLength = searchQuery.length();
-                String cutString = option.substring(0, inputLength);
+                println(inputLength);
+                String cutString = option.substring(0, min(inputLength, option.length()));
+                println(cutString);
                 if(cutString.toLowerCase().contains(searchQuery.toLowerCase()))
                 {
                     filteredOptions.add(option);

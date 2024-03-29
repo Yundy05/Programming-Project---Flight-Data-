@@ -2,8 +2,8 @@ ArrayList<Button>btnMain;
 ArrayList<Button>btnControlPanel;
 PFont buttonFont;
 
-Button originBtn, destinationBtn, dateBtn, flightDataBtn, homePageBtn, graphBtn, backArrow, forwardArrow , previousPage , nextPage, adjustDelayBtn, adjustDistanceBtn , lengthByRoute;
-Button showPieChartBtn, showHistogramBtn, showBarChartBtn , individualFlightBtn, departBtn, arrivalBtn, getFlightBtn, searchPageBtn, toSelect, helpBtn, searchBarBtn, filterBtn1, filterBtn2;
+Button originBtn, destinationBtn, dateBtn, flightDataBtn, homePageBtn, graphBtn, backArrow, forwardArrow, previousPage, nextPage, adjustDelayBtn, adjustDistanceBtn, lengthByRoute;
+Button showPieChartBtn, showHistogramBtn, showBarChartBtn, individualFlightBtn, departBtn, arrivalBtn, getFlightBtn, searchPageBtn, toSelect, helpBtn, searchBarBtn, filterBtn1, filterBtn2;
 
 void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour, HoverColour, ButtonEvent)
 {
@@ -16,7 +16,7 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
 
   //MENU PAGE
   flightDataBtn = new Button(60*x, 75*y, 30*x, 5*y, "Flight Data", #8080ff, #b3b3ff, EVENT_BUTTON_FLIGHT, glowSize);
-  graphBtn = new Button(50*x, 3*y, 30*x, 5*y, "GRAPHS", #8080ff, #b3b3ff, EVENT_BUTTON_TOGRAPH, glowSize);
+  graphBtn = new Button(50*x, 30*y, 30*x, 5*y, "GRAPHS", #8080ff, #b3b3ff, EVENT_BUTTON_TOGRAPH, glowSize);
   individualFlightBtn = new Button(35*x, 45*y, 30*x, 5*y, "Individual Flights", #8080ff, #b3b3ff, EVENT_BUTTON_INDIVIDUAL_FLIGHT, glowSize);
 
   //FLIGHT PAGE
@@ -29,8 +29,8 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   //HISTOGRAM PAGE - ANDY
   adjustDelayBtn = new Button(30*x, 10*y, 15*x, 5*y, "Delay", #8080ff, #b3b3ff, EVENT_BUTTON_DELAY, glowSize);
   adjustDistanceBtn = new Button(50*x, 10*y, 15*x, 5*y, "Distance", #8080ff, #b3b3ff, EVENT_BUTTON_DISTANCE, glowSize);
-  
-  //BARCHART PAGE 
+
+  //BARCHART PAGE
   lengthByRoute = new Button(35*x, 10*y, 30*x, 5*y, "10 Busiest Airports", #8080ff, #b3b3ff, EVENT_BUTTON_RL, glowSize);
   filterBtn1 = new Button(5*x, 10*y, 30*x, 5*y, "Filter 1", #8080ff, #b3b3ff, EVENT_BUTTON_FILTER_1, glowSize);
   filterBtn2 = new Button(65*x, 10*y, 30*x, 5*y, "Filter 2", #8080ff, #b3b3ff, EVENT_BUTTON_FILTER_2, glowSize);
@@ -56,7 +56,8 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   previousPage = new fontChangingButton(10*x, 90*y, 5*x, 5*y, "<", #36DFFF, #BF2E2E, EVENT_BUTTON_PREVIOUS, 194, 0, 10);
 
   //SEARCH BAR PAGE - ANDY
-  searchBarBtn = new Button(20*x, 3*y, 30*x, 5*y, "Search Bar Screen", #8080ff, #b3b3ff, EVENT_BUTTON_SEARCH_BAR, glowSize);
+  //searchBarBtn = new Button(20*x, 3*y, 30*x, 5*y, "Search Bar Screen", #8080ff, #b3b3ff, EVENT_BUTTON_SEARCH_BAR, glowSize);
+  searchBarBtn = new ImageButton(20*x, 3*y, 60*x, "searchButtom2.png", "searchButtom1.png", #8080ff, #b3b3ff, EVENT_BUTTON_SEARCH_BAR, glowSize);
 
   homeScreen.addButton(graphBtn);
   homeScreen.addButton(searchBarBtn);
@@ -84,11 +85,11 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   pieChartScreen.addButton(forwardArrow);
   pieChartScreen.addButton(adjustDelayBtn);
   pieChartScreen.addButton(adjustDistanceBtn);
-  
+
   barChartScreen.addButton(homePageBtn);
   barChartScreen.addButton(lengthByRoute);
   barChartScreen.addButton(filterBtn1);
-    barChartScreen.addButton(filterBtn2);
+  barChartScreen.addButton(filterBtn2);
   barChartScreen.addButton(backArrow);
   barChartScreen.addButton(forwardArrow);
 
@@ -144,6 +145,41 @@ class fontChangingButton extends Button
       textSize(28);
       textAlign(CENTER, CENTER);
       text(label, x + this.width/2, y + this.height/2);
+    }
+  }
+}
+
+class ImageButton extends Button {
+  PImage unclickedImage;
+  PImage clickedImage;
+
+  ImageButton(float x, float y, float targetWidth, String UnClickedImagePath, String ClickedImagePath, color overColor, color buttonColor, int event, int glowSize) {
+    super(x, y, targetWidth, 0, "", overColor, buttonColor, event, glowSize);
+    this.unclickedImage = loadImage(UnClickedImagePath);
+    this.clickedImage = loadImage(ClickedImagePath);
+    
+    float aspectRatioUnclicked = unclickedImage.width / (float) unclickedImage.height;
+    unclickedImage.resize((int)targetWidth, (int)(targetWidth / aspectRatioUnclicked));
+    this.height = unclickedImage.height;
+
+    float aspectRatioClicked = clickedImage.width / (float) clickedImage.height;
+    clickedImage.resize((int)targetWidth, (int)(targetWidth / aspectRatioClicked));
+  }
+
+  void display()
+  {
+    if (over == true)
+    {
+      //imageMode(CENTER);
+      image(unclickedImage, x, y);
+      //unclickedImage.resize(600, 400);
+      //imageMode(CORNER);
+    } else
+    {
+      //imageMode(CENTER);
+      image(clickedImage, x, y);
+      //clickedImage.resize(600, 400);
+      //imageMode(CORNER);
     }
   }
 }

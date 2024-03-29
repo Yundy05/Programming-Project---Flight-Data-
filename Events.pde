@@ -1,3 +1,42 @@
+int s = SCREEN_HOME; //for screen comparison;
+boolean switchedScreen()
+{
+  if(currentScreen != s && !forwardArrow.clicked() && !backArrow.clicked())
+  {
+    s = currentScreen;
+    return true;
+  }
+  else
+  return false;
+}
+
+void recordScreen()
+{  
+        hasScreenAdded = currentScreen;      
+        if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
+        {
+          screenArrow.add(hasScreenAdded);
+          screenHistory++;
+        }
+}
+void toggleScreen()
+{
+        if(currentEvent == EVENT_BUTTON_BACK)
+        {
+            if (screenHistory > 0)
+                screenHistory--;
+            currentScreen = screenArrow.get(screenHistory);
+        }
+        else if (currentEvent == EVENT_BUTTON_FORWARD)
+        {
+            if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
+              screenHistory++;
+            currentScreen = screenArrow.get(screenHistory);
+        }
+}
+      
+
+
 
 void selectFlightsByDate()
 {

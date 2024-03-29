@@ -28,7 +28,7 @@ class DateCalander
   DropdownTextbox dropdownOption4;
 
   Button toSelect =  new Button(50*x, 80*y, 20*x, 4*y, "View Flights", #8080ff, #b3b3ff, SCREEN_SELECT, 10); //glowsize set to 10 for default use
-  Button toGraph = new Button(50*x, 85 *y, 20*x, 4*y, "GRAPHS", #8080ff, #b3b3ff, EVENT_BUTTON_TOGRAPH, 10);
+  Button toGraph = new Button(50*x, 85 *y, 20*x, 4*y, "GRAPHS", #8080ff, #b3b3ff, SCREEN_GRAPH, 10);
 
   DateCalander(int amountOfDays)
   {

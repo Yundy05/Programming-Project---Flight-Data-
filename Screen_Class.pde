@@ -9,7 +9,7 @@ void setupScreen()
   //  individualFlightScreen = new Screen(#121212, SCREEN_INDIVIDUAL_FLIGHT);
   searchScreen = new Screen(#121212, SCREEN_SEARCH);
   selectScreen = new Screen(#121212, SCREEN_SELECT);
-  searchBarScreen = new Screen(#121212, SCREEN_SEARCH_BAR);
+  searchBarScreen = new Screen(#121212, SCREEN_SEARCH);
   histogramScreen = new Screen(#121212, SCREEN_HISTOGRAM);
   pieChartScreen = new Screen(#121212, SCREEN_PIE_CHART);
   barChartScreen = new Screen(#121212, SCREEN_BAR_CHART);

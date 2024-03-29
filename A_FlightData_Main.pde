@@ -12,12 +12,8 @@ final int EVENT_BUTTON_BACK = -2; //Arrows for screen history
 final int EVENT_BUTTON_NULL = -1;
 final int EVENT_BUTTON_HOME = 0;
 final int EVENT_BUTTON_FLIGHT = 1;
-final int EVENT_BUTTON_TOGRAPH = 2;
-final int EVENT_BUTTON_INDIVIDUAL_FLIGHT = 3;
-final int EVENT_BUTTON_SEARCH_PAGE = 4;
-final int EVENT_BUTTON_SEARCH_BAR = 5;
-final int EVENT_BUTTON_NEXT = 9;
-final int EVENT_BUTTON_PREVIOUS = 10;
+final int EVENT_BUTTON_NEXT = 21;
+final int EVENT_BUTTON_PREVIOUS = 22;
 
 
 final int EVENT_BUTTON_ORIGIN = 3;
@@ -202,50 +198,55 @@ void draw() {
       hasScreenAdded = 0;
       // drawDropdown();
       currentEvent = homeScreen.returnEvent();
-      if (currentEvent == EVENT_BUTTON_SEARCH_BAR)
+      if (currentEvent == SCREEN_SELECT)
         currentScreen = SCREEN_SEARCH_BAR;
-      else if (currentEvent == EVENT_BUTTON_TOGRAPH)
+      else if (currentEvent == SCREEN_GRAPH)
         currentScreen = SCREEN_GRAPH;
     }
     break;
 
     /////////////////////////////////////////////////////////////////
-  case SCREEN_FLIGHT :
-    {
-      flightScreen.draw();
+  //case SCREEN_FLIGHT :
+  //  {
+  //    flightScreen.draw();
 
-      if (hasScreenAdded != SCREEN_FLIGHT)
-      {
-        if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
-        {
-          screenArrow.add(SCREEN_FLIGHT);
-          screenHistory++;
-        }
-        hasScreenAdded = SCREEN_FLIGHT;
-      }
+  //    if (hasScreenAdded != SCREEN_FLIGHT)
+  //    {
+  //      if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
+  //      {
+  //        screenArrow.add(SCREEN_FLIGHT);
+  //        screenHistory++;
+  //      }
+  //      hasScreenAdded = SCREEN_FLIGHT;
+  //    }
 
-      currentEvent = flightScreen.returnEvent();
-      if (currentEvent == EVENT_BUTTON_HOME)
-        currentScreen = SCREEN_HOME;
+  //    currentEvent = flightScreen.returnEvent();
+  //    if (currentEvent == EVENT_BUTTON_HOME)
+  //      currentScreen = SCREEN_HOME;
 
-      if (currentEvent == EVENT_BUTTON_BACK)
-      {
-        if (screenHistory > 0)
-          screenHistory--;
-        currentScreen = screenArrow.get(screenHistory);
-      } else if (currentEvent == EVENT_BUTTON_FORWARD)
-      {
-        if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
-          screenHistory++;
-        currentScreen = screenArrow.get(screenHistory);
-      }
+  //    if (currentEvent == EVENT_BUTTON_BACK)
+  //    {
+  //      if (screenHistory > 0)
+  //        screenHistory--;
+  //      currentScreen = screenArrow.get(screenHistory);
+  //    } else if (currentEvent == EVENT_BUTTON_FORWARD)
+  //    {
+  //      if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
+  //        screenHistory++;
+  //      currentScreen = screenArrow.get(screenHistory);
+  //    }
 
-      //  printFlightData();
-      printSortedFlightData();
-      //printOriginSortedFlightData();
-    }
-    break;
-    ///////////////////////////////////////////////////////////////////
+  //    //  printFlightData();
+  //    printSortedFlightData();
+  //    //printOriginSortedFlightData();
+  //  }
+  //  break;
+
+    
+    
+    
+    
+///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   
   case SCREEN_GRAPH :
     graphScreen.draw();
     if (hasScreenAdded != SCREEN_GRAPH)
@@ -258,30 +259,19 @@ void draw() {
       hasScreenAdded = SCREEN_GRAPH;
     }
     currentEvent = graphScreen.returnEvent();
-    if (currentEvent == EVENT_BUTTON_HOME)
-      currentScreen = SCREEN_HOME;
-    else if (currentEvent == EVENT_BUTTON_PIECHART)
+     if (currentEvent == EVENT_BUTTON_PIECHART)
     {
       currentScreen = SCREEN_PIE_CHART;
     } else if (currentEvent == EVENT_BUTTON_HISTOGRAM)
       currentScreen = SCREEN_HISTOGRAM;
       else if( currentEvent == SCREEN_BAR_CHART)
       currentScreen = SCREEN_BAR_CHART;
-
-    if (currentEvent == EVENT_BUTTON_BACK)
-    {
-      if (screenHistory > 0)
-        screenHistory--;
-      currentScreen = screenArrow.get(screenHistory);
-    } else if (currentEvent == EVENT_BUTTON_FORWARD)
-    {
-      if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
-        screenHistory++;
-      currentScreen = screenArrow.get(screenHistory);
-    }
-
     break;
-    ////////////////////////////////////////////////////////////////////////////////////
+///GRAPH///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH       
+    
+    
+    
+////////////PIE////////////PIE////////////PIE////////////PIE////////////PIE////////////PIE////////////PIE////////////PIE////////////PIE////////////PIE////////////PIE////////////PIE//
   case SCREEN_PIE_CHART :
     pieChartScreen.draw();
     if (hasScreenAdded != SCREEN_PIE_CHART)
@@ -295,9 +285,7 @@ void draw() {
     }
     currentEvent = pieChartScreen.returnEvent();
 //    pieChartOfDates.drawPieChart();
-    if (currentEvent == EVENT_BUTTON_HOME)
-       currentScreen = SCREEN_HOME;
-    else if(currentEvent == EVENT_BUTTON_DELAY)
+    if(currentEvent == EVENT_BUTTON_DELAY)
     {
        variablePie = "Delay";
        switchingPie = true;
@@ -306,8 +294,7 @@ void draw() {
     {
        variablePie = "Distance";
        switchingPie = true;
-    }
-       
+    }       
       if(variablePie!="")
       {
         if(switchingPie)
@@ -319,20 +306,10 @@ void draw() {
         }
         currentPie.drawPieChart();
       }
-    if (currentEvent == EVENT_BUTTON_BACK)
-    {
-      if (screenHistory > 0)
-        screenHistory--;
-      currentScreen = screenArrow.get(screenHistory);
-    } else if (currentEvent == EVENT_BUTTON_FORWARD)
-    {
-      if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
-        screenHistory++;
-      currentScreen = screenArrow.get(screenHistory);
-    }
-
     break;
-    ////////////////////////////////////////////////////////////////////////////////////
+////////////PIE////////////PIE////////////PIE////////////PIE////////////PIE////////////PIE////////////PIE////////////PIE////////////PIE////////////PIE////////////PIE////////////PIE////////////PIE    
+    
+ ///////SCREEN_HISTOGRAM ///////SCREEN_HISTOGRAM ///////SCREEN_HISTOGRAM ///////SCREEN_HISTOGRAM ///////SCREEN_HISTOGRAM ///////SCREEN_HISTOGRAM ///////SCREEN_HISTOGRAM ///////SCREEN_HISTOGRAM
   case SCREEN_HISTOGRAM :
     histogramScreen.draw();
     if (hasScreenAdded != SCREEN_HISTOGRAM)
@@ -356,8 +333,6 @@ void draw() {
     currentHistogram.drawHistogram();
     }
     //    histogramOfDates.drawHistogram();
-    if (currentEvent == EVENT_BUTTON_HOME)
-       currentScreen = SCREEN_HOME;
        //CHANGE CODE FROM HERE TO WHATEVER YOU WANT DELAY AND DISTANCE TO DO 
     else if(currentEvent == EVENT_BUTTON_DELAY)
     {
@@ -369,20 +344,11 @@ void draw() {
        variableHistogram = "Distance";
        switchingHistogram = true;
     }
-    if (currentEvent == EVENT_BUTTON_BACK)
-    {
-      if (screenHistory > 0)
-        screenHistory--;
-      currentScreen = screenArrow.get(screenHistory);
-    } else if (currentEvent == EVENT_BUTTON_FORWARD)
-    {
-      if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
-        screenHistory++;
-      currentScreen = screenArrow.get(screenHistory);
-    }
 
     break;
-    /////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////
+ ///////SCREEN_HISTOGRAM ///////SCREEN_HISTOGRAM ///////SCREEN_HISTOGRAM ///////SCREEN_HISTOGRAM ///////SCREEN_HISTOGRAM ///////SCREEN_HISTOGRAM ///////SCREEN_HISTOGRAM ///////SCREEN_HISTOGRAM ///////SCREEN_HISTOGRAM   
+    
+/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////
   case SCREEN_BAR_CHART:
       barChartScreen.draw();
       if (hasScreenAdded != SCREEN_BAR_CHART)
@@ -395,8 +361,6 @@ void draw() {
       hasScreenAdded = SCREEN_BAR_CHART;
     }
       currentEvent = barChartScreen.returnEvent();
-      if (currentEvent == EVENT_BUTTON_HOME)
-       currentScreen = SCREEN_HOME;
       if(currentEvent == EVENT_BUTTON_RL)
       {
         independentVariableBar = "Route";
@@ -415,20 +379,12 @@ void draw() {
         currentBar.drawBarChart();
         currentBar.drawBarChartt();
       }
-     if (currentEvent == EVENT_BUTTON_BACK)
-    {
-      if (screenHistory > 0)
-        screenHistory--;
-      currentScreen = screenArrow.get(screenHistory);
-    } else if (currentEvent == EVENT_BUTTON_FORWARD)
-    {
-      if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
-        screenHistory++;
-      currentScreen = screenArrow.get(screenHistory);
-    }
       
   break;
-    /////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART
+/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART
+
+  
+////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT   
   case SCREEN_INDIVIDUAL_FLIGHT:
     individualFlightScreen.draw();
     if (currentEvent==EVENT_GETHELP)
@@ -437,20 +393,6 @@ void draw() {
     }
     if (helping)
       drawHelpingLines();
-
-    if (hasScreenAdded != SCREEN_INDIVIDUAL_FLIGHT)
-    {
-      if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
-      {
-        screenArrow.add(SCREEN_INDIVIDUAL_FLIGHT);
-        screenHistory++;
-      }
-      hasScreenAdded = SCREEN_INDIVIDUAL_FLIGHT;
-    }
-
-
-    if (currentEvent == EVENT_BUTTON_HOME)
-      currentScreen = SCREEN_HOME;
 
     if (currentEvent == EVENT_GETFLIGHT)
     {
@@ -466,21 +408,14 @@ void draw() {
       printIndividualData(flight);
     }
     currentEvent = individualFlightScreen.returnEvent();
-    if (currentEvent == EVENT_BUTTON_BACK)
-    {
-      if (screenHistory > 0)
-        screenHistory--;
-      currentScreen = screenArrow.get(screenHistory);
-    } else if (currentEvent == EVENT_BUTTON_FORWARD)
-    {
-      if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
-        screenHistory++;
-      currentScreen = screenArrow.get(screenHistory);
-    }
 
 
     break;
-    ////////////////////////////////////////////////////////////////////////////////////////
+////////SCREEN_INDIVIDUAL_FLIGHT////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT     
+    
+    
+    
+/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH
   case SCREEN_SEARCH :
     {
       searchScreen.draw();
@@ -488,8 +423,6 @@ void draw() {
       //      calendar.displayForCalendar();
       if (calendar.isSelectionComplete())
       {
-        calendarDataPoint = new ArrayList<DataPoint> ();
-        flightSelected = false;
         fill(0);
         textSize(TS/1.5);
         if (calendar.singleDateMode)
@@ -555,107 +488,44 @@ void draw() {
           }
         }
       }
-
-
-      if (hasScreenAdded != SCREEN_SEARCH)
-      {
-        if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
-        {
-          screenArrow.add(SCREEN_SEARCH);
-          screenHistory++;
-        }
-        hasScreenAdded = SCREEN_SEARCH;
-      }
       currentEvent = searchScreen.returnEvent();
-      if (currentEvent == EVENT_BUTTON_HOME)
-      {
-        currentScreen = SCREEN_HOME;
-        calendar.selectedOutboundDay = -1;
-        calendar.selectedInboundDay = -1;
-      } else if (currentEvent == EVENT_BUTTON_TOGRAPH)
+       if (currentEvent == SCREEN_GRAPH)
         currentScreen = SCREEN_GRAPH;
-      if (currentEvent == EVENT_BUTTON_BACK)
-      {
-        if (screenHistory > 0)
-          screenHistory--;
-        calendar.selectedOutboundDay = -1;
-        calendar.selectedInboundDay = -1;
-        currentScreen = screenArrow.get(screenHistory);
-      } else if (currentEvent == EVENT_BUTTON_FORWARD)
-      {
-        if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
-          screenHistory++;
-        currentScreen = screenArrow.get(screenHistory);
-      } else if (currentEvent == SCREEN_SELECT)
-      {
-        currentPage = 0;
-        currentScreen = SCREEN_SELECT;
-      }
     }
     break;
+/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR
   case SCREEN_SEARCH_BAR :
     {
       searchBarScreen.draw();
-      if (hasScreenAdded != SCREEN_SEARCH_BAR)
-      {
-        if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
-        {
-          screenArrow.add(SCREEN_SEARCH_BAR);
-          screenHistory++;
-        }
-        hasScreenAdded = SCREEN_SEARCH_BAR;
-      }
       currentEvent = searchBarScreen.returnEvent();
-      if (currentEvent == EVENT_BUTTON_HOME)
-        currentScreen = SCREEN_HOME;
-      else if (currentEvent == EVENT_BUTTON_SEARCH_PAGE)
+      if (currentEvent == SCREEN_SEARCH)
         currentScreen = SCREEN_SEARCH;
         //CHANGE THIS FOR FILTER BUTTONS 
      else if (currentEvent == EVENT_BUTTON_FILTER_1)
         currentScreen = SCREEN_SEARCH;
      else if (currentEvent == EVENT_BUTTON_FILTER_2)
-        currentScreen = SCREEN_SEARCH;
-        
-      if (currentEvent == EVENT_BUTTON_BACK)
-      {
-        if (screenHistory > 0)
-          screenHistory--;
-        currentScreen = screenArrow.get(screenHistory);
-      } else if (currentEvent == EVENT_BUTTON_FORWARD)
-      {
-        if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
-          screenHistory++;
-        currentScreen = screenArrow.get(screenHistory);
-      }
-      
+        currentScreen = SCREEN_SEARCH;      
       drawSB();
     }
     break;
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR
+
+////////////SCREEN_SELECT////////////SCREEN_SELECT////////////SCREEN_SELECT////////////SCREEN_SELECT////////////SCREEN_SELECT////////////SCREEN_SELECT////////////SCREEN_SELECT////////////SCREEN_SELECT////////////SCREEN_SELECT
 
 
   case SCREEN_SELECT :
     {
-
       if (!flightSelected)
       {
         temp = createSelections(calendarDataPoint);  //temp is a list of buttons consisting the information of the flights
-
         flightSelected = true;
       }
-
       selectScreen.draw();
-      if (hasScreenAdded != SCREEN_SELECT)
-      {
-        if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
-        {
-          screenArrow.add(SCREEN_SELECT);
-          screenHistory++;
-        }
-        hasScreenAdded = SCREEN_SELECT;
-      }
       showFlightSelections(temp, calendarDataPoint);
       currentEvent = returnEventFromListOfButton(temp);
       if (currentEvent>=100)  //the flights events are allocated after 100
@@ -663,47 +533,33 @@ void draw() {
         selectedFlight = currentEvent-100;
         currentScreen = SCREEN_INDIVIDUAL_FLIGHT;
       //  print(selectedFlight);
-      } else if (selectScreen.returnEvent()==EVENT_BUTTON_HOME)
-      {
-        currentScreen = SCREEN_HOME;
-      }
-      if (currentEvent == EVENT_BUTTON_BACK)
-      {
-        if (screenHistory > 0)
-          screenHistory--;
-        currentScreen = screenArrow.get(screenHistory);
-      } else if (currentEvent == EVENT_BUTTON_FORWARD)
-      {
-        if (screenArrow.size()-1 > screenHistory && screenArrow.size() > 1)
-          screenHistory++;
-        currentScreen = screenArrow.get(screenHistory);
-      } else if (currentEvent == SCREEN_SELECT)
-      {
-        currentScreen = SCREEN_SELECT;
       }
     }
-
+////////////SCREEN_SELECT////////////SCREEN_SELECT////////////SCREEN_SELECT////////////SCREEN_SELECT////////////SCREEN_SELECT////////////SCREEN_SELECT////////////SCREEN_SELECT////////////SCREEN_SELECT////////////SCREEN_SELECT
 
 
   default:
     break;
   }
-
-  //searching Bar
-  //drawSB();
+  homePageBtn.display();
+  homePageBtn.update();
+  
+  backArrow.display();
+  forwardArrow.display(); 
+  backArrow.update();
+  forwardArrow.update();
+  
+  if(homePageBtn.clicked())
+  currentScreen = SCREEN_HOME;
+  
+  if(forwardArrow.clicked())
+  currentEvent = EVENT_BUTTON_FORWARD;
+  if(backArrow.clicked())
+  currentEvent = EVENT_BUTTON_BACK;
+  toggleScreen();
+  if(switchedScreen())
+  recordScreen();
 }
-
-
-//int getCurrentEvent()
-//{
-//  if(homeScreen.returnEvent()!=-1)
-//    currentEvent = homeScreen.returnEvent();
-//  else if(flightScreen.returnEvent()!=-1)
-//    currentEvent = flightScreen.returnEvent();
-
-
-//  return currentEvent;
-//}
 
 
 
@@ -832,6 +688,8 @@ void mouseReleased() {
 void mouseClicked() //Flight For Plane AND Pins
 {
 
+  
+  
   if (pinOrigin.isDropped() && pinArrival.isDropped())
   {
     pinOrigin.pickPin();

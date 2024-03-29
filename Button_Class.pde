@@ -16,8 +16,8 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
 
   //MENU PAGE
   flightDataBtn = new Button(60*x, 75*y, 30*x, 5*y, "Flight Data", #8080ff, #b3b3ff, EVENT_BUTTON_FLIGHT, glowSize);
-  graphBtn = new Button(50*x, 30*y, 30*x, 5*y, "GRAPHS", #8080ff, #b3b3ff, EVENT_BUTTON_TOGRAPH, glowSize);
-  individualFlightBtn = new Button(35*x, 45*y, 30*x, 5*y, "Individual Flights", #8080ff, #b3b3ff, EVENT_BUTTON_INDIVIDUAL_FLIGHT, glowSize);
+  graphBtn = new Button(50*x, 30*y, 30*x, 5*y, "GRAPHS", #8080ff, #b3b3ff, SCREEN_GRAPH, glowSize);
+  individualFlightBtn = new Button(35*x, 45*y, 30*x, 5*y, "Individual Flights", #8080ff, #b3b3ff, SCREEN_INDIVIDUAL_FLIGHT, glowSize);
 
   //FLIGHT PAGE
   homePageBtn = new Button(45*x, 94*y, 8*x, 5*y, "", #8080ff, #b3b3ff, EVENT_BUTTON_HOME, glowSize);
@@ -44,7 +44,7 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   helpBtn = new Button(80*x, y, 10*x, 5*y, "HELP", #8080ff, #b3b3ff, EVENT_GETHELP, glowSize);
 
   //SEARCH PAGE - Andy
-  searchPageBtn = new Button(35*x, 20*y, 30*x, 5*y, "Search Screen", #8080ff, #b3b3ff, EVENT_BUTTON_SEARCH_PAGE, glowSize);
+  searchPageBtn = new Button(35*x, 20*y, 30*x, 5*y, "Search Screen", #8080ff, #b3b3ff, SCREEN_SEARCH, glowSize);
   toSelect = new Button(50*x, 50*y, 30*x, 5*y, "Select", #8080ff, #b3b3ff, SCREEN_SELECT, glowSize);
 
   //HISTORY BUTTON PAGE - ANDY
@@ -56,33 +56,33 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   previousPage = new fontChangingButton(10*x, 90*y, 5*x, 5*y, "<", #36DFFF, #BF2E2E, EVENT_BUTTON_PREVIOUS, 194, 0, 10);
 
   //SEARCH BAR PAGE - ANDY
-  //searchBarBtn = new Button(20*x, 3*y, 30*x, 5*y, "Search Bar Screen", #8080ff, #b3b3ff, EVENT_BUTTON_SEARCH_BAR, glowSize);
-  searchBarBtn = new ImageButton(20*x, 3*y, 60*x, "searchButtom2.png", "searchButtom1.png", #8080ff, #b3b3ff, EVENT_BUTTON_SEARCH_BAR, glowSize);
+  //searchBarBtn = new Button(20*x, 3*y, 30*x, 5*y, "Search Bar Screen", #8080ff, #b3b3ff, SCREEN_SELECT, glowSize);
+  searchBarBtn = new ImageButton(20*x, 3*y, 60*x, "searchButtom2.png", "searchButtom1.png", #8080ff, #b3b3ff, SCREEN_SELECT, glowSize);
 
   homeScreen.addButton(graphBtn);
   homeScreen.addButton(searchBarBtn);
 
 
   flightScreen.addButton(homePageBtn);
-  flightScreen.addButton(backArrow);
-  flightScreen.addButton(forwardArrow);
+  //flightScreen.addButton(backArrow);
+  //flightScreen.addButton(forwardArrow);
 
   graphScreen.addButton(homePageBtn);
   graphScreen.addButton(showPieChartBtn);
   graphScreen.addButton(showHistogramBtn);
   graphScreen.addButton(showBarChartBtn);
-  graphScreen.addButton(backArrow);
-  graphScreen.addButton(forwardArrow);
+  //graphScreen.addButton(backArrow);
+  //graphScreen.addButton(forwardArrow);
 
   histogramScreen.addButton(homePageBtn);
-  histogramScreen.addButton(backArrow);
-  histogramScreen.addButton(forwardArrow);
+  //histogramScreen.addButton(backArrow);
+  //histogramScreen.addButton(forwardArrow);
   histogramScreen.addButton(adjustDelayBtn);
   histogramScreen.addButton(adjustDistanceBtn);
 
   pieChartScreen.addButton(homePageBtn);
-  pieChartScreen.addButton(backArrow);
-  pieChartScreen.addButton(forwardArrow);
+  //pieChartScreen.addButton(backArrow);
+  //pieChartScreen.addButton(forwardArrow);
   pieChartScreen.addButton(adjustDelayBtn);
   pieChartScreen.addButton(adjustDistanceBtn);
 
@@ -90,8 +90,8 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   barChartScreen.addButton(lengthByRoute);
   barChartScreen.addButton(filterBtn1);
   barChartScreen.addButton(filterBtn2);
-  barChartScreen.addButton(backArrow);
-  barChartScreen.addButton(forwardArrow);
+  //barChartScreen.addButton(backArrow);
+  //barChartScreen.addButton(forwardArrow);
 
 
   individualFlightScreen.addButton(homePageBtn);
@@ -100,18 +100,18 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   individualFlightScreen.addButton(departBtn);
   individualFlightScreen.addButton(arrivalBtn);
   individualFlightScreen.addButton(getFlightBtn);
-  individualFlightScreen.addButton(backArrow);
-  individualFlightScreen.addButton(forwardArrow);
+  //individualFlightScreen.addButton(backArrow);
+  //individualFlightScreen.addButton(forwardArrow);
   individualFlightScreen.addButton(helpBtn);
 
-  searchBarScreen.addButton(backArrow);
-  searchBarScreen.addButton(forwardArrow);
+  //searchBarScreen.addButton(backArrow);
+  //searchBarScreen.addButton(forwardArrow);
   searchBarScreen.addButton(homePageBtn);
   searchBarScreen.addButton(searchPageBtn);
 
   searchScreen.addButton(homePageBtn);
-  searchScreen.addButton(backArrow);
-  searchScreen.addButton(forwardArrow);
+  //searchScreen.addButton(backArrow);
+  //searchScreen.addButton(forwardArrow);
 
   selectScreen.addButton(homePageBtn);
   selectScreen.addButton(nextPage);

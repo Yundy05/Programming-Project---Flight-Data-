@@ -141,6 +141,7 @@ void setup()
   calendarDataPoint=dataPoints;
   createHashMaps();
   GraphicsSetUp();
+  createHashMaps(calendarDataPoint);
   createCharts();
   //data setup ends//
 
@@ -259,7 +260,9 @@ void draw() {
       hasScreenAdded = SCREEN_GRAPH;
     }
     currentEvent = graphScreen.returnEvent();
-     if (currentEvent == EVENT_BUTTON_PIECHART)
+    if (currentEvent == EVENT_BUTTON_HOME)
+        currentScreen = SCREEN_HOME;
+     else if (currentEvent == EVENT_BUTTON_PIECHART)
     {
       currentScreen = SCREEN_PIE_CHART;
     } else if (currentEvent == EVENT_BUTTON_HISTOGRAM)
@@ -285,7 +288,9 @@ void draw() {
     }
     currentEvent = pieChartScreen.returnEvent();
 //    pieChartOfDates.drawPieChart();
-    if(currentEvent == EVENT_BUTTON_DELAY)
+    if (currentEvent == EVENT_BUTTON_HOME)
+       currentScreen = SCREEN_HOME;
+    else if(currentEvent == EVENT_BUTTON_DELAY)
     {
        variablePie = "Delay";
        switchingPie = true;
@@ -322,7 +327,9 @@ void draw() {
       hasScreenAdded = SCREEN_HISTOGRAM;
     }
     currentEvent = histogramScreen.returnEvent();
-    if(variableHistogram!="")
+    if (currentEvent == EVENT_BUTTON_HOME)
+        currentScreen = SCREEN_HOME;
+    else if(variableHistogram!="")
     {
       if(switchingHistogram)
       {
@@ -361,7 +368,9 @@ void draw() {
       hasScreenAdded = SCREEN_BAR_CHART;
     }
       currentEvent = barChartScreen.returnEvent();
-      if(currentEvent == EVENT_BUTTON_RL)
+      if (currentEvent == EVENT_BUTTON_HOME)
+        currentScreen = SCREEN_HOME;
+      else if(currentEvent == EVENT_BUTTON_RL)
       {
         independentVariableBar = "Route";
         dependentVariableBar = "Distance";
@@ -387,6 +396,8 @@ void draw() {
 ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT   
   case SCREEN_INDIVIDUAL_FLIGHT:
     individualFlightScreen.draw();
+    if (currentEvent == EVENT_BUTTON_HOME)
+        currentScreen = SCREEN_HOME;
     if (currentEvent==EVENT_GETHELP)
     {
       helping = !helping;
@@ -421,6 +432,8 @@ void draw() {
       searchScreen.draw();
       calendar.displayForOrigin();
       //      calendar.displayForCalendar();
+      if (currentEvent == EVENT_BUTTON_HOME)
+         currentScreen = SCREEN_HOME;
       if (calendar.isSelectionComplete())
       {
         fill(0);
@@ -486,6 +499,8 @@ void draw() {
             selectFlightsByDate();
             currentScreen = SCREEN_GRAPH;
           }
+          createHashMaps(calendarDataPoint);
+          createCharts();
         }
       }
       currentEvent = searchScreen.returnEvent();
@@ -502,7 +517,9 @@ void draw() {
     {
       searchBarScreen.draw();
       currentEvent = searchBarScreen.returnEvent();
-      if (currentEvent == SCREEN_SEARCH)
+      if (currentEvent == EVENT_BUTTON_HOME)
+         currentScreen = SCREEN_HOME;
+     else if (currentEvent == SCREEN_SEARCH)
         currentScreen = SCREEN_SEARCH;
         //CHANGE THIS FOR FILTER BUTTONS 
      else if (currentEvent == EVENT_BUTTON_FILTER_1)
@@ -780,7 +797,7 @@ void createHashMaps(ArrayList<DataPoint> flights)
 
 void createCharts()              //!!! Use this to create ALL the charts we need!!!               By chuan:)
 {
-   createHashMaps(calendarDataPoint);
+   //createHashMaps(calendarDataPoint);
   //  int[] numberOfFlightsByDay = new int[tableOfDates.size];
   ArrayList<Integer> numOfFlightsByArrDelay = new ArrayList<Integer>();
 

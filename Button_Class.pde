@@ -16,7 +16,7 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
 
   //MENU PAGE
   flightDataBtn = new Button(60*x, 75*y, 30*x, 5*y, "Flight Data", #8080ff, #b3b3ff, EVENT_BUTTON_FLIGHT, glowSize);
-  graphBtn = new Button(50*x, 30*y, 30*x, 5*y, "GRAPHS", #8080ff, #b3b3ff, SCREEN_GRAPH, glowSize);
+  //graphBtn = new Button(50*x, 30*y, 30*x, 5*y, "GRAPHS", #8080ff, #b3b3ff, SCREEN_GRAPH, glowSize);
   individualFlightBtn = new Button(35*x, 45*y, 30*x, 5*y, "Individual Flights", #8080ff, #b3b3ff, SCREEN_INDIVIDUAL_FLIGHT, glowSize);
 
   //FLIGHT PAGE
@@ -57,7 +57,8 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
 
   //SEARCH BAR PAGE - ANDY
   //searchBarBtn = new Button(20*x, 3*y, 30*x, 5*y, "Search Bar Screen", #8080ff, #b3b3ff, SCREEN_SELECT, glowSize);
-  searchBarBtn = new ImageButton(20*x, 3*y, 60*x, "searchButtom2.png", "searchButtom1.png", #8080ff, #b3b3ff, SCREEN_SELECT, glowSize);
+  searchBarBtn = new ImageButton(20*x, 20*y, 60*x, "searchButtom2.png", "searchButtom1.png", #8080ff, #b3b3ff, SCREEN_SELECT, glowSize);
+  graphBtn = new ImageButton(20*x, 35*y, 60*x, "graphsButtom2.png", "graphsButtom1.png", #8080ff, #b3b3ff, SCREEN_GRAPH, glowSize);
 
   homeScreen.addButton(graphBtn);
   homeScreen.addButton(searchBarBtn);

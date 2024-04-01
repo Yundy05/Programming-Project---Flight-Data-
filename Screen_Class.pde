@@ -27,6 +27,7 @@ class doubleScreen extends Screen
     this.screenBackground2 = b2;
     this.splitPoint = p;
   }
+  
   void drawBackground()
   {
     fill(screenBackground);
@@ -68,7 +69,7 @@ class Screen
 
   void drawLogo() {
     imageMode(CENTER);
-    image(logoImg, width/2, 500);
+    image(logoImg, width/2, 60);
     logoImg.resize(200,200);
     imageMode(CORNER);
   }

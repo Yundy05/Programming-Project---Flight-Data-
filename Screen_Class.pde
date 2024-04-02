@@ -1,18 +1,19 @@
-Screen homeScreen, flightScreen, graphScreen, individualFlightScreen, searchScreen, selectScreen, searchBarScreen, histogramScreen, pieChartScreen , barChartScreen;
+Screen homeScreen, flightScreen, graphScreen, individualFlightScreen, searchScreen, selectScreen, searchBarScreen, histogramScreen, pieChartScreen , barChartScreen, heatMapScreen;
 
 void setupScreen()
 {
-  homeScreen = new Screen(#121212, SCREEN_HOME); //Takes Hexadecimal Colour, and Int value of current page
-  flightScreen = new Screen(#121212, SCREEN_FLIGHT);
-  graphScreen = new Screen(#121212, SCREEN_GRAPH);
+  homeScreen = new Screen(#121212, SCREEN_HOME, backgroundNeon, true); //Takes Hexadecimal Colour, and Int value of current page
+  flightScreen = new Screen(#121212, SCREEN_FLIGHT, backgroundNeon, true);
+  graphScreen = new Screen(#121212, SCREEN_GRAPH, backgroundNeon, true);
   individualFlightScreen = new doubleScreen(#121212, 255, SCREEN_INDIVIDUAL_FLIGHT, displayHeight/2);
   //  individualFlightScreen = new Screen(#121212, SCREEN_INDIVIDUAL_FLIGHT);
-  searchScreen = new Screen(#121212, SCREEN_SEARCH);
+  searchScreen = new Screen(#121212, SCREEN_SEARCH, backgroundNeon, true);
   selectScreen = new Screen(#121212, SCREEN_SELECT);
-  searchBarScreen = new Screen(#121212, SCREEN_SEARCH);
+  searchBarScreen = new Screen(#121212, SCREEN_SEARCH, backgroundNeon, true);
   histogramScreen = new Screen(#121212, SCREEN_HISTOGRAM);
   pieChartScreen = new Screen(#121212, SCREEN_PIE_CHART);
   barChartScreen = new Screen(#121212, SCREEN_BAR_CHART);
+  heatMapScreen = new Screen(#121212, SCREEN_HEAT_MAP);
 }
 
 class doubleScreen extends Screen
@@ -40,7 +41,6 @@ class doubleScreen extends Screen
   void draw()
   {
     drawBackground();
-    //    drawBackgroundOutline();
     drawBtn();
   }
 }
@@ -51,13 +51,25 @@ class Screen
   color screenBackground;
   ArrayList screenItems;
   int event;
+  boolean isBackground;
   PImage logoImg = loadImage("Logo.PNG");
+  PImage appearance;
   
   Screen(color background, int screenType)
   {
     screenItems = new ArrayList();
     this.screenBackground = background;
     this.screenType = screenType;
+  }
+  
+  Screen(color background, int screenType, PImage backgroundImg, boolean isBackground)
+  {
+    screenItems = new ArrayList();
+    this.screenBackground = background;
+    this.screenType = screenType;
+    this.appearance = backgroundImg;
+    appearance.resize(displayWidth/2, displayHeight*9/10);
+    this.isBackground = isBackground;
   }
   
   /*
@@ -88,16 +100,12 @@ class Screen
   void drawBackground()
   {
     rect(0, 1, displayWidth/2, displayHeight - 100, 1); // (x, y, width, height, outline thickness)
-    fill(screenBackground);
+    if(isBackground)
+      background(appearance);
+    else
+      fill(screenBackground);
   }
 
-  void drawBackgroundOutline()
-  {
-    stroke(0); // Set the stroke color back to black
-    strokeWeight(OUTLINE_WIDTH);
-    rect(0, 0, displayWidth/2, displayHeight - 100, 1);
-    noFill();
-  }
   int returnEvent()
   {
     event = EVENT_BUTTON_NULL ;
@@ -131,7 +139,6 @@ class Screen
   void draw()
   {
     drawBackground();
-    drawBackgroundOutline();
     drawBtn();
   }
 }

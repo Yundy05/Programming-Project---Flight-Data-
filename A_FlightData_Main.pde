@@ -984,7 +984,13 @@ void read_in_the_file()
       diverted, distance);
     dataPoints.add(point);
   }
-
+  try
+  {
+  reader.close();
+  }
+  catch(Exception e)
+  {
+  }
   //for (int index=0; index<dataPoints.size(); index++)
   //{
   //  dataPoints.get(index).printData();

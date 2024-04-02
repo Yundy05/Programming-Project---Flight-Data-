@@ -562,6 +562,7 @@ class HeatMap extends USMap
   HashMap<String,Integer> numOfFlightsPerState;
   LegendBox[] boxes = new LegendBox[5];
   int[] numbers;
+  String label;
   HeatMap (int x, int y, HashMap<String, Integer> numOfFlightsPerState)
   {
     super (x, y, null, null);
@@ -592,12 +593,40 @@ class HeatMap extends USMap
             if (myState!=null)
             {
               myState.disableStyle();
+              double[] coord = stateCoord.get(key);
               int number = numOfFlightsPerState.get(key);
+              if(mouseX/scale<coord[0]+x+50&&mouseX/scale>coord[0]+x-50&&mouseY/scale<coord[1]+y+50&&mouseY/scale>coord[1]+y-50)
+              {
+                stroke(255);
+
+              }
+              else 
+              {
+                stroke(0,0);
+
+              }
               fill(number*255/max+100,90+50,90+50);
               shape(myState,x,y);
+              
+              
             }
     }
-    
+    Set<String> keys2 = stateCoord.keySet();
+    for(String key : keys2) {
+        fill(255);
+        textSize(TS/1.5);        
+        label=key;
+        double[] coord = stateCoord.get(key);
+        double[] labelCoord = stateLabelCoord.get(key);
+        if(mouseX/scale<coord[0]+x+50&&mouseX/scale>coord[0]+x-50&&mouseY/scale<coord[1]+y+50&&mouseY/scale>coord[1]+y-50&&numOfFlightsPerState.get(key)!=null)
+         {
+                label=""+numOfFlightsPerState.get(key);
+         }
+        text(label, (int)labelCoord[0]+x,(int)labelCoord[1]+y);
+       
+    }
+    LegendBox box0 = new LegendBox(200,800,50," no data ",color(#9BFFEA, 50));
+    box0.draw();
     for (int i=0;i<boxes.length;i++)
     {
       LegendBox box = new LegendBox(i*50*2+300,800,50,""+(min+i*bin)+" ~ "+((i==boxes.length-1)?max:(min+(i+1)*bin)),color((min+i*bin)*255/max+100,90+50,90+50));

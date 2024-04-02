@@ -142,6 +142,7 @@ void setup()
   //data setup::
   dataPoints = new ArrayList<DataPoint>();
   init_stateCoord();
+  init_stateLabelCoord();
   read_in_the_file();
   calendarDataPoint=dataPoints;
   createHashMaps();
@@ -1109,6 +1110,30 @@ void init_stateCoord()
   stateCoord.put("DC", coord);
   coord=new double[]{362, 551};
   stateCoord.put("HI", coord);
+}
+void init_stateLabelCoord()
+{
+  stateLabelCoord=new HashMap<String, double[]>();
+  stateLabelCoord.putAll(stateCoord);
+  double[] coord;
+  coord=new double[]{748, 50};
+  stateLabelCoord.put("VT", coord);
+  coord=new double[]{815, 50};
+  stateLabelCoord.put("NH", coord);
+  coord=new double[]{930, 140};
+  stateLabelCoord.put("MA", coord);
+  coord=new double[]{930, 175};
+  stateLabelCoord.put("RI", coord);
+  coord=new double[]{930, 210};
+  stateLabelCoord.put("CT", coord);
+  coord=new double[]{930, 245};
+  stateLabelCoord.put("NJ", coord);
+  coord=new double[]{930, 282};
+  stateLabelCoord.put("DE", coord);
+  coord=new double[]{930, 317};
+  stateLabelCoord.put("MD", coord);
+  coord=new double[]{930, 355};
+  stateLabelCoord.put("DC", coord);
 }
 void printDataByDepDelay(ArrayList data, boolean reversedOrder)
 {

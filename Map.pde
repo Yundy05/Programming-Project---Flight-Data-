@@ -1,4 +1,5 @@
 HashMap<String, double[]> stateCoord ;
+HashMap<String, double[]> stateLabelCoord ;
 class USMap
 {
   boolean wasPressed;//test
@@ -46,7 +47,7 @@ class USMap
     fill(#9BFFEA, 50);
     stroke(#9BFFEA, 80);
     strokeWeight(2);
-
+    if(mousePressed) println(mouseX,mouseY);
     //fill(255,255,255,50);
 
     shape(usa, 0, 0);

@@ -68,11 +68,11 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   homeScreen.addButton(searchBarBtn);
 
 
-  //flightScreen.addButton(homePageBtn);
+  flightScreen.addButton(homePageBtn);
   //flightScreen.addButton(backArrow);
   //flightScreen.addButton(forwardArrow);
 
-  //graphScreen.addButton(homePageBtn);
+  graphScreen.addButton(homePageBtn);
   graphScreen.addButton(showPieChartBtn);
   graphScreen.addButton(showHistogramBtn);
   graphScreen.addButton(showHeatMapBtn);
@@ -80,19 +80,19 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   //graphScreen.addButton(backArrow);
   //graphScreen.addButton(forwardArrow);
 
-  //histogramScreen.addButton(homePageBtn);
+  histogramScreen.addButton(homePageBtn);
   //histogramScreen.addButton(backArrow);
   //histogramScreen.addButton(forwardArrow);
   histogramScreen.addButton(adjustDelayBtn);
   histogramScreen.addButton(adjustDistanceBtn);
 
-  //pieChartScreen.addButton(homePageBtn);
+  pieChartScreen.addButton(homePageBtn);
   //pieChartScreen.addButton(backArrow);
   //pieChartScreen.addButton(forwardArrow);
   pieChartScreen.addButton(adjustDelayBtn);
   pieChartScreen.addButton(adjustDistanceBtn);
 
- // barChartScreen.addButton(homePageBtn);
+  barChartScreen.addButton(homePageBtn);
   barChartScreen.addButton(lengthByRoute);
   barChartScreen.addButton(filterBtn1);
   barChartScreen.addButton(filterBtn2);
@@ -100,7 +100,7 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   //barChartScreen.addButton(forwardArrow);
 
 
- // individualFlightScreen.addButton(homePageBtn);
+  individualFlightScreen.addButton(homePageBtn);
   individualFlightScreen.addButton(originBtn);
   individualFlightScreen.addButton(destinationBtn);
   individualFlightScreen.addButton(departBtn);
@@ -112,14 +112,14 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
 
   //searchBarScreen.addButton(backArrow);
   //searchBarScreen.addButton(forwardArrow);
-  //searchBarScreen.addButton(homePageBtn);
+  searchBarScreen.addButton(homePageBtn);
   searchBarScreen.addButton(searchPageBtn);
 
-  //searchScreen.addButton(homePageBtn);
+  searchScreen.addButton(homePageBtn);
   //searchScreen.addButton(backArrow);
   //searchScreen.addButton(forwardArrow);
 
- // selectScreen.addButton(homePageBtn);
+  selectScreen.addButton(homePageBtn);
   selectScreen.addButton(nextPage);
   selectScreen.addButton(previousPage);
 }
@@ -165,7 +165,7 @@ class ImageButton extends Button {
     super(x, y, targetWidth, 0, "", overColor, buttonColor, event, glowSize);
     this.unclickedImage = loadImage(UnClickedImagePath);
     this.clickedImage = loadImage(ClickedImagePath);
-
+    
     float aspectRatioUnclicked = unclickedImage.width / (float) unclickedImage.height;
     unclickedImage.resize((int)targetWidth, (int)(targetWidth / aspectRatioUnclicked));
     this.height = unclickedImage.height;

@@ -250,19 +250,9 @@ void draw() {
 ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   
   case SCREEN_GRAPH :
     graphScreen.draw();
-    if (hasScreenAdded != SCREEN_GRAPH)
-    {
-      if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
-      {
-        screenArrow.add(SCREEN_GRAPH);
-        screenHistory++;
-      }
-      hasScreenAdded = SCREEN_GRAPH;
-    }
     currentEvent = graphScreen.returnEvent();
-    if (currentEvent == EVENT_BUTTON_HOME)
-        currentScreen = SCREEN_HOME;
-     else if (currentEvent == EVENT_BUTTON_PIECHART)
+
+    if (currentEvent == EVENT_BUTTON_PIECHART)
     {
       currentScreen = SCREEN_PIE_CHART;
     } else if (currentEvent == EVENT_BUTTON_HISTOGRAM)
@@ -277,20 +267,9 @@ void draw() {
 ////////////PIE////////////PIE////////////PIE////////////PIE////////////PIE////////////PIE////////////PIE////////////PIE////////////PIE////////////PIE////////////PIE////////////PIE//
   case SCREEN_PIE_CHART :
     pieChartScreen.draw();
-    if (hasScreenAdded != SCREEN_PIE_CHART)
-    {
-      if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
-      {
-        screenArrow.add(SCREEN_PIE_CHART);
-        screenHistory++;
-      }
-      hasScreenAdded = SCREEN_PIE_CHART;
-    }
-    currentEvent = pieChartScreen.returnEvent();
 //    pieChartOfDates.drawPieChart();
-    if (currentEvent == EVENT_BUTTON_HOME)
-       currentScreen = SCREEN_HOME;
-    else if(currentEvent == EVENT_BUTTON_DELAY)
+
+    if(currentEvent == EVENT_BUTTON_DELAY)
     {
        variablePie = "Delay";
        switchingPie = true;
@@ -317,19 +296,9 @@ void draw() {
  ///////SCREEN_HISTOGRAM ///////SCREEN_HISTOGRAM ///////SCREEN_HISTOGRAM ///////SCREEN_HISTOGRAM ///////SCREEN_HISTOGRAM ///////SCREEN_HISTOGRAM ///////SCREEN_HISTOGRAM ///////SCREEN_HISTOGRAM
   case SCREEN_HISTOGRAM :
     histogramScreen.draw();
-    if (hasScreenAdded != SCREEN_HISTOGRAM)
-    {
-      if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
-      {
-        screenArrow.add(SCREEN_HISTOGRAM);
-        screenHistory++;
-      }
-      hasScreenAdded = SCREEN_HISTOGRAM;
-    }
     currentEvent = histogramScreen.returnEvent();
-    if (currentEvent == EVENT_BUTTON_HOME)
-        currentScreen = SCREEN_HOME;
-    else if(variableHistogram!="")
+
+     if(variableHistogram!="")
     {
       if(switchingHistogram)
       {
@@ -358,19 +327,9 @@ void draw() {
 /////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////
   case SCREEN_BAR_CHART:
       barChartScreen.draw();
-      if (hasScreenAdded != SCREEN_BAR_CHART)
-    {
-      if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
-      {
-        screenArrow.add(SCREEN_BAR_CHART);
-        screenHistory++;
-      }
-      hasScreenAdded = SCREEN_BAR_CHART;
-    }
       currentEvent = barChartScreen.returnEvent();
-      if (currentEvent == EVENT_BUTTON_HOME)
-        currentScreen = SCREEN_HOME;
-      else if(currentEvent == EVENT_BUTTON_RL)
+
+      if(currentEvent == EVENT_BUTTON_RL)
       {
         independentVariableBar = "Route";
         dependentVariableBar = "Distance";
@@ -396,8 +355,6 @@ void draw() {
 ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT   
   case SCREEN_INDIVIDUAL_FLIGHT:
     individualFlightScreen.draw();
-    if (currentEvent == EVENT_BUTTON_HOME)
-        currentScreen = SCREEN_HOME;
     if (currentEvent==EVENT_GETHELP)
     {
       helping = !helping;
@@ -432,8 +389,6 @@ void draw() {
       searchScreen.draw();
       calendar.displayForOrigin();
       //      calendar.displayForCalendar();
-      if (currentEvent == EVENT_BUTTON_HOME)
-         currentScreen = SCREEN_HOME;
       if (calendar.isSelectionComplete())
       {
         fill(0);
@@ -517,9 +472,7 @@ void draw() {
     {
       searchBarScreen.draw();
       currentEvent = searchBarScreen.returnEvent();
-      if (currentEvent == EVENT_BUTTON_HOME)
-         currentScreen = SCREEN_HOME;
-     else if (currentEvent == SCREEN_SEARCH)
+     if (currentEvent == SCREEN_SEARCH)
         currentScreen = SCREEN_SEARCH;
         //CHANGE THIS FOR FILTER BUTTONS 
      else if (currentEvent == EVENT_BUTTON_FILTER_1)

@@ -560,11 +560,12 @@ import java.util.Set;
 class HeatMap extends USMap
 {
   HashMap<String,Integer> numOfFlightsPerState;
+  LegendBox[] boxes = new LegendBox[5];
+  int[] numbers;
   HeatMap (int x, int y, HashMap<String, Integer> numOfFlightsPerState)
   {
     super (x, y, null, null);
     this.numOfFlightsPerState=numOfFlightsPerState;
-    
   }
   //@ override
   void draw()
@@ -576,15 +577,56 @@ class HeatMap extends USMap
     strokeWeight(2);
     shape(usa, x, y);
     Set<String> keys = numOfFlightsPerState.keySet();
+    numbers=new int[keys.size()];
+    int index=0;
+    for (String key : keys) {
+      int number = numOfFlightsPerState.get(key);
+              numbers[index]=number;
+              index++;
+    }
+    int max = max(numbers);
+    int min = min(numbers);
+    int bin = (max-min)/5;
     for (String key : keys) {
             PShape myState = usa.getChild(key);
             if (myState!=null)
             {
               myState.disableStyle();
-              colorMode(HSB, 360, 100, 100);
-              fill(numOfFlightsPerState.get(key),40,100);
+              int number = numOfFlightsPerState.get(key);
+              fill(number*255/max+100,90+50,90+50);
               shape(myState,x,y);
             }
     }
+    
+    for (int i=0;i<boxes.length;i++)
+    {
+      LegendBox box = new LegendBox(i*50*2+300,800,50,""+(min+i*bin)+" ~ "+((i==boxes.length-1)?max:(min+(i+1)*bin)),color((min+i*bin)*255/max+100,90+50,90+50));
+      box.draw();
+    }
+  }
+}
+class LegendBox
+{
+  int x;
+  int y;
+  int size;
+  String label;
+  color colorRGB;
+  LegendBox(int x, int y, int size, String label, color colorRGB)
+  {
+    this.colorRGB=colorRGB;
+    this.x=x; this.y=y;
+    this.size=size;
+    this.label=label;
+    
+  }
+  void draw()
+  {
+    stroke(255);
+    fill(colorRGB);
+    rect(x,y,size,size);
+    fill(255);
+    textSize(TS/2);
+    text(label,x,y+size*1.5);
   }
 }

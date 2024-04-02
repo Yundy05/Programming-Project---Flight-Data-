@@ -183,45 +183,45 @@ class SearchBox
     }
 }
 
-SearchBox activeSB = null;
+SearchBox activeSearchingBar = null;
 SearchBox sbOriginCities;
 SearchBox sbDestinationCities;
 SearchBox sbAirport;
 //DateCalander DC;
 float x = 2560/200.0; 
 float y = (1600*9/10)/100.0;
-float xSBAirport;          //unit x
-float ySBAirport;    //unit y
-float xSBCity;          //unit x
-float ySBCity;    //unit y
-float ySBDestinationCity;
+float xSearchingBarAirport;          //unit x
+float ySearchingBarAirport;    //unit y
+float xSearchingBarCity;          //unit x
+float ySearchingBarCity;    //unit y
+float ySearchingBarDestinationCity;
 String OriginCity = null;
 String DestinationCity = null;
 
 ArrayList<String> stringList;
-void setupSB()
+void setupSearchingBar()
 {
 
   //DC = new DateCalander(1);
-  //xSBAirport = DC.x *40 - 50;
-  //ySBAirport = DC.y *80 -100;
-  //xSBCity = DC.x *40;
-  //ySBCity = DC.y *80;
-  //xSBAirport = 200;
-  //ySBAirport = 200;
-  xSBCity = 300;
-  ySBCity = 350;
-  //xSBCity = x *100;
-  //ySBCity = y*100/3;
-  ySBDestinationCity = 700;
-  sbOriginCities =new SearchBox(cities, xSBCity,ySBCity , "Origin");
-  sbDestinationCities =new SearchBox(cities, xSBCity, ySBDestinationCity  , "Destination");
-  //sbAirport =new SearchBox(cp5Copy,this, xSBAirport,ySBAirport, airports);
+  //xSearchingBarAirport = DC.x *40 - 50;
+  //ySearchingBarAirport = DC.y *80 -100;
+  //xSearchingBarCity = DC.x *40;
+  //ySearchingBarCity = DC.y *80;
+  //xSearchingBarAirport = 200;
+  //ySearchingBarAirport = 200;
+  xSearchingBarCity = 300;
+  ySearchingBarCity = 350;
+  //xSearchingBarCity = x *100;
+  //ySearchingBarCity = y*100/3;
+  ySearchingBarDestinationCity = 700;
+  sbOriginCities =new SearchBox(cities, xSearchingBarCity,ySearchingBarCity , "Origin");
+  sbDestinationCities =new SearchBox(cities, xSearchingBarCity, ySearchingBarDestinationCity  , "Destination");
+  //sbAirport =new SearchBox(cp5Copy,this, xSearchingBarAirport,ySearchingBarAirport, airports);
   
              
 }
 
-void drawSB()
+void drawSearchingBar()
 {
     sbOriginCities.draw();
     sbDestinationCities.draw();
@@ -230,38 +230,38 @@ void drawSB()
 
 }
 
-void mouseWheelSB(MouseEvent event)
+void mouseWheelSearchingBar(MouseEvent event)
 {
-  if(activeSB != null)
+  if(activeSearchingBar != null)
     {
-      activeSB.mouseWheel(event);
+      activeSearchingBar.mouseWheel(event);
     }
   //sbOriginCities.mouseWheel(event);
   //sbDestinationCities.mouseWheel(event);
 }
-void keyPressedSB()
+void keyPressedSearchingBar()
 {
-  if(activeSB != null)
+  if(activeSearchingBar != null)
     {
-      activeSB.keyPressed();
+      activeSearchingBar.keyPressed();
     }
   //sbOriginCities.keyPressed();
   //sbDestinationCities.keyPressed();
 }
 
-void mousePressedSB()
+void mousePressedSearchingBar()
 {
-  if(activeSB != null)
+  if(activeSearchingBar != null)
     {
-      activeSB.mousePressed();
+      activeSearchingBar.mousePressed();
     }
     if(sbOriginCities.overSearchBox == true)
     {
-      activeSB = sbOriginCities;
+      activeSearchingBar = sbOriginCities;
     }
     else if(sbDestinationCities.overSearchBox == true)
     {
-      activeSB = sbDestinationCities;
+      activeSearchingBar = sbDestinationCities;
     }
   //sbOriginCities.mousePressed();
   //sbDestinationCities.mousePressed();

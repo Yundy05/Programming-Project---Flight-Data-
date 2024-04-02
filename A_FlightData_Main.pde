@@ -177,7 +177,7 @@ void setup()
   //Screen History Arrows - Andy
   screenArrow = new ArrayList<Integer>();
   //Searching Bar
-  setupSB();
+  setupSearchingBar();
   
 }
 
@@ -526,7 +526,7 @@ void draw() {
         currentScreen = SCREEN_SEARCH;
      else if (currentEvent == EVENT_BUTTON_FILTER_2)
         currentScreen = SCREEN_SEARCH;      
-      drawSB();
+      drawSearchingBar();
     }
     break;
 
@@ -686,7 +686,7 @@ void mouseWheel(MouseEvent event) {
   if (showingData != null) {
     showingData.mouseWheel(event);
   }
-  mouseWheelSB(event);
+  mouseWheelSearchingBar(event);
 }
 
 void keyPressed() {
@@ -694,12 +694,12 @@ void keyPressed() {
   {
     calendar.keyPressed();
   }
-  keyPressedSB();
+  keyPressedSearchingBar();
 }
 
 void mouseReleased() {
   showingData.mouseReleased();
-  mousePressedSB();
+  mousePressedSearchingBar();
 }
 
 void mouseClicked() //Flight For Plane AND Pins

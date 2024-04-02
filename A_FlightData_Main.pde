@@ -418,7 +418,7 @@ void draw() {
     {
       searchScreen.draw();
       calendar.displayForOrigin();
-      //      calendar.displayForCalendar();
+     //      calendar.displayForCalendar();
       if (calendar.isSelectionComplete())
       {
         fill(0);
@@ -546,16 +546,12 @@ void draw() {
   
   if(homePageBtn.clicked())
     currentScreen = SCREEN_HOME;
-    //print("yeas");
-
-  
+    //print("yeas");  
   
   backArrow.display();
   forwardArrow.display(); 
   backArrow.update();
-  forwardArrow.update();
-  
-
+  forwardArrow.update();  
   
   if(forwardArrow.clicked())
   currentEvent = EVENT_BUTTON_FORWARD;

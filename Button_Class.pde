@@ -20,7 +20,7 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   individualFlightBtn = new Button(35*x, 45*y, 30*x, 5*y, "Individual Flights", #8080ff, #b3b3ff, SCREEN_INDIVIDUAL_FLIGHT, glowSize);
 
   //FLIGHT PAGE
-  //homePageBtn = new Button(45*x, 94*y, 8*x, 5*y, "", #8080ff, #b3b3ff, EVENT_BUTTON_HOME, glowSize);
+ // homePageBtn = new Button(45*x, 94*y, 8*x, 5*y, "", #8080ff, #b3b3ff, EVENT_BUTTON_HOME, glowSize);
   homePageBtn = new ImageButton(45*x, 91*y, 8*x, "homeButton1.png", "homeButton2.png", #8080ff, #b3b3ff, EVENT_BUTTON_HOME, glowSize);
 
   //GRAPH PAGE
@@ -159,7 +159,9 @@ class ImageButton extends Button {
   PImage unclickedImage;
   PImage clickedImage;
 
-  ImageButton(float x, float y, float targetWidth, String UnClickedImagePath, String ClickedImagePath, color overColor, color buttonColor, int event, int glowSize) {
+  //ImageButton(float x, float y, float targetWidth, String UnClickedImagePath, String ClickedImagePath, color overColor, color buttonColor, int event, int glowSize) {
+  //  super(x, y, targetWidth, 0, "", overColor, buttonColor, event, glowSize);
+    ImageButton(float x, float y, float targetWidth, String UnClickedImagePath, String ClickedImagePath, color overColor, color buttonColor, int event, int glowSize) {
     super(x, y, targetWidth, 0, "", overColor, buttonColor, event, glowSize);
     this.unclickedImage = loadImage(UnClickedImagePath);
     this.clickedImage = loadImage(ClickedImagePath);
@@ -226,6 +228,7 @@ class Button
   void display() {
     drawNeonEffect(x, y, width, height, over ? overColor : notOverColor, glowSize);
     fill(fontColor);
+    stroke(0);
     textSize(28);
     textAlign(CENTER, CENTER);
     text(label, x + this.width/2, y + this.height/2);

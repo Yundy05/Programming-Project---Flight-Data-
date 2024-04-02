@@ -60,6 +60,7 @@ class Screen
     screenItems = new ArrayList();
     this.screenBackground = background;
     this.screenType = screenType;
+    this.isBackground = false;
   }
   
   Screen(color background, int screenType, PImage backgroundImg, boolean isBackground)
@@ -99,11 +100,13 @@ class Screen
 
   void drawBackground()
   {
-    rect(0, 1, displayWidth/2, displayHeight - 100, 1); // (x, y, width, height, outline thickness)
+   
     if(isBackground)
       background(appearance);
-    else
+    else{
       fill(screenBackground);
+       rect(0, 1, displayWidth/2, displayHeight - 100, 1); // (x, y, width, height, outline thickness)
+    }
   }
 
   int returnEvent()

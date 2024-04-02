@@ -93,7 +93,7 @@ ArrayList<DataPoint> findIntersection(HashTable t1, int key1)
   for (int i =0; i<t1.getDataByIndex(key1).size(); i++)
   {
     DataPoint temp = t1.getDataByIndex(key1).get(i);
-    println(key1);
+   //println(key1);
     intersection.add(temp);
   }
   return intersection;
@@ -173,7 +173,7 @@ void showFlightSelections( ArrayList<Button> theButtons, ArrayList<DataPoint> th
   {
     if (currentPage<maxPages)
       currentPage++;
-    print(currentPage);
+    //print(currentPage);
   } else if (currentEvent == EVENT_BUTTON_PREVIOUS)
   {
     if (currentPage>0)

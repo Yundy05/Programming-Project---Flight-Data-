@@ -155,7 +155,7 @@ class Histogram
     for (int i=0; i<frequency.length; i++)
     {
       int binHeight = (int)map(frequency[i], 0, max, 0, gphH);
-      println(binHeight);
+      //println(binHeight);
       stroke(3);
       rect(x+90 +binWidth*i, (int)(y+gphH -binHeight +90), binWidth, (int)binHeight);
     }
@@ -263,7 +263,7 @@ class PieChart
       continue;
       
       radians[i] = map(data[i], 0, sum, 0, 2*PI);
-      print(radians[i]);
+      //print(radians[i]);
     }
     return radians;
   }
@@ -423,7 +423,7 @@ class BarChart
     for (int i=0; i<dependent.length; i++)
     {
       int binHeight = (int)map(dependent[i], 0, this.max, 0, this.gphH);
-      println(binHeight);
+     // println(binHeight);
       stroke(3);
       rect(x+90 +binWidth*i + gap*i, (int)(y+gphH -binHeight +90), binWidth, (int)binHeight);
     }

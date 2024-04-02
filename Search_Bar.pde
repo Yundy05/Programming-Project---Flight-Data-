@@ -137,9 +137,9 @@ class SearchBox
           for(String option: options)
           {
                 int inputLength = searchQuery.length();
-                println(inputLength);
+               // println(inputLength);
                 String cutString = option.substring(0, min(inputLength, option.length()));
-                println(cutString);
+              //  println(cutString);
                 if(cutString.toLowerCase().contains(searchQuery.toLowerCase()))
                 {
                     filteredOptions.add(option);
@@ -160,7 +160,7 @@ class SearchBox
             {
                 searchQuery = filteredOptions.get(clickedIndex+scrollIndex);
                 selectedItem = filteredOptions.get(clickedIndex+scrollIndex);
-                println(selectedItem);
+              //  println(selectedItem);
                 // println("bhbh");
                 ddlVisible = false;
                 updateFilteredOptions();

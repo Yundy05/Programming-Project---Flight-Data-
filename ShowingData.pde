@@ -114,7 +114,7 @@ class ShowingData { //new mousewheel scroll method for better screen performance
     if (mouseX > barX && mouseX < barX + barWidth && mouseY > barY + scrollPos && mouseY < barY + scrollPos + barHeight)
     {
       isDragging = true;
-      println("is dragging");
+     // println("is dragging");
     } else {
       // println("wrong");
     }

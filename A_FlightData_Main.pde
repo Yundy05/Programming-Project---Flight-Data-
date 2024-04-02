@@ -544,13 +544,18 @@ void draw() {
   homePageBtn.display();
   homePageBtn.update();
   
+  if(homePageBtn.clicked())
+    currentScreen = SCREEN_HOME;
+    //print("yeas");
+
+  
+  
   backArrow.display();
   forwardArrow.display(); 
   backArrow.update();
   forwardArrow.update();
   
-  if(homePageBtn.clicked())
-  currentScreen = SCREEN_HOME;
+
   
   if(forwardArrow.clicked())
   currentEvent = EVENT_BUTTON_FORWARD;
@@ -804,7 +809,7 @@ void createCharts()              //!!! Use this to create ALL the charts we need
   for (int i=0;i<10&&i<airportFreqList.size();i++) {
      airportArray[i]= airportFreqList.get(i).getKey();
      airportsNumArray[i]= airportFreqList.get(i).getValue();
-     println(airportFreqList.get(i).getKey()+" " +airportFreqList.get(i).getValue());
+     //println(airportFreqList.get(i).getKey()+" " +airportFreqList.get(i).getValue());
    }
   
  

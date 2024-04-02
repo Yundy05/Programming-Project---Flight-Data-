@@ -83,7 +83,7 @@ class USMap
     strokeWeight(6);
     if (mousePressed)
     {
-      println(mouseX, mouseY);
+      //println(mouseX, mouseY);
     }
   }
 }

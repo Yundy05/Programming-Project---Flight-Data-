@@ -25,6 +25,18 @@ public class HashTable {
   {
     return table[i];
   }
+  public ArrayList<DataPoint> getDataByIndex(int i, String target)   // for precision
+  {
+    ArrayList l = new ArrayList<DataPoint>();
+    
+    for(DataPoint p : table[i])
+    {
+      if(p.originCity.contains(target))
+      l.add(p);
+    }
+    
+    return l;
+  }
 
   public int hashFuncForDate(int x)      // Currently this is only for date   Chuan:)
   {

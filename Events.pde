@@ -72,27 +72,27 @@ void selectFlightsByDate()
 }
 
 
-ArrayList<DataPoint> findIntersection(HashTable t1, int key1, HashTable t2, int key2)
+ArrayList<DataPoint> findIntersection(HashTable t1, int key1, HashTable t2, int key2 , String target1 , String target2)
 {
   ArrayList intersection = new ArrayList<DataPoint>();
-  for (int i =0; i<t1.getDataByIndex(key1).size(); i++)
+  for (int i =0; i<t1.getDataByIndex(key1,target1).size(); i++)
   {
-    DataPoint temp = t1.getDataByIndex(key1).get(i);
-    for (int j=0; j<t2.getDataByIndex(key2).size(); j++)
+    DataPoint temp = t1.getDataByIndex(key1,target1).get(i);
+    for (int j=0; j<t2.getDataByIndex(key2,target2).size(); j++)
     {
-      if (temp.equals(t2.getDataByIndex(key2).get(j)))
+      if (temp.equals(t2.getDataByIndex(key2,target2).get(j)))
         intersection.add(temp);
     }
   }
   return intersection;
 }
 
-ArrayList<DataPoint> findIntersection(HashTable t1, int key1)
+ArrayList<DataPoint> findIntersection(HashTable t1, int key1 , String target)
 {
   ArrayList intersection = new ArrayList<DataPoint>();
-  for (int i =0; i<t1.getDataByIndex(key1).size(); i++)
+  for (int i =0; i<t1.getDataByIndex(key1,target).size(); i++)
   {
-    DataPoint temp = t1.getDataByIndex(key1).get(i);
+    DataPoint temp = t1.getDataByIndex(key1,target).get(i);
    //println(key1);
     intersection.add(temp);
   }
@@ -186,18 +186,19 @@ void showFlightSelections( ArrayList<Button> theButtons, ArrayList<DataPoint> th
     button.update();
   }
   stroke(#FF1FA6);
+  line(1, 7.5*y, displayWidth/2,7.5*y);
   for (int i =1; i<=flightsPerPage && i + currentPage*flightsPerPage <= theButtons.size(); i++)
   {
-    line(1, i*10*y, displayWidth/2, i*10*y);
+    line(1, 7.5*y+i*10*y, displayWidth/2,7.5*y+ i*10*y);
     fill(#FF1FA6);
     pushMatrix();
-    translate(0, (i-1)*10*y);
+    translate(0, 7.5*y+(i-1)*10*y);
     printSimplifiedData(theFlights.get(currentPage * flightsPerPage + i-1));
     translate(0, 0);
     popMatrix();
   }
   textAlign(CENTER, TOP);
-  text((currentPage+1)+"/"+(maxPages+1), displayWidth/4, 80*y);
+  text((currentPage+1)+"/"+(maxPages+1), displayWidth/4, 87.5*y);
 }
 
 void printSimplifiedData(DataPoint p)
@@ -216,7 +217,7 @@ Button createButtonForFlight(DataPoint p, int i)
   float x = displayWidth/200.0;          //unit x
   float y = (displayHeight*9/10)/100.0;         //unit y
   Button aButton;
-  aButton = new fontChangingButton(60*x, 2.5*y + 10*  (i%flightsPerPage)  *y, 30*x, 5*y, "LET'S GO!", #36DFFF, #BF2E2E, 100+i, 194, 0, 10);
+  aButton = new fontChangingButton(60*x, 10*y + 10*  (i%flightsPerPage)  *y, 30*x, 5*y, "LET'S GO!", #36DFFF, #BF2E2E, 100+i, 194, 0, 10);
   return aButton;
 }
 

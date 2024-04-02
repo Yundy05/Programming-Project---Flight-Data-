@@ -8,10 +8,10 @@ class USMap
   float scale;
   double originX;
   double originY;
-  double[] originCoord;
+  double[] originCoord,originLabelCoord;
   double destX;
   double destY;
-  double[] destCoord;
+  double[] destCoord, destLabelCoord;
   int x;
   int y;
   String originState;
@@ -30,12 +30,14 @@ class USMap
     if (stateCoord!=null&&stateCoord.get(originState)!=null)
     {
       originCoord=stateCoord.get(originState);
+      originLabelCoord=stateLabelCoord.get(originState);
       originX=originCoord[0];
       originY=originCoord[1];
     }
     if (stateCoord!=null&&stateCoord.get(destState)!=null)
     {
       destCoord=stateCoord.get(destState);
+      destLabelCoord=stateLabelCoord.get(destState);
       destX=destCoord[0];
       destY=destCoord[1];
     }
@@ -47,7 +49,7 @@ class USMap
     fill(#9BFFEA, 50);
     stroke(#9BFFEA, 80);
     strokeWeight(2);
-    if(mousePressed) println(mouseX,mouseY);
+    //if(mousePressed) println(mouseX,mouseY);
     //fill(255,255,255,50);
 
     shape(usa, 0, 0);
@@ -64,8 +66,9 @@ class USMap
       //fill(#8080ff,80);
       // Draw a single state
       shape(origin, 0, 0); // Wolverines!
-      textSize(25);
-      text(originState, (float)originX, (float)originY);
+      textSize(TS/2);
+      fill(255);
+      text(originState, (float)originLabelCoord[0], (float)originLabelCoord[1]);
     }
     if (dest!=null)
     {
@@ -76,8 +79,10 @@ class USMap
       // fill(#8080ff,80);
       //   stroke(255);
       // Draw a single state
+      fill(255, 50);
       shape(dest, 0, 0);  // Buckeyes!
-      text(destState, (float)destX, (float)destY);
+      fill(255);
+      text(destState, (float)destLabelCoord[0], (float)destLabelCoord[1]);
     }
     scale(1/scale);
     stroke(0);

@@ -435,17 +435,17 @@ void draw() {
         {
           if (calendar.inputChanged == "Departure Only")
           {
-            filter = findIntersection(tableOfOrigin, hashFuncForCity(OriginCity));
+            filter = findIntersection(tableOfOrigin, hashFuncForCity(OriginCity),OriginCity);
             selectFlightsByDateAndOthers(filter);
             currentScreen = SCREEN_SELECT;
           } else if (calendar.inputChanged == "Arrival Only")
           {
-            filter = findIntersection(tableOfDestination, hashFuncForCity(DestinationCity));
+            filter = findIntersection(tableOfDestination, hashFuncForCity(DestinationCity),DestinationCity);
             selectFlightsByDateAndOthers(filter);
             currentScreen = SCREEN_SELECT;
           } else if (calendar.inputChanged == "Departure & Arriving")
           {
-            filter = findIntersection(tableOfOrigin, hashFuncForCity(OriginCity), tableOfDestination, hashFuncForCity(DestinationCity));
+            filter = findIntersection(tableOfOrigin, hashFuncForCity(OriginCity), tableOfDestination, hashFuncForCity(DestinationCity),OriginCity,DestinationCity);
             selectFlightsByDateAndOthers(filter);
             currentScreen = SCREEN_SELECT;
           } else if (calendar.inputChanged == "Single Date Only")
@@ -463,17 +463,17 @@ void draw() {
           {
           if (calendar.inputChanged == "Departure Only")
           {
-            filter = findIntersection(tableOfOrigin, hashFuncForCity(OriginCity));
+            filter = findIntersection(tableOfOrigin, hashFuncForCity(OriginCity),OriginCity);
             selectFlightsByDateAndOthers(filter);
              currentScreen = SCREEN_GRAPH;
           } else if (calendar.inputChanged == "Arrival Only")
           {
-            filter = findIntersection(tableOfDestination, hashFuncForCity(DestinationCity));
+            filter = findIntersection(tableOfDestination, hashFuncForCity(DestinationCity),DestinationCity);
             selectFlightsByDateAndOthers(filter);
              currentScreen = SCREEN_GRAPH;
           } else if (calendar.inputChanged == "Departure & Arriving")
           {
-            filter = findIntersection(tableOfOrigin, hashFuncForCity(OriginCity), tableOfDestination, hashFuncForCity(DestinationCity));
+            filter = findIntersection(tableOfOrigin, hashFuncForCity(OriginCity), tableOfDestination, hashFuncForCity(DestinationCity),OriginCity,DestinationCity);
             selectFlightsByDateAndOthers(filter);
              currentScreen = SCREEN_GRAPH;
           } else if (calendar.inputChanged == "Single Date Only")
@@ -546,8 +546,10 @@ void draw() {
   homePageBtn.update();
   
   if(homePageBtn.clicked())
+  {
     currentScreen = SCREEN_HOME;
-    //print("yeas");  
+    print("yeas");  
+  }
   
   backArrow.display();
   forwardArrow.display(); 

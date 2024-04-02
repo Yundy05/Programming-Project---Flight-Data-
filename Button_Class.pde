@@ -20,8 +20,8 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   individualFlightBtn = new Button(35*x, 45*y, 30*x, 5*y, "Individual Flights", #8080ff, #b3b3ff, SCREEN_INDIVIDUAL_FLIGHT, glowSize);
 
   //FLIGHT PAGE
-  //homePageBtn = new Button(45*x, 94*y, 8*x, 5*y, "", #8080ff, #b3b3ff, EVENT_BUTTON_HOME, glowSize);
-  homePageBtn = new ImageButton(45*x, 91*y, 8*x, "homeButton1.png", "homeButton2.png", #8080ff, #b3b3ff, EVENT_BUTTON_HOME, glowSize);
+  homePageBtn = new Button(45*x, 94*y, 8*x, 5*y, "", #8080ff, #b3b3ff, EVENT_BUTTON_HOME, glowSize);
+  //homePageBtn = new ImageButton(45*x, 91*y, 8*x, "homeButton1.png", "homeButton2.png", #8080ff, #b3b3ff, EVENT_BUTTON_HOME, glowSize);
 
   //GRAPH PAGE
   showPieChartBtn = new Button(60*x, 20*y, 30*x, 5*y, "PieChart", #8080ff, #b3b3ff, EVENT_BUTTON_PIECHART, glowSize);

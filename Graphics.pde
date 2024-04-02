@@ -556,3 +556,35 @@ class LineGraph
     return a;
   }
 }
+import java.util.Set;
+class HeatMap extends USMap
+{
+  HashMap<String,Integer> numOfFlightsPerState;
+  HeatMap (int x, int y, HashMap<String, Integer> numOfFlightsPerState)
+  {
+    super (x, y, null, null);
+    this.numOfFlightsPerState=numOfFlightsPerState;
+    
+  }
+  //@ override
+  void draw()
+  {
+    scale(scale);
+    usa.disableStyle();
+    fill(#9BFFEA, 50);
+    stroke(#9BFFEA, 80);
+    strokeWeight(2);
+    shape(usa, x, y);
+    Set<String> keys = numOfFlightsPerState.keySet();
+    for (String key : keys) {
+            PShape myState = usa.getChild(key);
+            if (myState!=null)
+            {
+              myState.disableStyle();
+              colorMode(HSB, 360, 100, 100);
+              fill(numOfFlightsPerState.get(key),40,100);
+              shape(myState,x,y);
+            }
+    }
+  }
+}

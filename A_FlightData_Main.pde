@@ -50,7 +50,7 @@ int TS;
 PShape usa;
 boolean fly;
 boolean prepare;
-PImage pinImg, planeImg;
+PImage pinImg, planeImg, backgroundNeon;
 USMap map;
 ArrayList<Integer> screenArrow;
 int screenHistory = -1;
@@ -126,6 +126,7 @@ void setup()
 {
   pinImg = loadImage("pin.png");
   planeImg = loadImage("plane.png");
+  backgroundNeon = loadImage("backgroundNeon.png");
   usa = loadShape("Blank_US_Map_With_Labels.svg");
   setupPins();
   setupScreen();
@@ -183,7 +184,7 @@ void setup()
 
 
 void draw() {
-  background(#DB6868);
+  //background(#DB6868);
   //  currentEvent = getCurrentEvent();
   //  print(screenArrow.toString());
   //   println(screenHistory);

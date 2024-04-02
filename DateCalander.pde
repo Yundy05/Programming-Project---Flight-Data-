@@ -45,6 +45,7 @@ class DateCalander
   void displayForOrigin()
   {
     //  scale(displayWidth/2560.0,displayHeight/1600.0);
+    textAlign(CENTER,CENTER);
     textFont(font);
     fill(225);
     noStroke();

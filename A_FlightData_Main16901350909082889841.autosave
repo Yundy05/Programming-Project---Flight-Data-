@@ -1,4 +1,4 @@
-import java.util.Scanner; //<>// //<>// //<>// //<>// //<>//
+import java.util.Scanner; //<>// //<>// //<>// //<>//
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,8 +29,6 @@ final int EVENT_BUTTON_DISTANCE = 15;
 final int EVENT_BUTTON_RL = 16;
 final int EVENT_BUTTON_FILTER_1 = 17;
 final int EVENT_BUTTON_FILTER_2 = 18;
-final int EVENT_BUTTON_HEAT_MAP = 19;
-
 
 final int EVENT_GETHELP = 20;
 
@@ -44,7 +42,6 @@ final int SCREEN_SEARCH_BAR = 6;
 final int SCREEN_HISTOGRAM = 7;
 final int SCREEN_PIE_CHART = 8;
 final int SCREEN_BAR_CHART = 9;
-final int SCREEN_HEAT_MAP = 10;
 
 
 float adapter;
@@ -99,8 +96,9 @@ HashTable tableOfAirports_Origin = new HashTable();
 HashTable tableOfAirports_Dest = new HashTable();
 HashMap <Integer, Integer> arrDelayFreq;
 HashMap <String, Integer> airportFreq;
-HashMap <String, Integer> stateFreq;
 List<Map.Entry<String, Integer>> airportFreqList;
+HashMap <String, Integer> stateFreq;
+List<Map.Entry<String, Integer>> stateFreqList;
 PieChart pieChartOfDates;
 Histogram histogramOfDates;
 BarChart flightsByAirport;
@@ -272,11 +270,8 @@ void draw() {
       currentScreen = SCREEN_PIE_CHART;
     } else if (currentEvent == EVENT_BUTTON_HISTOGRAM)
       currentScreen = SCREEN_HISTOGRAM;
-      else if( currentEvent == EVENT_BUTTON_HEAT_MAP)
-      currentScreen = SCREEN_HEAT_MAP;
       else if( currentEvent == SCREEN_BAR_CHART)
       currentScreen = SCREEN_BAR_CHART;
-
     break;
 ///GRAPH///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH       
     
@@ -398,31 +393,9 @@ void draw() {
       }
       
   break;
-////////SCREEN_HEAT_MAP////////SCREEN_HEAT_MAP////////SCREEN_HEAT_MAP////////SCREEN_HEAT_MAP////////SCREEN_HEAT_MAP////////SCREEN_HEAT_MAP////////SCREEN_HEAT_MAP
-  case SCREEN_HEAT_MAP :
-    heatMapScreen.draw();
-    fill(255);
-    textSize(TS);
-    text("Number of flights per state",displayWidth/4, displayHeight/10);
-    HeatMap statesMap = new HeatMap (0, 100, stateFreq);
-    statesMap.draw();
-    if (hasScreenAdded != SCREEN_HEAT_MAP)
-    {
-      if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
-      {
-        screenArrow.add(SCREEN_HEAT_MAP);
-        screenHistory++;
-      }
-      hasScreenAdded = SCREEN_HEAT_MAP;
-    }
-    currentEvent = heatMapScreen.returnEvent();
-    
-    if (currentEvent == EVENT_BUTTON_HOME)
-       currentScreen = SCREEN_HOME;
-   
-    break;
-    
+/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART
 
+  
 ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT   
   case SCREEN_INDIVIDUAL_FLIGHT:
     individualFlightScreen.draw();
@@ -815,11 +788,10 @@ void createHashMaps(ArrayList<DataPoint> flights)
     String airport = data.origin;
     String state = data.originState;
     airportFreq.put(airport, airportFreq.getOrDefault(airport, 0) + 1);
+    stateFreq.put(airport, airportFreq.getOrDefault(airport, 0) + 1);
     airport = data.dest;
+    state = data.originState;
     airportFreq.put(airport, airportFreq.getOrDefault(airport, 0) + 1);
-    stateFreq.put(state, stateFreq.getOrDefault(state, 0) + 1);
-    state = data.destState;
-    stateFreq.put(state, stateFreq.getOrDefault(state, 0) + 1);
   }
   airportFreqList = new ArrayList<>(airportFreq.entrySet());
   Collections.sort(airportFreqList, new Comparator<Map.Entry<String, Integer>>() {

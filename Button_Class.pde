@@ -51,9 +51,9 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
 
   //HISTORY BUTTON PAGE - ANDY
   //backArrow = new Button(x, y, 3*x, 4*y, "<", #8080ff, #b3b3ff, EVENT_BUTTON_BACK, glowSize);
-  backArrow = new ImageButton(x, y, 4*x, "<Img1.png", "<Img2.png", #8080ff, #b3b3ff, EVENT_BUTTON_BACK, glowSize);
+  backArrow = new ImageButton(x, y, 4*x, "LImg1.png", "LImg2.png", #8080ff, #b3b3ff, EVENT_BUTTON_BACK, glowSize);
   //forwardArrow = new Button(5*x, y, 3*x, 4*y, ">", #8080ff, #b3b3ff, EVENT_BUTTON_FORWARD, glowSize);
-  forwardArrow = new ImageButton(5*x, y, 4*x, ">Img1.png", ">Img2.png", #8080ff, #b3b3ff, EVENT_BUTTON_FORWARD, glowSize);
+  forwardArrow = new ImageButton(5*x, y, 4*x, "RImg1.png", "RImg2.png", #8080ff, #b3b3ff, EVENT_BUTTON_FORWARD, glowSize);
 
   //SELECT PAGE -CHUAN
   nextPage = new fontChangingButton(85*x, 90*y, 5*x, 5*y, ">", #36DFFF, #BF2E2E, EVENT_BUTTON_NEXT, 194, 0, 10);

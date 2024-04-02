@@ -1,4 +1,4 @@
-Screen homeScreen, flightScreen, graphScreen, individualFlightScreen, searchScreen, selectScreen, searchBarScreen, histogramScreen, pieChartScreen , barChartScreen;
+Screen homeScreen, flightScreen, graphScreen, individualFlightScreen, searchScreen, selectScreen, searchBarScreen, histogramScreen, pieChartScreen , barChartScreen, heatMapScreen;
 
 void setupScreen()
 {
@@ -13,6 +13,7 @@ void setupScreen()
   histogramScreen = new Screen(#121212, SCREEN_HISTOGRAM);
   pieChartScreen = new Screen(#121212, SCREEN_PIE_CHART);
   barChartScreen = new Screen(#121212, SCREEN_BAR_CHART);
+  heatMapScreen = new Screen(#121212, SCREEN_HEAT_MAP);
 }
 
 class doubleScreen extends Screen

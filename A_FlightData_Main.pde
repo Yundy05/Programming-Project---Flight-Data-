@@ -29,6 +29,8 @@ final int EVENT_BUTTON_DISTANCE = 15;
 final int EVENT_BUTTON_RL = 16;
 final int EVENT_BUTTON_FILTER_1 = 17;
 final int EVENT_BUTTON_FILTER_2 = 18;
+final int EVENT_BUTTON_HEAT_MAP = 19;
+
 
 final int EVENT_GETHELP = 20;
 
@@ -42,6 +44,7 @@ final int SCREEN_SEARCH_BAR = 6;
 final int SCREEN_HISTOGRAM = 7;
 final int SCREEN_PIE_CHART = 8;
 final int SCREEN_BAR_CHART = 9;
+final int SCREEN_HEAT_MAP = 10;
 
 
 float adapter;
@@ -268,8 +271,11 @@ void draw() {
       currentScreen = SCREEN_PIE_CHART;
     } else if (currentEvent == EVENT_BUTTON_HISTOGRAM)
       currentScreen = SCREEN_HISTOGRAM;
+      else if( currentEvent == EVENT_BUTTON_HEAT_MAP)
+      currentScreen = SCREEN_HEAT_MAP;
       else if( currentEvent == SCREEN_BAR_CHART)
       currentScreen = SCREEN_BAR_CHART;
+
     break;
 ///GRAPH///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH       
     
@@ -391,9 +397,26 @@ void draw() {
       }
       
   break;
-/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART/////BAR_CHART
+////////SCREEN_HEAT_MAP////////SCREEN_HEAT_MAP////////SCREEN_HEAT_MAP////////SCREEN_HEAT_MAP////////SCREEN_HEAT_MAP////////SCREEN_HEAT_MAP////////SCREEN_HEAT_MAP
+  case SCREEN_HEAT_MAP :
+    heatMapScreen.draw();
+    if (hasScreenAdded != SCREEN_HEAT_MAP)
+    {
+      if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
+      {
+        screenArrow.add(SCREEN_HEAT_MAP);
+        screenHistory++;
+      }
+      hasScreenAdded = SCREEN_HEAT_MAP;
+    }
+    currentEvent = heatMapScreen.returnEvent();
+    
+    if (currentEvent == EVENT_BUTTON_HOME)
+       currentScreen = SCREEN_HOME;
+   
+    break;
+    
 
-  
 ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT   
   case SCREEN_INDIVIDUAL_FLIGHT:
     individualFlightScreen.draw();

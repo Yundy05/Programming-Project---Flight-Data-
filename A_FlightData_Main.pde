@@ -465,20 +465,20 @@ void draw() {
           text("Press \"View Flights\" \nOr \"GRAPHS\" \n to view data", calendar.x * 28, calendar.y * 88);
         }
         if (calendar.finalToGoSelect())
-        {
+        { 
           if (calendar.inputChanged == "Departure Only")
           {
-            filter = findIntersection(tableOfOrigin, hashFuncForCity(OriginCity),OriginCity);
+            filter = findIntersection(tableOfOrigin, hashFuncForCity(calendar.depart),calendar.depart);
             selectFlightsByDateAndOthers(filter);
             currentScreen = SCREEN_SELECT;
           } else if (calendar.inputChanged == "Arrival Only")
           {
-            filter = findIntersection(tableOfDestination, hashFuncForCity(DestinationCity),DestinationCity);
+            filter = findIntersection(tableOfDestination, hashFuncForCity(calendar.arrive),calendar.arrive);
             selectFlightsByDateAndOthers(filter);
             currentScreen = SCREEN_SELECT;
           } else if (calendar.inputChanged == "Departure & Arriving")
           {
-            filter = findIntersection(tableOfOrigin, hashFuncForCity(OriginCity), tableOfDestination, hashFuncForCity(DestinationCity),OriginCity,DestinationCity);
+            filter = findIntersection(tableOfOrigin, hashFuncForCity(calendar.depart), tableOfDestination, hashFuncForCity(calendar.arrive),calendar.depart,calendar.arrive);
             selectFlightsByDateAndOthers(filter);
             currentScreen = SCREEN_SELECT;
           } else if (calendar.inputChanged == "Single Date Only")
@@ -496,17 +496,17 @@ void draw() {
           {
           if (calendar.inputChanged == "Departure Only")
           {
-            filter = findIntersection(tableOfOrigin, hashFuncForCity(OriginCity),OriginCity);
+            filter = findIntersection(tableOfOrigin, hashFuncForCity(calendar.depart),calendar.depart);
             selectFlightsByDateAndOthers(filter);
              currentScreen = SCREEN_GRAPH;
           } else if (calendar.inputChanged == "Arrival Only")
           {
-            filter = findIntersection(tableOfDestination, hashFuncForCity(DestinationCity),DestinationCity);
+            filter = findIntersection(tableOfDestination, hashFuncForCity(calendar.arrive),calendar.arrive);
             selectFlightsByDateAndOthers(filter);
              currentScreen = SCREEN_GRAPH;
           } else if (calendar.inputChanged == "Departure & Arriving")
           {
-            filter = findIntersection(tableOfOrigin, hashFuncForCity(OriginCity), tableOfDestination, hashFuncForCity(DestinationCity),OriginCity,DestinationCity);
+            filter = findIntersection(tableOfOrigin, hashFuncForCity(calendar.depart), tableOfDestination, hashFuncForCity(calendar.arrive),calendar.depart,calendar.arrive);
             selectFlightsByDateAndOthers(filter);
              currentScreen = SCREEN_GRAPH;
           } else if (calendar.inputChanged == "Single Date Only")
@@ -543,7 +543,6 @@ void draw() {
         currentScreen = SCREEN_SEARCH;
      else if (currentEvent == EVENT_BUTTON_FILTER_2)
         currentScreen = SCREEN_SEARCH;      
-      drawSearchingBar();
     }
     break;
 
@@ -707,7 +706,6 @@ void mouseWheel(MouseEvent event) {
   if (showingData != null) {
     showingData.mouseWheel(event);
   }
-  mouseWheelSearchingBar(event);
 }
 
 void keyPressed() {
@@ -715,12 +713,10 @@ void keyPressed() {
   {
     calendar.keyPressed();
   }
-  keyPressedSearchingBar();
 }
 
 void mouseReleased() {
   showingData.mouseReleased();
-  mousePressedSearchingBar();
 }
 
 void mouseClicked() //Flight For Plane AND Pins
@@ -930,7 +926,7 @@ int[] countCancelDelayDivert(ArrayList <DataPoint> data)
 void read_in_the_file()
 {
   dataPoints = new ArrayList <DataPoint> ();
-  reader = createReader("flights_full.csv");    //change the file here
+  reader = createReader("flights2k.csv");    //change the file here
   // hashMap = new HashMap<>();
   try {
     line = reader.readLine();

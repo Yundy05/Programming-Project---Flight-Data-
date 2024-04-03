@@ -1,99 +1,96 @@
-
-import controlP5.*;
 import java.util.Arrays;
 class SearchBox
 {
     ArrayList<String> options = new ArrayList<String>();
     ArrayList<String> filteredOptions =new ArrayList<String>();
-    float x, y;
-    float width, height;
-    int ddlVisableCount = 4;
+    int x, y;
+    int widthh, heightt;
+    int ddlVisableCount = 5;
     int scrollIndex = 0;
     boolean ddlVisible = false;
-    String label;
     String selectedItem;
-    String searchQuery ="";
+    String searchQuery =" ";
     boolean overSearchBox = false;
-    SearchBox(ArrayList<String> data, float x, float y, String label) 
+    
+    
+    
+    int dropdownItemHeight;
+    int tR =(int)displayWidth/60;
+    int scrollOffset = 0;
+    int round;
+    boolean textboxSelected = false;
+    boolean ifItIsOption = false;
+  //mouse blinker like how we have it when we type as a guideline
+    boolean cursorVisible = true; // Whether the cursor is currently visible
+    int cursorTimer = 0; // Timer to control cursor blinking
+    int intervalForTime = 500; 
+  
+    SearchBox(ArrayList<String> data, int x, int y, int widthh, int heightt, int round, String label) 
     {
         options = data;
         //filteredOptions = null;
         this.x = x;
         this.y = y;
-        this.width = 300;
-        this.height = 40;
-        this.label = label;
+        this.widthh = widthh;
+        this.dropdownItemHeight = int(heightt);
+        this.heightt = heightt;
+        this.searchQuery = label;
+        this.round = round;
+        filteredOptions.addAll(options);
     }
 
     void draw()
     {
-        textSize(32);
-        //setFontSize(32);
-        drawGlow(x, y, width, height, color(#CFFCFB));
-        fill(0);
+        textSize(0.6 * tR);
+        drawGlow(x, y, widthh, heightt, color(#CFFCFB));
         textAlign(LEFT);
         fill(255);
-        text(label, x, y-height/2);
+        rect(x, y, widthh, heightt);
         fill(0);
-        rect(x, y, width, height);
-        fill(255);
         textAlign(LEFT);
-        text(searchQuery, x +10, y+ this.height/2 +7);
-        
-       /* textSize(32);
-        //setFontSize(32);
-        drawGlow(x, y, width, height, color(#CFFCFB));
-        fill(0);
-        //rectMode(RIGHT);
-        rect(x, y, width, height);
-        fill(255);
-        //textAlign(CENTER);
-        text(searchQuery, x +10, y+ this.height/2 +7);*/
-
-        if(ddlVisible && !filteredOptions.isEmpty())
+        text(searchQuery, x +10, y + heightt/5 * 3);
+        if (textboxSelected)
         {
-            for(int i = 0; i < ddlVisableCount; i++)
-            {
-                if(i + scrollIndex < filteredOptions.size())
+          ifItIsOption = false;
+        }
+        else if (!textboxSelected && searchQuery != "" && !ifItIsOption)
+        {
+          for (int i = 0; i < options.size(); i++)
+          {
+            if (options.get(i) == searchQuery)
+          {
+            ifItIsOption = true;
+            break;
+          }
+          }
+        }
+        if(ddlVisible && textboxSelected)
+        {
+              int shownCount = 0;
+              for(int i = scrollOffset; i < filteredOptions.size(); i++)
+              {
+                if(shownCount >= 5)
                 {
-                    int optionX = (int)x;
-                    int optionY = (int)y + (int)height *(i+1);
-
-                    drawGlow(optionX, optionY, width, height,color(#CFFCFB));
-
-                    fill(0);
-                    //rectMode(RIGHT);
-                    rect(optionX, optionY, width, height);
-                    fill(255);
-                    //textAlign(CENTER);
-                    text(filteredOptions.get(i+scrollIndex), optionX +10, optionY +height/2 +7);
+                  break;
                 }
-            }
+                int optionX = (int)x;
+                int optionY = (int)y + (int)heightt + shownCount * dropdownItemHeight;
+                drawGlow(optionX, optionY, widthh, heightt,color(#CFFCFB));
+                fill(255);
+                rect(optionX, optionY, widthh, dropdownItemHeight);
+                fill(0);
+                text(filteredOptions.get(i), optionX +10, optionY +dropdownItemHeight/2);
+                shownCount++;
+              }
         }
-        updateFilteredOptions();
+  //      updateFilteredOptions();
         overSearchBox();
-        //rectMode(CORNER);
     }
-
-    void mouseWheel(MouseEvent event)
-    {
-        float e = event.getCount();
-        if(ddlVisible)
-        {
-          //println("event.getCount()" + event.getCount());
-            scrollIndex += int(e);
-            //println("scrollIndex" + scrollIndex);
-            scrollIndex = max(0,min(scrollIndex, filteredOptions.size()- ddlVisableCount));
-            //scrollIndex = max(0,min(scrollIndex, filteredOptions.size()));
-            //println(scrollIndex);
-            
-        }
-    }
-
+    
     void drawGlow(float t, float p, float w, float h, int glowColor)
     {
       
-        int glowSize = 10;
+        int glowSize = 10;  
         for(int i = glowSize; i>0; i--)
         {
             int alphaValue = (int)map(i, 0, glowSize, 0, 150);
@@ -103,166 +100,106 @@ class SearchBox
         }
     }
 
+    void mouseWheel(MouseEvent event)
+    {
+        float e = event.getCount();
+        if(ddlVisible && overddl()) {
+          scrollOffset += (int)e;
+          scrollOffset = constrain(scrollOffset, 0, max(0, filteredOptions.size() - 5));
+    }
+    }
+
+
     void keyPressed()
     {
+        if (!textboxSelected)
+        {
+          return;
+        }
         if(keyCode == BACKSPACE)
         {
             if(searchQuery.length()>0)
             {
                 searchQuery = searchQuery.substring(0, searchQuery.length()-1);
-                updateFilteredOptions();
             }
         }
         else if(keyCode == ENTER|| keyCode == RETURN)
         {
             ddlVisible = !ddlVisible;
         }
-        else if(key >= ' ' && key <= '~')
+        else if(key != CODED && key >= 32 && key <= 126)
         {
             searchQuery += key;
-            updateFilteredOptions();
         }
+        updateFilteredOptions();
+        ddlVisible = true;
     }
 
     void updateFilteredOptions()
     {
         filteredOptions.clear();
-        if(searchQuery.equals(""))
+        for(String option: options)
         {
-                    
-            ddlVisible = false;
-        }
-        else
-        {
-          for(String option: options)
+          int inputLength = searchQuery.length();
+          String cutString = option.substring(0, min(inputLength, option.length()));
+          if(cutString.toLowerCase().contains(searchQuery.toLowerCase()))
           {
-                int inputLength = searchQuery.length();
-               // println(inputLength);
-                String cutString = option.substring(0, min(inputLength, option.length()));
-              //  println(cutString);
-                if(cutString.toLowerCase().contains(searchQuery.toLowerCase()))
-                {
-                    filteredOptions.add(option);
-                    ddlVisible = true;
-                }
-            }
+            filteredOptions.add(option);
+          }
         }
+        scrollOffset = 0;
     }
+    
+    
+    
 
     void mousePressed()
     {
-        if(ddlVisible)
-        {
-            int clickedIndex = (int)((mouseY - y)/ height-1 );
-            //println(clickedIndex);
-            //println(filteredOptions.size());
-            if(clickedIndex >=0 && clickedIndex <= (filteredOptions.size()-1))
-            {
-                searchQuery = filteredOptions.get(clickedIndex+scrollIndex);
-                selectedItem = filteredOptions.get(clickedIndex+scrollIndex);
-              //  println(selectedItem);
-                // println("bhbh");
-                ddlVisible = false;
-                updateFilteredOptions();
-            }
-        }
-        else;
-       
-    }
-    
-    void overSearchBox()
-    {
-      if(mouseX>x && mouseX< x+ width&& mouseY >y && mouseY <y+height)
+      if(overSearchBox())
       {
-        overSearchBox= true;
+        println("1");
+        textboxSelected = true;
+        ddlVisible = true;
+        searchQuery = "";
+        updateFilteredOptions();
+      }
+      else if(ddlVisible && overddl())
+      {
+        print("2");
+        int clickedIndex = (mouseY - int(y) - heightt) / dropdownItemHeight + scrollOffset;
+        if(clickedIndex >=0 && clickedIndex < (filteredOptions.size()))
+        {
+          searchQuery = filteredOptions.get(clickedIndex);
+          selectedItem = filteredOptions.get(clickedIndex);
+          textboxSelected = false;
+          ddlVisible = false;
+  //        updateFilteredOptions();
+        }
       }
       else
       {
-        overSearchBox = false;
+        println("3");
+        textboxSelected = false;
+        ddlVisible = false;
+      }
+       
+    }
+   
+    boolean overSearchBox()
+    {
+      if(mouseX>x && mouseX< x+ widthh&& mouseY >y && mouseY <y+heightt)
+      {
+        return true;
+      }
+      else
+      {
+        return false;
       }
     }
-}
-
-SearchBox activeSearchingBar = null;
-SearchBox sbOriginCities;
-SearchBox sbDestinationCities;
-SearchBox sbAirport;
-//DateCalander DC;
-float x = 2560/200.0; 
-float y = (1600*9/10)/100.0;
-float xSearchingBarAirport;          //unit x
-float ySearchingBarAirport;    //unit y
-float xSearchingBarCity;          //unit x
-float ySearchingBarCity;    //unit y
-float ySearchingBarDestinationCity;
-String OriginCity = null;
-String DestinationCity = null;
-
-ArrayList<String> stringList;
-void setupSearchingBar()
-{
-
-  //DC = new DateCalander(1);
-  //xSearchingBarAirport = DC.x *40 - 50;
-  //ySearchingBarAirport = DC.y *80 -100;
-  //xSearchingBarCity = DC.x *40;
-  //ySearchingBarCity = DC.y *80;
-  //xSearchingBarAirport = 200;
-  //ySearchingBarAirport = 200;
-  xSearchingBarCity = 300;
-  ySearchingBarCity = 350;
-  //xSearchingBarCity = x *100;
-  //ySearchingBarCity = y*100/3;
-  ySearchingBarDestinationCity = 700;
-  sbOriginCities =new SearchBox(cities, xSearchingBarCity,ySearchingBarCity , "Origin");
-  sbDestinationCities =new SearchBox(cities, xSearchingBarCity, ySearchingBarDestinationCity  , "Destination");
-  //sbAirport =new SearchBox(cp5Copy,this, xSearchingBarAirport,ySearchingBarAirport, airports);
-  
-             
-}
-
-void drawSearchingBar()
-{
-    sbOriginCities.draw();
-    sbDestinationCities.draw();
-    OriginCity=sbOriginCities.selectedItem;
-    DestinationCity = sbDestinationCities.selectedItem;
-
-}
-
-void mouseWheelSearchingBar(MouseEvent event)
-{
-  if(activeSearchingBar != null)
+    
+    boolean overddl()
     {
-      activeSearchingBar.mouseWheel(event);
+      int dropdownHeight = min(filteredOptions.size(), 5) * dropdownItemHeight;
+      return mouseX > x && mouseX < x + widthh && mouseY > y + heightt && mouseY < y + heightt + dropdownHeight;
     }
-  //sbOriginCities.mouseWheel(event);
-  //sbDestinationCities.mouseWheel(event);
-}
-void keyPressedSearchingBar()
-{
-  if(activeSearchingBar != null)
-    {
-      activeSearchingBar.keyPressed();
-    }
-  //sbOriginCities.keyPressed();
-  //sbDestinationCities.keyPressed();
-}
-
-void mousePressedSearchingBar()
-{
-  if(activeSearchingBar != null)
-    {
-      activeSearchingBar.mousePressed();
-    }
-    if(sbOriginCities.overSearchBox == true)
-    {
-      activeSearchingBar = sbOriginCities;
-    }
-    else if(sbDestinationCities.overSearchBox == true)
-    {
-      activeSearchingBar = sbDestinationCities;
-    }
-  //sbOriginCities.mousePressed();
-  //sbDestinationCities.mousePressed();
 }

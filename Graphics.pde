@@ -446,7 +446,7 @@ BarChart quickBar(ArrayList<DataPoint> data , String iv ,String dv, String dateP
 
     }
   //    print(dis[0]);
-      templeBar = new BarChart(int(20*x) , int(30*y) , int(40*x) , int(30*y) , dis , bins , labels ,"TOP_" +bins+"_Longest_Routes_From"+datePeriod , "Routes" , "Distance");
+//need fix      templeBar = new BarChart(int(20*x) , int(30*y) , int(40*x) , int(30*y) , dis , bins , labels ,"TOP_" +bins+"_Longest_Routes_From"+datePeriod , "Routes" , "Distance");
   }
   else if(dv.equalsIgnoreCase("Airport"))
   {
@@ -677,6 +677,7 @@ class HeatMap extends USMap
   //@ override
   void draw()
   {
+    colorMode(RGB,255);
     scale(scale);
     usa.disableStyle();
     fill(#9BFFEA, 50);

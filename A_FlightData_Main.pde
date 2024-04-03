@@ -54,7 +54,7 @@ int TS;
 PShape usa;
 boolean fly;
 boolean prepare;
-PImage pinImg, planeImg, backgroundNeon;
+PImage pinImg, planeImg, backgroundNeon , icon;
 USMap map;
 ArrayList<Integer> screenArrow;
 int screenHistory = -1;
@@ -124,6 +124,7 @@ int lineHeight = 20;
 boolean loadingComplete;
 boolean isLoading;
   int loadingPhase;
+  
 void settings() //REPLACED SCREENX WITH (displayWidth/2) & SCREENY WITH (displayHeight - 100)
 {
   size(displayWidth/2, displayHeight*9/10, P2D);
@@ -134,6 +135,7 @@ void setup()
   pinImg = loadImage("pin.png");
   planeImg = loadImage("plane.png");
   backgroundNeon = loadImage("backgroundNeon.png");
+  icon = loadImage("icon.png");
   usa = loadShape("Blank_US_Map_With_Labels.svg");
   setupPins();
   setupScreen();
@@ -206,12 +208,14 @@ void draw() {
   //  print(screenArrow.toString());
   //   println(screenHistory);
   if(!loadingComplete)
-  {
+  {  
+    float x = displayWidth/200.0;          //unit x
     background(backgroundNeon);
     textSize(TS);
     textFont(loadFont("Raanana-16.vlw"));
     textAlign(CENTER,CENTER);
     text("LOADING\n"+((loadingPhase/5.0)*10000)/100+"%" , displayWidth/4 , displayHeight/2 ); 
+    loadingAnimation(20*x);
     fill(50-loadingPhase*5,250-loadingPhase*20, 150-loadingPhase*5);
     rect(displayWidth/20,displayHeight/1.5 , (displayWidth/10)*loadingPhase, displayHeight/20);
     if(!isLoading)
@@ -892,7 +896,7 @@ int[] countCancelDelayDivert(ArrayList <DataPoint> data)
 void read_in_the_file()
 {
   dataPoints = new ArrayList <DataPoint> ();
-  reader = createReader("flights2k.csv");    //change the file here
+  reader = createReader("flights_full.csv");    //change the file here
   // hashMap = new HashMap<>();
   try {
     line = reader.readLine();

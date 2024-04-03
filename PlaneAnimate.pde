@@ -105,7 +105,6 @@ class PlaneAnimate
     } else
       image(plane, x-plane.width/2, y-plane.height/2);
   }
-
   void fly()
   {
     if (!arrive)
@@ -114,4 +113,28 @@ class PlaneAnimate
       //    draw();
     }
   }
+}
+
+int loadingRadian = 0;
+void loadingAnimation(float r)
+{
+  loadingRadian = frameCount;
+  pushMatrix();
+  translate(displayWidth/4 , displayHeight/3);        //Center
+  float x = r;
+  float y = r;
+  imageMode(CENTER);
+  image(icon,0,0,icon.width/2,icon.height/2);
+  rotate(radians(loadingRadian));
+  
+  pushMatrix();
+  translate(x,y);
+  rotate(PI/1.5);
+  image(planeImg,0,0,planeImg.width/4,planeImg.height/4);
+  translate(displayWidth/4 , displayHeight/3);
+  popMatrix();
+  
+  translate(0,0);
+  popMatrix();
+  frameCount+=2;
 }

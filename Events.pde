@@ -100,74 +100,110 @@ void selectFlightsByDate()
 }
 
 
-ArrayList<DataPoint> findIntersection(HashTable t1, int key1, HashTable t2, int key2 , String target1 , String target2)
-{
-  ArrayList intersection = new ArrayList<DataPoint>();
-  for (int i =0; i<t1.getDataByIndex(key1,target1).size(); i++)
-  {
-    DataPoint temp = t1.getDataByIndex(key1,target1).get(i);
-    for (int j=0; j<t2.getDataByIndex(key2,target2).size(); j++)
-    {
-      if (temp.equals(t2.getDataByIndex(key2,target2).get(j)))
-        intersection.add(temp);
-    }
-  }
-  return intersection;
-}
+//ArrayList<DataPoint> findIntersection(HashTable t1, int key1, HashTable t2, int key2 , String target1 , String target2)
+//{
+//  ArrayList intersection = new ArrayList<DataPoint>();
+//  for (int i =0; i<t1.getDataByIndex(key1,target1).size(); i++)
+//  {
+//    DataPoint temp = t1.getDataByIndex(key1,target1).get(i);
+//    for (int j=0; j<t2.getDataByIndex(key2,target2).size(); j++)
+//    {
+//      if (temp.equals(t2.getDataByIndex(key2,target2).get(j)))
+//        intersection.add(temp);
+//    }
+//  }
+//  return intersection;
+//}
 
-ArrayList<DataPoint> findIntersection(HashTable t1, int key1 , String target)
+//ArrayList<DataPoint> findIntersection(HashTable t1, int key1 , String targetOrigin, String targetDest)
+//{
+//  ArrayList intersection = new ArrayList<DataPoint>();
+//  for (int i =0; i<t1.getDataByIndex(key1,targetOrigin).size(); i++)
+//  {
+//    DataPoint temp = t1.getDataByIndex(key1,targetOrigin).get(i);
+//    if(temp.destCity.contains(targetDest))
+//    intersection.add(temp);
+//  }
+//  return intersection;
+//}
+void selectFlightsByDateAndOthers(String mode , String origin , String dest)   //Modes: Depart, Arrive , Both
 {
-  ArrayList intersection = new ArrayList<DataPoint>();
-  for (int i =0; i<t1.getDataByIndex(key1,target).size(); i++)
+  calendarDataPoint = new ArrayList<DataPoint>();
+  if (calendar.selectedInboundDay > -1 && calendar.selectedOutboundDay >= calendar.selectedInboundDay)
+  {  
+    ArrayList<DataPoint> filter = new ArrayList<DataPoint>();
+    switch (mode)
   {
-    DataPoint temp = t1.getDataByIndex(key1,target).get(i);
-   //println(key1);
-    intersection.add(temp);
+    case "Depart":
+       filter = tableOfOrigin.getDataByIndex(hashFuncForCity(origin), origin); 
+       break;
+    case "Arrive":
+        filter = tableOfDestination.getDataByIndex(hashFuncForCity(dest),dest);
+        break;
+    case "Both" :
+        for(DataPoint p : tableOfOrigin.getDataByIndex(hashFuncForCity(origin), origin))  //double filtering
+        {
+          if(p.destCity.contains(dest))
+          filter.add(p);
+        }
+        break;
+        default: break;
   }
-  return intersection;
-}
-
-void selectFlightsByDateAndOthers(ArrayList<DataPoint> filter)
-{
-  calendarDataPoint = new ArrayList<DataPoint> ();
-  flightSelected = false;
-  if (!calendar.singleDateMode)
-  {
-    if (calendar.selectedInboundDay > -1 && calendar.selectedOutboundDay >= calendar.selectedInboundDay)
+    for (int day = calendar.selectedInboundDay; day <= calendar.selectedOutboundDay; day++)
     {
-      for (int day = calendar.selectedInboundDay; day <= calendar.selectedOutboundDay; day++)
-      {
-        int index = day - 1;
-        LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
-        for (int j= 0; j< dayDataPoints.size(); j++)
-        {
-          for (int i = 0; i<filter.size(); i++)
-          {
-            if (filter.get(i).equals(dayDataPoints.get(j)))
-              calendarDataPoint.add(dayDataPoints.get(j));
-          }
-        }
-      }
-    }
-  } else
-  {
-    for (int day = calendar.selectedInboundDay; day <= calendar.selectedInboundDay; day++)
-    {
-      int index = day - 1;
-      LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
-      for (int j= 0; j< dayDataPoints.size(); j++)
-      {
-        for (int i = 0; i<filter.size(); i++)
-        {
-          if (filter.get(i).equals(dayDataPoints.get(j)))
-          {
-            calendarDataPoint.add(dayDataPoints.get(j));
-          }
-        }
-      }
+       for(DataPoint p : filter)
+       {
+         if(p.day == day)
+         calendarDataPoint.add(p);
+       }
     }
   }
 }
+//void selectFlightsByDateAndOthers(ArrayList<DataPoint> filter)
+//{
+//  calendarDataPoint = new ArrayList<DataPoint> ();
+//  flightSelected = false;
+//  print(filter.size());
+//  if (!calendar.singleDateMode)
+//  {
+//    if (calendar.selectedInboundDay > -1 && calendar.selectedOutboundDay >= calendar.selectedInboundDay)
+//    {
+//      for (int day = calendar.selectedInboundDay; day <= calendar.selectedOutboundDay; day++)
+//      {
+//        int index = day - 1;
+//        LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
+//        //for (int j= 0; j< dayDataPoints.size(); j++)
+//        //{
+//          for (int i = 0; i<filter.size(); i++)
+//          {
+//            if (filter.get(i).day == day)
+//            {
+//              println(filter.get(i).origin);
+//              calendarDataPoint.add(filter.get(i));
+//            }
+//          //}
+//        }
+//      }
+//    }
+//  } else
+//  {
+//    for (int day = calendar.selectedInboundDay; day <= calendar.selectedInboundDay; day++)
+//    {
+//      int index = day - 1;
+//      LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
+//      for (int j= 0; j< dayDataPoints.size(); j++)
+//      {
+//        for (int i = 0; i<filter.size(); i++)
+//        {
+//          if (filter.get(i).equals(dayDataPoints.get(j)))
+//          {
+//            calendarDataPoint.add(dayDataPoints.get(j));
+//          }
+//        }
+//      }
+//    }
+//  }
+//}
 
 
 

@@ -465,59 +465,45 @@ void draw() {
         { 
           if (calendar.inputChanged == "Departure Only")
           {
-            filter = findIntersection(tableOfOrigin, hashFuncForCity(calendar.depart),calendar.depart);
-            selectFlightsByDateAndOthers(filter);
-            currentScreen = SCREEN_SELECT;
+            selectFlightsByDateAndOthers("Depart",calendar.depart,calendar.arrive);   //departure mode
           } else if (calendar.inputChanged == "Arrival Only")
           {
-            filter = findIntersection(tableOfDestination, hashFuncForCity(calendar.arrive),calendar.arrive);
-            selectFlightsByDateAndOthers(filter);
-            currentScreen = SCREEN_SELECT;
+             selectFlightsByDateAndOthers("Arrive",calendar.depart,calendar.arrive);  //arrival mode
           } else if (calendar.inputChanged == "Departure & Arriving")
           {
-            filter = findIntersection(tableOfOrigin, hashFuncForCity(calendar.depart), tableOfDestination, hashFuncForCity(calendar.arrive),calendar.depart,calendar.arrive);
-            selectFlightsByDateAndOthers(filter);
-            currentScreen = SCREEN_SELECT;
+             selectFlightsByDateAndOthers("Both",calendar.depart,calendar.arrive);
           } else if (calendar.inputChanged == "Single Date Only")
           {
             selectFlightsByDate();
-            currentScreen = SCREEN_SELECT;
           } else if (calendar.inputChanged == "Date range")
           {
             selectFlightsByDate();
-            currentScreen = SCREEN_SELECT;
           }
+           currentScreen = SCREEN_SELECT;
         }
         
-          if (calendar.finalToGoGraph())
+    if (calendar.finalToGoGraph())
+      {
+         if (calendar.inputChanged == "Departure Only")
           {
-          if (calendar.inputChanged == "Departure Only")
-          {
-            filter = findIntersection(tableOfOrigin, hashFuncForCity(calendar.depart),calendar.depart);
-            selectFlightsByDateAndOthers(filter);
-             currentScreen = SCREEN_GRAPH;
+            selectFlightsByDateAndOthers("Depart",calendar.depart,calendar.arrive);   //departure mode
           } else if (calendar.inputChanged == "Arrival Only")
           {
-            filter = findIntersection(tableOfDestination, hashFuncForCity(calendar.arrive),calendar.arrive);
-            selectFlightsByDateAndOthers(filter);
-             currentScreen = SCREEN_GRAPH;
+             selectFlightsByDateAndOthers("Arrive",calendar.depart,calendar.arrive);  //arrival mode
           } else if (calendar.inputChanged == "Departure & Arriving")
           {
-            filter = findIntersection(tableOfOrigin, hashFuncForCity(calendar.depart), tableOfDestination, hashFuncForCity(calendar.arrive),calendar.depart,calendar.arrive);
-            selectFlightsByDateAndOthers(filter);
-             currentScreen = SCREEN_GRAPH;
+             selectFlightsByDateAndOthers("Both",calendar.depart,calendar.arrive);
           } else if (calendar.inputChanged == "Single Date Only")
           {
             selectFlightsByDate();
-            currentScreen = SCREEN_GRAPH;
           } else if (calendar.inputChanged == "Date range")
           {
             selectFlightsByDate();
-            currentScreen = SCREEN_GRAPH;
           }
           createHashMaps(calendarDataPoint);
-          createCharts();
-        }
+             createCharts();
+             currentScreen = SCREEN_GRAPH;
+      }
       }
       currentEvent = searchScreen.returnEvent();
        if (currentEvent == SCREEN_GRAPH)

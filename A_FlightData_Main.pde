@@ -1,4 +1,4 @@
-import java.util.Scanner; //<>// //<>// //<>// //<>// //<>//
+import java.util.Scanner; //<>// //<>// //<>// //<>// //<>// //<>//
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -78,6 +78,7 @@ ArrayList<String> airports = new ArrayList<String>();
 //events ends//
 
 ArrayList<String> optionsForOrdering = new ArrayList<String>();
+ArrayList<DataPoint> guessWhatItsAnotherTemp = new ArrayList<DataPoint>();
 DateCalander calendar;
 SearchBox forOptions;
 int count;
@@ -520,17 +521,28 @@ void draw() {
 
   case SCREEN_SELECT :
     {
-        Collections.addAll(optionsForOrdering, "By Time", "By ", "By _");
-//      forOptions = new SearchBox(); 
-
-      
+        Collections.addAll(optionsForOrdering, "By Time", "Reversed Time", "Reversed Time", "By Alphabetical For Origin", "By Alphabetical For Destination");
       if (!flightSelected)
       {
         temp = createSelections(calendarDataPoint);  //temp is a list of buttons consisting the information of the flights
         flightSelected = true;
+        guessWhatItsAnotherTemp = new ArrayList<DataPoint>();
+        forOptions = new SearchBox(optionsForOrdering, int(calendar.x * 30), int(calendar.y * 2), int(40 * calendar.x), int(4 * calendar.y), 10, "Default: By Date");; 
       }
+      guessWhatItsAnotherTemp.addAll(calendarDataPoint);
       selectScreen.draw();
-      showFlightSelections(temp, calendarDataPoint);
+      if(forOptions.searchQuery == "Default: By Date")
+      {
+        showFlightSelections(temp, calendarDataPoint);
+      }
+      else if(forOptions.searchQuery == "Reversed By Date")
+      {
+        Collections.reverse(guessWhatItsAnotherTemp);
+        
+        
+        showFlightSelections(temp, guessWhatItsAnotherTemp);
+      }
+      forOptions.draw();
       currentEvent = returnEventFromListOfButton(temp);
       if (currentEvent>=100)  //the flights events are allocated after 100
       {
@@ -664,6 +676,10 @@ void mousePressed() {
   {
     calendar.mousePressed(mouseX, mouseY);
   }
+  if (currentScreen == 5)
+  {
+    forOptions.mousePressed();
+  }
   //dropdown menu:
   //  mousePressedDropdown();
 }
@@ -672,6 +688,10 @@ void mouseWheel(MouseEvent event) {
   if (currentScreen == 4)
   {
     calendar.mouseWheel(event);
+  }
+  if (currentScreen == 5)
+  {
+    forOptions.mouseWheel(event);
   }
   //if (showingData != null) {
   //  showingData.mouseWheel(event);
@@ -682,6 +702,10 @@ void keyPressed() {
   if (currentScreen == 4)
   {
     calendar.keyPressed();
+  }
+    if (currentScreen == 5)
+  {
+    forOptions.keyPressed();
   }
 }
 

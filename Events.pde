@@ -249,6 +249,7 @@ void showFlightSelections( ArrayList<Button> theButtons, ArrayList<DataPoint> th
     button.display();
     button.update();
   }
+  strokeWeight(1);
   stroke(#FF1FA6);
   line(1, 7.5*y, displayWidth/2,7.5*y);
   for (int i =1; i<=flightsPerPage && i + currentPage*flightsPerPage <= theButtons.size(); i++)

@@ -91,14 +91,13 @@ class SearchBox
     
     void drawGlow(float t, float p, float w, float h, int glowColor)
     {
-      
         int glowSize = 10;  
         for(int i = glowSize; i>0; i--)
         {
             int alphaValue = (int)map(i, 0, glowSize, 0, 150);
             fill(red(glowColor), green(glowColor), blue(glowColor), alphaValue);
             //rectMode(RIGHT);
-            rect(t-i, p-i, w+i*2, h+i*2);
+            rect(t-i, p-i, w+i*2, h+i*2, round);
         }
     }
 

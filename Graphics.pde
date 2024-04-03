@@ -417,6 +417,8 @@ class PieChart
 
 BarChart quickBar(ArrayList<DataPoint> data , String iv ,String dv, String datePeriod)   //what do u wish---supporting: Route/Distance , Airport/Flights
 {
+  float x = displayWidth/200.0;          //unit x
+  float y = (displayHeight*9/10)/100.0;         //unit y
   BarChart templeBar = new BarChart();          //temple BAR GET DRUNK HAHAHAHA
   int bins = 5;
   if(dv.equalsIgnoreCase("Distance"))
@@ -446,7 +448,7 @@ BarChart quickBar(ArrayList<DataPoint> data , String iv ,String dv, String dateP
 
     }
   //    print(dis[0]);
-//need fix      templeBar = new BarChart(int(20*x) , int(30*y) , int(40*x) , int(30*y) , dis , bins , labels ,"TOP_" +bins+"_Longest_Routes_From"+datePeriod , "Routes" , "Distance");
+        templeBar = new BarChart(int(20*x) , int(30*y) , int(40*x) , int(30*y) , dis , bins , labels ,"TOP_" +bins+"_Longest_Routes_From"+datePeriod , "Routes" , "Distance");
   }
   else if(dv.equalsIgnoreCase("Airport"))
   {

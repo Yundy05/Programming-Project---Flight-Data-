@@ -166,7 +166,6 @@ void setup()
   //Screen History Arrows - Andy
   screenArrow = new ArrayList<Integer>();
   //Searching Bar
-  setupSearchingBar();  
 }
 
 void initiateSetup()
@@ -926,7 +925,7 @@ int[] countCancelDelayDivert(ArrayList <DataPoint> data)
 void read_in_the_file()
 {
   dataPoints = new ArrayList <DataPoint> ();
-  reader = createReader("flights2k.csv");    //change the file here
+  reader = createReader("flights_full.csv");    //change the file here
   // hashMap = new HashMap<>();
   try {
     line = reader.readLine();

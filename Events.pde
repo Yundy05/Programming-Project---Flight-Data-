@@ -245,7 +245,7 @@ Button createButtonForFlight(DataPoint p, int i)
   float x = displayWidth/200.0;          //unit x
   float y = (displayHeight*9/10)/100.0;         //unit y
   Button aButton;
-  aButton = new fontChangingButton(60*x, 10*y + 10*  (i%flightsPerPage)  *y, 30*x, 5*y, "LET'S GO!", #36DFFF, #BF2E2E, 100+i, 194, 0, 10);
+  aButton = new fontChangingButton(69*x, 10*y + 10*  (i%flightsPerPage)  *y, 30*x, 5*y, "LET'S GO!", #36DFFF, #BF2E2E, 100+i, 194, 0, 10);
   return aButton;
 }
 

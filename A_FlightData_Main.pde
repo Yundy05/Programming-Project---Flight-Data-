@@ -41,7 +41,7 @@ final int SCREEN_GRAPH = 2;
 final int SCREEN_INDIVIDUAL_FLIGHT = 3;
 final int SCREEN_SEARCH = 4;
 final int SCREEN_SELECT = 5;
-final int SCREEN_SEARCH_BAR = 6;
+//final int SCREEN_SEARCH_BAR = 6;
 final int SCREEN_HISTOGRAM = 7;
 final int SCREEN_PIE_CHART = 8;
 final int SCREEN_BAR_CHART = 9;
@@ -76,9 +76,10 @@ ArrayList<String> cities = new ArrayList<String>();
 ArrayList<String> airports = new ArrayList<String>();
 //ArrayList<DataPoint> selectedFlights = new ArrayList<DataPoint>();
 //events ends//
+
+ArrayList<String> optionsForOrdering = new ArrayList<String>();
 DateCalander calendar;
-
-
+SearchBox forOptions;
 int count;
 
 ArrayList <DataPoint> dataPoints;
@@ -160,8 +161,6 @@ void setup()
   //print(airports);
   // filter test example  (originCity,destCity,startDay,endDay,only show non-cancelled flights)
  // getFilteredFlights("Chicago, IL", "", 1, 5, true);
-
-
   //Screen History Arrows - Andy
   screenArrow = new ArrayList<Integer>();
   //Searching Bar
@@ -235,7 +234,7 @@ void draw() {
       // drawDropdown();
       currentEvent = homeScreen.returnEvent();
       if (currentEvent == SCREEN_SELECT)
-        currentScreen = SCREEN_SEARCH_BAR;
+        currentScreen = SCREEN_SEARCH;
       else if (currentEvent == SCREEN_GRAPH)
         currentScreen = SCREEN_GRAPH;
     }
@@ -456,10 +455,10 @@ void draw() {
         textSize(TS/1.5);
         if (calendar.singleDateMode)
         {
-          text("Press \"View Flights\" \nOr \"GRAPHS\" \n to view data", calendar.x * 28, calendar.y * 88);
+          text("Press \"View Flights\" \nOr \"GRAPHS\" \n to view data", calendar.x * 28, calendar.y * 86);
         } else
         {
-          text("Press \"View Flights\" \nOr \"GRAPHS\" \n to view data", calendar.x * 28, calendar.y * 88);
+          text("Press \"View Flights\" \nOr \"GRAPHS\" \n to view data", calendar.x * 28, calendar.y * 86);
         }
         if (calendar.finalToGoSelect())
         { 
@@ -526,30 +525,15 @@ void draw() {
     break;
 /////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH
 
-
-
-////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR
-  case SCREEN_SEARCH_BAR :
-    {
-      searchBarScreen.draw();
-      currentEvent = searchBarScreen.returnEvent();
-     if (currentEvent == SCREEN_SEARCH)
-        currentScreen = SCREEN_SEARCH;
-        //CHANGE THIS FOR FILTER BUTTONS 
-     else if (currentEvent == EVENT_BUTTON_FILTER_AIRPORT)
-        currentScreen = SCREEN_SEARCH;
-     else if (currentEvent == EVENT_BUTTON_FILTER_2)
-        currentScreen = SCREEN_SEARCH;      
-    }
-    break;
-
-////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR////////////SCREEN_SEARCH_BAR
-
 ////////////SCREEN_SELECT////////////SCREEN_SELECT////////////SCREEN_SELECT////////////SCREEN_SELECT////////////SCREEN_SELECT////////////SCREEN_SELECT////////////SCREEN_SELECT////////////SCREEN_SELECT////////////SCREEN_SELECT
 
 
   case SCREEN_SELECT :
     {
+        Collections.addAll(optionsForOrdering, "By Time", "By ", "By _");
+//      forOptions = new SearchBox(); 
+
+      
       if (!flightSelected)
       {
         temp = createSelections(calendarDataPoint);  //temp is a list of buttons consisting the information of the flights
@@ -922,7 +906,7 @@ int[] countCancelDelayDivert(ArrayList <DataPoint> data)
 void read_in_the_file()
 {
   dataPoints = new ArrayList <DataPoint> ();
-  reader = createReader("flights_full.csv");    //change the file here
+  reader = createReader("flights2k.csv");    //change the file here
   // hashMap = new HashMap<>();
   try {
     line = reader.readLine();

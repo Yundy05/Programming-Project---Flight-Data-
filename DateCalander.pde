@@ -47,13 +47,14 @@ class DateCalander
     //  scale(displayWidth/2560.0,displayHeight/1600.0);
     textAlign(CENTER,CENTER);
     textFont(font);
-    fill(225);
+    fill(225,255,255, 140);
     noStroke();
-    rect(5 * x, 12 * y, 90 * x, 80 * y, 20);
-    rect(5 * x, 8 * y, 20 * x, 5 * y);
-
+    rect(5 * x, 12 * y, 90 * x, 80 * y);
+    blendMode(BLEND   );
+    rect(5 * x, 8 * y, 20 * x, 4 * y);
+    
     textSize(0.7 * tR);
-    fill(100);
+    fill(255);
     image(takeOff, 6 * x, 8.5 * y);
     text("Check a flight", 16 * x, 9.5 * y);
     displayForCalendar();
@@ -128,7 +129,7 @@ boolean calendarShowing()
     colorMode(RGB,255);
     textFont(font);
     textSize(1 * tR);
-    fill(255);
+    fill(225,255,255, 80);
     rect(25 * x, 47 * y, 50 * x, 44 * y, 35);
     for (int i = 0; i < totalDays; i++) {
       int xPos = int((i % 7) * 6.25*x + 28.5 * x);
@@ -268,7 +269,7 @@ void toggleSingle()
     circleXPos =  63 * x + 8* x - 2.5 * y;
     fill(0);
     textSize(25);
-    text("On", 66 * x, 52 * y);
+    text("On", 64.5 * x, 52.8 * y);
   }
   
   else
@@ -279,7 +280,7 @@ void toggleSingle()
     circleXPos = 63 * x;
     fill(255);
     textSize(25);
-    text("Off", 67 * x, 52 * y);
+    text("Off", 67 * x, 52.8 * y);
   }
   fill(255); // White for the circle
   ellipse(circleXPos + (2.5 * y)/2, 51 * y + (2.5 * y)/2, 2.5 * y *0.8, 2.5 * y *0.8);

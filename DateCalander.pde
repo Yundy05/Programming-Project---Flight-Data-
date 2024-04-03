@@ -16,16 +16,17 @@ class DateCalander
   boolean toggleClickMode = false;
   boolean errorOption = false;
   String inputChanged = "";
+  String depart = "";
+  String arrive = "";
   int circleXPos;
   ArrayList<DataPoint> dp = new ArrayList <DataPoint> ();
   ArrayList<String> departureOrArrive = new ArrayList<String>();
   ArrayList<String> departure = new ArrayList<String>();
   ArrayList<String> arrival = new ArrayList<String>();
 
-  DropdownTextbox dropdownOption1;
-  DropdownTextbox dropdownOption2;
-  DropdownTextbox dropdownOption3;
-  DropdownTextbox dropdownOption4;
+  SearchBox dropdownOption1;
+  SearchBox dropdownOption2;
+  SearchBox dropdownOption3;
 
   Button toSelect =  new Button(50*x, 80*y, 20*x, 4*y, "View Flights", #8080ff, #b3b3ff, SCREEN_SELECT, 10); //glowsize set to 10 for default use
   Button toGraph = new Button(50*x, 85 *y, 20*x, 4*y, "GRAPHS", #8080ff, #b3b3ff, SCREEN_GRAPH, 10);
@@ -34,12 +35,11 @@ class DateCalander
   {
     this.amountOfDays = amountOfDays;
     takeOff.resize(int(3 * x), int(2 * y));
-    dropdownOption1 = new DropdownTextbox(int(x * 10), int(x * 15), int(80 * x), int(5 * y), 10);
-    dropdownOption2 = new DropdownTextbox(int(x * 10), int(x * 25), int(80 * x), int(5 * y), 10);
-    dropdownOption3 = new DropdownTextbox(int(x * 10), int(x * 35), int(80 * x), int(5 * y), 10);
-    dropdownOption4 = new DropdownTextbox(int(x * 10), int(x * 45), int(80 * x), int(5 * y), 10);
     Collections.addAll(departureOrArrive, "Departure Only", "Arrival Only", "Departure & Arriving", "Single Date Only", "Date range");
-    dropdownOption1.addOptions(departureOrArrive);
+    dropdownOption1 = new SearchBox(departureOrArrive, int(x * 10), int(y * 15), int(80 * x), int(5 * y), 10, " ");
+    dropdownOption2 = new SearchBox(cities, int(x * 10), int(y * 22), int(80 * x), int(5 * y), 10, "Departing at....");
+    dropdownOption3 = new SearchBox(cities, int(x * 10), int(y * 29), int(80 * x), int(5 * y), 10, "Arriving at....");
+
   }
 
   void displayForOrigin()
@@ -57,54 +57,49 @@ class DateCalander
     image(takeOff, 6 * x, 8.5 * y);
     text("Check a flight", 16 * x, 9.5 * y);
     displayForCalendar();
-    dropdownOption4.draw();
     dropdownOption3.draw();
     dropdownOption2.draw();
     dropdownOption1.draw();
 
-    if (dropdownOption1.inputText == "Departure & Arriving")
+    if (dropdownOption1.searchQuery == "Departure & Arriving")
     {
-      dropdownOption2.inputText = "Departure: " + OriginCity;
-      dropdownOption3.inputText = "Arrival: " + DestinationCity;
+      if(dropdownOption2.searchQuery == " ")
+      {
+        dropdownOption2.searchQuery = "Departing at....";
+      }
+      if(dropdownOption3.searchQuery == " ")
+      {
+        dropdownOption3.searchQuery = "Arriving at....";
+      }
+     
     } 
-    else if (dropdownOption1.inputText == "Departure Only")
+    else if(dropdownOption1.searchQuery == "Departure Only")
     {
-      dropdownOption3.inputText = "Arrival: Any";
-      if(OriginCity == null)
+      if(dropdownOption2.searchQuery == " ")
       {
-        dropdownOption2.inputText = "Departure: ERROR";
+          dropdownOption2.searchQuery = "Departing at....";
       }
-      else
-      {
-      dropdownOption2.inputText = "Departure: " + OriginCity;
-      }
+      dropdownOption3.searchQuery = "Arrival: Any";
     }
-    else if (dropdownOption1.inputText == "Arrival Only")
+    else if(dropdownOption1.searchQuery == "Arrival Only")
     {
-      dropdownOption2.inputText = "Departure: Any";
-      if(DestinationCity == null)
+      if(dropdownOption3.searchQuery == " ")
       {
-          dropdownOption3.inputText = "Arrival: ERROR";
+          dropdownOption3.searchQuery = "Arriving at....";
       }
-      else
-      {
-      dropdownOption3.inputText = "Arrival: " + DestinationCity;
-      }
+      dropdownOption2.searchQuery = "Departing: Any";
+    }
+    else if (dropdownOption1.searchQuery =="Single Date Only" || dropdownOption1.searchQuery == "Date range")
+    {
+      dropdownOption2.searchQuery = "Departure: Any";
+      dropdownOption3.searchQuery = "Arrival: Any";
     } 
-    else if (dropdownOption1.inputText =="Single Date Only" || dropdownOption1.inputText == "Date range")
+    
+    if (dropdownOption1.searchQuery == " ")
     {
-      dropdownOption2.inputText = "Departure: Any";
-      dropdownOption3.inputText = "Arrival: Any";
-    } 
-    if (dropdownOption1.inputText == " ")
-    {
-      dropdownOption1.inputText = ("Select Your Data Type");
-      dropdownOption2.inputText = ("Departing at....");
-      dropdownOption3.inputText = ("Arriving at....");
-      if(dropdownOption4.inputText == (" "))
-      {
-        dropdownOption4.inputText = ("Click to select dates");
-      }
+      dropdownOption1.searchQuery = ("Select Your Data Type");
+      dropdownOption2.searchQuery = ("Departing at....");
+      dropdownOption3.searchQuery = ("Arriving at....");
     }
     
     if(toggleClickMode)
@@ -138,14 +133,14 @@ boolean calendarShowing()
     for (int i = 0; i < totalDays; i++) {
       int xPos = int((i % 7) * 6.25*x + 28.5 * x);
       int yPos = int((i / 7) * 6.25*y + 55 * y);
-      if (i + 1 == selectedInboundDay || i + 1 == selectedOutboundDay && dropdownOption1.inputText != "") {
+      if (i + 1 == selectedInboundDay || i + 1 == selectedOutboundDay && dropdownOption1.searchQuery != "") {
         strokeWeight(4);
         fill(color(50, 205, 50));
-      } else if (i + 1 > selectedInboundDay && i + 1 < selectedOutboundDay && dropdownOption1.inputText != "")
+      } else if (i + 1 > selectedInboundDay && i + 1 < selectedOutboundDay && dropdownOption1.searchQuery != "")
       {
         strokeWeight(2);
         fill(200);
-      } else if (i + 1 > amountOfDays || dropdownOption1.inputText == "" || !dropdownOption1.ifItIsOption)
+      } else if (i + 1 > amountOfDays || dropdownOption1.searchQuery == "" || !dropdownOption1.ifItIsOption)
       {
         strokeWeight(0);
         fill(120);
@@ -163,11 +158,13 @@ boolean calendarShowing()
     fill(0);
     text("January", 50 * x, 50 * y);
 
-    if (inputChanged != dropdownOption1.inputText)
+    if (inputChanged != dropdownOption1.searchQuery)
     {
+      dropdownOption2.searchQuery = " ";
+      dropdownOption3.searchQuery = " ";
       selectedInboundDay = -1;
       selectedOutboundDay = -1;
-      inputChanged = dropdownOption1.inputText;
+      inputChanged = dropdownOption1.searchQuery;
       toggleClickMode = false;
       if (inputChanged == "Departure & Arriving" || inputChanged == "Date range")
       {
@@ -189,6 +186,9 @@ boolean calendarShowing()
 
   void mousePressed(int mouseX, int mouseY) {
     dropdownOption1.mousePressed();
+    dropdownOption2.mousePressed();
+    dropdownOption3.mousePressed();
+
     //int clickedColumn = (int)((mouseX*2560.0/displayWidth - int(28.5 * x)) / 80);
     //int clickedRow = (int)((mouseY*1600.0/displayHeight - int(55 * y)) / 80);
     int clickedColumn = (int)((mouseX- int(28.5 * x)) / (6.25*x));
@@ -208,7 +208,7 @@ boolean calendarShowing()
     }
     
     
-    if (clickedDay > 0 && clickedDay <= amountOfDays && (dropdownOption1.inputText != "" && dropdownOption1.ifItIsOption)) {
+    if (clickedDay > 0 && clickedDay <= amountOfDays && (dropdownOption1.searchQuery != "" && dropdownOption1.ifItIsOption)) {
       float cellStartX = 28.5 * x + clickedColumn * 6.25*x;
       float cellEndX = cellStartX + 5.46*x;
       float cellStartY = 55 * y + clickedRow * 4.53*y;
@@ -244,11 +244,16 @@ boolean calendarShowing()
   void keyPressed()
   {
     dropdownOption1.keyPressed();
+    dropdownOption2.keyPressed();
+    dropdownOption3.keyPressed();
+
   }
 
   void mouseWheel(MouseEvent event)
   {
     dropdownOption1.mouseWheel(event);
+    dropdownOption2.mouseWheel(event);
+    dropdownOption3.mouseWheel(event);
   }
 
 
@@ -283,7 +288,10 @@ void toggleSingle()
 
 
   boolean isSelectionComplete() {
-    if(dropdownOption2.inputText == "Departure: ERROR"  || dropdownOption3.inputText == "Arrival: ERROR")
+    depart = dropdownOption2.searchQuery;
+    arrive = dropdownOption3.searchQuery;
+    if(dropdownOption2.searchQuery == " "  || dropdownOption2.searchQuery == "Departing at...." || dropdownOption3.searchQuery == " " || dropdownOption3.searchQuery == "Arriving at...." || 
+    (dropdownOption2.ifItIsOption == false && dropdownOption2.searchQuery != "Departing: Any") || (dropdownOption3.ifItIsOption == false && dropdownOption3.searchQuery != "Arrival: Any"))
     {
       return false;
     }

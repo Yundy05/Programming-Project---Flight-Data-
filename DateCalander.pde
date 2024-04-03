@@ -192,7 +192,7 @@ boolean calendarShowing()
     //int clickedColumn = (int)((mouseX*2560.0/displayWidth - int(28.5 * x)) / 80);
     //int clickedRow = (int)((mouseY*1600.0/displayHeight - int(55 * y)) / 80);
     int clickedColumn = (int)((mouseX- int(28.5 * x)) / (6.25*x));
-    int clickedRow = (int)((mouseY - int(55 * y)) / (4.53*y));
+    int clickedRow = (int)((mouseY - int(55 * y)) / (6.25*y));
     int clickedDay = clickedRow * 7 + clickedColumn + 1;
 
     if(toggleClickMode)
@@ -209,9 +209,9 @@ boolean calendarShowing()
     
     
     if (clickedDay > 0 && clickedDay <= amountOfDays && (dropdownOption1.searchQuery != "" && dropdownOption1.ifItIsOption)) {
-      float cellStartX = 28.5 * x + clickedColumn * 6.25*x;
+      float cellStartX = 28.5 * x + clickedColumn * 6.25 * x;
       float cellEndX = cellStartX + 5.46*x;
-      float cellStartY = 55 * y + clickedRow * 4.53*y;
+      float cellStartY = 55 * y + clickedRow * 6.25*y;
       float cellEndY = cellStartY + 4*y;    
       
       //       if (mouseX*2560.0/displayWidth >= cellStartX &&mouseX*2560.0/displayWidth <= cellEndX && mouseY*1600.0/displayHeight >= cellStartY && mouseY*1600.0/displayHeight <= cellEndY) {
@@ -290,10 +290,13 @@ void toggleSingle()
   boolean isSelectionComplete() {
     depart = dropdownOption2.searchQuery;
     arrive = dropdownOption3.searchQuery;
-    if(dropdownOption2.searchQuery == " "  || dropdownOption2.searchQuery == "Departing at...." || dropdownOption3.searchQuery == " " || dropdownOption3.searchQuery == "Arriving at...." || 
-    (dropdownOption2.ifItIsOption == false && dropdownOption2.searchQuery != "Departing: Any") || (dropdownOption3.ifItIsOption == false && dropdownOption3.searchQuery != "Arrival: Any"))
+    //ropdownOption2.searchQuery == " "  ||  || dropdownOption3.searchQuery == " " 
+    if(dropdownOption1.searchQuery != "Single Date Only" && dropdownOption1.searchQuery != "Date range")
     {
-      return false;
+      if(dropdownOption2.searchQuery == "Departing at...." || dropdownOption3.searchQuery == "Arriving at...." || (dropdownOption2.ifItIsOption == false && dropdownOption2.searchQuery != "Departing: Any") || (dropdownOption3.ifItIsOption == false && dropdownOption3.searchQuery != "Arrival: Any"))
+      {
+        return false;
+      }
     }
     if (singleDateMode) {
       return selectedInboundDay > -1;

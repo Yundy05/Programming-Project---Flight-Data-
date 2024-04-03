@@ -41,6 +41,7 @@ class SearchBox
 
     void draw()
     {
+        strokeWeight(0);
         textSize(0.6 * tR);
         drawGlow(x, y, widthh, heightt, color(#CFFCFB));
         textAlign(LEFT);
@@ -85,6 +86,7 @@ class SearchBox
         }
   //      updateFilteredOptions();
         overSearchBox();
+        strokeWeight(0);
     }
     
     void drawGlow(float t, float p, float w, float h, int glowColor)
@@ -157,7 +159,6 @@ class SearchBox
     {
       if(overSearchBox())
       {
-        println("1");
         textboxSelected = true;
         ddlVisible = true;
         searchQuery = "";
@@ -165,7 +166,6 @@ class SearchBox
       }
       else if(ddlVisible && overddl())
       {
-        print("2");
         int clickedIndex = (mouseY - int(y) - heightt) / dropdownItemHeight + scrollOffset;
         if(clickedIndex >=0 && clickedIndex < (filteredOptions.size()))
         {
@@ -178,7 +178,6 @@ class SearchBox
       }
       else
       {
-        println("3");
         textboxSelected = false;
         ddlVisible = false;
       }

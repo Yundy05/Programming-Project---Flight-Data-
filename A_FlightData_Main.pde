@@ -76,7 +76,6 @@ ArrayList<String> cities = new ArrayList<String>();
 ArrayList<String> airports = new ArrayList<String>();
 //ArrayList<DataPoint> selectedFlights = new ArrayList<DataPoint>();
 //events ends//
-ShowingData showingData;
 DateCalander calendar;
 
 
@@ -183,7 +182,6 @@ void initiateSetup()
   loadingPhase++;
   //data setup ends//
 
-  showingData = new ShowingData(20, 20, displayWidth/2, displayHeight - 100);
   calendar = new DateCalander(tableOfDates.size);
   //  Scanner input = new Scanner(System.in);
   //  setupDropDown();
@@ -612,25 +610,24 @@ void draw() {
 //}
 //}
 
-void printSortedFlightData()
-{
-  //jhy implimented a better working printing text that
-  //only prints the values within the screen and not all from very top to the scrollbar
-  HashTable tempT = tableOfDestination_Wac;
-  showingData.display();
-  if (count!=dataPoints.size())
-  {
-    for (int i = 0; i < tempT.size; i++)
-    {
-      LinkedList<DataPoint> temp = tempT.getDataByIndex(i);
-      for (int j= 0; j<temp.size(); j++)
-      {
-        showingData.addFlight(temp.get(j).getData());
-        count++;
-      }
-    }
-  }
-}
+//void printSortedFlightData()
+//{
+//  //jhy implimented a better working printing text that
+//  //only prints the values within the screen and not all from very top to the scrollbar
+//  HashTable tempT = tableOfDestination_Wac;
+//  if (count!=dataPoints.size())
+//  {
+//    for (int i = 0; i < tempT.size; i++)
+//    {
+//      LinkedList<DataPoint> temp = tempT.getDataByIndex(i);
+//      for (int j= 0; j<temp.size(); j++)
+//      {
+//        showingData.addFlight(temp.get(j).getData());
+//        count++;
+//      }
+//    }
+//  }
+//}
 
 ArrayList<DataPoint> getFilteredFlights (String origin, String dest, int date1, int date2, boolean nonCancelled)
 {
@@ -655,24 +652,24 @@ ArrayList<DataPoint> getFilteredFlights (String origin, String dest, int date1, 
   return selectedFlights;
 }
 
-void printOriginSortedFlightData()
-{
-  //jhy implimented a better working printing text that
-  //only prints the values within the screen and not all from very top to the scrollbar
-  showingData.display();
-  if (count!=dataPoints.size())
-  {
-    for (int i = 0; i < tableOfOrigin.size; i++)
-    {
-      LinkedList<DataPoint> temp = tableOfOrigin.getDataByIndex(i);
-      for (int j= 0; j<temp.size(); j++)
-      {
-        showingData.addFlight(temp.get(j).getData());
-        count++;
-      }
-    }
-  }
-}
+//void printOriginSortedFlightData()
+//{
+//  //jhy implimented a better working printing text that
+//  //only prints the values within the screen and not all from very top to the scrollbar
+//  //showingData.display();
+//  if (count!=dataPoints.size())
+//  {
+//    for (int i = 0; i < tableOfOrigin.size; i++)
+//    {
+//      LinkedList<DataPoint> temp = tableOfOrigin.getDataByIndex(i);
+//      for (int j= 0; j<temp.size(); j++)
+//      {
+//        showingData.addFlight(temp.get(j).getData());
+//        count++;
+//      }
+//    }
+//  }
+//}
 
 
 
@@ -688,7 +685,7 @@ void printOriginSortedFlightData()
 
 
 void mousePressed() {
-  showingData.mousePressed();
+//  showingData.mousePressed();
   if (currentScreen == 4)
   {
     calendar.mousePressed(mouseX, mouseY);
@@ -702,9 +699,9 @@ void mouseWheel(MouseEvent event) {
   {
     calendar.mouseWheel(event);
   }
-  if (showingData != null) {
-    showingData.mouseWheel(event);
-  }
+  //if (showingData != null) {
+  //  showingData.mouseWheel(event);
+  //}
 }
 
 void keyPressed() {
@@ -715,7 +712,7 @@ void keyPressed() {
 }
 
 void mouseReleased() {
-  showingData.mouseReleased();
+ // showingData.mouseReleased();
 }
 
 void mouseClicked() //Flight For Plane AND Pins

@@ -450,10 +450,10 @@ BarChart quickBar(ArrayList<DataPoint> data , String iv ,String dv, String dateP
   //    print(dis[0]);
         templeBar = new BarChart(int(20*x) , int(30*y) , int(40*x) , int(30*y) , dis , bins , labels ,"TOP_" +bins+"_Longest_Routes_From"+datePeriod , "Routes" , "Distance");
   }
-  else if(dv.equalsIgnoreCase("Airport"))
+ /* else if(dv.equalsIgnoreCase("Airport"))
   {
       // do nothing, use Vivian's graph, u can find that around bottom of main
-  }
+  }*/
   return templeBar;
 }
 
@@ -505,7 +505,8 @@ class BarChart
     this.gphH = gphH;
     this.gphW = gphW;
     //doubleToIntArray(data);
-    this.max = max(data);
+    //this.max = max(data);
+    this.max = (int)(max(data)*1.05);
     this.min = min(data);
     this.numOfBins = numOfBins;
     this.binWidth = this.gphW/ this.numOfBins-gap;
@@ -530,9 +531,12 @@ class BarChart
     fill(#32348E);
     for (int i=0; i<dependent.length; i++)
     {
-      int binHeight = (int)map(dependent[i], 0, this.max, 0, this.gphH);
+      //int binHeight = (int)map(dependent[i], 0, this.max, 0, this.gphH);
+      int binHeight = (int)(map(dependent[i],0, max, 0, gphH)/1.05);
      // println(binHeight);
       stroke(3);
+      textAlign(CENTER);
+      text(dependent[i], x+90 +binWidth*(i+0.5) + gap*i, (int)(y+gphH -binHeight +90)-10);
       rect(x+90 +binWidth*i + gap*i, (int)(y+gphH -binHeight +90), binWidth, (int)binHeight);
     }
   }

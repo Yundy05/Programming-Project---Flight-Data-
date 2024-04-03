@@ -754,9 +754,9 @@ void createHashMaps()            //!!! Use this function to create ALL the HashM
     tableOfOrigin.putOrigin(data);
     tableOfOrigin_Wac.putOriginWac(data);
     tableOfDestination.putDestination(data);
-    tableOfDestination_Wac.putDestinationWac(data);
-    tableOfAirports_Origin.putAirport(data, data.origin);
-    tableOfAirports_Dest.putAirport(data, data.dest);
+//    tableOfDestination_Wac.putDestinationWac(data);               Better performance, keep commented for now
+//    tableOfAirports_Origin.putAirport(data, data.origin);
+//    tableOfAirports_Dest.putAirport(data, data.dest);
     int arrDelay = (int)(data.getArrDelay())/60;
     arrDelayFreq.put(arrDelay, arrDelayFreq.getOrDefault(arrDelay, 0) + 1);
   }

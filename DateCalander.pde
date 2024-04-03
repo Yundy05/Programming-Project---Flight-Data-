@@ -187,8 +187,23 @@ boolean calendarShowing()
 
   void mousePressed(int mouseX, int mouseY) {
     dropdownOption1.mousePressed();
-    dropdownOption2.mousePressed();
-    dropdownOption3.mousePressed();
+    if(dropdownOption1.textboxSelected)
+    {
+      dropdownOption2.textboxSelected = false;
+      dropdownOption3.textboxSelected = false;
+    }
+    
+    if(!dropdownOption1.textboxSelected && dropdownOption1.searchQuery != "Arrival Only" && dropdownOption1.searchQuery != "Single Date Only" && dropdownOption1.searchQuery != "Date range")
+    { 
+      dropdownOption3.textboxSelected = false;
+      dropdownOption2.mousePressed();
+    }
+    if(!dropdownOption1.textboxSelected && !dropdownOption2.textboxSelected && dropdownOption1.searchQuery != "Departure Only" && dropdownOption1.searchQuery != "Single Date Only" && dropdownOption1.searchQuery != "Date range")
+    {   
+       dropdownOption1.textboxSelected = false;
+       dropdownOption2.textboxSelected = false;
+       dropdownOption3.mousePressed();
+    }
 
     //int clickedColumn = (int)((mouseX*2560.0/displayWidth - int(28.5 * x)) / 80);
     //int clickedRow = (int)((mouseY*1600.0/displayHeight - int(55 * y)) / 80);

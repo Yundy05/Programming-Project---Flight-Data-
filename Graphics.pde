@@ -7,7 +7,26 @@ void GraphicsSetUp()
 }
 
 
-public int[] getFrequency(int[] aList , float interval)
+public float[] getRelativeFrequency(int[] aList , float interval)        //get relative frequency
+{
+  float[] f = new float[(int)Math.ceil(max(aList)/interval)];
+  //sort(aList);
+
+  for (int i = 0; i<f.length; i++)
+  {
+    for (int j=0; j<aList.length; j++)
+    {
+      if (aList[j]>=i*interval && aList[j]<(i+1)*interval)
+      {
+        f[i]++;
+      }
+    }
+    f[i] /= (float)aList.length;
+  }
+  return f;
+}
+
+public int[] getFrequency(int[] aList, float interval)              //get absolute frequency
 {
   int[] f = new int[(int)Math.ceil(max(aList)/interval)];
   //sort(aList);
@@ -21,6 +40,29 @@ public int[] getFrequency(int[] aList , float interval)
         f[i]++;
       }
     }
+  }
+  return f;
+}
+
+public int[] getFrequency(int[] aList, float interval, int max)         //get desired frequency from limited classes.
+{
+  int[] f = new int[max];
+  //sort(aList);
+
+  for (int i = 0; i<f.length-1; i++)
+  {
+    for (int j=0; j<aList.length; j++)
+    {
+      if (aList[j]>=i*interval && aList[j]<(i+1)*interval)
+          {
+            f[i]++;
+          }
+    }
+  }
+  for(int j : aList)
+  {
+    if(j>=(max-1)*interval)
+    f[f.length-1]++;
   }
   return f;
 }
@@ -42,7 +84,7 @@ Histogram quickFrequencyHistogram(ArrayList<DataPoint> data, String variable, St
     while (max%interval!=0)
       max++;
     int bins = max / interval;
-    tempHistogram = new Histogram(int(20*x), int(30*y), int(40*x), int(30*y), getFrequency(delay, (float)interval), bins, 0, max, "Delay_Frequency_From"+datePeriod, "Delay(min)", "Absolute Frequency");
+    tempHistogram = new RelativeHistogram(int(20*x), int(30*y), int(40*x), int(30*y), getRelativeFrequency(delay, (float)interval), bins, 0, max, "Delay_Frequency_From"+datePeriod, "Delay(min)", "Absolute Frequency");
   }
   if (variable.equalsIgnoreCase("Distance"))
   {
@@ -54,9 +96,8 @@ Histogram quickFrequencyHistogram(ArrayList<DataPoint> data, String variable, St
     {
       distance[i] = data.get(i).distance;
     }
-    tempHistogram = new Histogram(int(20*x), int(30*y), int(40*x), int(30*y), getFrequency(distance, (float)interval), bins, 0, max, "Distance_Frequency_From"+datePeriod, "Distance(miles)", "Absolute Frequency");
+    tempHistogram = new RelativeHistogram(int(20*x), int(30*y), int(40*x), int(30*y), getRelativeFrequency(distance, (float)interval), bins, 0, max, "Distance_Frequency_From"+datePeriod, "Distance(miles)", "Absolute Frequency");
   }
-
   return tempHistogram;
 }
 
@@ -66,7 +107,7 @@ class Histogram
   int gphH, gphW;
   int[] data;
   int[] frequency;
-  int max;
+  float max;
   int min;
   int numOfBins, binWidth;
   int gap = 10;
@@ -81,16 +122,17 @@ class Histogram
   // data array is your data collection, range is your data range, like year 6~`12, 6~12 is the range
   Histogram()         //
   {
-  }
-  Histogram(int x, int y, int gphH, int gphW, double[] data, int numOfBins, int rangeMin,
+  }  
+  
+  Histogram(int x, int y, int gphH, int gphW, float[] data, int numOfBins, int rangeMin,
     int rangeMax, String title, String labelX, String labelY )
   {
     this.x = x;
     this.y = y;
     this.gphH = gphH;
     this.gphW = gphW;
-    doubleToIntArray(data);
-    this.max = max(this.data);
+  //  doubleToIntArray(data);
+    this.max = max(this.data)*1.2;
     this.min = min(this.data);
     this.numOfBins = numOfBins;
     this.binWidth = this.gphW/ this.numOfBins;
@@ -112,7 +154,7 @@ class Histogram
     this.gphW = gphW;
     this.data=data;
     // doubleToIntArray(data);
-    this.max = max(this.data);
+    this.max = max(this.data)*1.2;
     this.min = min(this.data);
     this.numOfBins = numOfBins;
     this.binWidth = this.gphW/ this.numOfBins;
@@ -170,6 +212,56 @@ class Histogram
     }
   }
 }
+class RelativeHistogram extends Histogram
+  {
+    float[] data;
+    RelativeHistogram(int x, int y, int gphH, int gphW, float[] data, int numOfBins, int rangeMin,
+    int rangeMax, String title, String labelX, String labelY )
+    {
+      this.x = x;
+      this.y = y;
+      this.gphH = gphH;
+      this.gphW = gphW;
+      this.max = max(data)*1.2;
+      this.min = 0;
+      this.numOfBins = numOfBins;
+      this.binWidth = this.gphW/ this.numOfBins;
+      this.rangeMin = rangeMin;
+      this.rangeMax = rangeMax;
+      this.title = title;
+      this.labelX = labelX; // label for x axis
+      this.labelY = labelY;
+      this.data = data;
+      setupGrafica();
+    }
+ 
+ void drawHistogram()
+  {
+    plot.setTitleText(title);
+    plot.getXAxis().setAxisLabelText(labelX);
+    plot.getYAxis().setAxisLabelText(labelY);
+
+    plot.defaultDraw();
+    //plot.setHistType(GPlot.VERTICAL);
+    //plot.setHistVisible(true);
+
+
+    plot.setPos(x, y);
+    plot.setDim(gphW, gphH);
+    // Activate the zooming and panning
+    //plot.activatePanning();
+    //plot.activateZooming(1.1, CENTER, CENTER);
+    fill(#32348E);
+
+    for (int i=0; i<data.length; i++)
+    {
+      float binHeight = map(data[i], 0, max, 0, gphH);
+      //println(binHeight);
+      stroke(3);
+      rect(x+90 +binWidth*i, (y+gphH -binHeight +90), binWidth, binHeight);
+    }
+  }
+ }
 PieChart quickFrequencyPie(ArrayList<DataPoint> data , String variable , String datePeriod)   //what do u wish---supporting: Delay , Distance
 {
   float x = displayWidth/200.0;          //unit x
@@ -177,16 +269,18 @@ PieChart quickFrequencyPie(ArrayList<DataPoint> data , String variable , String 
   PieChart tempPie = new PieChart();
   if(variable.equalsIgnoreCase("Delay"))
   {
-    int interval = 20;
+    int interval = 30;
     int[] delay = new int[data.size()];
     for(int i=0 ; i<data.size() ; i++)
     {
       delay[i] = data.get(i).getArrDelay()+data.get(i).getDepDelay();
+//      print(delay[i]+" ");
     }
    // int max = max(delay);
    // while(max%interval!=0)
     //max++;
-    int[] f = getFrequency(delay,(float)interval);
+    //0.2991299 0.10711071 0.07850785 0.05260526 0.03770377 0.02980298 0.018801881 0.01480148 0.01220122 0.4149415
+    int[] f = getFrequency(delay,(float)interval,7);
     String[] labels = new String[f.length];
     labels[0] = "D <="+interval+"min";
     for(int i=1 ; i<f.length-1 ;i++)
@@ -205,7 +299,7 @@ PieChart quickFrequencyPie(ArrayList<DataPoint> data , String variable , String 
      {
        distance[i] = data.get(i).distance;
      }
-     int[] f = getFrequency(distance,(float)interval);
+     int[] f = getFrequency(distance,(float)interval,7);
      String[] labels = new String[f.length];
      if(f.length>1)
      {
@@ -219,6 +313,11 @@ PieChart quickFrequencyPie(ArrayList<DataPoint> data , String variable , String 
      else if(f.length==1)
      labels[0] = f[0]+"miles";
      tempPie = new PieChart(int(30*x) , int (50*y) , int(20*x) , f, labels, "Distance_Frequency_From " + datePeriod);
+   }
+   if(variable.equalsIgnoreCase("Status"))
+   {
+     String[] labels = {"normal", "cancel", "delay", "divert"};
+     tempPie = new PieChart(int(30*x) , int (50*y) , int(20*x) , countCancelDelayDivert(data), labels, "Status_Frequency_From " + datePeriod);
    }
   return tempPie;
 }
@@ -246,7 +345,7 @@ class PieChart
 
   float[] radians()
   {
-    int sum =0;
+    float sum =0;
     float[] radians = new float[data.length];
     for (int i = 0; i<data.length; i++)
     {
@@ -261,7 +360,6 @@ class PieChart
     {
       if(data[i] == 0)
       continue;
-      
       radians[i] = map(data[i], 0, sum, 0, 2*PI);
       //print(radians[i]);
     }
@@ -273,6 +371,7 @@ class PieChart
   }
   void drawPieChart()
   {
+
     rectMode(CORNER);
     noFill();
     stroke(255);
@@ -285,11 +384,12 @@ class PieChart
     float lastRadian = 0;
     for (int i=0; i<data.length; i++)
     {
-      if(data[i]==0)
-      continue;
+          if(radians[i]==0)
+          continue;
       colorMode(HSB, 255);
       int col = (int)map(i, 0, data.length, 0, 10);
-      noStroke();
+      strokeWeight(1);
+      stroke(0);
       fill(col *25, 105, 250);
       arc(x, y, radius *2, radius *2, lastRadian, lastRadian + radians[i], PIE);
       // show rects with text
@@ -298,16 +398,18 @@ class PieChart
       textAlign(LEFT);
       textSize(32);
       text(labels[i], x + 2 *radius +30, y-radius +16 + 30*i);
+      text(roundPercentage((radians[i]/(2.0*PI))*100)+"%", x+1.2*radius, y-radius +16 + 30*i);
       float halfAngle = radians[i]/2;
-      float x1 = x + radius * cos(lastRadian + halfAngle);
-      float y1 = y + radius * sin(lastRadian + halfAngle);
-      x1 = (x1 + x)/2;
-      y1 = (y1 + y)/2;
-      textAlign(CENTER);
+      pushMatrix();
+      translate(x,y);
+      float x1 =radius * cos(lastRadian + halfAngle);
+      float y1 =radius * sin(lastRadian + halfAngle);
+      textAlign(CENTER,CENTER);
       fill(0);
       //text(labels[i], x1, y1);
-      textAlign(LEFT);
-      text(roundPercentage((radians[i]/(2.0*PI))*100)+"%", x1, y1);
+      text(roundPercentage((radians[i]/(2.0*PI))*100)+"%", x1/1.5, y1/1.5);
+      translate(0,0);
+      popMatrix();
       lastRadian += radians[i];
     }
   }
@@ -345,7 +447,11 @@ BarChart quickBar(ArrayList<DataPoint> data , String iv ,String dv, String dateP
     }
   //    print(dis[0]);
       templeBar = new BarChart(int(20*x) , int(30*y) , int(40*x) , int(30*y) , dis , bins , labels ,"TOP_" +bins+"_Longest_Routes_From"+datePeriod , "Routes" , "Distance");
-  }    
+  }
+  else if(dv.equalsIgnoreCase("Airport"))
+  {
+      // do nothing, use Vivian's graph, u can find that around bottom of main
+  }
   return templeBar;
 }
 

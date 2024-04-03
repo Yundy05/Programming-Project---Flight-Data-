@@ -2,9 +2,9 @@ ArrayList<Button>btnMain;
 ArrayList<Button>btnControlPanel;
 PFont buttonFont;
 
-Button originBtn, destinationBtn, dateBtn, flightDataBtn, homePageBtn, graphBtn, backArrow, forwardArrow, previousPage, nextPage, adjustDelayBtn, adjustDistanceBtn, lengthByRoute, showHeatMapBtn;
+Button originBtn, destinationBtn, dateBtn, flightDataBtn, homePageBtn, graphBtn, backArrow, forwardArrow, previousPage, nextPage, lengthByRoute, showHeatMapBtn;
 Button showPieChartBtn, showHistogramBtn, showBarChartBtn, individualFlightBtn, departBtn, arrivalBtn, getFlightBtn, searchPageBtn, toSelect, helpBtn, searchBarBtn, filterBtn1, filterBtn2;
-
+Button adjustDelayBtn, adjustDistanceBtn , adjustStatusBtn;
 void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour, HoverColour, ButtonEvent)
 {
   float x = displayWidth/200.0;                 //unit x
@@ -29,12 +29,15 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   showBarChartBtn = new Button(10*x, 30*y, 30*x, 5*y, "BarChart", #8080ff, #b3b3ff, SCREEN_BAR_CHART, glowSize);
   showHeatMapBtn = new Button(60*x, 30*y, 30*x, 5*y, "HeatMap", #8080ff, #b3b3ff, EVENT_BUTTON_HEAT_MAP, glowSize);
   //HISTOGRAM PAGE - ANDY
-  adjustDelayBtn = new Button(30*x, 10*y, 15*x, 5*y, "Delay", #8080ff, #b3b3ff, EVENT_BUTTON_DELAY, glowSize);
-  adjustDistanceBtn = new Button(50*x, 10*y, 15*x, 5*y, "Distance", #8080ff, #b3b3ff, EVENT_BUTTON_DISTANCE, glowSize);
+  adjustDelayBtn = new Button(20*x, 10*y, 15*x, 5*y, "Delay", #8080ff, #b3b3ff, EVENT_BUTTON_DELAY, glowSize);
+  adjustDistanceBtn = new Button(60*x, 10*y, 15*x, 5*y, "Distance", #8080ff, #b3b3ff, EVENT_BUTTON_DISTANCE, glowSize);
 
+  //3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679 PAGE    
+  adjustStatusBtn = new Button(40*x, 10*y, 15*x, 5*y, "Status", #8080ff, #b3b3ff, EVENT_BUTTON_STATUS, glowSize);
+  
   //BARCHART PAGE
-  lengthByRoute = new Button(35*x, 10*y, 30*x, 5*y, "10 Busiest Airports", #8080ff, #b3b3ff, EVENT_BUTTON_RL, glowSize);
-  filterBtn1 = new Button(5*x, 10*y, 30*x, 5*y, "Filter 1", #8080ff, #b3b3ff, EVENT_BUTTON_FILTER_1, glowSize);
+  lengthByRoute = new Button(35*x, 10*y, 30*x, 5*y, "Longest Routes", #8080ff, #b3b3ff, EVENT_BUTTON_RL, glowSize);
+  filterBtn1 = new Button(5*x, 10*y, 30*x, 5*y, "10 Busiest Airports", #8080ff, #b3b3ff, EVENT_BUTTON_FILTER_AIRPORT, glowSize);
   filterBtn2 = new Button(65*x, 10*y, 30*x, 5*y, "Filter 2", #8080ff, #b3b3ff, EVENT_BUTTON_FILTER_2, glowSize);
 
   //INDIVIDUAL FLIGHTS PAGE - Andy
@@ -91,7 +94,7 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   //pieChartScreen.addButton(forwardArrow);
   pieChartScreen.addButton(adjustDelayBtn);
   pieChartScreen.addButton(adjustDistanceBtn);
-
+  pieChartScreen.addButton(adjustStatusBtn);
   //barChartScreen.addButton(homePageBtn);
   barChartScreen.addButton(lengthByRoute);
   barChartScreen.addButton(filterBtn1);

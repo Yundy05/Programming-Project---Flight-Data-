@@ -12,8 +12,8 @@ final int EVENT_BUTTON_BACK = -2; //Arrows for screen history
 final int EVENT_BUTTON_NULL = -1;
 final int EVENT_BUTTON_HOME = 0;
 final int EVENT_BUTTON_FLIGHT = 1;
-final int EVENT_BUTTON_NEXT = 21;
-final int EVENT_BUTTON_PREVIOUS = 22;
+final int EVENT_BUTTON_NEXT = 41;
+final int EVENT_BUTTON_PREVIOUS = 42;
 
 
 final int EVENT_BUTTON_ORIGIN = 3;
@@ -26,13 +26,14 @@ final int EVENT_BUTTON_HISTOGRAM = 12;
 final int EVENT_GETFLIGHT = 13;
 final int EVENT_BUTTON_DELAY = 14;
 final int EVENT_BUTTON_DISTANCE = 15;
+final int EVENT_BUTTON_STATUS = 20;
 final int EVENT_BUTTON_RL = 16;
-final int EVENT_BUTTON_FILTER_1 = 17;
+final int EVENT_BUTTON_FILTER_AIRPORT = 17;
 final int EVENT_BUTTON_FILTER_2 = 18;
 final int EVENT_BUTTON_HEAT_MAP = 19;
 
 
-final int EVENT_GETHELP = 20;
+final int EVENT_GETHELP = 40;
 
 final int SCREEN_HOME = 0;  //Screen sequences
 final int SCREEN_FLIGHT = 1;
@@ -276,7 +277,7 @@ void draw() {
   case SCREEN_PIE_CHART :
     pieChartScreen.draw();
 //    pieChartOfDates.drawPieChart();
-
+  currentEvent = pieChartScreen.returnEvent();
     if(currentEvent == EVENT_BUTTON_DELAY)
     {
        variablePie = "Delay";
@@ -286,14 +287,19 @@ void draw() {
     {
        variablePie = "Distance";
        switchingPie = true;
-    }       
+    }
+    else if(currentEvent == EVENT_BUTTON_STATUS)
+    {
+      variablePie = "Status";
+      switchingPie = true;
+    }
       if(variablePie!="")
       {
         if(switchingPie)
         {
-        //currentPie = quickFrequencyPie(calendarDataPoint , variablePie , calendarDataPoint.get(0).day+"/"+calendarDataPoint.get(0).month+"/"+calendarDataPoint.get(0).year+ " <---TO---> "+
-    //calendarDataPoint.get(calendarDataPoint.size()-1).day+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).month+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).year); 
-          currentPie=pieChartOfDates;
+        currentPie = quickFrequencyPie(calendarDataPoint , variablePie , getFirstDay(calendarDataPoint)+"/"+calendarDataPoint.get(0).month+"/"+calendarDataPoint.get(0).year+ " <---TO---> "+
+    getLastDay(calendarDataPoint)+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).month+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).year); 
+    //      currentPie=pieChartOfDates;
           switchingPie = false;
         }
         currentPie.drawPieChart();
@@ -318,7 +324,7 @@ void draw() {
     }
     //    histogramOfDates.drawHistogram();
        //CHANGE CODE FROM HERE TO WHATEVER YOU WANT DELAY AND DISTANCE TO DO 
-    else if(currentEvent == EVENT_BUTTON_DELAY)
+    if(currentEvent == EVENT_BUTTON_DELAY)
     {
        variableHistogram = "Delay";
        switchingHistogram = true;
@@ -343,13 +349,21 @@ void draw() {
         dependentVariableBar = "Distance";
         switchingBar = true;
       }
+      else if(currentEvent == EVENT_BUTTON_FILTER_AIRPORT)
+      {
+         dependentVariableBar = "Airport";
+         independentVariableBar = "Flight Number";
+         currentBar = flightsByAirport;      //drawn directly from Vivan's graph in main, do not look for this in graphics
+         switchingBar = false;
+      }
       
       if(dependentVariableBar!="")
       {
         if(switchingBar)
         {
-          currentBar = flightsByAirport;// = quickBar(calendarDataPoint, independentVariableBar , dependentVariableBar , calendarDataPoint.get(0).day+"/"+calendarDataPoint.get(0).month+"/"+calendarDataPoint.get(0).year+ " <---TO---> "+
-    //calendarDataPoint.get(calendarDataPoint.size()-1).day+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).month+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).year); 
+         // currentBar = flightsByAirport;
+          currentBar = quickBar(calendarDataPoint, independentVariableBar , dependentVariableBar , getFirstDay(calendarDataPoint)+"/"+calendarDataPoint.get(0).month+"/"+calendarDataPoint.get(0).year+ " <---TO---> "+
+    getLastDay(calendarDataPoint)+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).month+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).year); 
             switchingBar = false;
         }
         currentBar.drawBarChart();
@@ -365,20 +379,7 @@ void draw() {
     text("Number of flights per state",displayWidth/4, displayHeight/10);
     HeatMap statesMap = new HeatMap (0, 100, stateFreq);
     statesMap.draw();
-    if (hasScreenAdded != SCREEN_HEAT_MAP)
-    {
-      if (currentEvent !=  EVENT_BUTTON_BACK && currentEvent !=  EVENT_BUTTON_FORWARD)
-      {
-        screenArrow.add(SCREEN_HEAT_MAP);
-        screenHistory++;
-      }
-      hasScreenAdded = SCREEN_HEAT_MAP;
-    }
-    currentEvent = heatMapScreen.returnEvent();
-    
-    if (currentEvent == EVENT_BUTTON_HOME)
-       currentScreen = SCREEN_HOME;
-   
+    currentEvent = heatMapScreen.returnEvent();       
     break;
     
 
@@ -421,6 +422,7 @@ void draw() {
      //      calendar.displayForCalendar();
       if (calendar.isSelectionComplete())
       {
+        resetGraph();
         fill(0);
         textSize(TS/1.5);
         if (calendar.singleDateMode)
@@ -505,7 +507,7 @@ void draw() {
      if (currentEvent == SCREEN_SEARCH)
         currentScreen = SCREEN_SEARCH;
         //CHANGE THIS FOR FILTER BUTTONS 
-     else if (currentEvent == EVENT_BUTTON_FILTER_1)
+     else if (currentEvent == EVENT_BUTTON_FILTER_AIRPORT)
         currentScreen = SCREEN_SEARCH;
      else if (currentEvent == EVENT_BUTTON_FILTER_2)
         currentScreen = SCREEN_SEARCH;      
@@ -798,8 +800,18 @@ void createCharts()              //!!! Use this to create ALL the charts we need
    numberOfFlightsByDay[i]=tableOfDates.getDataByIndex(i).size();
    lables[i] = "January "+(i+1);
    }*/
-  String[] airportArray = new String[min(airportFreqList.size(),10)];
-   int[] airportsNumArray = new int[min(airportFreqList.size(),10)];
+      int[] airportsNumArray;
+       String[] airportArray;
+   if(airportFreqList.size()!=0)
+   {
+    airportArray = new String[min(airportFreqList.size(),10)];
+    airportsNumArray = new int[min(airportFreqList.size(),10)];
+   }
+   else
+   {
+     airportArray = new String[1];
+     airportsNumArray = new int[1];
+   }
   for (Map.Entry<Integer, Integer> entry : arrDelayFreq.entrySet())
   {
     numOfFlightsByArrDelay.add( entry.getValue());
@@ -818,11 +830,14 @@ void createCharts()              //!!! Use this to create ALL the charts we need
   }
   //pieChartOfDates = new PieChart(displayWidth/7,displayHeight/2, displayWidth/10,numberOfFlightsByDay,lables);
   String[] lables = {"on time", "cancelled", "delayed", "diverted"};
-  pieChartOfDates = new PieChart(displayWidth/7, displayHeight/2, displayWidth/10, countCancelDelayDivert(calendarDataPoint), lables, "Proportions of flights with different status");//(int x, int y, int radius, int[]data, String[] labels, String title)
+ // THIS HAS BEEN RE_PLACED IN PIE SCREEN :::  pieChartOfDates = new PieChart(displayWidth/7, displayHeight/2, displayWidth/10, countCancelDelayDivert(calendarDataPoint), lables, "Proportions of flights with different status");//(int x, int y, int radius, int[]data, String[] labels, String title)
   // histogramOfDates = new Histogram(displayWidth/7, displayHeight/2 , displayHeight/10 , displayWidth/8, numberOfFlightsByDay, tableOfDates.size, 10, 10);
-  histogramOfDates = new Histogram(displayWidth/50, displayHeight/4, displayHeight/2, displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length, 0, 1,
-    "Frequencies of arrival delay", "Arrival delay (h)", "Frequency");
-   flightsByAirport= new BarChart (displayWidth/50, displayHeight/7, displayHeight/2, displayWidth/4, airportsNumArray, airportsNumArray.length, airportArray,
+ // histogramOfDates = new Histogram(displayWidth/50, displayHeight/4, displayHeight/2, displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length, 0, 1,
+  //  "Frequencies of arrival delay", "Arrival delay (h)", "Frequency");
+  float x = displayWidth/200.0;          //unit x
+  float y = (displayHeight*9/10)/100.0;         //unit y
+  
+   flightsByAirport= new BarChart (int(20*x) , int(30*y) , int(40*x) , int(30*y), airportsNumArray, airportsNumArray.length, airportArray,
    "Busiest airports", "Airports IATA", "Frequency");
   //   if(variable !="")
   
@@ -882,7 +897,7 @@ int[] countCancelDelayDivert(ArrayList <DataPoint> data)
 void read_in_the_file()
 {
   dataPoints = new ArrayList <DataPoint> ();
-  reader = createReader("flights10k.csv");    //change the file here
+  reader = createReader("flights_full.csv");    //change the file here
   // hashMap = new HashMap<>();
   try {
     line = reader.readLine();

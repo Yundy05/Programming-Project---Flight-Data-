@@ -19,6 +19,34 @@ void recordScreen()
           screenHistory++;
         }
 }
+int getFirstDay(ArrayList<DataPoint> d)
+{
+  int first = 31;
+  for(DataPoint p : d)
+  {
+    if(p.day < first)
+    first = p.day;
+  }
+  return first;
+}
+int getLastDay(ArrayList<DataPoint> d)
+{
+  int last = 1;
+  for(DataPoint p : d)
+  {
+    if(p.day > last)
+    last = p.day;
+  }
+  return last;
+}
+
+void resetGraph()
+{
+  variableHistogram = "";
+  dependentVariableBar = "";
+  independentVariableBar = "";
+  variablePie = "";
+}
 void toggleScreen()
 {
         if(currentEvent == EVENT_BUTTON_BACK)

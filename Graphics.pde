@@ -677,6 +677,7 @@ class HeatMap extends USMap
   //@ override
   void draw()
   {
+    colorMode(RGB,255);
     scale(scale);
     usa.disableStyle();
     fill(#9BFFEA, 50);

@@ -130,6 +130,7 @@ boolean calendarShowing()
   
   void displayForCalendar() {
     //    scale(displayWidth/2560.0,displayHeight/1600.0);
+    colorMode(RGB,255);
     textFont(font);
     textSize(1 * tR);
     fill(255);

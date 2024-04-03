@@ -66,7 +66,7 @@ class USMap
       //fill(#8080ff,80);
       // Draw a single state
       shape(origin, 0, 0); // Wolverines!
-      textSize(TS/2);
+      textSize(30);
       fill(255);
       text(originState, (float)originLabelCoord[0], (float)originLabelCoord[1]);
     }

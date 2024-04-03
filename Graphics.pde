@@ -84,7 +84,7 @@ Histogram quickFrequencyHistogram(ArrayList<DataPoint> data, String variable, St
     while (max%interval!=0)
       max++;
     int bins = max / interval;
-    tempHistogram = new RelativeHistogram(int(20*x), int(30*y), int(40*x), int(30*y), getRelativeFrequency(delay, (float)interval), bins, 0, max, "Delay_Frequency_From"+datePeriod, "Delay(min)", "Absolute Frequency");
+    tempHistogram = new RelativeHistogram(int(20*x), int(30*y), int(40*x), int(30*y), getRelativeFrequency(delay, (float)interval), bins, 0, max, "Delay_Frequency_From"+datePeriod, "Delay(min)", "Relative Frequency");
   }
   if (variable.equalsIgnoreCase("Distance"))
   {
@@ -96,7 +96,7 @@ Histogram quickFrequencyHistogram(ArrayList<DataPoint> data, String variable, St
     {
       distance[i] = data.get(i).distance;
     }
-    tempHistogram = new RelativeHistogram(int(20*x), int(30*y), int(40*x), int(30*y), getRelativeFrequency(distance, (float)interval), bins, 0, max, "Distance_Frequency_From"+datePeriod, "Distance(miles)", "Absolute Frequency");
+    tempHistogram = new RelativeHistogram(int(20*x), int(30*y), int(40*x), int(30*y), getRelativeFrequency(distance, (float)interval), bins, 0, max, "Distance_Frequency_From"+datePeriod, "Distance(miles)", "Relative Frequency");
   }
   return tempHistogram;
 }

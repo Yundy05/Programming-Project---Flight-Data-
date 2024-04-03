@@ -1,4 +1,4 @@
-Screen homeScreen, flightScreen, graphScreen, individualFlightScreen, searchScreen, selectScreen, searchBarScreen, histogramScreen, pieChartScreen , barChartScreen, heatMapScreen;
+Screen  homeScreen, flightScreen, graphScreen, individualFlightScreen, searchScreen, selectScreen, searchBarScreen, histogramScreen, pieChartScreen , barChartScreen, heatMapScreen;
 
 void setupScreen()
 {

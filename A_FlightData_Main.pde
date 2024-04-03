@@ -121,7 +121,9 @@ String dependentVariableBar = "";
 //HashTable tableOfDates;
 //int listSize = dataPoints[0].size();
 int lineHeight = 20;
-
+boolean loadingComplete;
+boolean isLoading;
+  int loadingPhase;
 void settings() //REPLACED SCREENX WITH (displayWidth/2) & SCREENY WITH (displayHeight - 100)
 {
   size(displayWidth/2, displayHeight*9/10, P2D);
@@ -144,12 +146,42 @@ void setup()
   dataPoints = new ArrayList<DataPoint>();
   init_stateCoord();
   init_stateLabelCoord();
+  loadingComplete = false;
+  isLoading = false;
+  loadingPhase = 0;
+  //for (int i=0; i<tableOfAirports_Origin.size; i++)
+  //{
+  //  if (tableOfAirports_Origin.getDataByIndex(i).size()!=0)
+  //  {
+
+  //    airports.add(eraseQuotation(tableOfAirports_Origin.getDataByIndex(i).get(0).origin));
+  //  }
+  //}
+  //println(cities);
+  //print(airports);
+  // filter test example  (originCity,destCity,startDay,endDay,only show non-cancelled flights)
+ // getFilteredFlights("Chicago, IL", "", 1, 5, true);
+
+
+  //Screen History Arrows - Andy
+  screenArrow = new ArrayList<Integer>();
+  //Searching Bar
+  setupSearchingBar();  
+}
+
+void initiateSetup()
+{
+  isLoading = true;
   read_in_the_file();
+  loadingPhase++;
   calendarDataPoint=dataPoints;
   createHashMaps();
+  loadingPhase++;
   GraphicsSetUp();
   createHashMaps(calendarDataPoint);
+  loadingPhase++;
   createCharts();
+  loadingPhase++;
   //data setup ends//
 
   showingData = new ShowingData(20, 20, displayWidth/2, displayHeight - 100);
@@ -167,25 +199,8 @@ void setup()
       }
     }
   }
-  for (int i=0; i<tableOfAirports_Origin.size; i++)
-  {
-    if (tableOfAirports_Origin.getDataByIndex(i).size()!=0)
-    {
-
-      airports.add(eraseQuotation(tableOfAirports_Origin.getDataByIndex(i).get(0).origin));
-    }
-  }
-  //println(cities);
-  //print(airports);
-  // filter test example  (originCity,destCity,startDay,endDay,only show non-cancelled flights)
- // getFilteredFlights("Chicago, IL", "", 1, 5, true);
-
-
-  //Screen History Arrows - Andy
-  screenArrow = new ArrayList<Integer>();
-  //Searching Bar
-  setupSearchingBar();
-  
+  loadingPhase++;
+  loadingComplete = true;
 }
 
 
@@ -194,6 +209,22 @@ void draw() {
   //  currentEvent = getCurrentEvent();
   //  print(screenArrow.toString());
   //   println(screenHistory);
+  if(!loadingComplete)
+  {
+    background(backgroundNeon);
+    textSize(TS);
+    textFont(loadFont("Raanana-16.vlw"));
+    textAlign(CENTER,CENTER);
+    text("LOADING\n"+((loadingPhase/5.0)*10000)/100+"%" , displayWidth/4 , displayHeight/2 ); 
+    fill(50-loadingPhase*5,250-loadingPhase*20, 150-loadingPhase*5);
+    rect(displayWidth/20,displayHeight/1.5 , (displayWidth/10)*loadingPhase, displayHeight/20);
+    if(!isLoading)
+    thread("initiateSetup");
+  }
+  else
+  {
+  
+  
   switch(currentScreen)
   {
   case SCREEN_HOME :
@@ -565,6 +596,7 @@ void draw() {
   toggleScreen();
   if(switchedScreen())
   recordScreen();
+  }                 //else }
 }
 
 

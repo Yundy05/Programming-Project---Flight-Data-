@@ -48,6 +48,14 @@ class DataPoint
     this.distance= distance;
   }
 
+  //boolean equals(DataPoint p)
+  //{
+  //  if(this.day == p.day && this.origin == p.origin && this.depTime == p.depTime && this.arrTime == p.arrTime )
+  //  return true;
+  //  else
+  //  return false;
+  //}
+
   void printData()
   {
     System.out.println(year+" "+ month+" "+  day+" "+ code+" "+  flightNumber+" "+  origin+" "+ originCity+" "
@@ -55,30 +63,31 @@ class DataPoint
       +  depTime+" "+ CRSArrTime+" "+ arrTime+" "+  cancelled+" "+  diverted+" "+  distance);
   }
 
+
   String getData()
   {
     return year+" "+ month+" "+  day+" "+ code+" "+  flightNumber+" "+  origin+" "+ originCity+" "
       +  originState+" "+ originWac+" "+ dest+" "+  destCity+" "+  destState+" "+ destWac+" "+  CRSDepTime+" "
       +  depTime+" "+ CRSArrTime+" "+ arrTime+" "+  cancelled+" "+  diverted+" "+  distance;
   }
-    int getArrDelay()
+  int getArrDelay()
   {
-    if(cancelled)
+    if (cancelled)
       return 0;
     int CRSArrTimeMinutes= (CRSArrTime/100)*60+(CRSArrTime%100);
     int arrTimeMinutes= (arrTime/100)*60+(arrTime%100);
     int delay=arrTimeMinutes-CRSArrTimeMinutes;
     int depDelay=getDepDelay();
     if (delay-depDelay>12*60)
-    return (delay-24*60);
+      return (delay-24*60);
     else if (delay-depDelay<-12*60)
-    return (delay+24*60);
+      return (delay+24*60);
     else
-    return delay;
+      return delay;
   }
   int getDepDelay()
   {
-    if(cancelled)
+    if (cancelled)
       return 0;
     int CRSDepTimeMinutes= (CRSDepTime/100)*60+(CRSDepTime%100);
     int depTimeMinutes= (depTime/100)*60+(depTime%100);
@@ -86,12 +95,15 @@ class DataPoint
     if (CRSDepTimeMinutes<=30&&depTimeMinutes>=23*60+30&&depTimeMinutes-(CRSDepTimeMinutes+24*60)>=-30)
       return depTimeMinutes-(CRSDepTimeMinutes+24*60);
     else if (delay>0) delayed=true;
-    else if(delay<-30)//Assume flights can't take off more than 20 minutes earlier :)
+    else if (delay<-30)//Assume flights can't take off more than 20 minutes earlier :)
     {
       delayed=true;
       delay+=24*60;
     }
     return delay;
   }
-
+  int getDepDateTime()
+  {
+    return(day*1440+(depTime/100)*60+(depTime%100));
+  }
 }

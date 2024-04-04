@@ -3,9 +3,9 @@ ArrayList<Button>btnControlPanel;
 PFont buttonFont;
 
 Button originBtn, destinationBtn, dateBtn, flightDataBtn, homePageBtn, graphBtn, backArrow, forwardArrow, previousPage, nextPage, lengthByRoute, showHeatMapBtn;
-Button showPieChartBtn, showHistogramBtn, showBarChartBtn, showLineGraphBtn, individualFlightBtn, departBtn, 
-        arrivalBtn, getFlightBtn, searchPageBtn, toSelect, helpBtn, searchBarBtn, filterBtn1, filterBtn2;
-Button adjustDelayBtn, adjustDistanceBtn , adjustStatusBtn;
+Button showPieChartBtn, showHistogramBtn, showBarChartBtn, showLineGraphBtn, individualFlightBtn, departBtn,
+  arrivalBtn, getFlightBtn, searchPageBtn, toSelect, helpBtn, searchBarBtn, filterBtn1, filterBtn2;
+Button adjustDelayBtn, adjustDistanceBtn, adjustStatusBtn;
 void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour, HoverColour, ButtonEvent)
 {
   float x = displayWidth/200.0;                 //unit x
@@ -21,7 +21,7 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   individualFlightBtn = new Button(35*x, 45*y, 30*x, 5*y, "Individual Flights", #8080ff, #b3b3ff, SCREEN_INDIVIDUAL_FLIGHT, glowSize);
 
   //FLIGHT PAGE
- // homePageBtn = new Button(45*x, 94*y, 8*x, 5*y, "", #8080ff, #b3b3ff, EVENT_BUTTON_HOME, glowSize);
+  // homePageBtn = new Button(45*x, 94*y, 8*x, 5*y, "", #8080ff, #b3b3ff, EVENT_BUTTON_HOME, glowSize);
   homePageBtn = new ImageButton(45*x, 91*y, 8*x, "homeButton1.png", "homeButton2.png", #8080ff, #b3b3ff, EVENT_BUTTON_HOME, glowSize);
 
   //GRAPH PAGE
@@ -29,25 +29,25 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   showHistogramBtn  = new ImageButton(10*x, 20*y, 25*x, "hist2.png", "hist1.png", #8080ff, #b3b3ff, EVENT_BUTTON_HISTOGRAM, glowSize);
   showBarChartBtn  = new ImageButton(10*x, 60*y, 25*x, "bar2.png", "bar1.png", #8080ff, #b3b3ff, SCREEN_BAR_CHART, glowSize);
   showHeatMapBtn  = new ImageButton(60*x, 60*y, 35*x, "heat2.png", "heat1.png", #8080ff, #b3b3ff, EVENT_BUTTON_HEAT_MAP, glowSize);
-  showLineGraphBtn = new ImageButton(35*x, 40*y, 25*x,"Line2.png", "Line1.png", #8080ff, #b3b3ff, SCREEN_BAR_CHART, glowSize);
+  showLineGraphBtn = new ImageButton(35*x, 40*y, 25*x, "Line2.png", "Line1.png", #8080ff, #b3b3ff, SCREEN_BAR_CHART, glowSize);
 
   //HISTOGRAM PAGE - ANDY
   adjustDelayBtn = new Button(20*x, 10*y, 15*x, 5*y, "Delay", #8080ff, #b3b3ff, EVENT_BUTTON_DELAY, glowSize);
   adjustDistanceBtn = new Button(60*x, 10*y, 15*x, 5*y, "Distance", #8080ff, #b3b3ff, EVENT_BUTTON_DISTANCE, glowSize);
 
-  //3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679 PAGE    
+  //3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679 PAGE
   adjustStatusBtn = new Button(40*x, 10*y, 15*x, 5*y, "Status", #8080ff, #b3b3ff, EVENT_BUTTON_STATUS, glowSize);
-  
+
   //BARCHART PAGE
   lengthByRoute = new Button(35*x, 10*y, 30*x, 5*y, "Longest Routes", #8080ff, #b3b3ff, EVENT_BUTTON_RL, glowSize);
   filterBtn1 = new Button(5*x, 10*y, 30*x, 5*y, "10 Busiest Airports", #8080ff, #b3b3ff, EVENT_BUTTON_FILTER_AIRPORT, glowSize);
   filterBtn2 = new Button(65*x, 10*y, 30*x, 5*y, "Filter 2", #8080ff, #b3b3ff, EVENT_BUTTON_FILTER_2, glowSize);
 
   //INDIVIDUAL FLIGHTS PAGE - Andy
-  originBtn = new Button(x, 75*y, 30*x, 5*y, "Origin", #8080ff, #b3b3ff, EVENT_BUTTON_ORIGIN, glowSize);
-  destinationBtn = new Button(69*x, 75*y, 30*x, 5*y, "Destination", #8080ff, #b3b3ff, EVENT_BUTTON_DESTINATION, glowSize);
-  departBtn = new Button(x, 56*y, 30*x, 5*y, "Departure", #8080ff, #b3b3ff, EVENT_BUTTON_DEPARTURE, glowSize);
-  arrivalBtn = new Button(69*x, 56*y, 30*x, 5*y, "Arrival", #8080ff, #b3b3ff, EVENT_BUTTON_ARRIVAL, glowSize);
+  originBtn = new ImageButton(x, 73*y, 30*x, "Origin.png", "Origin.png", #8080ff, #b3b3ff, EVENT_BUTTON_ORIGIN, glowSize);
+  destinationBtn = new ImageButton(69*x, 73*y, 30*x, "Destination.png", "Destination.png", #8080ff, #b3b3ff, EVENT_BUTTON_DESTINATION, glowSize);
+  departBtn = new ImageButton(x, 54*y, 30*x, "Departure.png", "Departure.png", #8080ff, #b3b3ff, EVENT_BUTTON_DEPARTURE, glowSize);
+  arrivalBtn = new ImageButton(69*x, 54*y, 30*x, "Arrival.png", "Arrival.png", #8080ff, #b3b3ff, EVENT_BUTTON_ARRIVAL, glowSize);
   getFlightBtn   = new ImageButton(41*x, 55*y, 17*x, "getFlight2.png", "getFlight1.png", #8080ff, #b3b3ff, EVENT_GETFLIGHT, glowSize);
   helpBtn   = new ImageButton(45*x, 75*y, 10*x, "help2.png", "help1.png", #8080ff, #b3b3ff, EVENT_GETHELP, glowSize);
 
@@ -124,7 +124,7 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   //searchScreen.addButton(backArrow);
   //searchScreen.addButton(forwardArrow);
 
-//  selectScreen.addButton(homePageBtn);
+  //  selectScreen.addButton(homePageBtn);
   selectScreen.addButton(nextPage);
   selectScreen.addButton(previousPage);
 }
@@ -167,11 +167,11 @@ class ImageButton extends Button {
 
   //ImageButton(float x, float y, float targetWidth, String UnClickedImagePath, String ClickedImagePath, color overColor, color buttonColor, int event, int glowSize) {
   //  super(x, y, targetWidth, 0, "", overColor, buttonColor, event, glowSize);
-    ImageButton(float x, float y, float targetWidth, String UnClickedImagePath, String ClickedImagePath, color overColor, color buttonColor, int event, int glowSize) {
+  ImageButton(float x, float y, float targetWidth, String UnClickedImagePath, String ClickedImagePath, color overColor, color buttonColor, int event, int glowSize) {
     super(x, y, targetWidth, 0, "", overColor, buttonColor, event, glowSize);
     this.unclickedImage = loadImage(UnClickedImagePath);
     this.clickedImage = loadImage(ClickedImagePath);
-    
+
     float aspectRatioUnclicked = unclickedImage.width / (float) unclickedImage.height;
     unclickedImage.resize((int)targetWidth, (int)(targetWidth / aspectRatioUnclicked));
     this.height = unclickedImage.height;

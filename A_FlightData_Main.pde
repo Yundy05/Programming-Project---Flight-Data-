@@ -548,11 +548,11 @@ void draw() {
         guessWhatItsAnotherTemp = new ArrayList<DataPoint>();
         forOptions = new SearchBox(optionsForOrdering, int(calendar.x * 30), int(calendar.y * 2), int(40 * calendar.x), int(4 * calendar.y), 10, "Default: By Date");; 
         
+        //for reverse date:
         guessWhatItsAnotherTemp.addAll(calendarDataPoint);
-//        temp2.addAll(temp);
         Collections.reverse(guessWhatItsAnotherTemp);
         temp2 = createSelections(guessWhatItsAnotherTemp);
-//        Collections.reverse(temp2);
+        
     }
       selectScreen.draw();
       if(forOptions.searchQuery == "Default: By Date" || forOptions.searchQuery == "By Date" || forOptions.searchQuery == "")

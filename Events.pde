@@ -76,24 +76,16 @@ void selectFlightsByDate()
     {
       for (int day = calendar.selectedInboundDay; day <= calendar.selectedOutboundDay; day++)
       {
-        int index = day - 1;
-        LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
-        for (int j= 0; j< dayDataPoints.size(); j++)
-        {
-          calendarDataPoint.add(dayDataPoints.get(j));
-        }
+        int index = day - 1;         
+          calendarDataPoint.addAll(tableOfDates.getDataByIndex(index));
       }
     }
   } else
   {
     for (int day = calendar.selectedInboundDay; day <= calendar.selectedInboundDay; day++)
     {
-      int index = day - 1;
-      LinkedList<DataPoint> dayDataPoints = tableOfDates.getDataByIndex(index);
-      for (int j= 0; j< dayDataPoints.size(); j++)
-      {
-        calendarDataPoint.add(dayDataPoints.get(j));
-      }
+      int index = day - 1;      
+          calendarDataPoint.addAll(tableOfDates.getDataByIndex(index));
     }
     //calendar.selectedOutboundDay=calendar.selectedInboundDay;
   }
@@ -437,6 +429,39 @@ public String eraseQuotation (String aString)
   } else {
     return aString;
   }
+}
+public ArrayList<DataPoint> sortListByTime(ArrayList<DataPoint> datas , boolean reversed)   //sort arrays by time : Premis is that the incoming list is sorted by date
+{
+  ArrayList<DataPoint> newList = new ArrayList<DataPoint>();
+  ArrayList<ArrayList> days = new ArrayList<ArrayList>();  // Separate ArrayLists by each day
+  
+  for(int day = getFirstDay(datas) ; day<=getLastDay(datas); day++)            //initialize divided lists
+  {
+    ArrayList<DataPoint> aDividedList = new ArrayList<DataPoint>();
+    days.add(aDividedList);
+  }
+  for(DataPoint p : datas)                                                // fill divided lists
+  { 
+    days.get(p.day-getFirstDay(datas)).add(p);
+  }
+  for(ArrayList divided : days)                                           //sort each divison, then put into newList for return
+  {
+    Collections.sort(divided, new Comparator<DataPoint>() 
+    {
+            //@Override
+            public int compare(DataPoint p1, DataPoint p2) 
+            {
+                return Integer.compare(p1.CRSDepTime, p2.CRSDepTime);
+            }
+    });
+    
+    if(reversed==true)                                   // for reversed soring
+    Collections.reverse(divided);
+    
+    newList.addAll(divided);
+  }
+  
+  return newList;
 }
 
 String convertTo24HourFormat(int time) {

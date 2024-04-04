@@ -32,11 +32,11 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   showLineGraphBtn = new ImageButton(35*x, 40*y, 25*x, "Line2.png", "Line1.png", #8080ff, #b3b3ff, SCREEN_BAR_CHART, glowSize);
 
   //HISTOGRAM PAGE - ANDY
-  adjustDelayBtn = new Button(20*x, 10*y, 15*x, 5*y, "Delay", #8080ff, #b3b3ff, EVENT_BUTTON_DELAY, glowSize);
-  adjustDistanceBtn = new Button(60*x, 10*y, 15*x, 5*y, "Distance", #8080ff, #b3b3ff, EVENT_BUTTON_DISTANCE, glowSize);
+  adjustDelayBtn = new ImageButton(15*x, 10*y, 25*x, "delay2.png", "delay1.png", #8080ff, #b3b3ff, EVENT_BUTTON_DELAY, glowSize);
+  adjustDistanceBtn = new ImageButton(60*x, 10*y, 25*x, "distance2.png", "distance1.png", #8080ff, #b3b3ff, EVENT_BUTTON_DISTANCE, glowSize);
 
   //3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679 PAGE
-  adjustStatusBtn = new Button(40*x, 10*y, 15*x, 5*y, "Status", #8080ff, #b3b3ff, EVENT_BUTTON_STATUS, glowSize);
+  adjustStatusBtn = new ImageButton(37.5*x, 10*y, 25*x, "status2.png", "status1.png", #8080ff, #b3b3ff, EVENT_BUTTON_STATUS, glowSize);
 
   //BARCHART PAGE
   lengthByRoute = new Button(35*x, 10*y, 30*x, 5*y, "Longest Routes", #8080ff, #b3b3ff, EVENT_BUTTON_RL, glowSize);

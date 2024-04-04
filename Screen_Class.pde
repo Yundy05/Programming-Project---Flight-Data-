@@ -118,7 +118,10 @@ class Screen
     {
       Button button = (Button) screenItems.get(i);
       if (button.clicked())
+      {
         event = button.event;
+        //println("event: "+event);
+      }
     }
     return event;
   }

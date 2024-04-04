@@ -31,6 +31,7 @@ final int EVENT_BUTTON_RL = 16;
 final int EVENT_BUTTON_FILTER_AIRPORT = 17;
 final int EVENT_BUTTON_FILTER_2 = 18;
 final int EVENT_BUTTON_HEAT_MAP = 19;
+final int EVENT_BUTTON_LINE_GRAPH = 21;
 
 
 final int EVENT_GETHELP = 40;
@@ -46,7 +47,7 @@ final int SCREEN_HISTOGRAM = 7;
 final int SCREEN_PIE_CHART = 8;
 final int SCREEN_BAR_CHART = 9;
 final int SCREEN_HEAT_MAP = 10;
-final int SCREEN_LINE_GRAPH = 11;
+final int SCREEN_LINE_GRAPH = 20;
 
 
 float adapter;
@@ -114,6 +115,9 @@ boolean switchingPie = false;
 
 BarChart  currentBar = new BarChart();
 boolean switchingBar = false;
+int[] dataXLineGraph ={2,3}; 
+int[] dataYLineGraph={2,3};
+
 
 String variableHistogram = "";
 String variablePie = "";
@@ -126,6 +130,9 @@ boolean loadingComplete;
 boolean isLoading;
 float progress;  //from 0-1 that represents loading progress
 float derivative;  // the growing speed of progress
+LineGraph delayLineGraph = new LineGraph();
+//LineGraph delayLineGraph = new LineGraph(7,8, 5, 6, dataXLineGraph, dataYLineGraph, 2,
+    //"u", "", " " );
   
 void settings() //REPLACED SCREENX WITH (displayWidth/2) & SCREENY WITH (displayHeight - 100)
 {
@@ -169,6 +176,9 @@ void setup()
   //Screen History Arrows - Andy
   screenArrow = new ArrayList<Integer>();
   //Searching Bar
+  //delayLineGraph = quickLine(calendarDataPoint,"delay");
+  //delayLineGraph = new LineGraph(7,8, 5, 6, dataXLineGraph, dataYLineGraph, 2,
+   // "u", "", " " );
 }
 
 void initiateSetup()
@@ -427,10 +437,11 @@ void draw() {
     
 //////SCREEN_LINE_GRAPH///////////////////////////////////////////////SCREEN_LINE_GRAPH////////////////////////////////////////////////////////////
   case SCREEN_LINE_GRAPH:
-   println("lineGraph");
+   //println("lineGraph");
     lineGraphScreen.draw();
     //background(255);
-                    
+    delayLineGraph = quickLine(calendarDataPoint,"delay");
+    delayLineGraph.drawLineGraph();                
     currentEvent = lineGraphScreen.returnEvent();       
     break;
     

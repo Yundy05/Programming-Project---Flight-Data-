@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import grafica.*;
 GPlot plot;
 
@@ -582,6 +585,9 @@ class BarChart
     }
   }
 }
+int intervalDayGraph =100;
+int[] dateGraph;
+int[] delayFrequencyGraph;
 LineGraph quickLine(ArrayList<DataPoint> data , String indicator)
 {
   float x = displayWidth/200.0;          //unit x
@@ -590,23 +596,57 @@ LineGraph quickLine(ArrayList<DataPoint> data , String indicator)
   if(indicator.equals("delay"))
   {
     int xpos = (int)(20*x);
-    int ypos = (int)(30*y);
-    int gphH =int(40*x);
-    int gphW =int(30*y);
+    int ypos = (int)(20*y);
+    int gphH =int(50*x);
+    int gphW =int(50*y);
     String title = "Delay frequency :" + data.get(0).day +"/" +
                data.get(0).month + "/" + data.get(0).year + 
                " TO " + data.get(data.size()-1).day + "/" + 
                data.get(data.size()-1).month + "/" + 
                data.get(data.size()-1).year;
-    double[] day = new double[data.size()];
-    double[] delayTime = new double[data.size()];
-    for(int i =0; i<= data.size()-1; i++)
+    //DataPoint maxDayDataPoint = Collections.max(data, Comparator.comparingInt(item -> item.day));
+    //int maxDay = maxDayDataPoint.day;
+    int maxDay= Collections.max(data, Comparator.comparingInt(item -> item.day)).day;
+    int minDay= Collections.min(data, Comparator.comparingInt(item -> item.day)).day;
+    if(intervalDayGraph != (maxDay-minDay+1))
     {
-      day[0] =(double)(data.get(i).day);
-      delayTime[i] = data.get(i).getArrDelay()+data.get(i).getDepDelay();
+       intervalDayGraph = (maxDay-minDay+1);
+        dateGraph = new int[maxDay - minDay+1];
+        delayFrequencyGraph = new int[maxDay - minDay+1];
+        for(int i=0; i< dateGraph.length-1; i++)
+        {
+          dateGraph[i] =i +minDay;
+          delayFrequencyGraph[i] =0;
+        }
+        for(DataPoint obj: data)
+    {
+      delayFrequencyGraph[obj.day -minDay]++;
+      //println("delayFrequency: " +obj.day);
     }
-    quickLineGraph = new LineGraph(xpos, ypos, gphH, gphW, day, delayTime, data.size(),
-          title, "date", "delayed time" );
+        /*Arrays.parallelSetAll(delayFrequencyGraph, index -> {
+          return (int) data.stream()
+                           .filter(dp -> dp.day - minDay == index)
+                           .count();
+        });*/
+        /*for(int i=0; i< dateGraph.length-1; i++)
+        {
+          println("date:" +dateGraph[i]);
+          println("delayFrequencyGraph:" +delayFrequencyGraph[i]);
+        }*/
+        
+       
+    }
+   //println("end");
+   /* for(DataPoint obj: data)
+    {
+      delayFrequency[obj.day -minDay]++;
+      //println("delayFrequency: " +obj.day);
+    }*/
+    
+
+   
+    quickLineGraph = new LineGraph(xpos, ypos, gphH, gphW,  dateGraph, delayFrequencyGraph, dateGraph.length,
+          title, "date", "delay frequency" );
     return quickLineGraph;
   }
   return new LineGraph();
@@ -618,32 +658,33 @@ class LineGraph
   int x, y;
   int gphH, gphW;
   int[] dataX; // data in Y axis
-  int[] dataY; // data shown in Y axis
+  int[] dataY ; // data shown in Y axis
   int[] frequency;
   int max;
   int min;
   int numOfPoints;
-  int rangeMin;
-  int rangeMax;
+  int rangeMin =0;
+  int rangeMax=10;
   String title;
   String labelX;
   String labelY;
   LineGraph()
   {
+    
   }
-  LineGraph(int x, int y, int gphH, int gphW, double[] dataX, double[] dataY, int numOfPoints,
+  LineGraph(int x, int y, int gphH, int gphW, int[] dataX, int[] dataY, int numOfPoints,
     String title, String labelX, String labelY )
   {
     this.x = x;
     this.y = y;
     this.gphH = gphH;
     this.gphW = gphW;
-    this.dataX = doubleToIntArray(dataX);
-    this.dataY = doubleToIntArray(dataY);
+    this.dataX = dataX;
+    this.dataY = dataY;
     this.max = max(this.dataY);
     this.min = min(this.dataY);
-    this.max = 8;
-    this.min = 9;
+    //this.max = 8;
+    //this.min = 9;
     this.numOfPoints = numOfPoints;
     this.frequency = this.dataY;
     this.rangeMin = min(this.dataX);
@@ -667,18 +708,19 @@ class LineGraph
   void pointArray()
   {
     points = new GPointsArray(0);
-    for (int i =0; i< dataX.length; i++)
+    for (int i =0; i< dataX.length-1; i++)
     {
+      //println("Adding point: (" + dataX[i] + ", " + dataY[i] + ")");
       points.add(dataX[i], dataY[i]);
     }
   }
+
 
   void drawLineGraph()
   {
     plot.setTitleText(title);
     plot.getXAxis().setAxisLabelText(labelX);
     plot.getYAxis().setAxisLabelText(labelY);
-
     plot.defaultDraw();
     //plot.setHistType(GPlot.VERTICAL);
     //plot.setHistVisible(true);
@@ -691,6 +733,8 @@ class LineGraph
     plot.activateZooming(1.1, CENTER, CENTER);
     fill(#32348E);
   }
+ 
+
 
   int[] doubleToIntArray(double[] data)
   {
@@ -816,5 +860,7 @@ class LegendBox
     }
     return doubleArray;
   }
+  
+   
 
 }

@@ -29,7 +29,7 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   showHistogramBtn  = new ImageButton(10*x, 20*y, 25*x, "hist2.png", "hist1.png", #8080ff, #b3b3ff, EVENT_BUTTON_HISTOGRAM, glowSize);
   showBarChartBtn  = new ImageButton(10*x, 60*y, 25*x, "bar2.png", "bar1.png", #8080ff, #b3b3ff, SCREEN_BAR_CHART, glowSize);
   showHeatMapBtn  = new ImageButton(60*x, 60*y, 35*x, "heat2.png", "heat1.png", #8080ff, #b3b3ff, EVENT_BUTTON_HEAT_MAP, glowSize);
-  showLineGraphBtn = new ImageButton(35*x, 40*y, 25*x, "Line2.png", "Line1.png", #8080ff, #b3b3ff, SCREEN_BAR_CHART, glowSize);
+  showLineGraphBtn = new ImageButton(35*x, 40*y, 25*x, "Line2.png", "Line1.png", #8080ff, #b3b3ff, SCREEN_LINE_GRAPH, glowSize);
 
   //HISTOGRAM PAGE - ANDY
   adjustDelayBtn = new ImageButton(15*x, 10*y, 25*x, "delay2.png", "delay1.png", #8080ff, #b3b3ff, EVENT_BUTTON_DELAY, glowSize);

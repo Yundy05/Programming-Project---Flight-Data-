@@ -73,6 +73,8 @@ boolean helping;
 ArrayList temp;               //temp Arraylist to store the selected flights
 ArrayList temp2;
 ArrayList temp3;
+ArrayList temp4;
+
 //  String lists for dropdown menu
 ArrayList<String> cities = new ArrayList<String>();
 ArrayList<String> airports = new ArrayList<String>();
@@ -81,6 +83,10 @@ ArrayList<String> airports = new ArrayList<String>();
 
 ArrayList<String> optionsForOrdering = new ArrayList<String>();
 ArrayList<DataPoint> guessWhatItsAnotherTemp = new ArrayList<DataPoint>();
+ArrayList<DataPoint> guessWhatItsAnotherTemp2 = new ArrayList<DataPoint>();
+ArrayList<DataPoint> guessWhatItsAnotherTemp3 = new ArrayList<DataPoint>();
+ArrayList<DataPoint> guessWhatItsAnotherTemp4 = new ArrayList<DataPoint>();
+
 DateCalander calendar;
 SearchBox forOptions;
 int count;
@@ -451,6 +457,16 @@ void draw() {
          flight = guessWhatItsAnotherTemp.get(flightNum);
           break;
         }
+        case 5:
+        {
+          flight = guessWhatItsAnotherTemp2.get(flightNum);
+          break;         
+        }
+         case 6:
+        {
+          flight = guessWhatItsAnotherTemp3.get(flightNum);
+          break;         
+        }
         default:
           flight = calendarDataPoint.get(flightNum);
       }
@@ -473,6 +489,8 @@ void draw() {
      //      calendar.displayForCalendar();
       if (calendar.isSelectionComplete())
       {
+        flightSelected = false;
+        currentPage = 0;
         resetGraph();
         fill(0);
         textSize(TS/1.5);
@@ -506,6 +524,7 @@ void draw() {
         
     if (calendar.finalToGoGraph())
       {
+        
          if (calendar.inputChanged == "Departure Only")
           {
             selectFlightsByDateAndOthers("Depart",calendar.depart,calendar.arrive);   //departure mode
@@ -539,13 +558,18 @@ void draw() {
 
   case SCREEN_SELECT :
     {
-        Collections.addAll(optionsForOrdering, "By Date", "Reversed By Date", "By Time", "Reversed By Time", "By Alphabetical For Origin", "By Alphabetical For Destination");
       if (!flightSelected)
       {
+        Collections.addAll(optionsForOrdering, "By Date", "Reversed By Date", "By Time", "Reversed By Time", "By Alphabetical For Origin", "By Alphabetical For Destination");
         temp = createSelections(calendarDataPoint);  //temp is a list of buttons consisting the information of the flights
         flightSelected = true;
         temp2 = new ArrayList<Button>();
-        guessWhatItsAnotherTemp = new ArrayList<DataPoint>();
+        temp3 = new ArrayList<Button>();
+        temp4 = new ArrayList<Button>();
+        guessWhatItsAnotherTemp.clear();
+        guessWhatItsAnotherTemp2.clear();
+        guessWhatItsAnotherTemp3.clear();
+
         forOptions = new SearchBox(optionsForOrdering, int(calendar.x * 30), int(calendar.y * 2), int(40 * calendar.x), int(4 * calendar.y), 10, "Default: By Date");; 
         
         //for reverse date:
@@ -553,6 +577,28 @@ void draw() {
         Collections.reverse(guessWhatItsAnotherTemp);
         temp2 = createSelections(guessWhatItsAnotherTemp);
         
+        //for alphabet order by origin
+        guessWhatItsAnotherTemp2.addAll(calendarDataPoint);
+        Collections.sort(guessWhatItsAnotherTemp2, new Comparator<DataPoint>()
+        {
+           public int compare(DataPoint dp1, DataPoint dp2)
+           {
+             return dp1.originCity.compareToIgnoreCase(dp2.originCity);
+           }
+        });
+        temp3 = createSelections(guessWhatItsAnotherTemp2);
+
+
+        //for alphabet order by destination
+        guessWhatItsAnotherTemp3.addAll(calendarDataPoint);
+        Collections.sort(guessWhatItsAnotherTemp3, new Comparator<DataPoint>()
+        {
+           public int compare(DataPoint dp1, DataPoint dp2)
+           {
+             return dp1.destCity.compareToIgnoreCase(dp2.destCity);
+           }
+        });
+        temp4 = createSelections(guessWhatItsAnotherTemp3);
     }
       selectScreen.draw();
       if(forOptions.searchQuery == "Default: By Date" || forOptions.searchQuery == "By Date" || forOptions.searchQuery == "")
@@ -571,21 +617,25 @@ void draw() {
       {         
 //        showFlightSelections(temp2, guessWhatItsAnotherTemp);
   //      currentEvent = returnEventFromListOfButton(temp2);
+  //      switchh = 3;
       }
      else if(forOptions.searchQuery == "Reversed By Time")
       {         
   //      showFlightSelections(temp2, guessWhatItsAnotherTemp);
 //        currentEvent = returnEventFromListOfButton(temp2);
+//        switchh = 4;
       }
      else if(forOptions.searchQuery == "By Alphabetical For Origin")
       {         
-  //      showFlightSelections(temp2, guessWhatItsAnotherTemp);
-//        currentEvent = returnEventFromListOfButton(temp2);
+        showFlightSelections(temp3, guessWhatItsAnotherTemp2);
+        currentEvent = returnEventFromListOfButton(temp3);
+        switchh = 5;
       }
      else if(forOptions.searchQuery == "By Alphabetical For Destination")
       {         
-  //      showFlightSelections(temp2, guessWhatItsAnotherTemp);
-//        currentEvent = returnEventFromListOfButton(temp2);
+        showFlightSelections(temp4, guessWhatItsAnotherTemp3);
+        currentEvent = returnEventFromListOfButton(temp4);
+        switchh = 6;
       }
       forOptions.draw();
       if (currentEvent>=100)  //the flights events are allocated after 100

@@ -1,4 +1,4 @@
-import java.util.Scanner; //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
+import java.util.Scanner; //<>// //<>// //<>// //<>// //<>//
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +31,6 @@ final int EVENT_BUTTON_RL = 16;
 final int EVENT_BUTTON_FILTER_AIRPORT = 17;
 final int EVENT_BUTTON_FILTER_2 = 18;
 final int EVENT_BUTTON_HEAT_MAP = 19;
-final int EVENT_BUTTON_LINE_GRAPH = 21;
 
 
 final int EVENT_GETHELP = 40;
@@ -47,7 +46,6 @@ final int SCREEN_HISTOGRAM = 7;
 final int SCREEN_PIE_CHART = 8;
 final int SCREEN_BAR_CHART = 9;
 final int SCREEN_HEAT_MAP = 10;
-final int SCREEN_LINE_GRAPH = 20;
 
 
 float adapter;
@@ -75,13 +73,6 @@ boolean helping;
 ArrayList temp;               //temp Arraylist to store the selected flights
 ArrayList temp2;
 ArrayList temp3;
-ArrayList temp4;
-ArrayList temp5;               //temp Arraylist to store the selected flights
-ArrayList temp6;
-ArrayList temp7;
-ArrayList temp8;
-
-
 //  String lists for dropdown menu
 ArrayList<String> cities = new ArrayList<String>();
 ArrayList<String> airports = new ArrayList<String>();
@@ -90,15 +81,7 @@ ArrayList<String> airports = new ArrayList<String>();
 
 ArrayList<String> optionsForOrdering = new ArrayList<String>();
 ArrayList<DataPoint> guessWhatItsAnotherTemp = new ArrayList<DataPoint>();
-ArrayList<DataPoint> guessWhatItsAnotherTemp2 = new ArrayList<DataPoint>();
-ArrayList<DataPoint> guessWhatItsAnotherTemp3 = new ArrayList<DataPoint>();
-ArrayList<DataPoint> guessWhatItsAnotherTemp4 = new ArrayList<DataPoint>();
-ArrayList<DataPoint> guessWhatItsAnotherTemp5 = new ArrayList<DataPoint>();
-ArrayList<DataPoint> guessWhatItsAnotherTemp6 = new ArrayList<DataPoint>();
-ArrayList<DataPoint> guessWhatItsAnotherTemp7 = new ArrayList<DataPoint>();
-ArrayList<DataPoint> guessWhatItsAnotherTemp8 = new ArrayList<DataPoint>();
-
-
+ArrayList<DataPoint> guessWhatItsThirdTemp = new ArrayList<DataPoint>();
 DateCalander calendar;
 SearchBox forOptions;
 int count;
@@ -135,9 +118,6 @@ boolean switchingPie = false;
 
 BarChart  currentBar = new BarChart();
 boolean switchingBar = false;
-int[] dataXLineGraph ={2,3}; 
-int[] dataYLineGraph={2,3};
-
 
 String variableHistogram = "";
 String variablePie = "";
@@ -148,11 +128,7 @@ String dependentVariableBar = "";
 int lineHeight = 20;
 boolean loadingComplete;
 boolean isLoading;
-float progress;  //from 0-1 that represents loading progress
-float derivative;  // the growing speed of progress
-LineGraph delayLineGraph = new LineGraph();
-//LineGraph delayLineGraph = new LineGraph(7,8, 5, 6, dataXLineGraph, dataYLineGraph, 2,
-    //"u", "", " " );
+  int loadingPhase;
   
 void settings() //REPLACED SCREENX WITH (displayWidth/2) & SCREENY WITH (displayHeight - 100)
 {
@@ -179,8 +155,7 @@ void setup()
   init_stateLabelCoord();
   loadingComplete = false;
   isLoading = false;
-  progress = 0;
-  
+  loadingPhase = 0;
   //for (int i=0; i<tableOfAirports_Origin.size; i++)
   //{
   //  if (tableOfAirports_Origin.getDataByIndex(i).size()!=0)
@@ -196,23 +171,21 @@ void setup()
   //Screen History Arrows - Andy
   screenArrow = new ArrayList<Integer>();
   //Searching Bar
-  //delayLineGraph = quickLine(calendarDataPoint,"delay");
-  //delayLineGraph = new LineGraph(7,8, 5, 6, dataXLineGraph, dataYLineGraph, 2,
-   // "u", "", " " );
 }
 
 void initiateSetup()
 {
   isLoading = true;
   read_in_the_file();
+  loadingPhase++;
   calendarDataPoint=dataPoints;
   createHashMaps();
-//  loadingPhase++;
+  loadingPhase++;
   GraphicsSetUp();
   createHashMaps(calendarDataPoint);
-//  loadingPhase++;
+  loadingPhase++;
   createCharts();
-//  loadingPhase++;
+  loadingPhase++;
   //data setup ends//
 
   calendar = new DateCalander(tableOfDates.size);
@@ -229,8 +202,8 @@ void initiateSetup()
       }
     }
   }
+  loadingPhase++;
   loadingComplete = true;
-  progress=1;
 }
 
 
@@ -246,15 +219,10 @@ void draw() {
     textSize(TS);
     textFont(loadFont("Raanana-16.vlw"));
     textAlign(CENTER,CENTER);
-    // progress = progress + derivative// derivative = derivative - (limit-progress)*someConstant
-    progress += derivative;
-
-      derivative = (1 - progress)*0.01;
-    
-    text("LOADING\n"+round(progress*10000)/100+"%" , displayWidth/4 , displayHeight/2 ); 
+    text("LOADING\n"+((loadingPhase/5.0)*10000)/100+"%" , displayWidth/4 , displayHeight/2 ); 
     loadingAnimation(20*x);
-    fill(50-progress*50,250-progress*20, 150-progress*50);
-    rect(displayWidth/20,displayHeight/1.5 , (displayWidth/2.5)*progress, displayHeight/20);
+    fill(50-loadingPhase*5,250-loadingPhase*20, 150-loadingPhase*5);
+    rect(displayWidth/20,displayHeight/1.5 , (displayWidth/10)*loadingPhase, displayHeight/20);
     if(!isLoading)
     thread("initiateSetup");
   }
@@ -326,10 +294,7 @@ void draw() {
   case SCREEN_GRAPH :
     graphScreen.draw();
     currentEvent = graphScreen.returnEvent();
-    
-    if(calendar.inputChanged != "Date range" && calendar.inputChanged != "Single Date Only")
-    showCurrentCity();
-    
+
     if (currentEvent == EVENT_BUTTON_PIECHART)
     {
       currentScreen = SCREEN_PIE_CHART;
@@ -339,8 +304,6 @@ void draw() {
       currentScreen = SCREEN_HEAT_MAP;
       else if( currentEvent == SCREEN_BAR_CHART)
       currentScreen = SCREEN_BAR_CHART;
-      else if( currentEvent == SCREEN_LINE_GRAPH)
-      currentScreen = SCREEN_LINE_GRAPH;
 
     break;
 ///GRAPH///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH       
@@ -390,10 +353,8 @@ void draw() {
     {
       if(switchingHistogram)
       {
-    currentHistogram = quickFrequencyHistogram(calendarDataPoint , variableHistogram , calendarDataPoint.get(0).day+"/"
-                    +calendarDataPoint.get(0).month+"/"+calendarDataPoint.get(0).year+ " <---TO---> "+
-                    calendarDataPoint.get(calendarDataPoint.size()-1).day+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).month+
-                    "/"+calendarDataPoint.get(calendarDataPoint.size()-1).year); 
+    currentHistogram = quickFrequencyHistogram(calendarDataPoint , variableHistogram , getFirstDay(calendarDataPoint)+"/"+calendarDataPoint.get(0).month+"/"+calendarDataPoint.get(0).year+ " <---TO---> "+
+    getLastDay(calendarDataPoint)+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).month+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).year); 
         switchingHistogram = false;
       }
     currentHistogram.drawHistogram();
@@ -458,16 +419,6 @@ void draw() {
     currentEvent = heatMapScreen.returnEvent();       
     break;
     
-//////SCREEN_LINE_GRAPH///////////////////////////////////////////////SCREEN_LINE_GRAPH////////////////////////////////////////////////////////////
-  case SCREEN_LINE_GRAPH:
-   //println("lineGraph");
-    lineGraphScreen.draw();
-    //background(255);
-    delayLineGraph = quickLine(calendarDataPoint,"delay");
-    delayLineGraph.drawLineGraph();                
-    currentEvent = lineGraphScreen.returnEvent();       
-    break;
-    
 
 ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT ////////SCREEN_INDIVIDUAL_FLIGHT   
   case SCREEN_INDIVIDUAL_FLIGHT:
@@ -498,32 +449,8 @@ void draw() {
         }
         case 2:
         {
-         flight = guessWhatItsAnotherTemp2.get(flightNum);
+         flight = guessWhatItsAnotherTemp.get(flightNum);
           break;
-        }
-        case 3:
-        {
-         flight = guessWhatItsAnotherTemp3.get(flightNum);
-          break;
-        }
-        case 4:
-        {
-         flight = guessWhatItsAnotherTemp4.get(flightNum);
-          break;
-        }
-        case 5:
-        {
-          flight = guessWhatItsAnotherTemp5.get(flightNum);
-          break;         
-        }
-         case 6:
-        {
-          flight = guessWhatItsAnotherTemp6.get(flightNum);
-          break;         
-        }
-        case 7:
-        {
-          flight = guessWhatItsAnotherTemp7.get(flightNum);
         }
         default:
           flight = calendarDataPoint.get(flightNum);
@@ -547,8 +474,6 @@ void draw() {
      //      calendar.displayForCalendar();
       if (calendar.isSelectionComplete())
       {
-        flightSelected = false;
-        currentPage = 0;
         resetGraph();
         fill(0);
         textSize(TS/1.5);
@@ -582,7 +507,6 @@ void draw() {
         
     if (calendar.finalToGoGraph())
       {
-        
          if (calendar.inputChanged == "Departure Only")
           {
             selectFlightsByDateAndOthers("Depart",calendar.depart,calendar.arrive);   //departure mode
@@ -616,68 +540,22 @@ void draw() {
 
   case SCREEN_SELECT :
     {
+        Collections.addAll(optionsForOrdering, "By Date", "Reversed By Date", "By Time", "Reversed By Time", "By Alphabetical For Origin", "By Alphabetical For Destination");
       if (!flightSelected)
       {
-        optionsForOrdering.clear();
-        Collections.addAll(optionsForOrdering, "By Date", "Reversed By Date", "By Time", "Reversed By Time", "By Alphabetical For Origin", "By Alphabetical For Destination", "By Longest Distance");
-        
         temp = createSelections(calendarDataPoint);  //temp is a list of buttons consisting the information of the flights
         flightSelected = true;
         temp2 = new ArrayList<Button>();
-        temp3 = new ArrayList<Button>();
-        temp4 = new ArrayList<Button>();
-        temp5 = new ArrayList<Button>();
-        temp6 = new ArrayList<Button>();
-        temp7 = new ArrayList<Button>();
-        temp8 = new ArrayList<Button>();
-        guessWhatItsAnotherTemp2.clear();
-        guessWhatItsAnotherTemp3.clear();
-        guessWhatItsAnotherTemp4.clear();
-        guessWhatItsAnotherTemp5.clear();
-        guessWhatItsAnotherTemp6.clear();
-        guessWhatItsAnotherTemp7.clear();
-        guessWhatItsAnotherTemp8.clear();
-
+        guessWhatItsAnotherTemp = new ArrayList<DataPoint>();
         forOptions = new SearchBox(optionsForOrdering, int(calendar.x * 30), int(calendar.y * 2), int(40 * calendar.x), int(4 * calendar.y), 10, "Default: By Date");; 
         
         //for reverse date:
-        guessWhatItsAnotherTemp2.addAll(calendarDataPoint);
-        Collections.reverse(guessWhatItsAnotherTemp2);
-        temp2 = createSelections(guessWhatItsAnotherTemp2);
+        guessWhatItsAnotherTemp.addAll(calendarDataPoint);
+        Collections.reverse(guessWhatItsAnotherTemp);
+        temp2 = createSelections(guessWhatItsAnotherTemp);
         
-        //for time
-        guessWhatItsAnotherTemp3 = sortListByTime(calendarDataPoint,false);
-        temp3 = createSelections(guessWhatItsAnotherTemp3);
-        guessWhatItsAnotherTemp4 = sortListByTime(calendarDataPoint,true);
-        temp4 = createSelections(guessWhatItsAnotherTemp4);
-        
-        //for alphabet order by origin
-        guessWhatItsAnotherTemp5.addAll(guessWhatItsAnotherTemp3);
-        Collections.sort(guessWhatItsAnotherTemp5, new Comparator<DataPoint>()
-        {
-           public int compare(DataPoint dp1, DataPoint dp2)
-           {
-             return dp1.originCity.compareToIgnoreCase(dp2.originCity);
-           }
-        });
-        temp5 = createSelections(guessWhatItsAnotherTemp5);
-
-
-        //for alphabet order by destination
-        guessWhatItsAnotherTemp6.addAll(guessWhatItsAnotherTemp3);
-        Collections.sort(guessWhatItsAnotherTemp6, new Comparator<DataPoint>()
-        {
-           public int compare(DataPoint dp1, DataPoint dp2)
-           {
-             return dp1.destCity.compareToIgnoreCase(dp2.destCity);
-           }
-        });
-        temp6 = createSelections(guessWhatItsAnotherTemp6);
-        
-//       sort by longest distance
-        guessWhatItsAnotherTemp7.addAll(calendarDataPoint);
-        guessWhatItsAnotherTemp7.sort((dp1, dp2) -> Integer.compare(dp2.distance, dp1.distance));
-        temp7 = createSelections(guessWhatItsAnotherTemp7);
+        guessWhatItsThirdTemp = sortListByTime(calendarDataPoint);
+        temp3 = createSelections(guessWhatItsThirdTemp);
         
     }
       selectScreen.draw();
@@ -689,39 +567,29 @@ void draw() {
       }
       else if(forOptions.searchQuery == "Reversed By Date")
       {         
-        showFlightSelections(temp2, guessWhatItsAnotherTemp2);
+        showFlightSelections(temp2, guessWhatItsAnotherTemp);
         currentEvent = returnEventFromListOfButton(temp2);
         switchh = 2;
       }
       else if(forOptions.searchQuery == "By Time")
       {         
-        showFlightSelections(temp3, guessWhatItsAnotherTemp3);
-       currentEvent = returnEventFromListOfButton(temp3);
-        switchh = 3;
+        showFlightSelections(temp3, guessWhatItsThirdTemp);
+        currentEvent = returnEventFromListOfButton(temp3);
       }
      else if(forOptions.searchQuery == "Reversed By Time")
       {         
-        showFlightSelections(temp4, guessWhatItsAnotherTemp4);
-        currentEvent = returnEventFromListOfButton(temp4);
-       switchh = 4;
+  //      showFlightSelections(temp2, guessWhatItsAnotherTemp);
+//        currentEvent = returnEventFromListOfButton(temp2);
       }
      else if(forOptions.searchQuery == "By Alphabetical For Origin")
       {         
-        showFlightSelections(temp5, guessWhatItsAnotherTemp5);
-        currentEvent = returnEventFromListOfButton(temp5);
-        switchh = 5;
+  //      showFlightSelections(temp2, guessWhatItsAnotherTemp);
+//        currentEvent = returnEventFromListOfButton(temp2);
       }
      else if(forOptions.searchQuery == "By Alphabetical For Destination")
       {         
-        showFlightSelections(temp6, guessWhatItsAnotherTemp6);
-        currentEvent = returnEventFromListOfButton(temp6);
-        switchh = 6;
-      }
-     else if(forOptions.searchQuery == "By Longest Distance")
-      {
-        showFlightSelections(temp7, guessWhatItsAnotherTemp7);
-        currentEvent = returnEventFromListOfButton(temp7);
-        switchh = 7;
+  //      showFlightSelections(temp2, guessWhatItsAnotherTemp);
+//        currentEvent = returnEventFromListOfButton(temp2);
       }
       forOptions.draw();
       if (currentEvent>=100)  //the flights events are allocated after 100

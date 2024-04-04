@@ -84,6 +84,7 @@ ArrayList<DataPoint> guessWhatItsAnotherTemp = new ArrayList<DataPoint>();
 DateCalander calendar;
 SearchBox forOptions;
 int count;
+int switchh;
 
 ArrayList <DataPoint> dataPoints;
 ArrayList <DataPoint> nonCancelledFlights;
@@ -434,10 +435,25 @@ void draw() {
       currentEvent = EVENT_BUTTON_NULL;
     } else if (currentEvent>=100)
       flightNum = selectedFlight;                         //selected from selection screen
-
+//guessWhatItsAnotherTemp
     if (flightNum!=-1)
     {
-      DataPoint flight = calendarDataPoint.get(flightNum);
+      DataPoint flight;
+      switch(switchh)
+      {
+        case 1:
+        {
+         flight = calendarDataPoint.get(flightNum);
+          break;
+        }
+        case 2:
+        {
+         flight = guessWhatItsAnotherTemp.get(flightNum);
+          break;
+        }
+        default:
+          flight = calendarDataPoint.get(flightNum);
+      }
       map = new USMap(0, 0, flight.originState, flight.destState);
       printIndividualData(flight);
     }
@@ -543,11 +559,33 @@ void draw() {
       {
         showFlightSelections(temp, calendarDataPoint);
         currentEvent = returnEventFromListOfButton(temp);
+        switchh = 1;
       }
       else if(forOptions.searchQuery == "Reversed By Date")
       {         
         showFlightSelections(temp2, guessWhatItsAnotherTemp);
         currentEvent = returnEventFromListOfButton(temp2);
+        switchh = 2;
+      }
+      else if(forOptions.searchQuery == "By Time")
+      {         
+//        showFlightSelections(temp2, guessWhatItsAnotherTemp);
+  //      currentEvent = returnEventFromListOfButton(temp2);
+      }
+     else if(forOptions.searchQuery == "Reversed By Time")
+      {         
+  //      showFlightSelections(temp2, guessWhatItsAnotherTemp);
+//        currentEvent = returnEventFromListOfButton(temp2);
+      }
+     else if(forOptions.searchQuery == "By Alphabetical For Origin")
+      {         
+  //      showFlightSelections(temp2, guessWhatItsAnotherTemp);
+//        currentEvent = returnEventFromListOfButton(temp2);
+      }
+     else if(forOptions.searchQuery == "By Alphabetical For Destination")
+      {         
+  //      showFlightSelections(temp2, guessWhatItsAnotherTemp);
+//        currentEvent = returnEventFromListOfButton(temp2);
       }
       forOptions.draw();
       if (currentEvent>=100)  //the flights events are allocated after 100

@@ -74,6 +74,11 @@ ArrayList temp;               //temp Arraylist to store the selected flights
 ArrayList temp2;
 ArrayList temp3;
 ArrayList temp4;
+ArrayList temp5;               //temp Arraylist to store the selected flights
+ArrayList temp6;
+ArrayList temp7;
+ArrayList temp8;
+
 
 //  String lists for dropdown menu
 ArrayList<String> cities = new ArrayList<String>();
@@ -86,6 +91,11 @@ ArrayList<DataPoint> guessWhatItsAnotherTemp = new ArrayList<DataPoint>();
 ArrayList<DataPoint> guessWhatItsAnotherTemp2 = new ArrayList<DataPoint>();
 ArrayList<DataPoint> guessWhatItsAnotherTemp3 = new ArrayList<DataPoint>();
 ArrayList<DataPoint> guessWhatItsAnotherTemp4 = new ArrayList<DataPoint>();
+ArrayList<DataPoint> guessWhatItsAnotherTemp5 = new ArrayList<DataPoint>();
+ArrayList<DataPoint> guessWhatItsAnotherTemp6 = new ArrayList<DataPoint>();
+ArrayList<DataPoint> guessWhatItsAnotherTemp7 = new ArrayList<DataPoint>();
+ArrayList<DataPoint> guessWhatItsAnotherTemp8 = new ArrayList<DataPoint>();
+
 
 DateCalander calendar;
 SearchBox forOptions;
@@ -454,17 +464,17 @@ void draw() {
         }
         case 2:
         {
-         flight = guessWhatItsAnotherTemp.get(flightNum);
+         flight = guessWhatItsAnotherTemp2.get(flightNum);
           break;
         }
         case 5:
         {
-          flight = guessWhatItsAnotherTemp2.get(flightNum);
+          flight = guessWhatItsAnotherTemp5.get(flightNum);
           break;         
         }
          case 6:
         {
-          flight = guessWhatItsAnotherTemp3.get(flightNum);
+          flight = guessWhatItsAnotherTemp6.get(flightNum);
           break;         
         }
         default:
@@ -568,39 +578,58 @@ void draw() {
         temp2 = new ArrayList<Button>();
         temp3 = new ArrayList<Button>();
         temp4 = new ArrayList<Button>();
-        guessWhatItsAnotherTemp.clear();
+        temp5 = new ArrayList<Button>();
+        temp6 = new ArrayList<Button>();
+        temp7 = new ArrayList<Button>();
+        temp8 = new ArrayList<Button>();
         guessWhatItsAnotherTemp2.clear();
         guessWhatItsAnotherTemp3.clear();
+        guessWhatItsAnotherTemp4.clear();
+        guessWhatItsAnotherTemp5.clear();
+        guessWhatItsAnotherTemp6.clear();
+        guessWhatItsAnotherTemp7.clear();
+        guessWhatItsAnotherTemp8.clear();
+
+
 
         forOptions = new SearchBox(optionsForOrdering, int(calendar.x * 30), int(calendar.y * 2), int(40 * calendar.x), int(4 * calendar.y), 10, "Default: By Date");; 
         
         //for reverse date:
-        guessWhatItsAnotherTemp.addAll(calendarDataPoint);
-        Collections.reverse(guessWhatItsAnotherTemp);
-        temp2 = createSelections(guessWhatItsAnotherTemp);
+        guessWhatItsAnotherTemp2.addAll(calendarDataPoint);
+        Collections.reverse(guessWhatItsAnotherTemp2);
+        temp2 = createSelections(guessWhatItsAnotherTemp2);
         
         //for alphabet order by origin
-        guessWhatItsAnotherTemp2.addAll(calendarDataPoint);
-        Collections.sort(guessWhatItsAnotherTemp2, new Comparator<DataPoint>()
+        guessWhatItsAnotherTemp5.addAll(calendarDataPoint);
+        Collections.sort(guessWhatItsAnotherTemp5, new Comparator<DataPoint>()
         {
            public int compare(DataPoint dp1, DataPoint dp2)
            {
              return dp1.originCity.compareToIgnoreCase(dp2.originCity);
            }
         });
-        temp3 = createSelections(guessWhatItsAnotherTemp2);
+        temp5 = createSelections(guessWhatItsAnotherTemp5);
 
 
         //for alphabet order by destination
-        guessWhatItsAnotherTemp3.addAll(calendarDataPoint);
-        Collections.sort(guessWhatItsAnotherTemp3, new Comparator<DataPoint>()
+        guessWhatItsAnotherTemp6.addAll(calendarDataPoint);
+        Collections.sort(guessWhatItsAnotherTemp6, new Comparator<DataPoint>()
         {
            public int compare(DataPoint dp1, DataPoint dp2)
            {
              return dp1.destCity.compareToIgnoreCase(dp2.destCity);
            }
         });
-        temp4 = createSelections(guessWhatItsAnotherTemp3);
+        temp6 = createSelections(guessWhatItsAnotherTemp6);
+        
+      //sort by longest distance
+//      guessWhatItsAnotherTemp5.addAll(calendarDataPoint);
+  //    Collections.sort(guessWhatItsAnotherTemp5, new Comparator<DataPoint>() 
+   //   {
+   //     public int compare(DataPoint dp1, DataPoint dp2) {
+  //      return Integer.compare(dp2.distance, dp1.distance);
+//        }
+  //    });
     }
       selectScreen.draw();
       if(forOptions.searchQuery == "Default: By Date" || forOptions.searchQuery == "By Date" || forOptions.searchQuery == "")
@@ -611,32 +640,32 @@ void draw() {
       }
       else if(forOptions.searchQuery == "Reversed By Date")
       {         
-        showFlightSelections(temp2, guessWhatItsAnotherTemp);
+        showFlightSelections(temp2, guessWhatItsAnotherTemp2);
         currentEvent = returnEventFromListOfButton(temp2);
         switchh = 2;
       }
       else if(forOptions.searchQuery == "By Time")
       {         
-//        showFlightSelections(temp2, guessWhatItsAnotherTemp);
-  //      currentEvent = returnEventFromListOfButton(temp2);
+//        showFlightSelections(temp3, guessWhatItsAnotherTemp3);
+  //      currentEvent = returnEventFromListOfButton(temp3);
   //      switchh = 3;
       }
      else if(forOptions.searchQuery == "Reversed By Time")
       {         
-  //      showFlightSelections(temp2, guessWhatItsAnotherTemp);
-//        currentEvent = returnEventFromListOfButton(temp2);
+  //      showFlightSelections(temp4, guessWhatItsAnotherTemp4);
+//        currentEvent = returnEventFromListOfButton(temp4);
 //        switchh = 4;
       }
      else if(forOptions.searchQuery == "By Alphabetical For Origin")
       {         
-        showFlightSelections(temp3, guessWhatItsAnotherTemp2);
-        currentEvent = returnEventFromListOfButton(temp3);
+        showFlightSelections(temp5, guessWhatItsAnotherTemp5);
+        currentEvent = returnEventFromListOfButton(temp5);
         switchh = 5;
       }
      else if(forOptions.searchQuery == "By Alphabetical For Destination")
       {         
-        showFlightSelections(temp4, guessWhatItsAnotherTemp3);
-        currentEvent = returnEventFromListOfButton(temp4);
+        showFlightSelections(temp6, guessWhatItsAnotherTemp6);
+        currentEvent = returnEventFromListOfButton(temp6);
         switchh = 6;
       }
       forOptions.draw();

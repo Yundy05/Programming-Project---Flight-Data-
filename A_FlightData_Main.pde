@@ -46,6 +46,7 @@ final int SCREEN_HISTOGRAM = 7;
 final int SCREEN_PIE_CHART = 8;
 final int SCREEN_BAR_CHART = 9;
 final int SCREEN_HEAT_MAP = 10;
+final int SCREEN_LINE_GRAPH = 11;
 
 
 float adapter;
@@ -305,6 +306,8 @@ void draw() {
       currentScreen = SCREEN_HEAT_MAP;
       else if( currentEvent == SCREEN_BAR_CHART)
       currentScreen = SCREEN_BAR_CHART;
+      else if( currentEvent == SCREEN_LINE_GRAPH)
+      currentScreen = SCREEN_LINE_GRAPH;
 
     break;
 ///GRAPH///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH   ///GRAPH       
@@ -354,8 +357,10 @@ void draw() {
     {
       if(switchingHistogram)
       {
-    currentHistogram = quickFrequencyHistogram(calendarDataPoint , variableHistogram , calendarDataPoint.get(0).day+"/"+calendarDataPoint.get(0).month+"/"+calendarDataPoint.get(0).year+ " <---TO---> "+
-    calendarDataPoint.get(calendarDataPoint.size()-1).day+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).month+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).year); 
+    currentHistogram = quickFrequencyHistogram(calendarDataPoint , variableHistogram , calendarDataPoint.get(0).day+"/"
+                    +calendarDataPoint.get(0).month+"/"+calendarDataPoint.get(0).year+ " <---TO---> "+
+                    calendarDataPoint.get(calendarDataPoint.size()-1).day+"/"+calendarDataPoint.get(calendarDataPoint.size()-1).month+
+                    "/"+calendarDataPoint.get(calendarDataPoint.size()-1).year); 
         switchingHistogram = false;
       }
     currentHistogram.drawHistogram();
@@ -418,6 +423,14 @@ void draw() {
     HeatMap statesMap = new HeatMap (0, 100, stateFreq);
     statesMap.draw();
     currentEvent = heatMapScreen.returnEvent();       
+    break;
+    
+//////SCREEN_LINE_GRAPH///////////////////////////////////////////////SCREEN_LINE_GRAPH////////////////////////////////////////////////////////////
+  case SCREEN_LINE_GRAPH:
+  lineGraphScreen.draw();
+    fill(255);
+    textSize(TS);
+    currentEvent = lineGraphScreen.returnEvent();       
     break;
     
 

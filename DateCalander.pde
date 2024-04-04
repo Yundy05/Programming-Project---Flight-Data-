@@ -167,7 +167,7 @@ boolean calendarShowing()
       selectedOutboundDay = -1;
       inputChanged = dropdownOption1.searchQuery;
       toggleClickMode = false;
-      if (inputChanged == "Departure & Arriving" || inputChanged == "Date range")
+      if (inputChanged == "Date range") //inputChanged == "Departure & Arriving"
       {
         singleDateMode = false;
       }

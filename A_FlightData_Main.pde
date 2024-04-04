@@ -80,7 +80,9 @@ ArrayList temp5;               //temp Arraylist to store the selected flights
 ArrayList temp6;
 ArrayList temp7;
 ArrayList temp8;
-
+ArrayList temp9;
+ArrayList temp10;
+ArrayList temp11;
 
 //  String lists for dropdown menu
 ArrayList<String> cities = new ArrayList<String>();
@@ -97,8 +99,9 @@ ArrayList<DataPoint> guessWhatItsAnotherTemp5 = new ArrayList<DataPoint>();
 ArrayList<DataPoint> guessWhatItsAnotherTemp6 = new ArrayList<DataPoint>();
 ArrayList<DataPoint> guessWhatItsAnotherTemp7 = new ArrayList<DataPoint>();
 ArrayList<DataPoint> guessWhatItsAnotherTemp8 = new ArrayList<DataPoint>();
-
-
+ArrayList<DataPoint> guessWhatItsAnotherTemp9 = new ArrayList<DataPoint>();
+ArrayList<DataPoint> guessWhatItsAnotherTemp10 = new ArrayList<DataPoint>();
+ArrayList<DataPoint> guessWhatItsAnotherTemp11 = new ArrayList<DataPoint>();
 DateCalander calendar;
 SearchBox forOptions;
 int count;
@@ -549,6 +552,27 @@ void draw() {
         case 7:
         {
           flight = guessWhatItsAnotherTemp7.get(flightNum);
+          break;
+        }
+        case 8:
+        {
+          flight = guessWhatItsAnotherTemp8.get(flightNum);
+          break;
+        }
+        case 9:
+        {
+          flight = guessWhatItsAnotherTemp9.get(flightNum);
+          break;
+        }
+        case 10:
+        {
+          flight = guessWhatItsAnotherTemp10.get(flightNum);
+          break;
+        }
+        case 11:
+        {
+          flight = guessWhatItsAnotherTemp11.get(flightNum);
+          break;
         }
         default:
           flight = calendarDataPoint.get(flightNum);
@@ -644,7 +668,7 @@ void draw() {
       if (!flightSelected)
       {
         optionsForOrdering.clear();
-        Collections.addAll(optionsForOrdering, "By Date", "Reversed By Date", "By Time", "Reversed By Time", "By Alphabetical For Origin", "By Alphabetical For Destination", "By Longest Distance");
+        Collections.addAll(optionsForOrdering, "By Date", "Reversed By Date", "By Time", "Reversed By Time", "By Shortest Distance", "By Longest Distance", "By Cancelled", "By Delayed", "By Diverted", "By Alphabetical For Origin", "By Alphabetical For Destination");
         
         temp = createSelections(calendarDataPoint);  //temp is a list of buttons consisting the information of the flights
         flightSelected = true;
@@ -655,6 +679,10 @@ void draw() {
         temp6 = new ArrayList<Button>();
         temp7 = new ArrayList<Button>();
         temp8 = new ArrayList<Button>();
+        temp9 = new ArrayList<Button>();
+        temp10 = new ArrayList<Button>();
+        temp11 = new ArrayList<Button>();
+
         guessWhatItsAnotherTemp2.clear();
         guessWhatItsAnotherTemp3.clear();
         guessWhatItsAnotherTemp4.clear();
@@ -662,8 +690,11 @@ void draw() {
         guessWhatItsAnotherTemp6.clear();
         guessWhatItsAnotherTemp7.clear();
         guessWhatItsAnotherTemp8.clear();
+        guessWhatItsAnotherTemp9.clear();
+        guessWhatItsAnotherTemp10.clear();
+        guessWhatItsAnotherTemp11.clear();
 
-        forOptions = new SearchBox(optionsForOrdering, int(calendar.x * 30), int(calendar.y * 2), int(40 * calendar.x), int(4 * calendar.y), 10, "Default: By Date");; 
+        forOptions = new SearchBox(optionsForOrdering, int(calendar.x * 30), int(calendar.y * 2), int(40 * calendar.x), int(4 * calendar.y), 10, "Default: By Date (Press and Scroll for Options)");; 
         
         //for reverse date:
         guessWhatItsAnotherTemp2.addAll(calendarDataPoint);
@@ -701,12 +732,55 @@ void draw() {
         
 //       sort by longest distance
         guessWhatItsAnotherTemp7.addAll(calendarDataPoint);
-        guessWhatItsAnotherTemp7.sort((dp1, dp2) -> Integer.compare(dp2.distance, dp1.distance));
+        Collections.sort(guessWhatItsAnotherTemp7, new Comparator<DataPoint>()
+        {
+          public int compare(DataPoint dp1, DataPoint dp2)
+          {
+            return Integer.compare(dp2.distance, dp1.distance);
+          }  
+        });
         temp7 = createSelections(guessWhatItsAnotherTemp7);
+
+//       sort by shortest distance
+        guessWhatItsAnotherTemp8.addAll(guessWhatItsAnotherTemp7);
+        Collections.reverse(guessWhatItsAnotherTemp8);
+        temp8 = createSelections(guessWhatItsAnotherTemp8);
         
+//      sort by cancelled
+        for(DataPoint dp : guessWhatItsAnotherTemp3)
+        {
+          if(dp.cancelled)
+          {
+            guessWhatItsAnotherTemp9.add(dp);
+          }
+        }
+        temp9 = createSelections(guessWhatItsAnotherTemp9);
+
+
+//      sort by delayed
+        for(DataPoint dp : guessWhatItsAnotherTemp3)
+        {
+          if(dp.delayed)
+          {
+            guessWhatItsAnotherTemp10.add(dp);
+          }
+        }
+        temp10 = createSelections(guessWhatItsAnotherTemp10);
+
+
+//      sort by diverted
+        for(DataPoint dp : guessWhatItsAnotherTemp3)
+        {
+          if(dp.diverted)
+          {
+            guessWhatItsAnotherTemp11.add(dp);
+          }
+        }
+        temp11 = createSelections(guessWhatItsAnotherTemp11);
+
     }
       selectScreen.draw();
-      if(forOptions.searchQuery == "Default: By Date" || forOptions.searchQuery == "By Date" || forOptions.searchQuery == "")
+      if(forOptions.searchQuery == "Default: By Date (Press and Scroll for Options)" || forOptions.searchQuery == "By Date" || forOptions.searchQuery == "")
       {
         showFlightSelections(temp, calendarDataPoint);
         currentEvent = returnEventFromListOfButton(temp);
@@ -748,6 +822,31 @@ void draw() {
         currentEvent = returnEventFromListOfButton(temp7);
         switchh = 7;
       }
+      else if(forOptions.searchQuery == "By Shortest Distance")
+      {
+        showFlightSelections(temp8, guessWhatItsAnotherTemp8);
+        currentEvent = returnEventFromListOfButton(temp8);
+        switchh = 8;
+      }
+      else if(forOptions.searchQuery == "By Cancelled")
+      {
+        showFlightSelections(temp9, guessWhatItsAnotherTemp9);
+        currentEvent = returnEventFromListOfButton(temp9);
+        switchh = 9;        
+      }
+      else if(forOptions.searchQuery == "By Delayed")
+      {
+        showFlightSelections(temp10, guessWhatItsAnotherTemp10);
+        currentEvent = returnEventFromListOfButton(temp10);
+        switchh = 10;        
+      }
+      else if(forOptions.searchQuery == "By Diverted")
+      {
+        showFlightSelections(temp11, guessWhatItsAnotherTemp11);
+        currentEvent = returnEventFromListOfButton(temp11);
+        switchh = 11;         
+      }
+      
       forOptions.draw();
       if (currentEvent>=100)  //the flights events are allocated after 100
       {

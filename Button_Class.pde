@@ -24,10 +24,17 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   homePageBtn = new ImageButton(45*x, 91*y, 8*x, "homeButton1.png", "homeButton2.png", #8080ff, #b3b3ff, EVENT_BUTTON_HOME, glowSize);
 
   //GRAPH PAGE
-  showPieChartBtn = new Button(60*x, 20*y, 30*x, 5*y, "PieChart", #8080ff, #b3b3ff, EVENT_BUTTON_PIECHART, glowSize);
-  showHistogramBtn = new Button(10*x, 20*y, 30*x, 5*y, "Histogram", #8080ff, #b3b3ff, EVENT_BUTTON_HISTOGRAM, glowSize);
-  showBarChartBtn = new Button(10*x, 30*y, 30*x, 5*y, "BarChart", #8080ff, #b3b3ff, SCREEN_BAR_CHART, glowSize);
-  showHeatMapBtn = new Button(60*x, 30*y, 30*x, 5*y, "HeatMap", #8080ff, #b3b3ff, EVENT_BUTTON_HEAT_MAP, glowSize);
+  //showPieChartBtn = new Button(60*x, 20*y, 30*x, 5*y, "PieChart", #8080ff, #b3b3ff, EVENT_BUTTON_PIECHART, glowSize);
+  //showHistogramBtn = new Button(10*x, 20*y, 30*x, 5*y, "Histogram", #8080ff, #b3b3ff, EVENT_BUTTON_HISTOGRAM, glowSize);
+  //showBarChartBtn = new Button(10*x, 30*y, 30*x, 5*y, "BarChart", #8080ff, #b3b3ff, SCREEN_BAR_CHART, glowSize);
+  //showHeatMapBtn = new Button(60*x, 30*y, 30*x, 5*y, "HeatMap", #8080ff, #b3b3ff, EVENT_BUTTON_HEAT_MAP, glowSize);
+ 
+  showPieChartBtn  = new ImageButton(60*x, 20*y, 30*x, "pie2.png", "pie1.png", #8080ff, #b3b3ff, EVENT_BUTTON_PIECHART, glowSize);
+  showHistogramBtn  = new ImageButton(10*x, 20*y, 30*x, "hist2.png", "hist1.png", #8080ff, #b3b3ff, EVENT_BUTTON_HISTOGRAM, glowSize);
+  showBarChartBtn  = new ImageButton(10*x, 60*y, 30*x, "bar2.png", "bar1.png", #8080ff, #b3b3ff, SCREEN_BAR_CHART, glowSize);
+  showHeatMapBtn  = new ImageButton(60*x, 60*y, 40*x, "heat2.png", "heat1.png", #8080ff, #b3b3ff, EVENT_BUTTON_HEAT_MAP, glowSize);
+
+
   //HISTOGRAM PAGE - ANDY
   adjustDelayBtn = new Button(20*x, 10*y, 15*x, 5*y, "Delay", #8080ff, #b3b3ff, EVENT_BUTTON_DELAY, glowSize);
   adjustDistanceBtn = new Button(60*x, 10*y, 15*x, 5*y, "Distance", #8080ff, #b3b3ff, EVENT_BUTTON_DISTANCE, glowSize);

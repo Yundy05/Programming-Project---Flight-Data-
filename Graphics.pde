@@ -776,8 +776,13 @@ class HeatMap extends USMap
               numbers[index]=number;
               index++;
     }
-    int max = max(numbers);
-    int min = min(numbers);
+    int max=0;
+    int min=0;
+    if(numbers.length>0)
+    {
+     max = max(numbers);
+     min = min(numbers);
+    }
     int bin = (max-min)/5;
     for (String key : keys) {
             PShape myState = usa.getChild(key);
@@ -818,10 +823,13 @@ class HeatMap extends USMap
     }
     LegendBox box0 = new LegendBox(200,800,50," no data ",color(#9BFFEA, 50));
     box0.draw();
+    if(max!=0)
+    {
     for (int i=0;i<boxes.length;i++)
     {
       LegendBox box = new LegendBox(i*50*2+300,800,50,""+(min+i*bin)+" ~ "+((i==boxes.length-1)?max:(min+(i+1)*bin)),color((min+i*bin)*255/max+100,90+50,90+50));
       box.draw();
+    }
     }
   }
 }

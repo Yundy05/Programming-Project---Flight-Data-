@@ -3,7 +3,8 @@ ArrayList<Button>btnControlPanel;
 PFont buttonFont;
 
 Button originBtn, destinationBtn, dateBtn, flightDataBtn, homePageBtn, graphBtn, backArrow, forwardArrow, previousPage, nextPage, lengthByRoute, showHeatMapBtn;
-Button showPieChartBtn, showHistogramBtn, showBarChartBtn, individualFlightBtn, departBtn, arrivalBtn, getFlightBtn, searchPageBtn, toSelect, helpBtn, searchBarBtn, filterBtn1, filterBtn2;
+Button showPieChartBtn, showHistogramBtn, showBarChartBtn, showLineGraphBtn, individualFlightBtn, departBtn, 
+        arrivalBtn, getFlightBtn, searchPageBtn, toSelect, helpBtn, searchBarBtn, filterBtn1, filterBtn2;
 Button adjustDelayBtn, adjustDistanceBtn , adjustStatusBtn;
 void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour, HoverColour, ButtonEvent)
 {
@@ -28,6 +29,7 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   showHistogramBtn  = new ImageButton(10*x, 20*y, 30*x, "hist2.png", "hist1.png", #8080ff, #b3b3ff, EVENT_BUTTON_HISTOGRAM, glowSize);
   showBarChartBtn  = new ImageButton(10*x, 60*y, 30*x, "bar2.png", "bar1.png", #8080ff, #b3b3ff, SCREEN_BAR_CHART, glowSize);
   showHeatMapBtn  = new ImageButton(60*x, 60*y, 40*x, "heat2.png", "heat1.png", #8080ff, #b3b3ff, EVENT_BUTTON_HEAT_MAP, glowSize);
+  showLineGraphBtn = new ImageButton(50*x, 5*y, 30*x,"bar2.png", "bar1.png", #8080ff, #b3b3ff, SCREEN_BAR_CHART, glowSize);
 
   //HISTOGRAM PAGE - ANDY
   adjustDelayBtn = new Button(20*x, 10*y, 15*x, 5*y, "Delay", #8080ff, #b3b3ff, EVENT_BUTTON_DELAY, glowSize);
@@ -79,6 +81,7 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   graphScreen.addButton(showHistogramBtn);
   graphScreen.addButton(showHeatMapBtn);
   graphScreen.addButton(showBarChartBtn);
+  graphScreen.addButton(showLineGraphBtn);
   //graphScreen.addButton(backArrow);
   //graphScreen.addButton(forwardArrow);
 

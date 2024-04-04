@@ -56,16 +56,11 @@ int TS;
 PShape usa;
 boolean fly;
 boolean prepare;
-<<<<<<< HEAD
-PImage pinImg, planeImg;
-PShape usa;
-=======
 PImage pinImg, planeImg, backgroundNeon , icon;
 USMap map;
 ArrayList<Integer> screenArrow;
 int screenHistory = -1;
 int hasScreenAdded = -1;
->>>>>>> sacrifice
 //screnn and UI ends//
 
 
@@ -151,10 +146,6 @@ String dependentVariableBar = "";
 //HashTable tableOfDates;
 //int listSize = dataPoints[0].size();
 int lineHeight = 20;
-<<<<<<< HEAD
-
-
-=======
 boolean loadingComplete;
 boolean isLoading;
 float progress;  //from 0-1 that represents loading progress
@@ -163,7 +154,6 @@ LineGraph delayLineGraph = new LineGraph();
 //LineGraph delayLineGraph = new LineGraph(7,8, 5, 6, dataXLineGraph, dataYLineGraph, 2,
     //"u", "", " " );
   
->>>>>>> sacrifice
 void settings() //REPLACED SCREENX WITH (displayWidth/2) & SCREENY WITH (displayHeight - 100)
 {
   size(displayWidth/2, displayHeight*9/10, P2D);
@@ -179,14 +169,7 @@ void setup()
   setupPins();
   setupScreen();
   setupBtn();
-<<<<<<< HEAD
-  usa = loadShape("Blank_US_Map_With_Labels.svg");
-  showingData = new ShowingData(20, 20, displayWidth/2, displayHeight - 100);  
-  
-//  scrollbarHeight = height * height / contentHeight;
-=======
   TS = int(displayWidth/60.0);  //universal text size;
->>>>>>> sacrifice
   arrDelayFreq = new HashMap <Integer, Integer>();
   airportFreq = new HashMap <String, Integer>();
   stateFreq = new HashMap <String, Integer>();
@@ -279,65 +262,6 @@ void draw() {
   {
   
   
-<<<<<<< HEAD
- }   break;
- 
- case SCREEN_FLIGHT :
- {
-   flightScreen.draw();
-   currentEvent = flightScreen.returnEvent();
-   if(currentEvent == EVENT_BUTTON_HOME)
-   currentScreen = SCREEN_HOME;
- 
- //  printFlightData();  
-  printSortedFlightData();
- } break;
- 
- case SCREEN_GRAPH :
-   graphScreen.draw();
-   currentEvent = graphScreen.returnEvent();
-   if(currentEvent == EVENT_BUTTON_HOME)
-   currentScreen = SCREEN_HOME;
-   else if(currentEvent == EVENT_BUTTON_SHOWPIECHART)
-   {
-    graphOption = 1 ;
-   }
-   else if(currentEvent == EVENT_BUTTON_SHOWHISTOGRAM)
-     graphOption = 2;
-     
-  if(graphOption == 1)
-     pieChartOfDates.drawPieChart();
-     else if(graphOption == 2)
-     histogramOfDates.drawHistogram();
-   break;
-   
- case SCREEN_INDIVIDUAL_FLIGHT:
-   individualFlightScreen.draw();
-   currentEvent = individualFlightScreen.returnEvent();
-   if(currentEvent == EVENT_BUTTON_HOME)
-   currentScreen = SCREEN_HOME;
-   if(currentEvent == EVENT_GETFLIGHT)
-   {
-     flightNum = (int)random(0,1000);
-     currentEvent = EVENT_BUTTON_NULL;
-   }
-   if(flightNum!=-1)
-   {
-     background(0);
-     individualFlightScreen.drawBackground();
-     DataPoint flight = dataPoints.get(flightNum);
-     USMap map = new USMap(0,0,flight.originState,flight.destState);
-     map.draw();
-     
-     individualFlightScreen.drawBtn();
-    //individualFlightScreen.draw();
-    printIndividualData(flight);
-    
-   }
-   break;
-   default:
-   break;
-=======
   switch(currentScreen)
   {
   case SCREEN_HOME :
@@ -361,7 +285,6 @@ void draw() {
   //case SCREEN_FLIGHT :
   //  {
   //    flightScreen.draw();
->>>>>>> sacrifice
 
   //    if (hasScreenAdded != SCREEN_FLIGHT)
   //    {

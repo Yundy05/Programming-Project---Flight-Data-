@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-class USMap
-{
-  PShape origin;
-  PShape dest;
-  float scale;
-  int x; int y; String originState; String destState;
-=======
 HashMap<String, double[]> stateCoord ;
 HashMap<String, double[]> stateLabelCoord ;
 class USMap
@@ -24,7 +16,6 @@ class USMap
   int y;
   String originState;
   String destState;
->>>>>>> sacrifice
   USMap(int x, int y, String originState, String destState)
   {
     this.x=x;
@@ -35,9 +26,6 @@ class USMap
     dest = new PShape();
     origin = usa.getChild(originState);
     dest = usa.getChild(destState);
-<<<<<<< HEAD
-    scale=displayWidth/1900;
-=======
     scale=(float)displayWidth/1920.0;
     if (stateCoord!=null&&stateCoord.get(originState)!=null)
     {
@@ -53,44 +41,11 @@ class USMap
       destX=destCoord[0];
       destY=destCoord[1];
     }
->>>>>>> sacrifice
   }
   void draw()
   {
     scale(scale);
     usa.disableStyle();
-<<<<<<< HEAD
-    fill(#9BFFEA,50);
-    stroke(#9BFFEA,80);
-    strokeWeight(2);
-    
-   // fill(255,255,255,50);
- 
-    shape(usa, 0, 0);
-    //scale(0.5);
-    // Disable the colors found in the SVG file
-    origin.disableStyle();
-    // Set our own coloring
- 
-  
-    stroke(255);
-    //fill(0, 51, 102);
-    fill(255,50);
-    //fill(#8080ff,80);
-    // Draw a single state
-    shape(origin, 0, 0); // Wolverines!
-    // Disable the colors found in the SVG file
-    dest.disableStyle();
-    // Set our own coloring
-   // fill(153, 0, 0);
-   // fill(#8080ff,80);
-    stroke(255);
-    // Draw a single state
-    shape(dest, 0, 0);  // Buckeyes!
-    scale(1/scale);
-    stroke(0);
-    strokeWeight(6);
-=======
     fill(#9BFFEA, 50);
     stroke(#9BFFEA, 80);
     strokeWeight(2);
@@ -136,6 +91,5 @@ class USMap
     {
       //println(mouseX, mouseY);
     }
->>>>>>> sacrifice
   }
 }

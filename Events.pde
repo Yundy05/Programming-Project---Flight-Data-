@@ -437,6 +437,21 @@ public String eraseQuotation (String aString)
   }
 }
 
+public void showCurrentCity()
+{
+  textSize(1.5*TS);
+  textAlign(CENTER,CENTER);
+  fill(#51DBF2);
+  if (calendar.inputChanged == "Departure Only")
+  text("Departing From: "+calendar.depart, displayWidth/4 , displayHeight/10);
+  else if (calendar.inputChanged == "Arrival Only")
+  text("Arriving At: "+calendar.arrive,displayWidth/4,displayHeight/10);
+  else if (calendar.inputChanged == "Departure & Arriving")
+  {
+  text(calendar.depart+"-TO-"+calendar.arrive, displayWidth/4,displayHeight/10);
+  }
+}
+
 String convertTo24HourFormat(int time) {
   // Extract hours and minutes from the integer
   int hours = time / 100;

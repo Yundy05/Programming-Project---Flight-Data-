@@ -306,7 +306,10 @@ void draw() {
   case SCREEN_GRAPH :
     graphScreen.draw();
     currentEvent = graphScreen.returnEvent();
-
+    
+    if(calendar.inputChanged != "Date range" && calendar.inputChanged != "Single Date Only")
+    showCurrentCity();
+    
     if (currentEvent == EVENT_BUTTON_PIECHART)
     {
       currentScreen = SCREEN_PIE_CHART;

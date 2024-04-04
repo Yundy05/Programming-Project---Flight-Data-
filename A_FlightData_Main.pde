@@ -367,7 +367,13 @@ void draw() {
       variablePie = "Status";
       switchingPie = true;
     }
-      if(variablePie!="")
+    if(calendarDataPoint.size()==0)
+    {
+      fill(255);
+      textSize(TS);
+      text("No flight data found.",displayWidth/4, displayHeight/2);
+    }
+      else if(variablePie!="")
       {
         if(switchingPie)
         {
@@ -437,8 +443,13 @@ void draw() {
          currentBar = flightsByAirport;      //drawn directly from Vivan's graph in main, do not look for this in graphics
          switchingBar = false;
       }
-      
-      if(dependentVariableBar!="")
+      if(calendarDataPoint.size()==0)
+      {
+        fill(255);
+        textSize(TS);
+        text("No flight data found.",displayWidth/4, displayHeight/2);
+      }
+      else if(dependentVariableBar!="")
       {
         if(switchingBar)
         {
@@ -468,8 +479,17 @@ void draw() {
    //println("lineGraph");
     lineGraphScreen.draw();
     //background(255);
+    if(calendarDataPoint.size()==0)
+    {
+        fill(255);
+        textSize(TS);
+        text("No flight data found.",displayWidth/4, displayHeight/2);
+     }
+    else
+    {
     delayLineGraph = quickLine(calendarDataPoint,"delay");
-    delayLineGraph.drawLineGraph();                
+    delayLineGraph.drawLineGraph();         
+    }
     currentEvent = lineGraphScreen.returnEvent();       
     break;
     

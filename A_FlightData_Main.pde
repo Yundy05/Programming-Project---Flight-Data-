@@ -528,12 +528,15 @@ void draw() {
       {
         temp = createSelections(calendarDataPoint);  //temp is a list of buttons consisting the information of the flights
         flightSelected = true;
+        temp2 = new ArrayList<Button>();
         guessWhatItsAnotherTemp = new ArrayList<DataPoint>();
         forOptions = new SearchBox(optionsForOrdering, int(calendar.x * 30), int(calendar.y * 2), int(40 * calendar.x), int(4 * calendar.y), 10, "Default: By Date");; 
         
         guessWhatItsAnotherTemp.addAll(calendarDataPoint);
+//        temp2.addAll(temp);
         Collections.reverse(guessWhatItsAnotherTemp);
         temp2 = createSelections(guessWhatItsAnotherTemp);
+//        Collections.reverse(temp2);
     }
       selectScreen.draw();
       if(forOptions.searchQuery == "Default: By Date" || forOptions.searchQuery == "By Date" || forOptions.searchQuery == "")

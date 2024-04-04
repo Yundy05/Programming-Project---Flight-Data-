@@ -223,6 +223,7 @@ ArrayList<Button> createSelections(ArrayList<DataPoint> theFlights)
   }
   return flights;
 }
+
 int currentPage = 0;               //selection page
 int flightsPerPage = 8;
 

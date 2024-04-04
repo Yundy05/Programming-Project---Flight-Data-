@@ -560,7 +560,9 @@ void draw() {
     {
       if (!flightSelected)
       {
+        optionsForOrdering.clear();
         Collections.addAll(optionsForOrdering, "By Date", "Reversed By Date", "By Time", "Reversed By Time", "By Alphabetical For Origin", "By Alphabetical For Destination");
+        
         temp = createSelections(calendarDataPoint);  //temp is a list of buttons consisting the information of the flights
         flightSelected = true;
         temp2 = new ArrayList<Button>();

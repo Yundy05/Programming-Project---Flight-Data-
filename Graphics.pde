@@ -96,7 +96,8 @@ Histogram quickFrequencyHistogram(ArrayList<DataPoint> data, String variable, St
     {
       distance[i] = data.get(i).distance;
     }
-    tempHistogram = new RelativeHistogram(int(20*x), int(30*y), int(40*x), int(30*y), getRelativeFrequency(distance, (float)interval), bins, 0, max, "Distance_Frequency_From"+datePeriod, "Distance(miles)", "Relative Frequency");
+    tempHistogram = new RelativeHistogram(int(20*x), int(30*y), int(40*x), int(30*y), getRelativeFrequency(distance, (float)interval), bins, 
+              0, max, "Distance_Frequency_From"+datePeriod, "Distance(miles)", "Relative Frequency");
   }
   return tempHistogram;
 }
@@ -581,6 +582,36 @@ class BarChart
     }
   }
 }
+LineGraph quickLine(ArrayList<DataPoint> data , String indicator)
+{
+  float x = displayWidth/200.0;          //unit x
+  float y = (displayHeight*9/10)/100.0;
+  LineGraph quickLineGraph;
+  if(indicator.equals("delay"))
+  {
+    int xpos = (int)(20*x);
+    int ypos = (int)(30*y);
+    int gphH =int(40*x);
+    int gphW =int(30*y);
+    String title = "Delay frequency :" + data.get(0).day +"/" +
+               data.get(0).month + "/" + data.get(0).year + 
+               " TO " + data.get(data.size()-1).day + "/" + 
+               data.get(data.size()-1).month + "/" + 
+               data.get(data.size()-1).year;
+    double[] day = new double[data.size()];
+    double[] delayTime = new double[data.size()];
+    for(int i =0; i<= data.size()-1; i++)
+    {
+      day[0] =(double)(data.get(i).day);
+      delayTime[i] = data.get(i).getArrDelay()+data.get(i).getDepDelay();
+    }
+    quickLineGraph = new LineGraph(xpos, ypos, gphH, gphW, day, delayTime, data.size(),
+          title, "date", "delayed time" );
+    return quickLineGraph;
+  }
+  return new LineGraph();
+
+}
 class LineGraph
 {
   GPointsArray points = new GPointsArray(0);
@@ -597,6 +628,9 @@ class LineGraph
   String title;
   String labelX;
   String labelY;
+  LineGraph()
+  {
+  }
   LineGraph(int x, int y, int gphH, int gphW, double[] dataX, double[] dataY, int numOfPoints,
     String title, String labelX, String labelY )
   {
@@ -771,4 +805,16 @@ class LegendBox
     textSize(TS/2);
     text(label,x,y+size*1.5);
   }
+  
+  double[] arrayListToDoubleArray(ArrayList<Double> arrayList) 
+  {
+    double[] doubleArray = new double[arrayList.size()];
+ 
+    for (int i = 0; i < arrayList.size(); i++) 
+    {
+      doubleArray[i] = arrayList.get(i); 
+    }
+    return doubleArray;
+  }
+
 }

@@ -427,9 +427,10 @@ void draw() {
     
 //////SCREEN_LINE_GRAPH///////////////////////////////////////////////SCREEN_LINE_GRAPH////////////////////////////////////////////////////////////
   case SCREEN_LINE_GRAPH:
-  lineGraphScreen.draw();
-    fill(255);
-    textSize(TS);
+   println("lineGraph");
+    lineGraphScreen.draw();
+    //background(255);
+                    
     currentEvent = lineGraphScreen.returnEvent();       
     break;
     

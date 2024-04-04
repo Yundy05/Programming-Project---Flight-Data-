@@ -535,7 +535,6 @@ void draw() {
         Collections.reverse(guessWhatItsAnotherTemp);
         temp2 = createSelections(guessWhatItsAnotherTemp);
     }
-      guessWhatItsAnotherTemp.addAll(calendarDataPoint);
       selectScreen.draw();
       if(forOptions.searchQuery == "Default: By Date" || forOptions.searchQuery == "By Date" || forOptions.searchQuery == "")
       {

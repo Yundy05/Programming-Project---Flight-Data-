@@ -123,7 +123,8 @@ String dependentVariableBar = "";
 int lineHeight = 20;
 boolean loadingComplete;
 boolean isLoading;
-  int loadingPhase;
+float progress;  //from 0-1 that represents loading progress
+float derivative;  // the growing speed of progress
   
 void settings() //REPLACED SCREENX WITH (displayWidth/2) & SCREENY WITH (displayHeight - 100)
 {
@@ -150,7 +151,8 @@ void setup()
   init_stateLabelCoord();
   loadingComplete = false;
   isLoading = false;
-  loadingPhase = 0;
+  progress = 0;
+  
   //for (int i=0; i<tableOfAirports_Origin.size; i++)
   //{
   //  if (tableOfAirports_Origin.getDataByIndex(i).size()!=0)
@@ -172,15 +174,14 @@ void initiateSetup()
 {
   isLoading = true;
   read_in_the_file();
-  loadingPhase++;
   calendarDataPoint=dataPoints;
   createHashMaps();
-  loadingPhase++;
+//  loadingPhase++;
   GraphicsSetUp();
   createHashMaps(calendarDataPoint);
-  loadingPhase++;
+//  loadingPhase++;
   createCharts();
-  loadingPhase++;
+//  loadingPhase++;
   //data setup ends//
 
   calendar = new DateCalander(tableOfDates.size);
@@ -197,8 +198,8 @@ void initiateSetup()
       }
     }
   }
-  loadingPhase++;
   loadingComplete = true;
+  progress=1;
 }
 
 
@@ -214,10 +215,15 @@ void draw() {
     textSize(TS);
     textFont(loadFont("Raanana-16.vlw"));
     textAlign(CENTER,CENTER);
-    text("LOADING\n"+((loadingPhase/5.0)*10000)/100+"%" , displayWidth/4 , displayHeight/2 ); 
+    // progress = progress + derivative// derivative = derivative - (limit-progress)*someConstant
+    progress += derivative;
+
+      derivative = (1 - progress)*0.01;
+    
+    text("LOADING\n"+round(progress*10000)/100+"%" , displayWidth/4 , displayHeight/2 ); 
     loadingAnimation(20*x);
-    fill(50-loadingPhase*5,250-loadingPhase*20, 150-loadingPhase*5);
-    rect(displayWidth/20,displayHeight/1.5 , (displayWidth/10)*loadingPhase, displayHeight/20);
+    fill(50-progress*50,250-progress*20, 150-progress*50);
+    rect(displayWidth/20,displayHeight/1.5 , (displayWidth/2.5)*progress, displayHeight/20);
     if(!isLoading)
     thread("initiateSetup");
   }

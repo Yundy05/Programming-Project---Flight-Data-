@@ -831,6 +831,7 @@ class HeatMap extends USMap
       box.draw();
     }
     }
+    scale(1/scale);
   }
 }
 class LegendBox

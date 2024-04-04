@@ -385,8 +385,13 @@ void draw() {
   case SCREEN_HISTOGRAM :
     histogramScreen.draw();
     currentEvent = histogramScreen.returnEvent();
-
-     if(variableHistogram!="")
+    if(calendarDataPoint.size()==0)
+    {
+      fill(255);
+      textSize(TS);
+      text("No flight data found.",displayWidth/4, displayHeight/2);
+    }
+    else if(variableHistogram!="")
     {
       if(switchingHistogram)
       {

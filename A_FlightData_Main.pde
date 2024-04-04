@@ -71,6 +71,8 @@ int flightNum = -1;       // the index for showing a flight in Individual flight
 boolean flightSelected;    //used in Selection page to ensure we select flights only once before next selection
 boolean helping;
 ArrayList temp;               //temp Arraylist to store the selected flights
+ArrayList temp2;
+ArrayList temp3;
 //  String lists for dropdown menu
 ArrayList<String> cities = new ArrayList<String>();
 ArrayList<String> airports = new ArrayList<String>();
@@ -521,29 +523,31 @@ void draw() {
 
   case SCREEN_SELECT :
     {
-        Collections.addAll(optionsForOrdering, "By Time", "Reversed Time", "Reversed Time", "By Alphabetical For Origin", "By Alphabetical For Destination");
+        Collections.addAll(optionsForOrdering, "By Date", "Reversed By Date", "By Time", "Reversed By Time", "By Alphabetical For Origin", "By Alphabetical For Destination");
       if (!flightSelected)
       {
         temp = createSelections(calendarDataPoint);  //temp is a list of buttons consisting the information of the flights
         flightSelected = true;
         guessWhatItsAnotherTemp = new ArrayList<DataPoint>();
         forOptions = new SearchBox(optionsForOrdering, int(calendar.x * 30), int(calendar.y * 2), int(40 * calendar.x), int(4 * calendar.y), 10, "Default: By Date");; 
-      }
+        
+        guessWhatItsAnotherTemp.addAll(calendarDataPoint);
+        Collections.reverse(guessWhatItsAnotherTemp);
+        temp2 = createSelections(guessWhatItsAnotherTemp);
+    }
       guessWhatItsAnotherTemp.addAll(calendarDataPoint);
       selectScreen.draw();
-      if(forOptions.searchQuery == "Default: By Date")
+      if(forOptions.searchQuery == "Default: By Date" || forOptions.searchQuery == "By Date" || forOptions.searchQuery == "")
       {
         showFlightSelections(temp, calendarDataPoint);
+        currentEvent = returnEventFromListOfButton(temp);
       }
       else if(forOptions.searchQuery == "Reversed By Date")
-      {
-        Collections.reverse(guessWhatItsAnotherTemp);
-        
-        
-        showFlightSelections(temp, guessWhatItsAnotherTemp);
+      {         
+        showFlightSelections(temp2, guessWhatItsAnotherTemp);
+        currentEvent = returnEventFromListOfButton(temp2);
       }
       forOptions.draw();
-      currentEvent = returnEventFromListOfButton(temp);
       if (currentEvent>=100)  //the flights events are allocated after 100
       {
         selectedFlight = currentEvent-100;

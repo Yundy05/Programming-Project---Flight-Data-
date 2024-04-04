@@ -24,16 +24,10 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   homePageBtn = new ImageButton(45*x, 91*y, 8*x, "homeButton1.png", "homeButton2.png", #8080ff, #b3b3ff, EVENT_BUTTON_HOME, glowSize);
 
   //GRAPH PAGE
-  //showPieChartBtn = new Button(60*x, 20*y, 30*x, 5*y, "PieChart", #8080ff, #b3b3ff, EVENT_BUTTON_PIECHART, glowSize);
-  //showHistogramBtn = new Button(10*x, 20*y, 30*x, 5*y, "Histogram", #8080ff, #b3b3ff, EVENT_BUTTON_HISTOGRAM, glowSize);
-  //showBarChartBtn = new Button(10*x, 30*y, 30*x, 5*y, "BarChart", #8080ff, #b3b3ff, SCREEN_BAR_CHART, glowSize);
-  //showHeatMapBtn = new Button(60*x, 30*y, 30*x, 5*y, "HeatMap", #8080ff, #b3b3ff, EVENT_BUTTON_HEAT_MAP, glowSize);
- 
   showPieChartBtn  = new ImageButton(60*x, 20*y, 30*x, "pie2.png", "pie1.png", #8080ff, #b3b3ff, EVENT_BUTTON_PIECHART, glowSize);
   showHistogramBtn  = new ImageButton(10*x, 20*y, 30*x, "hist2.png", "hist1.png", #8080ff, #b3b3ff, EVENT_BUTTON_HISTOGRAM, glowSize);
   showBarChartBtn  = new ImageButton(10*x, 60*y, 30*x, "bar2.png", "bar1.png", #8080ff, #b3b3ff, SCREEN_BAR_CHART, glowSize);
   showHeatMapBtn  = new ImageButton(60*x, 60*y, 40*x, "heat2.png", "heat1.png", #8080ff, #b3b3ff, EVENT_BUTTON_HEAT_MAP, glowSize);
-
 
   //HISTOGRAM PAGE - ANDY
   adjustDelayBtn = new Button(20*x, 10*y, 15*x, 5*y, "Delay", #8080ff, #b3b3ff, EVENT_BUTTON_DELAY, glowSize);
@@ -52,17 +46,16 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   destinationBtn = new Button(69*x, 75*y, 30*x, 5*y, "Destination", #8080ff, #b3b3ff, EVENT_BUTTON_DESTINATION, glowSize);
   departBtn = new Button(x, 56*y, 30*x, 5*y, "Departure", #8080ff, #b3b3ff, EVENT_BUTTON_DEPARTURE, glowSize);
   arrivalBtn = new Button(69*x, 56*y, 30*x, 5*y, "Arrival", #8080ff, #b3b3ff, EVENT_BUTTON_ARRIVAL, glowSize);
-  getFlightBtn = new Button(33*x, y, 30*x, 5*y, "Get A Flight :) ", #8080ff, #b3b3ff, EVENT_GETFLIGHT, glowSize);
-  helpBtn = new Button(80*x, y, 10*x, 5*y, "HELP", #8080ff, #b3b3ff, EVENT_GETHELP, glowSize);
+  getFlightBtn   = new ImageButton(41*x, 55*y, 17*x, "getFlight2.png", "getFlight1.png", #8080ff, #b3b3ff, EVENT_GETFLIGHT, glowSize);
+  helpBtn   = new ImageButton(45*x, 75*y, 10*x, "help2.png", "help1.png", #8080ff, #b3b3ff, EVENT_GETHELP, glowSize);
+
 
   //SEARCH PAGE - Andy
   searchPageBtn = new Button(35*x, 20*y, 30*x, 5*y, "Search Screen", #8080ff, #b3b3ff, SCREEN_SEARCH, glowSize);
   toSelect = new Button(50*x, 50*y, 30*x, 5*y, "Select", #8080ff, #b3b3ff, SCREEN_SELECT, glowSize);
 
   //HISTORY BUTTON PAGE - ANDY
-  //backArrow = new Button(x, y, 3*x, 4*y, "<", #8080ff, #b3b3ff, EVENT_BUTTON_BACK, glowSize);
   backArrow = new ImageButton(x, y, 4*x, "LImg1.png", "LImg2.png", #8080ff, #b3b3ff, EVENT_BUTTON_BACK, glowSize);
-  //forwardArrow = new Button(5*x, y, 3*x, 4*y, ">", #8080ff, #b3b3ff, EVENT_BUTTON_FORWARD, glowSize);
   forwardArrow = new ImageButton(5*x, y, 4*x, "RImg1.png", "RImg2.png", #8080ff, #b3b3ff, EVENT_BUTTON_FORWARD, glowSize);
 
   //SELECT PAGE -CHUAN
@@ -70,7 +63,6 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   previousPage = new fontChangingButton(10*x, 90*y, 5*x, 5*y, "<", #36DFFF, #BF2E2E, EVENT_BUTTON_PREVIOUS, 194, 0, 10);
 
   //SEARCH BAR PAGE - ANDY
-  //searchBarBtn = new Button(20*x, 3*y, 30*x, 5*y, "Search Bar Screen", #8080ff, #b3b3ff, SCREEN_SELECT, glowSize);
   searchBarBtn = new ImageButton(20*x, 20*y, 60*x, "searchButtom2.png", "searchButtom1.png", #8080ff, #b3b3ff, SCREEN_SELECT, glowSize);
   graphBtn = new ImageButton(20*x, 35*y, 60*x, "graphsButtom2.png", "graphsButtom1.png", #8080ff, #b3b3ff, SCREEN_GRAPH, glowSize);
 

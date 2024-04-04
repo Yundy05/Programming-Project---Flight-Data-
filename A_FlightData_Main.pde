@@ -642,9 +642,14 @@ void draw() {
         
 //       sort by longest distance
         guessWhatItsAnotherTemp7.addAll(calendarDataPoint);
-        guessWhatItsAnotherTemp7.sort((dp1, dp2) -> Integer.compare(dp2.distance, dp1.distance));
+        Collections.sort(guessWhatItsAnotherTemp7, new Comparator<DataPoint>()
+        {
+          public int compare(DataPoint dp1, DataPoint dp2)
+          {
+            return Integer.compare(dp2.distance, dp1.distance);
+          }  
+        });
         temp7 = createSelections(guessWhatItsAnotherTemp7);
-        
     }
       selectScreen.draw();
       if(forOptions.searchQuery == "Default: By Date" || forOptions.searchQuery == "By Date" || forOptions.searchQuery == "")

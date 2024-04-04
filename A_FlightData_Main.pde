@@ -102,6 +102,7 @@ ArrayList<DataPoint> guessWhatItsAnotherTemp8 = new ArrayList<DataPoint>();
 ArrayList<DataPoint> guessWhatItsAnotherTemp9 = new ArrayList<DataPoint>();
 ArrayList<DataPoint> guessWhatItsAnotherTemp10 = new ArrayList<DataPoint>();
 ArrayList<DataPoint> guessWhatItsAnotherTemp11 = new ArrayList<DataPoint>();
+
 DateCalander calendar;
 SearchBox forOptions;
 int count;
@@ -111,6 +112,7 @@ ArrayList <DataPoint> dataPoints;
 ArrayList <DataPoint> nonCancelledFlights;
 ArrayList <DataPoint> nonDivertedFlights;
 ArrayList <DataPoint> calendarDataPoint;
+ArrayList<DataPoint> currentSelection = calendarDataPoint;
 ArrayList <DataPoint> filter;                   //corruptible filter to select data
 BufferedReader reader;
 String line;
@@ -509,7 +511,7 @@ void draw() {
 
     if (currentEvent == EVENT_GETFLIGHT)
     {
-      flightNum = (int)random(0, calendarDataPoint.size());                     //for fun
+      flightNum = (int)random(0, currentSelection.size());                     //for fun
       currentEvent = EVENT_BUTTON_NULL;
     } else if (currentEvent>=100)
       flightNum = selectedFlight;                         //selected from selection screen
@@ -521,60 +523,72 @@ void draw() {
       {
         case 1:
         {
+          currentSelection=calendarDataPoint;
          flight = calendarDataPoint.get(flightNum);
           break;
         }
         case 2:
         {
+          currentSelection=guessWhatItsAnotherTemp2;
          flight = guessWhatItsAnotherTemp2.get(flightNum);
           break;
         }
         case 3:
         {
+          currentSelection=guessWhatItsAnotherTemp3;
          flight = guessWhatItsAnotherTemp3.get(flightNum);
           break;
         }
         case 4:
         {
+          currentSelection=guessWhatItsAnotherTemp4;
          flight = guessWhatItsAnotherTemp4.get(flightNum);
           break;
         }
         case 5:
         {
+          currentSelection=guessWhatItsAnotherTemp5;
           flight = guessWhatItsAnotherTemp5.get(flightNum);
           break;         
         }
          case 6:
         {
+          currentSelection=guessWhatItsAnotherTemp6;
           flight = guessWhatItsAnotherTemp6.get(flightNum);
           break;         
         }
         case 7:
         {
+          currentSelection=guessWhatItsAnotherTemp7;
           flight = guessWhatItsAnotherTemp7.get(flightNum);
           break;
         }
         case 8:
         {
+          currentSelection=guessWhatItsAnotherTemp8;
           flight = guessWhatItsAnotherTemp8.get(flightNum);
           break;
         }
         case 9:
         {
+          currentSelection=guessWhatItsAnotherTemp9;
           flight = guessWhatItsAnotherTemp9.get(flightNum);
           break;
         }
         case 10:
         {
+          currentSelection=guessWhatItsAnotherTemp10;
           flight = guessWhatItsAnotherTemp10.get(flightNum);
           break;
         }
         case 11:
         {
+          currentSelection=guessWhatItsAnotherTemp11;
           flight = guessWhatItsAnotherTemp11.get(flightNum);
           break;
         }
         default:
+          currentSelection=calendarDataPoint;
           flight = calendarDataPoint.get(flightNum);
       }
       map = new USMap(0, 0, flight.originState, flight.destState);
@@ -665,6 +679,7 @@ void draw() {
 
   case SCREEN_SELECT :
     {
+      
       if (!flightSelected)
       {
         optionsForOrdering.clear();
@@ -672,6 +687,7 @@ void draw() {
         
         temp = createSelections(calendarDataPoint);  //temp is a list of buttons consisting the information of the flights
         flightSelected = true;
+        
         temp2 = new ArrayList<Button>();
         temp3 = new ArrayList<Button>();
         temp4 = new ArrayList<Button>();

@@ -6,7 +6,7 @@ Button originBtn, destinationBtn, dateBtn, flightDataBtn, homePageBtn, graphBtn,
 Button showPieChartBtn, showHistogramBtn, showBarChartBtn, showLineGraphBtn, individualFlightBtn, departBtn,
   arrivalBtn, getFlightBtn, searchPageBtn, toSelect, helpBtn, searchBarBtn, filterBtn1, filterBtn2;
 Button adjustDelayBtn, adjustDistanceBtn, adjustStatusBtn;
-void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour, HoverColour, ButtonEvent)
+void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour, HoverColour, ButtonEvent) //Andy Yu
 {
   float x = displayWidth/200.0;                 //unit x
   float y = (displayHeight*9/10)/100.0;         //unit y
@@ -100,7 +100,7 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   //barChartScreen.addButton(homePageBtn);
   barChartScreen.addButton(lengthByRoute);
   barChartScreen.addButton(filterBtn1);
-  barChartScreen.addButton(filterBtn2);
+  //barChartScreen.addButton(filterBtn2);
   //barChartScreen.addButton(backArrow);
   //barChartScreen.addButton(forwardArrow);
 

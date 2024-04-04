@@ -84,6 +84,25 @@ class SearchBox
                 shownCount++;
               }
         }
+
+//impliment cursorLine
+        if(textboxSelected)
+        {
+          if (millis() - cursorTimer > intervalForTime) 
+          {
+            cursorVisible = !cursorVisible; // Toggle cursor visibility
+            cursorTimer = millis(); // Reset the timer
+           }
+        }
+        if (cursorVisible && textboxSelected) 
+        {
+          fill(255);
+          int cursorX = x + 13 + (int)textWidth(searchQuery);
+          stroke(0);
+          strokeWeight(2);
+          line(cursorX, y + heightt * 0.3 , cursorX, y + heightt * 0.6);
+        }       
+
   //      updateFilteredOptions();
         overSearchBox();
         strokeWeight(0);

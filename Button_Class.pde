@@ -25,11 +25,11 @@ void setupBtn() //Takes constructor (Xpos, Ypos, SizeX, SizeY, Text, BaseColour,
   homePageBtn = new ImageButton(45*x, 91*y, 8*x, "homeButton1.png", "homeButton2.png", #8080ff, #b3b3ff, EVENT_BUTTON_HOME, glowSize);
 
   //GRAPH PAGE
-  showPieChartBtn  = new ImageButton(60*x, 20*y, 30*x, "pie2.png", "pie1.png", #8080ff, #b3b3ff, EVENT_BUTTON_PIECHART, glowSize);
-  showHistogramBtn  = new ImageButton(10*x, 20*y, 30*x, "hist2.png", "hist1.png", #8080ff, #b3b3ff, EVENT_BUTTON_HISTOGRAM, glowSize);
-  showBarChartBtn  = new ImageButton(10*x, 60*y, 30*x, "bar2.png", "bar1.png", #8080ff, #b3b3ff, SCREEN_BAR_CHART, glowSize);
-  showHeatMapBtn  = new ImageButton(60*x, 60*y, 40*x, "heat2.png", "heat1.png", #8080ff, #b3b3ff, EVENT_BUTTON_HEAT_MAP, glowSize);
-  showLineGraphBtn = new ImageButton(50*x, 5*y, 30*x,"bar2.png", "bar1.png", #8080ff, #b3b3ff, SCREEN_BAR_CHART, glowSize);
+  showPieChartBtn  = new ImageButton(60*x, 20*y, 20*x, "pie2.png", "pie1.png", #8080ff, #b3b3ff, EVENT_BUTTON_PIECHART, glowSize);
+  showHistogramBtn  = new ImageButton(10*x, 20*y, 25*x, "hist2.png", "hist1.png", #8080ff, #b3b3ff, EVENT_BUTTON_HISTOGRAM, glowSize);
+  showBarChartBtn  = new ImageButton(10*x, 60*y, 25*x, "bar2.png", "bar1.png", #8080ff, #b3b3ff, SCREEN_BAR_CHART, glowSize);
+  showHeatMapBtn  = new ImageButton(60*x, 60*y, 35*x, "heat2.png", "heat1.png", #8080ff, #b3b3ff, EVENT_BUTTON_HEAT_MAP, glowSize);
+  showLineGraphBtn = new ImageButton(35*x, 40*y, 25*x,"Line2.png", "Line1.png", #8080ff, #b3b3ff, SCREEN_BAR_CHART, glowSize);
 
   //HISTOGRAM PAGE - ANDY
   adjustDelayBtn = new Button(20*x, 10*y, 15*x, 5*y, "Delay", #8080ff, #b3b3ff, EVENT_BUTTON_DELAY, glowSize);

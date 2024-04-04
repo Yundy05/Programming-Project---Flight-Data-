@@ -430,6 +430,8 @@ public String eraseQuotation (String aString)
     return aString;
   }
 }
+
+
 public ArrayList<DataPoint> sortListByTime(ArrayList<DataPoint> datas , boolean reversed)   //sort arrays by time : Premis is that the incoming list is sorted by date
 {
   ArrayList<DataPoint> newList = new ArrayList<DataPoint>();
@@ -440,10 +442,23 @@ public ArrayList<DataPoint> sortListByTime(ArrayList<DataPoint> datas , boolean 
     ArrayList<DataPoint> aDividedList = new ArrayList<DataPoint>();
     days.add(aDividedList);
   }
+  
+  if (calendar.inputChanged == "Date range")                          //fill divided lists if simply sort by Date ( increase performance)
+  {
+      for(int day = getFirstDay(datas) ; day<=getLastDay(datas); day++)
+      {
+        days.get(day-getFirstDay(datas)).addAll(tableOfDates.getDataByIndex(day-1));
+      }
+  }
+  else
+  {
   for(DataPoint p : datas)                                                // fill divided lists
-  { 
+  {
     days.get(p.day-getFirstDay(datas)).add(p);
   }
+  }
+  
+  
   for(ArrayList divided : days)                                           //sort each divison, then put into newList for return
   {
     Collections.sort(divided, new Comparator<DataPoint>() 
@@ -463,6 +478,8 @@ public ArrayList<DataPoint> sortListByTime(ArrayList<DataPoint> datas , boolean 
   
   return newList;
 }
+
+
 
 String convertTo24HourFormat(int time) {
   // Extract hours and minutes from the integer

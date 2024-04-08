@@ -599,7 +599,7 @@ LineGraph quickLine(ArrayList<DataPoint> data , String indicator)
     int ypos = (int)(20*y);
     int gphH =int(50*x);
     int gphW =int(50*y);
-    String title = "Number Of Flights Per Day :" + data.get(0).day +"/" +
+    String title = "Number Of Dealyed Flights Per Day :" + data.get(0).day +"/" +
                data.get(0).month + "/" + data.get(0).year + 
                " TO " + data.get(data.size()-1).day + "/" + 
                data.get(data.size()-1).month + "/" + 
@@ -619,10 +619,13 @@ LineGraph quickLine(ArrayList<DataPoint> data , String indicator)
           delayFrequencyGraph[i] =0;
         }
         for(DataPoint obj: data)
-    {
-      delayFrequencyGraph[obj.day -minDay]++;
-      //println("delayFrequency: " +obj.day);
-    }
+        {
+          if(obj.delayed == true)
+          {
+            delayFrequencyGraph[obj.day -minDay]++;
+          }
+          //println("delayFrequency: " +obj.day);
+        }
         /*Arrays.parallelSetAll(delayFrequencyGraph, index -> {
           return (int) data.stream()
                            .filter(dp -> dp.day - minDay == index)

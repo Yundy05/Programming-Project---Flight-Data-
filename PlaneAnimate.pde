@@ -1,4 +1,6 @@
 //Andy Yu - March 19th 2024 - Created PlaneAnimate Class to be used in flight screen 
+//Chuan - March 19th - Improved plane animation so that the plane flies in an eliplse route
+//Chuan - 
 PlaneAnimate airChina;
 int totalFrames = 160;
 int frameCount = 0;

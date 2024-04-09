@@ -206,7 +206,7 @@ void setup()
    // "u", "", " " );
 }
 
-void initiateSetup()
+void initiateSetup()      //loading in different thread (By Chuan Apr 4)
 {
   isLoading = true;
   read_in_the_file();
@@ -223,7 +223,7 @@ void initiateSetup()
   calendar = new DateCalander(tableOfDates.size);
   //  Scanner input = new Scanner(System.in);
   //  setupDropDown();
-  for (int i=0; i<tableOfOrigin_Wac.size; i++)
+  for (int i=0; i<tableOfOrigin_Wac.size; i++)                //get all cities   by Chuan Mar 26.
   {
     if (tableOfOrigin_Wac.getDataByIndex(i).size()!=0)
     {
@@ -244,7 +244,7 @@ void draw() {
   //  currentEvent = getCurrentEvent();
   //  print(screenArrow.toString());
   //   println(screenHistory);
-  if(!loadingComplete)
+  if(!loadingComplete)               //loading in different thread (By Chuan Apr 4)
   {  
     float x = displayWidth/200.0;          //unit x
     background(backgroundNeon);
@@ -257,7 +257,7 @@ void draw() {
       derivative = (1 - progress)*0.01;
     
     text("LOADING\n"+round(progress*10000)/100+"%" , displayWidth/4 , displayHeight/2 ); 
-    loadingAnimation(20*x);
+    loadingAnimation(20*x);    //loading animation (By Chuan Apr 4)
     fill(50-progress*50,250-progress*20, 150-progress*50);
     rect(displayWidth/20,displayHeight/1.5 , (displayWidth/2.5)*progress, displayHeight/20);
     if(!isLoading)

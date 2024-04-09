@@ -205,7 +205,7 @@ void selectFlightsByDateAndOthers(String mode , String origin , String dest)   /
 
 
 
-ArrayList<Button> createSelections(ArrayList<DataPoint> theFlights)
+ArrayList<Button> createSelections(ArrayList<DataPoint> theFlights)  //Functionalities for individual flights --- Chuan Mar 20.
 {
   float y = (displayHeight*9/10)/100.0;         //unit y
   ArrayList<Button> flights;
@@ -220,7 +220,7 @@ ArrayList<Button> createSelections(ArrayList<DataPoint> theFlights)
 int currentPage = 0;               //selection page
 int flightsPerPage = 8;
 
-void showFlightSelections( ArrayList<Button> theButtons, ArrayList<DataPoint> theFlights)
+void showFlightSelections( ArrayList<Button> theButtons, ArrayList<DataPoint> theFlights)//Functionalities for individual flights --- Chuan Mar 20.
 {
   float y = (displayHeight*9/10)/100.0;         //unit y
   int maxPages = theButtons.size()/flightsPerPage ;   //maximum pages. Won't do anything if pressing button beyond range
@@ -260,7 +260,7 @@ void showFlightSelections( ArrayList<Button> theButtons, ArrayList<DataPoint> th
   text((currentPage+1)+"/"+(maxPages+1), displayWidth/4, 87.5*y);
 }
 
-void printSimplifiedData(DataPoint p)
+void printSimplifiedData(DataPoint p)//Functionalities for individual flights --- Chuan Mar 20.
 {
   float x = displayWidth/200.0;          //unit x
   float y = (displayHeight*9/10)/100.0;         //unit y
@@ -271,7 +271,7 @@ void printSimplifiedData(DataPoint p)
   text(eraseQuotation(p.originCity) + "--->"  + eraseQuotation(p.destCity), 4*x, 6*y);
 }
 
-Button createButtonForFlight(DataPoint p, int i)
+Button createButtonForFlight(DataPoint p, int i)//Functionalities for individual flights --- Chuan Mar 20.
 {
   float x = displayWidth/200.0;          //unit x
   float y = (displayHeight*9/10)/100.0;         //unit y
@@ -280,7 +280,7 @@ Button createButtonForFlight(DataPoint p, int i)
   return aButton;
 }
 
-ArrayList<Button> tempButtonsForOnePage(ArrayList<Button> buttons)             //create an arrayList for just one page to improve performance and realize page switch
+ArrayList<Button> tempButtonsForOnePage(ArrayList<Button> buttons)             //create an arrayList for just one page to improve performance and realize page switch//Functionalities for individual flights --- Chuan Mar 20.
 {
   ArrayList temp = new ArrayList<Button>();
   for (int i = currentPage*flightsPerPage; i < flightsPerPage*(currentPage + 1) && i<buttons.size(); i++)
@@ -290,7 +290,7 @@ ArrayList<Button> tempButtonsForOnePage(ArrayList<Button> buttons)             /
   return temp;
 }
 
-int returnEventFromListOfButton(ArrayList<Button> buttons)
+int returnEventFromListOfButton(ArrayList<Button> buttons)//Functionalities for individual flights --- Chuan Mar 20.
 {
   int event = EVENT_BUTTON_NULL ;
   for (int i = 0; i<tempButtonsForOnePage(buttons).size(); i++)
@@ -305,7 +305,7 @@ int returnEventFromListOfButton(ArrayList<Button> buttons)
   return event;
 }
 
-void drawHelpingLines()
+void drawHelpingLines()//Functionalities for individual flights --- Chuan Mar 20.
 {
   float x = displayWidth/200.0;          //unit x
   float y = (displayHeight*9/10)/100.0;         //unit y
@@ -331,7 +331,7 @@ boolean duplicateValue(ArrayList<String> stringList, String s)
   return result;
 }
 
-void printIndividualData(DataPoint aPoint)
+void printIndividualData(DataPoint aPoint)//Functionalities for individual flights --- Chuan Mar 20.
 {
   //originBtn = Button(MARGIN, MARGIN+ 2*(displayHeight)/3   Reminder of coordinates  Do Not uncomment
   //departBtn = Button(MARGIN, MARGIN+ 2*(displayHeight)/4
@@ -423,7 +423,7 @@ void printIndividualData(DataPoint aPoint)
   }
   stroke(0);
 }
-public String eraseQuotation (String aString)
+public String eraseQuotation (String aString)//Functionalities for individual flights --- Chuan Mar 20.
 {
   if (aString.length() >= 2 && aString.charAt(0) == '"' && aString.charAt(aString.length() - 1) == '"') {
     return aString.substring(1, aString.length() - 1);            // Return the string without the first and last characters (quotation marks)
@@ -433,7 +433,7 @@ public String eraseQuotation (String aString)
 }
 
 
-public ArrayList<DataPoint> sortListByTime(ArrayList<DataPoint> datas , boolean reversed)   //sort arrays by time : Premis is that the incoming list is sorted by date
+public ArrayList<DataPoint> sortListByTime(ArrayList<DataPoint> datas , boolean reversed)   //sort arrays by time : Premis is that the incoming list is sorted by date (by Chuan Apr 4)
 {
   ArrayList<DataPoint> newList = new ArrayList<DataPoint>();
   ArrayList<ArrayList> days = new ArrayList<ArrayList>();  // Separate ArrayLists by each day
@@ -444,7 +444,7 @@ public ArrayList<DataPoint> sortListByTime(ArrayList<DataPoint> datas , boolean 
     days.add(aDividedList);
   }
   
-  if (calendar.inputChanged == "Date range")                          //fill divided lists if simply sort by Date ( increase performance)
+  if (calendar.inputChanged == "Date range")                          //fill divided lists if simply sort by Date ( improve performance)
   {
       for(int day = getFirstDay(datas) ; day<=getLastDay(datas); day++)
       {
@@ -497,7 +497,7 @@ public void showCurrentCity()
   }
 }
 
-String convertTo24HourFormat(int time) {
+String convertTo24HourFormat(int time) {            //Functionalities for individual flights --- Chuan Mar 20.
   // Extract hours and minutes from the integer
   int hours = time / 100;
   int minutes = time % 100;

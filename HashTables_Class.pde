@@ -1,3 +1,5 @@
+//The whole class was created by Chuan Mar 14. 
+
 import java.util.LinkedList;
 public class HashTable {
   LinkedList<DataPoint>[] table;
@@ -14,7 +16,7 @@ public class HashTable {
     }
   }
 
-  public HashTable()
+  public HashTable()                //Refined construtor by Chuan Mar 19
   {
     this.size = 1;
     table = new LinkedList[1];

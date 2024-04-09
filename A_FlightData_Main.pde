@@ -1131,7 +1131,7 @@ void createHashMaps(ArrayList<DataPoint> flights)
    Collections.reverse(airportFreqList);
 }
 
-void createCharts()              //!!! Use this to create ALL the charts we need!!!               By chuan:)
+void createCharts()              //!!! Use this to create ALL the charts we need!!!               By chuan:) 20/3/2024 Hong Shen-modified
 {
    //createHashMaps(calendarDataPoint);
   //  int[] numberOfFlightsByDay = new int[tableOfDates.size];
@@ -1190,32 +1190,32 @@ void createCharts()              //!!! Use this to create ALL the charts we need
   //histogramOfDates = new Histogram(displayWidth/7, displayHeight/7 , displayHeight/2 , displayWidth/4, arrDelayFreqArray, arrDelayFreqArray.length, 20, 5);// bug: seems that the text doesnot represent the actual values
 }
 
-ArrayList <DataPoint> getNonCancelledFlights (ArrayList <DataPoint> data)
+ArrayList <DataPoint> getNonCancelledFlights (ArrayList <DataPoint> data)//19/3/2024 Hong Shen-added function
 {
   ArrayList<DataPoint> filteredDataPoints = data.stream().filter(DataPoint -> DataPoint.cancelled ==false).collect(Collectors.toCollection(ArrayList::new));
   return filteredDataPoints;
 }
 
-ArrayList <DataPoint> getNonDivertedFlights (ArrayList <DataPoint> data)
+ArrayList <DataPoint> getNonDivertedFlights (ArrayList <DataPoint> data)//19/3/2024 Hong Shen-added function
 {
   ArrayList<DataPoint> filteredDataPoints = data.stream().filter(DataPoint ->(  DataPoint.diverted ==false)).collect(Collectors.toCollection(ArrayList::new));
   return filteredDataPoints;
 }
-void sortDataByDistance (ArrayList <DataPoint> data)
+void sortDataByDistance (ArrayList <DataPoint> data)//19/3/2024 Hong Shen-added function
 {
   Collections.sort(data, new DistanceComparator());
 }
-void sortDataByArrDelay (ArrayList <DataPoint> data)
+void sortDataByArrDelay (ArrayList <DataPoint> data)//19/3/2024 Hong Shen-added function
 {
   Collections.sort(data, new ArrDelayComparator());
 }
 
-void sortDataByDepDelay (ArrayList <DataPoint> data)
+void sortDataByDepDelay (ArrayList <DataPoint> data)//19/3/2024 Hong Shen-added function
 {
   Collections.sort(data, new DepDelayComparator());
 }
 
-int[] countCancelDelayDivert(ArrayList <DataPoint> data)
+int[] countCancelDelayDivert(ArrayList <DataPoint> data)//19/3/2024 Hong Shen-added function
 {
   int normal=0;
   int cancel=0;
@@ -1237,7 +1237,7 @@ int[] countCancelDelayDivert(ArrayList <DataPoint> data)
   return freqArray;
 }
 
-void read_in_the_file()
+void read_in_the_file() //12/3/2024 Hong Shen-added function  2/4/2024 Hong Shen-fixed bug
 {
   dataPoints = new ArrayList <DataPoint> ();
   reader = createReader("flights_full.csv");    //change the file here
@@ -1346,7 +1346,7 @@ void read_in_the_file()
   //  //dataPoints.get(index).displayData(5, 100);
   //}
 }
-void init_stateCoord()
+void init_stateCoord()//23/3/2024 Hong Shen-added function
 {
   stateCoord=new HashMap<String, double[]>();
   double[] coord={68, 265};

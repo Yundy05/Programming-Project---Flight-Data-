@@ -1,6 +1,6 @@
 HashMap<String, double[]> stateCoord ;
 HashMap<String, double[]> stateLabelCoord ;
-class USMap
+class USMap//23/3/2024 Hong Shen-created class
 {
   boolean wasPressed;//test
   PShape origin;

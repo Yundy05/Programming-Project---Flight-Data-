@@ -2,6 +2,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import grafica.*;
+
+/////////////////////////////////////Yaqi: create the histogram, pie chart , bar chart, line graph class (3/17/2024), and the quickLineGraph method(4/4/2024)/////////////////////////////////////////
+/////////////////////////////////////Chuan: create the quickBarChart and method//////////////////////////////////////////////////////////////////////////////////
+
 GPlot plot;
 
 void GraphicsSetUp()

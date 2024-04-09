@@ -5,7 +5,7 @@ import grafica.*;
 
 /////////////////////////////////////Yaqi: create the histogram, pie chart , bar chart, line graph class (3/17/2024), and the quickLineGraph method(4/4/2024)/////////////////////////////////////////
 /////////////////////////////////////Chuan: create the quickBarChart and method//////////////////////////////////////////////////////////////////////////////////
-
+/////////////////////////////////////Hong: create the heatMap and legendBoxes(2/4/2024)/////////////////////////////////////////////////////////////////////////////////
 GPlot plot;
 
 void GraphicsSetUp()
@@ -754,7 +754,7 @@ class LineGraph
   }
 }
 import java.util.Set;
-class HeatMap extends USMap //2/4/2024 Hong Shen-created and modified class
+class HeatMap extends USMap 
 {
   HashMap<String,Integer> numOfFlightsPerState;
   LegendBox[] boxes = new LegendBox[5];

@@ -519,7 +519,7 @@ void draw() {
     if (flightNum!=-1)
     {
       DataPoint flight;
-      switch(switchh)
+      switch(switchh) //made by JiaHao changing search query on selection page (4th April);
       {
         case 1:
         {
@@ -603,6 +603,7 @@ void draw() {
     
     
 /////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH/////SCREEN_SEARCH
+   //made by JiaHao (26 March)
   case SCREEN_SEARCH :
     {
       searchScreen.draw();
@@ -679,7 +680,7 @@ void draw() {
 
   case SCREEN_SELECT :
     {
-      
+      //Made by Chuan and Jiahao (4th April);
       if (!flightSelected)
       {
         optionsForOrdering.clear();

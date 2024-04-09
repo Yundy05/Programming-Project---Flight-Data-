@@ -1,6 +1,8 @@
 
 //Andy Yu - Modified the class to work with screen class and fix bugs - 14th March 2024
 //Yaqi Yang - Create the initial version of button class - 11th March 2024
+//Siyan Lin - Modified the class to make the button can be replaced with an image or have effects such as neon gradients - 24th Marth 202
+
 ArrayList<Button>btnMain;
 ArrayList<Button>btnControlPanel;
 PFont buttonFont;

@@ -1,5 +1,7 @@
 //Andy Yu - Created Screen class - 14th March 2024
 //Andy Yu - Modifiied to include background image in the constructor - 2nc April 2024
+//Siyan Lin - Modifiied to add logo image - 2nc April 2024
+
 Screen  homeScreen, flightScreen, graphScreen, individualFlightScreen, searchScreen, selectScreen, searchBarScreen, histogramScreen,
         pieChartScreen , barChartScreen, heatMapScreen, lineGraphScreen;
 
@@ -127,6 +129,7 @@ class Screen
     }
     return event;
   }
+  
   void drawBtn()
   {
     for (int i = 0; i<screenItems.size(); i++)

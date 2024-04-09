@@ -935,7 +935,7 @@ void draw() {
 //  }
 //}
 
-ArrayList<DataPoint> getFilteredFlights (String origin, String dest, int date1, int date2, boolean nonCancelled)
+ArrayList<DataPoint> getFilteredFlights (String origin, String dest, int date1, int date2, boolean nonCancelled)//27/3/2024 Hong Shen-added function 
 {
   ArrayList<DataPoint>selectedFlights=new ArrayList<DataPoint> ();
   if (origin!=null)
@@ -1074,7 +1074,7 @@ void mouseClicked() //Flight For Plane AND Pins
 //  }
 //}
 
-boolean isDouble(String s)
+boolean isDouble(String s)//12/3/2024 Hong Shen-added function
 {
   try
   {
@@ -1103,7 +1103,7 @@ void createHashMaps()            //!!! Use this function to create ALL the HashM
     arrDelayFreq.put(arrDelay, arrDelayFreq.getOrDefault(arrDelay, 0) + 1);
   }
 }
-void createHashMaps(ArrayList<DataPoint> flights)
+void createHashMaps(ArrayList<DataPoint> flights)//28/3/2024 Hong Shen-added function (overloading)
 {
   arrDelayFreq=new HashMap<Integer, Integer>();
   airportFreq=new HashMap<String, Integer>();
@@ -1201,7 +1201,7 @@ ArrayList <DataPoint> getNonDivertedFlights (ArrayList <DataPoint> data)//19/3/2
   ArrayList<DataPoint> filteredDataPoints = data.stream().filter(DataPoint ->(  DataPoint.diverted ==false)).collect(Collectors.toCollection(ArrayList::new));
   return filteredDataPoints;
 }
-void sortDataByDistance (ArrayList <DataPoint> data)//19/3/2024 Hong Shen-added function
+void sortDataByDistance (ArrayList <DataPoint> data)//28/3/2024 Hong Shen-added function
 {
   Collections.sort(data, new DistanceComparator());
 }
@@ -1494,7 +1494,7 @@ void init_stateLabelCoord()
   coord=new double[]{930, 355};
   stateLabelCoord.put("DC", coord);
 }
-void printDataByDepDelay(ArrayList data, boolean reversedOrder)
+void printDataByDepDelay(ArrayList data, boolean reversedOrder)//19/3/2024 Hong Shen-added function
 {
   nonCancelledFlights=getNonCancelledFlights(data);
   if (nonCancelledFlights!=null)
@@ -1516,7 +1516,7 @@ void printDataByDepDelay(ArrayList data, boolean reversedOrder)
   }
 }
 
-void printDataByArrDelay(ArrayList data, boolean reversedOrder)
+void printDataByArrDelay(ArrayList data, boolean reversedOrder)//19/3/2024 Hong Shen-added function
 {
   nonDivertedFlights=getNonDivertedFlights(data);
   if (nonDivertedFlights!=null)

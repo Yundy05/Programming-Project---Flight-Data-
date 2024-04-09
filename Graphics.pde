@@ -754,7 +754,7 @@ class LineGraph
   }
 }
 import java.util.Set;
-class HeatMap extends USMap
+class HeatMap extends USMap //2/4/2024 Hong Shen-created and modified class
 {
   HashMap<String,Integer> numOfFlightsPerState;
   LegendBox[] boxes = new LegendBox[5];

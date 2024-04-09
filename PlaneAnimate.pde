@@ -1,4 +1,4 @@
-//Andy Yu
+//Andy Yu - March 19th 2024 - Created PlaneAnimate Class to be used in flight screen 
 PlaneAnimate airChina;
 int totalFrames = 160;
 int frameCount = 0;

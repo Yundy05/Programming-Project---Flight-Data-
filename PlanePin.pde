@@ -1,4 +1,4 @@
-//Andy Yu
+//Andy Yu - March 19th 2024 - Created Plane Pin Class to be used with PlaneAnimate Class 
 PlanePins pinOrigin, pinArrival;
 
 void setupPins()

@@ -1,3 +1,4 @@
+//Andy Yu - Created Screen Arrow to navigate through history 
 int s = SCREEN_HOME; //for screen comparison;
 boolean switchedScreen()
 {
